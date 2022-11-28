@@ -1,12 +1,14 @@
 # HTQLDTKH - frontend
 ## Technologies
-### Reactjs + Typescript + Tailwindcss + Prettier
+### Reactjs + Typescript + Tailwindcss + Prettier + Redux
 ### Packages:
 tailwindcss: to use tailwindcss
 
 postcss: a tool for transforming css files
 
 autoprefixer: a tool to automatically generate compatible prefix for browser
+
+react-router-dom: a standard routing library in React
 ## 1 Run the app
 ### `npm start`
 

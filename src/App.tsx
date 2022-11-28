@@ -1,9 +1,16 @@
-import './index.css';
+import { Routes, Route } from 'react-router-dom';
+import Home from './pages/homePage';
+import Login from './pages/loginPage';
+import Register from './pages/registerPage';
+import { appRouters } from "./shared/urlResources";
+
 function App() {
   return (
-    <div className="App">
-      <h1 className="text-3xl font-bold underline">This is the front-end of HTQLDTKH</h1>
-    </div>
+    <Routes>
+      <Route path={appRouters.LINK_TO_HOME_PAGE} element={<Home/>} />
+      <Route path={appRouters.LINK_TO_LOGIN_PAGE} element={<Login/>} />
+      <Route path={appRouters.LINK_TO_REGISTER_PAGE} element={<Register/>} />
+    </Routes>
   );
 }
 
