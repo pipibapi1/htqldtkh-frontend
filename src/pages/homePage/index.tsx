@@ -1,9 +1,13 @@
 import React from 'react';
+import Footer from '../../components/footer';
 import Header from '../../components/header';
 
 const Home: React.FC = (props: any) => {
     return (
-        <Header isLogin={false} isAccountServicePage={false}/>
+        <div className=''>
+            <Header isLogin={false} isAccountServicePage={false}/>
+            <Footer/>
+        </div>
     );
 }
 
