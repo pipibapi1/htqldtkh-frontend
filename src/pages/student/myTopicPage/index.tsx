@@ -5,9 +5,9 @@ import SideNav from '../../../components/sideNav';
 
 const MyTopicPage:React.FC = () => {
     return (
-        <div>
+        <div className=''>
             <Header isLogin={true} isAccountServicePage={false}/>
-            <SideNav />
+            <SideNav role={"student"}/>
             <Footer />
         </div>
     )

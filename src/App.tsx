@@ -1,4 +1,5 @@
 import { Routes, Route } from 'react-router-dom';
+import FVDExpenseStatistics from './pages/faculty/viceDean/expenseStatisticsPage';
 import Home from './pages/homePage';
 import Login from './pages/loginPage';
 import Register from './pages/registerPage';
@@ -12,6 +13,7 @@ function App() {
       <Route path={appRouters.LINK_TO_LOGIN_PAGE} element={<Login/>} />
       <Route path={appRouters.LINK_TO_REGISTER_PAGE} element={<Register/>} />
       <Route path={appRouters.LINK_TO_MY_TOPIC_PAGE} element={<MyTopicPage/>} />
+      <Route path={appRouters.LINK_TO_FVD_EXPENSE_STATISTIC} element={<FVDExpenseStatistics/>} />
     </Routes>
   );
 }
