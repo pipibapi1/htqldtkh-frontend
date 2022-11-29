@@ -7,6 +7,7 @@ const FSExpenseStatistics: React.FC = () => {
     return (
         <div className=''>
             <Header isLogin={true} isAccountServicePage={false}/>
+            <SideNav role={"fs"}/>
             <Footer />
         </div>
     )
