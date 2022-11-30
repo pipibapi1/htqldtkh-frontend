@@ -42,7 +42,7 @@ const SideNav:React.FC<Props> = (props: any) => {
     return (
         <div>
             {/* student siderbar */}
-            {(role === "student") && (<div className='bg-[#1488D8] w-[15vw] h-[calc(100vh-280px)] flex flex-col'>
+            {(role === "student") && (<div className='bg-[#1488D8] w-[15vw] min-h-[calc(100vh-280px)] h-[100%] flex flex-col'>
                 {studentSideBarOptions?.map((option, i)=> (
                     <Link
                     to={option?.link}

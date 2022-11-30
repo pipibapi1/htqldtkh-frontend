@@ -7,7 +7,12 @@ const MyTopicPage:React.FC = () => {
     return (
         <div className=''>
             <Header isLogin={true} isAccountServicePage={false}/>
-            <SideNav role={"student"}/>
+            <div className='flex'>
+                <SideNav role={"student"}/>
+                <div className='flex flex-col'>
+                    
+                </div>
+            </div>
             <Footer />
         </div>
     )

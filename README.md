@@ -9,6 +9,8 @@ postcss: a tool for transforming css files
 autoprefixer: a tool to automatically generate compatible prefix for browser
 
 react-router-dom: a standard routing library in React
+
+react-datepicker: to create date picker
 ## 1 Run the app
 ### `npm start`
 
