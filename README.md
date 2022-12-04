@@ -11,7 +11,11 @@ autoprefixer: a tool to automatically generate compatible prefix for browser
 react-router-dom: a standard routing library in React
 
 react-datepicker: to create date picker
-## 1 Run the app
+
+## 1 Install the package
+
+### `npm instal`
+## 2 Run the app
 ### `npm start`
 
 Runs the app in the development mode.\
