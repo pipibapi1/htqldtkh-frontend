@@ -107,7 +107,11 @@ const RegisterPanel: React.FC = (props: any) => {
                                 </div>
                                 <div className='flex grid justify-items-end items-center'>
                                     <DatePicker
-                                    onChange={() => setBirthDate}
+                                    onChange={date => {
+                                        if(date){
+                                            setBirthDate(date);
+                                        }
+                                    }}
                                     selected={birhtDate}
                                     dateFormat="dd/MM/yyyy"
                                     peekNextMonth

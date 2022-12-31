@@ -8,7 +8,7 @@ import RightTag from './RightTag';
 const RECORD_PER_PAGE = 5;
 const TOTAL_PAGE_DEFAULT = 1;
 
-const MyTopicList: React.FC = () => {
+const MyRequestList: React.FC = () => {
 
     const [currentPage, setCurrentPage] = useState<number>(TOTAL_PAGE_DEFAULT);
     const totalPage = useRef(TOTAL_PAGE_DEFAULT);
@@ -27,7 +27,7 @@ const MyTopicList: React.FC = () => {
             <div className='grid justify-items-end px-5'>
                 <Link to={'/registerTopic'} className="">
                     <div className="w-40 bg-[#0079CC] flex justify-center items-center transition text-white font-semibold py-4 border border-white-500 rounded-[15px] hover:bg-[#025A97] hover:cursor-pointer">
-                    Nhập đề tài mới
+                    Tạo yêu cầu
                     </div>
                 </Link>
             </div>
@@ -36,7 +36,7 @@ const MyTopicList: React.FC = () => {
                 <div className='flex items-center py-4'>
                     <div className='flex items-center mr-20'>
                         <div className='mr-5'>
-                            Loại đề tài: 
+                            Loại yêu cầu: 
                         </div>
                         <div className="">
                             <select
@@ -45,10 +45,9 @@ const MyTopicList: React.FC = () => {
                                     }}
                                     defaultValue={"dfdasf"}
                                 >
-                                <option value="">Chính quy</option>
-                                <option value="">Chất lượng cao</option>
-                                <option value="">Chất lượng cao (LVTN)</option>
-                                <option value="">Kỹ sư tài năng</option>
+                                <option value="">Xin giấy chứng nhận</option>
+                                <option value="">Gia hạn đề tài</option>
+                                <option value="">Hủy đề tài</option>
                             </select>
                         </div>
                     </div>
@@ -64,9 +63,8 @@ const MyTopicList: React.FC = () => {
                                     }}
                                     defaultValue={"dfdasf"}
                                 >
-                                <option value="">Tạo mới</option>
-                                <option value="">Đang thực hiện</option>
-                                <option value="">...</option>
+                                <option value="">Chờ xét duyệt</option>
+                                <option value="">Đã duyệt</option>
                             </select>
                         </div>
                     </div>
@@ -85,19 +83,13 @@ const MyTopicList: React.FC = () => {
                                         scope='col'
                                         className='text-sm text-center font-bold text-white px-2 py-3 text-left border-l-2'
                                     >
-                                        Mã đề tài
+                                        Mã yêu cầu
                                     </th>
                                     <th
                                         scope='col'
                                         className='text-sm text-center font-bold text-white px-2 py-3 text-left border-l-2'
                                     >
-                                        Tên đề tài
-                                    </th>
-                                    <th
-                                        scope='col'
-                                        className='text-sm text-center font-bold text-white px-2 py-3 text-left border-l-2'
-                                    >
-                                        Loại đề tài
+                                        Loại yêu cầu
                                     </th>
                                     <th
                                         scope='col'
@@ -109,7 +101,7 @@ const MyTopicList: React.FC = () => {
                                         scope='col'
                                         className='text-sm text-center font-bold text-white px-2 py-3 text-left border-l-2'
                                     >
-                                        Gia hạn
+                                        Mã đề tài
                                     </th>
                                     <th
                                         scope='col'
@@ -121,13 +113,7 @@ const MyTopicList: React.FC = () => {
                                         scope='col'
                                         className='text-sm text-center font-bold text-white px-2 py-3 text-left border-l-2'
                                     >
-                                        Thời gian
-                                    </th>
-                                    <th
-                                        scope='col'
-                                        className='text-sm text-center font-bold text-white px-2 py-3 text-left border-l-2'
-                                    >
-                                        Đợt
+                                        Thông tin bổ sung
                                     </th>
                                     <th
                                         scope='col'
@@ -135,83 +121,40 @@ const MyTopicList: React.FC = () => {
                                     >
                                         
                                     </th>
-                                    <th
-                                        scope='col'
-                                        className='text-sm text-center font-bold text-white px-2 py-3 text-left border-l-2'
-                                    >
-                                        
-                                    </th>
-                                    <th
-                                        scope='col'
-                                        className='text-sm text-center font-bold text-white px-2 py-3 text-left border-l-2'
-                                    >
-                                        
-                                    </th>
-                                    <th
-                                        scope='col'
-                                        className='text-sm text-center font-bold text-white px-2 py-3 text-left border-l-2'
-                                    >
-                                        
-                                    </th>
+                                    
                                     </tr>
                                 </thead>
                                 <tbody className=''>
                                     <RowTable
                                     index={1}
+                                    requestId={"RQ1890-TH00-MM55"}
+                                    requestType={"Xin giấy chứng nhận"}
+                                    requestStatus={"Chờ xét duyệt"}
+                                    createdDate={"date"}
+                                    additionalInfor={""}
                                     topicId={"KH1890-MX201-MM55"}
-                                    topicName={"Hệ thống quản lý đề tài khoa học cấp sinh viên"}
-                                    topicType={"Chính quy"}
-                                    topicStatus={"Đang thực hiện"}
-                                    topicExtensionStatus={"topic Extension Status"}
-                                    createdDate={"createdDate"}
-                                    time={"time"}
-                                    period={"period"}
                                     />
+
                                     <RowTable
                                     index={2}
+                                    requestId={"RQ1890-TH00-MM55"}
+                                    requestType={"Gia hạn đề tài"}
+                                    requestStatus={"Đã duyệt"}
+                                    createdDate={"date"}
+                                    additionalInfor={"Thời gian gia hạn: 6 tháng"}
                                     topicId={"KH1890-MX201-MM55"}
-                                    topicName={"Hệ thống quản lý đề tài khoa học cấp sinh viên"}
-                                    topicType={"Chính quy"}
-                                    topicStatus={"Đang thực hiện"}
-                                    topicExtensionStatus={"topic Extension Status"}
-                                    createdDate={"createdDate"}
-                                    time={"time"}
-                                    period={"period"}
                                     />
+
                                     <RowTable
                                     index={3}
+                                    requestId={"RQ1890-TH00-MM55"}
+                                    requestType={"Hủy đề tài"}
+                                    requestStatus={"Chờ xét duyệt"}
+                                    createdDate={"date"}
+                                    additionalInfor={""}
                                     topicId={"KH1890-MX201-MM55"}
-                                    topicName={"Hệ thống quản lý đề tài khoa học cấp sinh viên"}
-                                    topicType={"Chính quy"}
-                                    topicStatus={"Đang thực hiện"}
-                                    topicExtensionStatus={"topic Extension Status"}
-                                    createdDate={"createdDate"}
-                                    time={"time"}
-                                    period={"period"}
                                     />
-                                    <RowTable
-                                    index={4}
-                                    topicId={"KH1890-MX201-MM55"}
-                                    topicName={"Hệ thống quản lý đề tài khoa học cấp sinh viên"}
-                                    topicType={"Chính quy"}
-                                    topicStatus={"Đang thực hiện"}
-                                    topicExtensionStatus={"topic Extension Status"}
-                                    createdDate={"createdDate"}
-                                    time={"time"}
-                                    period={"period"}
-                                    />
-                                    <RowTable
-                                    index={5}
-                                    topicId={"KH1890-MX201-MM55"}
-                                    topicName={"Hệ thống quản lý đề tài khoa học cấp sinh viên"}
-                                    topicType={"Chính quy"}
-                                    topicStatus={"Đang thực hiện"}
-                                    topicExtensionStatus={"topic Extension Status"}
-                                    createdDate={"createdDate"}
-                                    time={"time"}
-                                    period={"period"}
-                                    />
-                                    
+    
                                 </tbody>
                             </table>
                         </div>
@@ -238,4 +181,4 @@ const MyTopicList: React.FC = () => {
     )
 }
 
-export default MyTopicList;
+export default MyRequestList;
