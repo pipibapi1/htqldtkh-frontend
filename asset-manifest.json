@@ -1,14 +1,14 @@
 {
   "files": {
     "main.css": "https://pipibapi1.github.io/htqldtkh-frontend/static/css/main.04acf2c7.css",
-    "main.js": "https://pipibapi1.github.io/htqldtkh-frontend/static/js/main.d6aa16b8.js",
+    "main.js": "https://pipibapi1.github.io/htqldtkh-frontend/static/js/main.d364ef7a.js",
     "static/media/footerBG.png": "https://pipibapi1.github.io/htqldtkh-frontend/static/media/footerBG.fc295e1112944f5d36e2.png",
     "index.html": "https://pipibapi1.github.io/htqldtkh-frontend/index.html",
     "main.04acf2c7.css.map": "https://pipibapi1.github.io/htqldtkh-frontend/static/css/main.04acf2c7.css.map",
-    "main.d6aa16b8.js.map": "https://pipibapi1.github.io/htqldtkh-frontend/static/js/main.d6aa16b8.js.map"
+    "main.d364ef7a.js.map": "https://pipibapi1.github.io/htqldtkh-frontend/static/js/main.d364ef7a.js.map"
   },
   "entrypoints": [
     "static/css/main.04acf2c7.css",
-    "static/js/main.d6aa16b8.js"
+    "static/js/main.d364ef7a.js"
   ]
 }
