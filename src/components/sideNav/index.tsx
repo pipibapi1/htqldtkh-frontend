@@ -21,9 +21,9 @@ const SideNav:React.FC<Props> = (props: any) => {
 
     const studentSideBarOptions = [
         {name: "ĐỀ TÀI CỦA TÔI", icon: MyTopicIcon, link: "/myTopic"},
-        {name: "ĐĂNG KÝ ĐỀ TÀI", icon: TopicRegisterIcon, link: "/myTopic"},
-        {name: "YÊU CẦU PHÁT SINH", icon: RequestIcon, link: "/myTopic"},
-        {name: "XEM BIỂU MẪU", icon: TemplateIcon, link: "/myTopic"}
+        {name: "ĐĂNG KÝ ĐỀ TÀI", icon: TopicRegisterIcon, link: "/registerTopic"},
+        {name: "YÊU CẦU PHÁT SINH", icon: RequestIcon, link: "/myRequest"},
+        {name: "XEM BIỂU MẪU", icon: TemplateIcon, link: "/templates"}
     ]
 
     const fvdSideBarOptions = [
