@@ -1,14 +1,14 @@
 {
   "files": {
-    "main.css": "./static/css/main.41563572.css",
-    "main.js": "./static/js/main.dcf32c28.js",
-    "static/media/footerBG.png": "./static/media/footerBG.fc295e1112944f5d36e2.png",
-    "index.html": "./index.html",
-    "main.41563572.css.map": "./static/css/main.41563572.css.map",
-    "main.dcf32c28.js.map": "./static/js/main.dcf32c28.js.map"
+    "main.css": "https://pipibapi1.github.io/htqldtkh-frontend/static/css/main.04acf2c7.css",
+    "main.js": "https://pipibapi1.github.io/htqldtkh-frontend/static/js/main.d6aa16b8.js",
+    "static/media/footerBG.png": "https://pipibapi1.github.io/htqldtkh-frontend/static/media/footerBG.fc295e1112944f5d36e2.png",
+    "index.html": "https://pipibapi1.github.io/htqldtkh-frontend/index.html",
+    "main.04acf2c7.css.map": "https://pipibapi1.github.io/htqldtkh-frontend/static/css/main.04acf2c7.css.map",
+    "main.d6aa16b8.js.map": "https://pipibapi1.github.io/htqldtkh-frontend/static/js/main.d6aa16b8.js.map"
   },
   "entrypoints": [
-    "static/css/main.41563572.css",
-    "static/js/main.dcf32c28.js"
+    "static/css/main.04acf2c7.css",
+    "static/js/main.d6aa16b8.js"
   ]
 }
