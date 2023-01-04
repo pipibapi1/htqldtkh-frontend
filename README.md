@@ -12,6 +12,9 @@ react-router-dom: a standard routing library in React
 
 react-datepicker: to create date picker
 
+gh-pages: to deploy app to github pages
+
+dotenv: to access env variables
 ## 1 Install the package
 
 ### `npm instal`
