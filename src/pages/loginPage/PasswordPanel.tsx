@@ -1,0 +1,45 @@
+import React from 'react';
+import BKlogo from "../../assets/images/hcmut.png";
+import {Link} from "react-router-dom";
+
+const PasswordPanel: React.FC = (props: any) => {
+    return (
+        <div className='w-auto h-[calc(150vh-400px)] bg-[#E9E9E9] flex justify-center items-center'>
+                <div className='w-1/3 bg-white flex flex-col rounded-lg items-center pt-10 pb-20 px-12'>
+                    <div className='w-full flex flex-row content-center '>
+                        <img 
+                        src={BKlogo} 
+                        alt="BKlogo"
+                        className='h-40 w-40'
+                        />
+                        <div className = 'pt-14 pb-20 text-2xl font-bold text-blue-800'>
+                        QUÊN MẬT KHẨU
+                        </div>
+                    </div>
+
+                    <div className='w-full border-t-2   border-black pt-3 pb-5'>
+                        <div className='mb-3 mt-3 text-lg font-bold'>
+                        Nhập email đã đăng ký để lấy lại mật khẩu
+                        </div>
+
+                        <div className='mb-3 mt-3 text-lg font-medium'>
+                        Email
+                        </div>
+
+                        <input className='w-full bg-[#D9D9D9] border border-zinc-600 large rounded-lg text-base flex justify-center items-center py-4 mb-3 hover:bg-[#ffffff]' />
+                        
+                    </div>
+
+                    <div className='w-full content-center '>
+                    <Link to={"/myTopic"}>
+                    <div className="w-1/2 bg-[#0079CC] transition text-white text-center font-semibold py-4 px-4 mx-24 border border-white-500  hover:bg-[#025A97] hover:cursor-pointer">
+                    XÁC NHẬN
+                    </div>
+                    </Link>
+                    </div>
+                </div>
+            </div>
+    )
+}
+
+export default PasswordPanel;
