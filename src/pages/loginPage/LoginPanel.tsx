@@ -1,8 +1,15 @@
-import React from 'react';
+import React, { useState } from 'react';
 import BKlogo from "../../assets/images/hcmut.png";
+import EyeOpen from "../../assets/images/eyeOpen.png";
+import EyeClose from "../../assets/images/eyeClose.png"
 import {Link} from "react-router-dom";
 
 const LoginPanel: React.FC = (props: any) => {
+    const [showPassword, setShowPassword] = useState<boolean>(false);
+
+    const toggleShowPassword = () => {
+        setShowPassword(!showPassword);
+    }
     return (
         <div className='w-auto h-[calc(150vh-400px)] bg-[#E9E9E9] flex justify-center items-center'>
                 <div className='w-1/3 bg-white flex flex-col rounded-lg items-center pt-10 pb-20 px-20'>
@@ -26,13 +33,28 @@ const LoginPanel: React.FC = (props: any) => {
                         Tên đăng nhập
                         </div>
 
-                        <input className='w-full bg-[#D9D9D9] border border-zinc-600 large rounded-lg text-base flex justify-center items-center py-4 mb-3 hover:bg-[#ffffff]' />
+                        <input className='w-full bg-[#D9D9D9] border border-zinc-600 large rounded-lg text-base flex justify-center items-center py-4 mb-3 hover:bg-[#ffffff] p-2' />
                         
                         <div className='mb-3 mt-3 text-lg font-medium'>
                         Mật khẩu
                         </div>
+                        <div className=' grid justify-items-end items-center'>
+                                    <input
+                                        type={showPassword? "text":"password"}
+                                        name="name"
+                                        className="w-full bg-[#D9D9D9] border border-zinc-600 large rounded-lg text-base flex justify-center items-center py-4 mb-3 hover:bg-[#ffffff]  p-2"
+                                    />
+                                    <div className=' absolute mr-2'>
+                                        <button onClick={toggleShowPassword}>
+                                            {showPassword ? 
+                                                (<img src={EyeOpen} alt="eyeIcon" className='h-5 w-6'/>) : 
+                                                (<img src={EyeClose} alt="eyeIcon" className='h-5 w-6'/>)
+                                            }
+                                        </button>
+                                    </div>
+                        </div>
 
-                        <input className='w-full bg-[#D9D9D9] border border-zinc-600 large rounded-lg text-base flex justify-center items-center py-4 mb-3 hover:bg-[#ffffff]' />
+                        {/* <input className='w-full bg-[#D9D9D9] border border-zinc-600 large rounded-lg text-base flex justify-center items-center py-4 mb-3 hover:bg-[#ffffff]' /> */}
                         
                     </div>
 

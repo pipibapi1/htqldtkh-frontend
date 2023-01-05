@@ -26,7 +26,7 @@ const PasswordPanel: React.FC = (props: any) => {
                         Email
                         </div>
 
-                        <input className='w-full bg-[#D9D9D9] border border-zinc-600 large rounded-lg text-base flex justify-center items-center py-4 mb-3 hover:bg-[#ffffff]' />
+                        <input className='w-full bg-[#D9D9D9] border border-zinc-600 large rounded-lg text-base flex justify-center items-center py-4 mb-3 hover:bg-[#ffffff] p-2' />
                         
                     </div>
 
