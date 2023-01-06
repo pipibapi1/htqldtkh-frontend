@@ -15,11 +15,11 @@ const Footer: React.FC = (props: any) => {
                         />
                     </div>
                     <div className='text-white font-bold flex justify-center items-center text-sm'>
-                    ĐẠI HỌC BÁCH KHOA TPHCM
+                    ĐẠI HỌC BÁCH KHOA TP.HCM
                     </div>
                 </div>
 
-                <div className='pl-[400px]'>
+                <div className='pl-[350px]'>
                     <div className='text-white font-bold flex justify-center items-center py-3'>
                         WEBSITE
                     </div>
@@ -36,7 +36,7 @@ const Footer: React.FC = (props: any) => {
                     </div>
                 </div>
 
-                <div className='pl-[400px]'>
+                <div className='pl-[350px]'>
                     <div className='text-white font-bold flex items-center py-3'>
                         CONTACT
                     </div>
