@@ -2,7 +2,7 @@ import React from 'react';
 import BKlogo from "../../assets/images/hcmut.png";
 import {Link} from "react-router-dom";
 
-const PasswordPanel: React.FC = (props: any) => {
+const PasswordResetPanel: React.FC = (props: any) => {
     return (
         <div className='w-auto h-[calc(150vh-400px)] bg-[#E9E9E9] flex justify-center items-center'>
                 <div className='w-1/3 bg-white flex flex-col rounded-lg items-center pt-10 pb-20 px-12'>
@@ -26,13 +26,13 @@ const PasswordPanel: React.FC = (props: any) => {
                         Email
                         </div>
 
-                        <input className='w-full bg-[#D9D9D9] border border-zinc-600 large rounded-lg text-base flex justify-center items-center py-4 mb-3 hover:bg-[#ffffff] p-2' />
+                        <input className='w-full border border-black large rounded-lg text-base flex justify-center items-center py-4 mb-3 p-2' />
                         
                     </div>
 
-                    <div className='w-full content-center '>
+                    <div className='w-full content-center grid place-items-center  '>
                     <Link to={"/myTopic"}>
-                    <div className="w-1/2 bg-[#0079CC] transition text-white text-center font-semibold py-4 px-4 mx-24 border border-white-500  hover:bg-[#025A97] hover:cursor-pointer">
+                    <div className="w-full bg-[#0079CC] transition text-white text-center font-semibold py-5 px-8  border border-white-500  hover:bg-[#025A97] hover:cursor-pointer">
                     XÁC NHẬN
                     </div>
                     </Link>
@@ -42,4 +42,4 @@ const PasswordPanel: React.FC = (props: any) => {
     )
 }
 
-export default PasswordPanel;
+export default PasswordResetPanel;

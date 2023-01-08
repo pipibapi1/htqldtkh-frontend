@@ -22,9 +22,10 @@ export const slidesImageData: slideImage[] = [
 
   
   const containerStyles = {
-    width: "1000px",
+    width: "1200px",
     height: "600px",
     margin: "0 auto",
+    padding: "20px",
   };
 
 
@@ -35,7 +36,7 @@ export const slidesImageData: slideImage[] = [
   // ))
 const MainHomePageContent: React.FC = (props: any) => {
     return (   
-        <div style={containerStyles}>
+        <div style={containerStyles} className= ''>
         {
           <ImageSlider/>
         } 

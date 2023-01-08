@@ -1,13 +1,13 @@
 import React from 'react';
 import Footer from '../../components/footer';
 import Header from '../../components/header';
-import PasswordPanel from './PasswordPanel';
+import PasswordResetPanel from './PasswordResetPanel';
 
 const PasswordIndex: React.FC = (props: any) => {
     return (
         <div>
             <Header isLogin={false} isAccountServicePage={true}/>
-            <PasswordPanel />
+            <PasswordResetPanel />
             <Footer />
         </div>
     );

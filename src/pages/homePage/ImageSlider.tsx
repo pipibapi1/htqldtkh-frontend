@@ -10,22 +10,20 @@ const slideStyles = {
 };
 
 const rightArrowStyles = {
-  position: "absolute",
   top: "50%",
-  transform: "translate(0, -50%)",
-  right: "320px",
-  fontSize: "70px",
+  transform: "translate(30%, 50%)",
+  right: "100px",
+  fontSize: "500%",
   color: "#000",
   zIndex: 1,
   cursor: "pointer",
 } as React.CSSProperties;
 
 const leftArrowStyles = {
-  position: "absolute",
   top: "50%",
-  transform: "translate(0, -50%)",
-  left: "320px",
-  fontSize: "70px",
+  transform: "translate(30%, 50%)",
+  left: "100px",
+  fontSize: "500%",
   color: "#000",
   zIndex: 1,
   cursor: "pointer",
@@ -50,8 +48,8 @@ const dotStyle = {
 
 const SlideBanner = ({SlideImage}: {SlideImage: slideImage}) => {
   const {src} = SlideImage
-  return <div className = 'flex justify-between items-center relative overflow-hidden'>
-      <img src={src} className= 'mx-44 my-4 w-8/12  mx border border-blue-700 rounded-md'/>
+  return <div className = 'w-full justify-between items-center static overflow-hidden'>
+      <img src={src} className= ' w-full  mx border border-blue-700 rounded-md'/>
   </div>
 }
 
@@ -73,17 +71,12 @@ const ImageSlider = () => {
   // };
   return (
     // style={sliderStyles}
-    <div className= 'bg-[#D9D9D9] '>
-      <div className= ''>
+    <div className= 'bg-[#D9D9D9] grid grid-cols-5 w-full h-full static'>
       {/* onClick={goToPrevious} */}
-        <div onClick={goToPrevious} style={leftArrowStyles}>
+        <div onClick={goToPrevious} style={leftArrowStyles} className = 'static w-1/2 h-3/4 text-center '>
           ❰
         </div>
-        <div onClick={goToNext} style={rightArrowStyles}>
-          ❱
-        </div>
-      </div>
-      <div>
+      <main className = 'w-full col-span-3 py-10  text-center'>
         {slidesImageData.map((slideImage, index) => 
           (
             <div className={index === currentIndex ? 'slide active' : 'slide'} key={index}>
@@ -95,6 +88,9 @@ const ImageSlider = () => {
           )
         }
 
+      </main>
+      <div onClick={goToNext} style={rightArrowStyles} className = 'static w-1/2 h-3/4 text-center'>
+          ❱
       </div>
       {/* <div style={dotsContainerStyles}>
         {slides.map(({slide} : {slide:any}, {slideIndex} : {slideIndex:any}) => (
