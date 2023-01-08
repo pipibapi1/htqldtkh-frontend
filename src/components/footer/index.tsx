@@ -4,7 +4,7 @@ import BKlogo from "../../assets/images/hcmut.png";
 const Footer: React.FC = (props: any) => {
     return (
         <div className='w-full relative bottom-0'>
-            <div className='bg-footer flex justify-center py-5'>
+            <div className='bg-footer flex justify-center py-1'>
                 <div className='flex px-10'>
                 <div className='pl-[0px]'>
                     <div className='flex justify-center items-center'>
