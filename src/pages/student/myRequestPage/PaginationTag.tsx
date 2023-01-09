@@ -13,7 +13,7 @@ const PaginationTag: React.FC<Props> = (props) => {
       <div
         aria-current='page'
         className={
-          'paging-tag ' +
+          'paging-tag py-1 ' +
           (numPage === currentPage ? 'bg-[#1577D2] text-white' : '')
         }
       >

@@ -10,7 +10,7 @@ const LeftTag: React.FC<Props> = (props) => {
     <li>
       <div
         onClick={onClick}
-        className='cursor-pointer block py-2 px-3 ml-0 leading-tight text-gray-500 bg-white rounded-l-lg border border-[#68589b] hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white'
+        className='cursor-pointer block py-1 px-1 ml-0 leading-tight text-gray-500 bg-white rounded-l-lg border border-[#68589b] hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white'
       >
         <svg
           aria-hidden='true'

@@ -32,7 +32,7 @@ const MyTopicList: React.FC = () => {
                 </Link>
             </div>
 
-            <div className='grid justify-items-end px-5'>
+            <div className='flex grid justify-items-end px-5'>
                 <div className='flex items-center py-4'>
                     <div className='flex items-center mr-20'>
                         <div className='mr-5'>
@@ -199,19 +199,7 @@ const MyTopicList: React.FC = () => {
                                     createdDate={"createdDate"}
                                     time={"time"}
                                     period={"period"}
-                                    />
-                                    <RowTable
-                                    index={5}
-                                    topicId={"KH1890-MX201-MM55"}
-                                    topicName={"Hệ thống quản lý đề tài khoa học cấp sinh viên"}
-                                    topicType={"Chính quy"}
-                                    topicStatus={"Đang thực hiện"}
-                                    topicExtensionStatus={"topic Extension Status"}
-                                    createdDate={"createdDate"}
-                                    time={"time"}
-                                    period={"period"}
-                                    />
-                                    
+                                    /> 
                                 </tbody>
                             </table>
                         </div>
@@ -233,7 +221,7 @@ const MyTopicList: React.FC = () => {
                             ))}
                             <RightTag onClick={nextPage} />
                         </ul>
-                </div>
+            </div>
         </div>
     )
 }

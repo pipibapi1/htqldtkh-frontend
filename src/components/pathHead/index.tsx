@@ -7,7 +7,7 @@ interface Props{
 const PathHead: React.FC<Props> = (props: any) => {
     const {path} = props
     return(
-        <div className='w-[85vw] h-10 border-t-2 border-b-2 border-[#EEEEEE] flex items-center px-5 py-5'>
+        <div className='w-[84vw] h-10 border-t-2 border-b-2 border-[#EEEEEE] flex items-center px-5 py-5'>
             <div className='font-semibold'>
                 {path}
             </div>

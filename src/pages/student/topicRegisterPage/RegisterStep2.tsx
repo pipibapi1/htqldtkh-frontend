@@ -43,7 +43,7 @@ const RegisterStep2:React.FC<Props> = (props: Props) => {
     }
 
     return (
-        <div className='p-5'>
+        <div className='p-5 min-h-[630px] overflow-hidden'>
             <div className='flex justify-between mb-2'>
                 <div className='flex'>
                     <div className='mr-40'>
