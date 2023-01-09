@@ -5,7 +5,7 @@ import LoginIndex from './LoginIndex';
 
 const ChooseRolePanel: React.FC = (props: any) => {
     return (
-        <div className='w-full h-[calc(100vh-280px)] bg-[#E9E9E9] flex justify-center items-center'>
+        <div className='w-full min-h-[calc(100vh-248px)] h-[100%] bg-[#E9E9E9] flex justify-center items-center'>
                 <div className='bg-white flex flex-col rounded-lg items-center pt-10 pb-20 px-20'>
                     <div className='center'>
                         <img 

@@ -21,6 +21,8 @@ dotenv: to access env variables
 ## 2 Run the app
 ### `npm start`
 
+## 3 Deploy the app to github page
+### `npm run deploy`
 Runs the app in the development mode.\
 Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
 

@@ -16,7 +16,7 @@ const RegisterPanel: React.FC = (props: any) => {
     }
     
     return(
-        <div className='w-auto h-[calc(150vh-400px)] bg-[#E9E9E9] flex justify-center items-center'>
+        <div className='w-full min-h-[calc(100vh-248px)] h-[100%] bg-[#E9E9E9] flex justify-center items-center'>
             <div className='bg-white flex flex-col rounded-lg items-center py-3 px-20'>
                 <div className='flex justify-center items-center'>
                         <img 
