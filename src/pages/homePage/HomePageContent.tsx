@@ -23,7 +23,7 @@ export const slidesImageData: slideImage[] = [
 
 const MainHomePageContent: React.FC = (props: any) => {
     return (   
-        <div className= 'w-full h-[500px]'>
+        <div className= 'w-full'>
         {
           <ImageSlider/>
         } 

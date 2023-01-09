@@ -19,7 +19,7 @@ const Header: React.FC<Props> = (props: any) => {
     const {isLogin, isAccountServicePage} = props;
 
     return (
-        <div className='bg-white grid grid-cols-12 gap-4 p-3 mb-1 max-h-17 border-2 sticky top-0'>
+        <div className='bg-white grid grid-cols-12 gap-4 p-3 mb-1 max-h-17 border-2 sticky top-0 z-40'>
             {/* The BK icon and the HCMUT name */}
             <Link
                 className='col-start-1 col-span-5 flex items-center hover:cursor-pointer'

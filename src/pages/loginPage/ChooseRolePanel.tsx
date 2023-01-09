@@ -5,17 +5,17 @@ import LoginIndex from './LoginIndex';
 
 const ChooseRolePanel: React.FC = (props: any) => {
     return (
-        <div className='w-full min-h-[calc(100vh-248px)] h-[100%] bg-[#E9E9E9] flex justify-center items-center'>
-                <div className='bg-white flex flex-col rounded-lg items-center pt-10 pb-20 px-20'>
+        <div className='w-full min-h-[calc(100vh-248px)] bg-[#E9E9E9] flex justify-center items-center py-5'>
+                <div className='bg-white flex flex-col rounded-lg items-center pt-5 pb-10 px-20'>
                     <div className='center'>
                         <img 
                         src={BKlogo} 
                         alt="BKlogo"
-                        className='h-40 w-40'
+                        className='h-35 w-35'
                         />
                     </div>
 
-                    <div className='border-t-2 border-b-2  border-black pt-3 pb-5'>
+                    <div className='border-t-2 border-b-2 border-black pb-5'>
                         <div className='mb-3 mt-3 text-lg font-bold'>
                         Đăng nhập trên quyền truy cập của
                         </div>
