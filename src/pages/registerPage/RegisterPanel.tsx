@@ -16,20 +16,20 @@ const RegisterPanel: React.FC = (props: any) => {
     }
     
     return(
-        <div className='w-full min-h-[calc(100vh-248px)] bg-[#E9E9E9] flex justify-center items-center py-5'>
-            <div className='bg-white flex flex-col rounded-md items-center py-3 px-10'>
+        <div className='w-full min-h-[calc(100vh-248px)] bg-[#E9E9E9] flex justify-center items-center py-2'>
+            <div className='bg-white flex flex-col rounded-md items-center pt-1 pb-2 px-10'>
                 <div className='flex justify-center items-center'>
                         <img 
                         src={BKlogo} 
                         alt="BKlogo"
-                        className='h-30 w-30'
+                        className='h-35 w-35'
                         />
                         <div className='text-[#030391] text-lg font-semibold'>
                             ĐĂNG KÝ TÀI KHOẢN
                         </div>
                 </div>
 
-                <div className='border-t-2 border-b-2 border-[#B5B5B5] pt-3 pb-5 mb-5'>
+                <div className='border-t-2 border-b-2 border-[#B5B5B5] pt-1 pb-1 mb-3'>
                         <div className='mb-2 text-base font-bold'>
                         Nhập thông tin cần thiết để đăng ký tài khoản
                         </div>
@@ -160,7 +160,7 @@ const RegisterPanel: React.FC = (props: any) => {
                             </div>
                         </div>
 
-                        <div className='flex mb-2'>
+                        <div className='flex mb-3'>
                             <div className='text-sm mr-7'>
                                 <div>
                                     Số điện thoại *
@@ -192,41 +192,6 @@ const RegisterPanel: React.FC = (props: any) => {
                                 </div>
                             </div>
                         </div>
-
-                        {/* <div className='flex'>
-                            <div className='text-sm mr-7'>
-                                <div>
-                                    Tên đăng nhập *
-                                </div>
-                                <input
-                                    type="text"
-                                    name="lastAndMiddleName"
-                                    className="h-[25px] w-[250px] border border-black border-1 rounded-md p-2"
-                                    />
-                            </div>
-                            
-                            <div className='text-sm ml-7'>
-                                <div>
-                                    Mật khẩu *
-                                </div>
-                                <div className='grid justify-items-end items-center'>
-                                    <input
-                                        type={showPassword? "text":"password"}
-                                        name="name"
-                                        className="h-[25px] w-[250px] border border-black border-1 rounded-md p-2"
-                                    />
-                                    <div className='absolute mr-2'>
-                                        <button onClick={toggleShowPassword}>
-                                            {showPassword ? 
-                                                (<img src={EyeOpen} alt="eyeIcon" className='h-4 w-5'/>) : 
-                                                (<img src={EyeClose} alt="eyeIcon" className='h-4 w-5'/>)
-                                            }
-                                        </button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div> */}
-
                 </div>
 
                 <div className='flex justify-center items-center'>
