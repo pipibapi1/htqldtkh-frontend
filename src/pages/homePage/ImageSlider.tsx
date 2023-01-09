@@ -1,20 +1,12 @@
 import { useState } from "react";
 import { slideImage, slidesImageData } from './HomePageContent'
 
-const slideStyles = {
-  width: "100%",
-  height: "100%",
-  borderRadius: "10px",
-  backgroundSize: "cover",
-  backgroundPosition: "center",
-};
-
 const rightArrowStyles = {
   top: "50%",
   transform: "translate(30%, 50%)",
   right: "100px",
   fontSize: "500%",
-  color: "#000",
+  color: "#BE1227",
   zIndex: 1,
   cursor: "pointer",
 } as React.CSSProperties;
@@ -24,32 +16,24 @@ const leftArrowStyles = {
   transform: "translate(30%, 50%)",
   left: "100px",
   fontSize: "500%",
-  color: "#000",
+  color: "#BE1227",
   zIndex: 1,
   cursor: "pointer",
 } as React.CSSProperties;
 
-const sliderStyles = {
-  position: "relative",
-  height: "100%",
-} as React.CSSProperties;
-
-const dotsContainerStyles = {
-  display: "flex",
-  justifyContent: "center",
-};
-
-const dotStyle = {
-  margin: "0 3px",
-  cursor: "pointer",
-  fontSize: "20px",
-  color: "#000",
-};
 
 const SlideBanner = ({SlideImage}: {SlideImage: slideImage}) => {
   const {src} = SlideImage
-  return <div className = 'w-full justify-between items-center static overflow-hidden'>
-      <img src={src} className= ' w-full  mx border border-blue-700 rounded-md'/>
+  return <div className = 'relative w-full justify-between items-center'>
+      <img src={src} className= 'w-full h-[525px] border border-blue-700 rounded-md'/>
+      <div className="absolute top-1/2 mt-[-38px] left-1/2 ml-[-343px] z-1">
+          <div className="text-3xl text-[#1488D8] font-black font-outline">
+          ĐẠI HỌC QUỐC GIA THÀNH PHỐ HỒ CHÍ MINH
+          </div>
+          <div className="text-4xl text-[#030391] font-black font-outline">
+          ỨNG DỤNG QUẢN LÝ ĐỀ TÀI KHOA HỌC
+          </div>
+	    </div>
   </div>
 }
 
@@ -66,17 +50,13 @@ const ImageSlider = () => {
     const newIndex = isLastSlide ? 0 : currentIndex + 1;
     setCurrentIndex(newIndex);
   };
-  // const goToSlide = ({slideIndex} : {slideIndex: any}) => {
-  //   setCurrentIndex(slideIndex);
-  // };
+
   return (
-    // style={sliderStyles}
-    <div className= 'bg-[#D9D9D9] grid grid-cols-5 w-full h-full static'>
-      {/* onClick={goToPrevious} */}
-        <div onClick={goToPrevious} style={leftArrowStyles} className = 'static w-1/2 h-3/4 text-center '>
-          ❰
-        </div>
-      <main className = 'w-full col-span-3 py-10  text-center'>
+    <div className= 'grid grid-cols-5 w-full h-full static border-b border-slate-900'>
+      <div onClick={goToPrevious} style={leftArrowStyles} className = 'static w-1/2 h-3/4 text-center'>
+        ❰
+      </div>
+      <main className = 'w-full col-span-3 text-center'>
         {slidesImageData.map((slideImage, index) => 
           (
             <div className={index === currentIndex ? 'slide active' : 'slide'} key={index}>
@@ -90,19 +70,8 @@ const ImageSlider = () => {
 
       </main>
       <div onClick={goToNext} style={rightArrowStyles} className = 'static w-1/2 h-3/4 text-center'>
-          ❱
+        ❱
       </div>
-      {/* <div style={dotsContainerStyles}>
-        {slides.map(({slide} : {slide:any}, {slideIndex} : {slideIndex:any}) => (
-          <div
-            style={dotStyle}
-            key={slideIndex}
-            onClick={() => goToSlide(slideIndex)}
-          >
-            ●
-          </div>
-        ))}
-      </div> */}
     </div>
   );
 };

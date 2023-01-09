@@ -20,23 +20,10 @@ export const slidesImageData: slideImage[] = [
   }
   ];
 
-  
-  const containerStyles = {
-    width: "1200px",
-    height: "600px",
-    margin: "0 auto",
-    padding: "20px",
-  };
 
-
-  // slidesImageData.map((slide, index) => (
-  //   <div key = {index}>
-  //     {/* <img src={slide} alt = ''/> */}
-  //   </div>
-  // ))
 const MainHomePageContent: React.FC = (props: any) => {
     return (   
-        <div style={containerStyles} className= ''>
+        <div className= 'w-full'>
         {
           <ImageSlider/>
         } 

@@ -4,20 +4,20 @@ import {Link} from "react-router-dom";
 
 const PasswordResetPanel: React.FC = (props: any) => {
     return (
-        <div className='w-auto h-[calc(150vh-400px)] bg-[#E9E9E9] flex justify-center items-center'>
-                <div className='w-1/3 bg-white flex flex-col rounded-lg items-center pt-10 pb-20 px-12'>
-                    <div className='w-full flex flex-row content-center '>
+        <div className='w-full min-h-[calc(100vh-248px)] bg-[#E9E9E9] flex justify-center items-center py-5'>
+                <div className='w-1/3 bg-white flex flex-col rounded-lg items-center pt-5 pb-10 px-10'>
+                    <div className='w-full flex flex-row content-center items-center center'>
                         <img 
                         src={BKlogo} 
                         alt="BKlogo"
-                        className='h-40 w-40'
+                        className='h-35 w-35'
                         />
-                        <div className = 'pt-14 pb-20 text-2xl font-bold text-blue-800'>
+                        <div className = 'text-2xl font-bold text-blue-800'>
                         QUÊN MẬT KHẨU
                         </div>
                     </div>
 
-                    <div className='w-full border-t-2   border-black pt-3 pb-5'>
+                    <div className='w-full border-t-2 border-black pt-3 pb-5'>
                         <div className='mb-3 mt-3 text-lg font-bold'>
                         Nhập email đã đăng ký để lấy lại mật khẩu
                         </div>
@@ -30,7 +30,7 @@ const PasswordResetPanel: React.FC = (props: any) => {
                         
                     </div>
 
-                    <div className='w-full content-center grid place-items-center  '>
+                    <div className='w-full content-center grid place-items-center'>
                     <Link to={"/myTopic"}>
                     <div className="w-full bg-[#0079CC] transition text-white text-center font-semibold py-5 px-8  border border-white-500  hover:bg-[#025A97] hover:cursor-pointer">
                     XÁC NHẬN
