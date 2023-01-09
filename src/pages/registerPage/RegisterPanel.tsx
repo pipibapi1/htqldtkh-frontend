@@ -8,7 +8,7 @@ import "react-datepicker/dist/react-datepicker.css";
 
 
 const RegisterPanel: React.FC = (props: any) => {
-    const [birhtDate, setBirthDate] = useState(new Date());
+    const [birthDate, setBirthDate] = useState(new Date());
     const [showPassword, setShowPassword] = useState<boolean>(false);
 
     const toggleShowPassword = () => {
@@ -29,7 +29,7 @@ const RegisterPanel: React.FC = (props: any) => {
                         </div>
                 </div>
 
-                <div className='border-t-2 border-b-2 border-[#B5B5B5] border-black pt-3 pb-5 mb-5'>
+                <div className='border-t-2 border-b-2 border-[#B5B5B5]  pt-3 pb-5 mb-5'>
                         <div className='mb-3 text-lg font-bold'>
                         Nhập thông tin cần thiết để đăng ký tài khoản
                         </div>
@@ -76,7 +76,7 @@ const RegisterPanel: React.FC = (props: any) => {
                                 </div>
                                 <div className="">
                                     <select
-                                        className="bg-white h-[40px] w-[270px] border border-black border-1 rounded-lg focus:ring-blue-500 px-2"
+                                        className="bg-white h-[40px] w-[200px] border border-black border-1 rounded-lg focus:ring-blue-500 px-2"
                                         onChange={(e) => {
 
                                         }}
@@ -105,21 +105,21 @@ const RegisterPanel: React.FC = (props: any) => {
                                 <div>
                                     Ngày sinh *
                                 </div>
-                                <div className='flex grid justify-items-end items-center'>
+                                <div className='grid justify-items-end items-center'>
                                     <DatePicker
                                     onChange={date => {
                                         if(date){
                                             setBirthDate(date);
                                         }
                                     }}
-                                    selected={birhtDate}
+                                    selected={birthDate}
                                     dateFormat="dd/MM/yyyy"
                                     peekNextMonth
                                     showMonthDropdown
                                     showYearDropdown
                                     dropdownMode="select"
                                     locale="vi"
-                                    className="h-[40px] w-[270px] border border-black border-1 rounded-lg px-2"
+                                    className="h-[40px] w-[200px] border border-black border-1 rounded-lg px-2"
                                     />
                                     <div className='absolute mr-2'>
                                         <img src={Calendar} alt="calendarIcon" className='h-5 w-5'/>
@@ -146,7 +146,7 @@ const RegisterPanel: React.FC = (props: any) => {
                                 </div>
                                 <div className="">
                                     <select
-                                        className="bg-white h-[40px] w-[270px] border border-black border-1 rounded-lg focus:ring-blue-500 px-2"
+                                        className="bg-white h-[40px] w-[200px] border border-black border-1 rounded-lg focus:ring-blue-500 px-2"
                                         onChange={(e) => {
 
                                         }}
@@ -177,7 +177,7 @@ const RegisterPanel: React.FC = (props: any) => {
                                 <div>
                                     Mật khẩu *
                                 </div>
-                                <div className='flex grid justify-items-end items-center'>
+                                <div className='grid justify-items-end items-center'>
                                     <input
                                         type={showPassword? "text":"password"}
                                         name="name"
