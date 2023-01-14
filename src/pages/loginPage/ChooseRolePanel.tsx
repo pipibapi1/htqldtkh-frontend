@@ -28,14 +28,14 @@ const ChooseRolePanel: React.FC = (props: any) => {
                             </div>
                         </Link>
                         <Link
-                            to={"/fsExpenseStatistic"}
+                            to={"/fsTopicStatistic"}
                         >
                             <div className='bg-[#D9D9D9] rounded-lg text-base flex justify-center items-center py-4 mb-3 hover:bg-[#B5B5B5]'>
                                 Thư ký Khoa
                             </div>
                         </Link>
                         <Link
-                            to={"/fvdExpenseStatistic"}
+                            to={"/fvdTopicStatistic"}
                         >
                             <div className='bg-[#D9D9D9] rounded-lg text-base flex justify-center items-center py-4 mb-3 hover:bg-[#B5B5B5]'>
                                 Phó chủ nhiệm Khoa

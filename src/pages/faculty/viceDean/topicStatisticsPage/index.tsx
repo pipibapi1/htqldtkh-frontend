@@ -1,12 +1,12 @@
 import React from 'react';
 import Header from '../../../../components/header';
-import SideNav from '../../../../components/sideNav';
 import PathHead from '../../../../components/pathHead';
+import SideNav from '../../../../components/sideNav';
 import { RoleType } from '../../../../shared/types/role';
 import { useLocation } from 'react-router-dom';
-import ExpenseStatistic from './ExpenseStatistic';
+import TopicStatistic from './TopicStatistic';
 
-const FVDExpenseStatistics: React.FC = () => {
+const FVDTopicStatistics: React.FC = () => {
     const location = useLocation();
     return (
         <div className=''>
@@ -14,12 +14,12 @@ const FVDExpenseStatistics: React.FC = () => {
             <div className='flex'>
                 <SideNav role={RoleType.FVD} pathName={location.pathname}/>
                 <div className=''>
-                    <PathHead path={"BÁO BIỂU THỐNG KÊ / Phân bổ kinh phí"}/>
-                    <ExpenseStatistic />
+                    <PathHead path={"BÁO BIỂU THỐNG KÊ / Đề tài"}/>
+                    <TopicStatistic />
                 </div>
             </div>
         </div>
     )
 }
 
-export default FVDExpenseStatistics;
+export default FVDTopicStatistics;
