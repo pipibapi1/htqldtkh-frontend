@@ -53,7 +53,7 @@ const ImageSlider = () => {
 
   return (
     <div className= 'grid grid-cols-5 w-full h-full static border-b border-slate-900'>
-      <div onClick={goToPrevious} style={leftArrowStyles} className = 'static w-1/2 h-3/4 text-center'>
+      <div onClick={goToPrevious} style={leftArrowStyles} className = 'static w-1/2 h-1/2 text-center'>
         ❰
       </div>
       <main className = 'w-full col-span-3 text-center'>
@@ -69,7 +69,7 @@ const ImageSlider = () => {
         }
 
       </main>
-      <div onClick={goToNext} style={rightArrowStyles} className = 'static w-1/2 h-3/4 text-center'>
+      <div onClick={goToNext} style={rightArrowStyles} className = 'static w-1/2 h-1/2 text-center'>
         ❱
       </div>
     </div>

@@ -15,6 +15,8 @@ react-datepicker: to create date picker
 gh-pages: to deploy app to github pages
 
 dotenv: to access env variables
+
+react-minimal-pie-chart: to draw pie chart
 ## 1 Install the package
 
 ### `npm instal`

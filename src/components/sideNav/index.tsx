@@ -1,43 +1,61 @@
 import React from 'react';
-import MyTopicIcon from "../../assets/images/myTopicIcon.png";
-import TopicRegisterIcon from "../../assets/images/topicRegisterIcon.png";
-import RequestIcon from "../../assets/images/requestIcon.png";
-import TemplateIcon from "../../assets/images/templateIcon.png";
-import Statistics from "../../assets/images/statistics.png";
-import RequestManagement from "../../assets/images/requestManagement.png";
-import Account from "../../assets/images/account.png";
-import Council from "../../assets/images/council.png";
-import Folder from "../../assets/images/folder.png";
-import Upload from "../../assets/images/upload.png";
 import { Link } from "react-router-dom";
 import { RoleType } from '../../shared/types/role';
-
+import {studentSideBarOptions, fvdSideBarOptions, fsSideBarOptions} from "../../shared/sideNavOption";
 
 interface ItemProps{
-    key: number;
+    keyz: number;
     name: string;
     icon: any;
     link: string;
+    children: {name: string, link: string}[];
     active: boolean;
+    activeChild: number;
 }
 
-const SideNavItem:React.FC<ItemProps> = (props: any) => {
+const SideNavItem:React.FC<ItemProps> = (props: ItemProps) => {
     return(
-        <Link
-            to={props?.link}
-            key={props?.key}
-            className={props?.active?
-                 'bg-[#0D619A] border hover:cursor-pointer':
-                 'bg-transparent border hover:bg-[#1273B6] hover:cursor-pointer active:bg-[#0D619A]'
-                }
-            >
-            <div className='flex items-center pl-5 py-4'>
-                <img src={props?.icon} alt="requestIcon" className='h-6 w-6'></img>
-                <div className='text-white text-sm font-[700] pl-4'>
-                    {props?.name}
-                </div>
+        <div className='px-0 py-0'>
+            <div className={props?.active?
+                 'bg-[#0D619A] hover:cursor-pointer'
+                :'bg-transparent hover:bg-[#1273B6] hover:cursor-pointer active:bg-[#0D619A]'
+                }>
+                <Link
+                to={props?.link}
+                key={props?.keyz}
+                >
+                    <div className='flex items-center pl-5 py-4'>
+                        <img src={props?.icon} alt="requestIcon" className='h-6 w-6'></img>
+                        <div className='text-white text-sm font-[700] pl-4'>
+                            {props?.name}
+                        </div>
+                    </div>
+                </Link>
             </div>
-        </Link>
+            {(props?.children?.length > 0) && (
+                <div className={props?.active?
+                    'bg-white'
+                   :'hidden'}
+                >
+                    {props?.children?.map((child, i) => (
+                        <div className='border'
+                        >
+                            <Link
+                            to={child?.link}
+                            key={i}
+                            >      
+                                <div className='flex items-center pl-20 py-2'>
+                                    <div className={(props?.activeChild === i) ?'text-[#030391] underline underline-offset-2 text-sm font-bold' : 'text-black text-sm font-bold'}>
+                                        {child?.name}
+                                    </div>
+                                </div>
+                            </Link>
+                        </div>
+                    ))}
+                </div>
+            )}
+        </div>
+        
     )
 }
 
@@ -46,84 +64,88 @@ interface Props {
     pathName: string;
 }
 
-const SideNav:React.FC<Props> = (props: any) => {
+const SideNav:React.FC<Props> = (props: Props) => {
 
     const {role, pathName} = props;
 
-    const studentSideBarOptions = [
-        {name: "ĐỀ TÀI CỦA TÔI", icon: MyTopicIcon, link: "/myTopic"},
-        {name: "ĐĂNG KÝ ĐỀ TÀI", icon: TopicRegisterIcon, link: "/registerTopic"},
-        {name: "YÊU CẦU PHÁT SINH", icon: RequestIcon, link: "/myRequest"},
-        {name: "XEM BIỂU MẪU", icon: TemplateIcon, link: "/templates"}
-    ]
-
-    const fvdSideBarOptions = [
-        {name: "BÁO BIỂU THỐNG KÊ", icon: Statistics, link: "/fvdExpenseStatistic"},
-        {name: "QUẢN LÝ YÊU CẦU", icon: RequestManagement, link: "/fvdExpenseStatistic"},
-    ]
-
-    const fsSideBarOptions = [
-        {name: "BÁO BIỂU THỐNG KÊ", icon: Statistics, link: "/fsExpenseStatistic"},
-        {name: "QUẢN LÝ TÀI KHOẢN", icon: Account, link: "/fsExpenseStatistic"},
-        {name: "QUẢN LÝ ĐỀ TÀI", icon: Folder, link: "/fsExpenseStatistic"},
-        {name: "TẠO BIỂU MẪU", icon: TemplateIcon, link: "/fsExpenseStatistic"},
-        {name: "TẠO HỘI ĐỒNG", icon: Council, link: "/fsExpenseStatistic"},
-        {name: "UPLOAD THÔNG BÁO", icon: Upload, link: "/fsExpenseStatistic"},
-    ]
-
     let activeItem:number = 0;
+    let activeChildItem:number = 0;
 
     if(role === RoleType.Student){
         activeItem = studentSideBarOptions.findIndex(
-            (item) => item.link === pathName
+            (item) => (item.link === pathName || item.children.some((child) => child.link === pathName))
         );
+        const currentItem = studentSideBarOptions[activeItem];
+        if(currentItem.children.length > 0){
+            activeChildItem = currentItem.children.findIndex(
+                (child) => (child.link === pathName)
+            )
+        }
     }
     else if(role === RoleType.FVD){
         activeItem = fvdSideBarOptions.findIndex(
-            (item) => item.link === pathName
+            (item) => (item.link === pathName || item.children.some((child) => child.link === pathName))
         )
+        const currentItem = fvdSideBarOptions[activeItem];
+        if(currentItem.children.length > 0){
+            activeChildItem = currentItem.children.findIndex(
+                (child) => (child.link === pathName)
+            )
+        }
     }
     else{
         activeItem = fsSideBarOptions.findIndex(
-            (item) => item.link === pathName
+            (item) => (item.link === pathName || item.children.some((child) => child.link === pathName))
         )
+        const currentItem = fsSideBarOptions[activeItem];
+        if(currentItem.children.length > 0){
+            activeChildItem = currentItem.children.findIndex(
+                (child) => (child.link === pathName)
+            )
+        }
     }
 
     return (
         <div>
             {/* student siderbar */}
             {(role === RoleType.Student) && (<div className='bg-[#1488D8] w-[15vw] min-h-[calc(100vh-112px)] h-[100%] flex flex-col'>
-                {studentSideBarOptions?.map((option, i)=> (
+                {studentSideBarOptions?.map((option, i) => (
                     <SideNavItem
-                        key={i}
+                        keyz={i}
                         name={option?.name}
                         icon={option?.icon}
                         link={option?.link}
+                        children={option.children}
                         active={i === activeItem}
+                        activeChild={activeChildItem}
                     />
                 ))}
             </div>)}
             {/* FVD sidebar */}
             {(role === RoleType.FVD) && (<div className='bg-[#1488D8] w-[15vw] min-h-[calc(100vh-112px)] h-[100%] flex flex-col'>
-                {fvdSideBarOptions?.map((option, i)=> (
+                {fvdSideBarOptions?.map((option, i) => (
                     <SideNavItem
-                        key={i}
+                        keyz={i}
                         name={option?.name}
                         icon={option?.icon}
                         link={option?.link}
+                        children={option.children}
                         active={i === activeItem}
+                        activeChild={activeChildItem}
                     />
                 ))}
             </div>)}
             {/* FS sidebar */}
             {(role === RoleType.FS) && (<div className='bg-[#1488D8] w-[15vw] min-h-[calc(100vh-112px)] h-[100%] flex flex-col'>
-                {fsSideBarOptions?.map((option, i)=> (
+                {fsSideBarOptions?.map((option, i) => (
                     <SideNavItem
-                        key={i}
+                        keyz={i}
                         name={option?.name}
                         icon={option?.icon}
                         link={option?.link}
+                        children={option.children}
                         active={i === activeItem}
+                        activeChild={activeChildItem}
                     />
                 ))}
             </div>)}
