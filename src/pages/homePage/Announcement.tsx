@@ -4,9 +4,9 @@ import OldAnnouncement from './OldAnnouncement';
   const Announcement = () => {
     return (
       <div className= 'grid grid-cols-3'>
-        <main className = 'px-12 py-6 border-r border-slate-900 col-span-2'>
+        <main className = 'px-12 py-6 border-r border-2 col-span-2'>
           <div className = 'py-4 text-blue-600 font-semibold'>THÔNG BÁO MỚI NHẤT</div>
-          <div className = 'border border-slate-900'>
+          <div className = 'border border-3 rounded-lg'>
           <div className = 'text-2xl text-center font-bold'>THÔNG BÁO</div>
           <div className = 'text-xl text-center text-blue-800'>
             Đăng ký đề tài NCKH và đổi mới sáng tạo cấp Sinh viên thuộc chương trình Chính quy, Kỹ sư tài năng và Chương trình đào tạo Quốc tế thực hiện trong năm 2022 - Đợt 2

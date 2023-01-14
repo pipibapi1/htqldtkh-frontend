@@ -25,7 +25,7 @@ const leftArrowStyles = {
 const SlideBanner = ({SlideImage}: {SlideImage: slideImage}) => {
   const {src} = SlideImage
   return <div className = 'relative w-full justify-between items-center'>
-      <img src={src} className= 'w-full h-[525px] border border-blue-700 rounded-md'/>
+      <img src={src} className= 'w-full h-[525px] rounded-md'/>
       <div className="absolute top-1/2 mt-[-38px] left-1/2 ml-[-343px] z-1">
           <div className="text-3xl text-[#1488D8] font-black font-outline">
           ĐẠI HỌC QUỐC GIA THÀNH PHỐ HỒ CHÍ MINH
@@ -52,7 +52,7 @@ const ImageSlider = () => {
   };
 
   return (
-    <div className= 'grid grid-cols-5 w-full h-full static border-b border-slate-900'>
+    <div className= 'grid grid-cols-5 w-full h-full static border-b'>
       <div onClick={goToPrevious} style={leftArrowStyles} className = 'static w-1/2 h-1/2 text-center'>
         ❰
       </div>
