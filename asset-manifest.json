@@ -1,18 +1,18 @@
 {
   "files": {
-    "main.css": "https://pipibapi1.github.io/htqldtkh-frontend/static/css/main.d0a3db26.css",
-    "main.js": "https://pipibapi1.github.io/htqldtkh-frontend/static/js/main.dd7539a0.js",
+    "main.css": "https://pipibapi1.github.io/htqldtkh-frontend/static/css/main.0cf8e66b.css",
+    "main.js": "https://pipibapi1.github.io/htqldtkh-frontend/static/js/main.9aa8774e.js",
     "static/media/BK_2.jpg": "https://pipibapi1.github.io/htqldtkh-frontend/static/media/BK_2.851754eef426150f54a2.jpg",
     "static/media/footerBG.png": "https://pipibapi1.github.io/htqldtkh-frontend/static/media/footerBG.fc295e1112944f5d36e2.png",
     "static/media/ThongBao.png": "https://pipibapi1.github.io/htqldtkh-frontend/static/media/ThongBao.b9552d11065ed95fdbca.png",
     "static/media/BK_3.jpg": "https://pipibapi1.github.io/htqldtkh-frontend/static/media/BK_3.50b7f5207c4182fd919e.jpg",
     "static/media/BK_1.jpg": "https://pipibapi1.github.io/htqldtkh-frontend/static/media/BK_1.61e912a92ffb00bb6dcf.jpg",
     "index.html": "https://pipibapi1.github.io/htqldtkh-frontend/index.html",
-    "main.d0a3db26.css.map": "https://pipibapi1.github.io/htqldtkh-frontend/static/css/main.d0a3db26.css.map",
-    "main.dd7539a0.js.map": "https://pipibapi1.github.io/htqldtkh-frontend/static/js/main.dd7539a0.js.map"
+    "main.0cf8e66b.css.map": "https://pipibapi1.github.io/htqldtkh-frontend/static/css/main.0cf8e66b.css.map",
+    "main.9aa8774e.js.map": "https://pipibapi1.github.io/htqldtkh-frontend/static/js/main.9aa8774e.js.map"
   },
   "entrypoints": [
-    "static/css/main.d0a3db26.css",
-    "static/js/main.dd7539a0.js"
+    "static/css/main.0cf8e66b.css",
+    "static/js/main.9aa8774e.js"
   ]
 }
