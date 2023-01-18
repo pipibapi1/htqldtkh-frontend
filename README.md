@@ -17,6 +17,19 @@ gh-pages: to deploy app to github pages
 dotenv: to access env variables
 
 react-minimal-pie-chart: to draw pie chart
+
+axios: to make api calls
+
+redux, redux-devtools-extension, redux-thunk, react-redux, @reduxjs/toolkit: to mange states
+
+history:  easily manage session history
+
+sweetalert2: to make customized alert
+### 0. Setup packages
+Run command
+```bash
+cp .env_setup .env
+```
 ## 1 Install the package
 
 ### `npm instal`
