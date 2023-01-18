@@ -1,7 +1,13 @@
 import React, {useState} from 'react';
 import BKlogo from "../../assets/images/hcmut.png";
-import {Link, useNavigate} from "react-router-dom";
+import {Link} from "react-router-dom";
 import { appRouters } from '../../shared/urlResources';
+import { useDispatch, useSelector} from "react-redux";
+import { Navigate ,useNavigate  } from 'react-router-dom';
+import { logoutAction } from "../../actions/authAction";
+import { RootState,AppDispatch } from '../../store';
+import { RoleType } from '../../shared/types/role';
+import Swal from 'sweetalert2';
 
 interface Props {
     isLogin: boolean;
@@ -9,10 +15,46 @@ interface Props {
 }
 
 const Header: React.FC<Props> = (props: any) => {
-    const navigation = useNavigate();
+    let navigate = useNavigate();
+    const useAppDispatch: () => AppDispatch = useDispatch;
+    const dispatch = useAppDispatch();
 
-    const handleLogout = () => {
-        navigation(`/${appRouters.LINK_TO_LOGIN_PAGE}`);
+    const { isLoggedIn } = useSelector((state: RootState) => state.auth);
+    const { user: currentUser } = useSelector((state: RootState) => state.auth);
+
+    const handleLogout = (e:any) => {
+        e.preventDefault();
+
+        Swal.fire({
+            icon: 'question',
+            title: 'Bạn có chắc muốn đăng xuất ?',
+            showDenyButton: false,
+            showCancelButton: true,
+            confirmButtonText: 'OK',
+          }).then((result) => {
+            /* Read more about isConfirmed, isDenied below */
+            if (result.isConfirmed) {
+                dispatch(logoutAction());
+                navigate("/");
+                window.location.reload();
+            } 
+          })
+        
+    }
+
+    const handleMyPage = (e: any) => {
+        e.preventDefault();
+        if(isLoggedIn){
+            if(currentUser.role === RoleType.Student){
+                navigate("/myTopic");
+            }else if(currentUser.role === RoleType.FVD){
+                navigate("/fvdExpenseStatistic");
+                return <Navigate to="/fvdExpenseStatistic" />;
+            }
+            else{
+                navigate("/fsExpenseStatistic")
+            }
+        }
     }
 
     const [isDroppedDown, setIsDroppedDown] = useState<boolean>(false);
@@ -72,10 +114,9 @@ const Header: React.FC<Props> = (props: any) => {
                     ></img>
 
                     <div
-                    // style={{ fontSize: "16px", fontWeight: "bold", width: "150px" }}
                     className='text-sm font-bold'
                     >
-                        Trần Anh Quân
+                        {currentUser?.fmName + " " + currentUser?.name}
                     </div>
                 </div>
 
@@ -89,12 +130,12 @@ const Header: React.FC<Props> = (props: any) => {
                         Thông tin cá nhân
                         </div>
                     </div>
-                    <div className="py-1" onClick={() => alert("Trang chủ")}>
+                    <div className="py-1" onClick={() => navigate("/")}>
                         <div className="text-gray-700 block px-4 py-2 text-sm hover:bg-slate-100 rounded-md">
                         Trang chủ
                         </div>
                     </div>
-                    <div className="py-1" onClick={() => alert("Trang của tôi")}>
+                    <div className="py-1" onClick={handleMyPage}>
                         <div className="text-gray-700 block px-4 py-2 text-sm hover:bg-slate-100 rounded-md">
                         Trang của tôi
                         </div>

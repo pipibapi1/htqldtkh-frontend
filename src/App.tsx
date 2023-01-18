@@ -15,6 +15,7 @@ import FVDTopicStatistics from './pages/faculty/viceDean/topicStatisticsPage';
 import RequestManagement from './pages/faculty/viceDean/requestManagementPage';
 
 function App() {
+  
   return (
     <Routes>
       <Route path={appRouters.LINK_TO_HOME_PAGE} element={<Home/>} />
@@ -22,16 +23,16 @@ function App() {
       <Route path={appRouters.LINK_TO_LOGIN_INDEX_PAGE} element={<LoginIndex/>} />
       <Route path={appRouters.LINK_TO_LOGIN_PASSWORD_RESET_PAGE} element={<PasswordResetIndex/>} />
       <Route path={appRouters.LINK_TO_REGISTER_PAGE} element={<Register/>} />
-      // Student
+
       <Route path={appRouters.LINK_TO_MY_TOPIC_PAGE} element={<MyTopicPage/>} />
       <Route path={appRouters.LINK_TO_REGISTER_TOPIC_PAGE} element={<RegisterTopicPage/>} />
       <Route path={appRouters.LINK_TO_MY_REQUEST_PAGE} element={<MyRequestPage/>} />
       <Route path={appRouters.LINK_TO_VIEW_TEMPLATES_PAGE} element={<TemplatesPage/>} />
-      // Faculty vice dean
+
       <Route path={appRouters.LINK_TO_FVD_EXPENSE_STATISTIC} element={<FVDExpenseStatistics/>} />
       <Route path={appRouters.LINK_TO_FVD_TOPIC_STATISTIC} element={<FVDTopicStatistics/>} />
       <Route path={appRouters.LINK_TO_REQUEST_MANAGEMENT} element={<RequestManagement/>} />
-      // Faculty secretary
+
       <Route path={appRouters.LINK_TO_FS_EXPENSE_STATISTIC} element={<FSExpenseStatistics />} />
     </Routes>
   );
