@@ -84,11 +84,13 @@ const Header: React.FC<Props> = (props: any) => {
                     }
                     style={{borderRadius: "none"}}
                 >
-                    <div className="py-1" onClick={() => alert("Thông tin cá nhân")}>
+                    <Link to={`/${appRouters.LINK_TO_PERSONAL_INFO_PAGE}`}>
+                    <div className="py-1">
                         <div className="text-gray-700 block px-4 py-2 text-sm hover:bg-slate-100 rounded-md">
                         Thông tin cá nhân
                         </div>
                     </div>
+                    </Link>
                     <div className="py-1" onClick={() => alert("Trang chủ")}>
                         <div className="text-gray-700 block px-4 py-2 text-sm hover:bg-slate-100 rounded-md">
                         Trang chủ
