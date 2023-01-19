@@ -1,24 +1,25 @@
 import React from 'react';
 import Footer from '../../components/footer';
 import Header from '../../components/header';
-import {Link, useNavigate} from "react-router-dom";
+import {Link} from "react-router-dom";
 import { appRouters } from '../../shared/urlResources';
-
-
+import { useSelector } from "react-redux";
+import { RootState} from '../../store';
 
 
 const Home: React.FC = (props: any) => {
+  const { isLoggedIn } = useSelector((state: RootState) => state.auth);
     return (
         <div className=''>
-        <Header isLogin={false} isAccountServicePage={false}/>
+        <Header isLogin={isLoggedIn} isAccountServicePage={false}/>
         <div className= 'm-10 grid grid-cols-1 justify-items-start px-5'>      
         <Link to={`/${appRouters.LINK_TO_HOME_PAGE}`}>
             <div className="bg-[#0079CC] text-xs transition text-white font-semibold py-4 px-5 border border-white-500 rounded-[15px] hover:bg-[#025A97] hover:cursor-pointer">
-            🢀 TRỞ VỀ TRANG CHỦ
+            TRỞ VỀ TRANG CHỦ
             </div>
         </Link>  
         </div>
-        <div className = 'border border-3 rounded-lg p-4 m-20'>
+        <div className = 'border border-3 rounded-lg py-10 px-5 m-10'>
           <div className = 'text-2xl text-center font-bold'>THÔNG BÁO</div>
           <div className = 'text-xl text-center text-blue-800'>
             Đăng ký đề tài NCKH và đổi mới sáng tạo cấp Sinh viên thuộc chương trình Chính quy, Kỹ sư tài năng và Chương trình đào tạo Quốc tế thực hiện trong năm 2022 - Đợt 2

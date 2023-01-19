@@ -7,7 +7,10 @@ import {Link, useNavigate} from "react-router-dom";
     return (
       <div className= 'grid grid-cols-3'>
         <main className = 'px-12 py-6 border-r col-span-2'>
-          <div className = 'py-4 text-blue-600 font-semibold'>THÔNG BÁO MỚI NHẤT</div>
+          <Link to={`/${appRouters.LINK_TO_OLD_ANNOUNCEMENT_PAGE}`}>
+          
+            <div className = 'py-4 text-blue-600 font-semibold'>THÔNG BÁO MỚI NHẤT</div>
+          </Link>
           <div className = 'border border-3 rounded-lg'>
           <div className = 'text-2xl text-center font-bold'>THÔNG BÁO</div>
           <div className = 'text-xl text-center text-blue-800'>
