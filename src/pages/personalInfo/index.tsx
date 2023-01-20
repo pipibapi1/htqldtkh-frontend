@@ -1,18 +1,17 @@
 import React from 'react';
 import Header from '../../components/header';
-import PathHead from '../../components/pathHead'; //Nhớ phải chỉnh lại riêng thanh tiêu đề (tại mình ko có thanh sidebar)
 import UserProfile from './UserProfile';
 
 
-
-
-const Home: React.FC = (props: any) => {
+const PersonalInfoPage: React.FC = (props: any) => {
     return (
         <div className=''>
             <Header isLogin={true} isAccountServicePage={false}/>
-            <div className=''>
+            <div className='px-5'>
                 <div className=''>
-                    <PathHead path={"THÔNG TIN CÁ NHÂN"}/>
+                    <div className='text-lg font-bold mt-2'>
+                        THÔNG TIN CÁ NHÂN
+                    </div>
                     <UserProfile />
                 </div>
             </div>
@@ -21,4 +20,4 @@ const Home: React.FC = (props: any) => {
     );
 }
 
-export default Home;
+export default PersonalInfoPage;
