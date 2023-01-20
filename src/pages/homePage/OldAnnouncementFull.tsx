@@ -1,17 +1,25 @@
-import OldAnnouncement from './OldAnnouncement';
+import React from 'react';
+import Footer from '../../components/footer';
+import Header from '../../components/header';
+import {Link} from "react-router-dom";
 import { appRouters } from '../../shared/urlResources';
-import {Link, useNavigate} from "react-router-dom";
+import { useSelector } from "react-redux";
+import { RootState} from '../../store';
 
 
-  const Announcement = () => {
+const Home: React.FC = (props: any) => {
+  const { isLoggedIn } = useSelector((state: RootState) => state.auth);
     return (
-      <div className= 'grid grid-cols-3'>
-        <main className = 'px-12 py-6 border-r col-span-2'>
-          <Link to={`/${appRouters.LINK_TO_OLD_ANNOUNCEMENT_PAGE}`}>
-          
-            <div className = 'py-4 text-blue-600 font-semibold'>THÔNG BÁO MỚI NHẤT</div>
-          </Link>
-          <div className = 'border border-3 rounded-lg'>
+        <div className=''>
+        <Header isLogin={isLoggedIn} isAccountServicePage={false}/>
+        <div className= 'm-10 grid grid-cols-1 justify-items-start px-5'>      
+        <Link to={`/${appRouters.LINK_TO_HOME_PAGE}`}>
+            <div className="bg-[#0079CC] text-xs transition text-white font-semibold py-4 px-5 border border-white-500 rounded-[15px] hover:bg-[#025A97] hover:cursor-pointer">
+            TRỞ VỀ TRANG CHỦ
+            </div>
+        </Link>  
+        </div>
+        <div className = 'border border-3 rounded-lg py-10 px-5 m-10'>
           <div className = 'text-2xl text-center font-bold'>THÔNG BÁO</div>
           <div className = 'text-xl text-center text-blue-800'>
             Đăng ký đề tài NCKH và đổi mới sáng tạo cấp Sinh viên thuộc chương trình Chính quy, Kỹ sư tài năng và Chương trình đào tạo Quốc tế thực hiện trong năm 2022 - Đợt 2
@@ -51,13 +59,10 @@ import {Link, useNavigate} from "react-router-dom";
           -       Biểu mẫu thuyết minh đề tài và dự toán có trên trang portal của trường tại: https://portal.hcmut.edu.vn/news/item/6001. Lưu ý, biểu mẫu năm 2022 đã thay đổi, đề nghị các Sinh viên không sử dụng biểu mẫu trước đây.
           </p>
           </div>
-          </div>
-        </main>
-        <Link to={`/${appRouters.LINK_TO_OLD_ANNOUNCEMENT_PAGE}`}>
-        <OldAnnouncement/>
-        </Link>
-      </div>
+        </div>
+            <Footer/>
+        </div>
     );
-  };
-  
-  export default Announcement;
+}
+
+export default Home;

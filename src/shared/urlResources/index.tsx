@@ -1,10 +1,12 @@
 export const appRouters = {
 
     LINK_TO_HOME_PAGE: '',
+    LINK_TO_OLD_ANNOUNCEMENT_PAGE: 'announcement',
     LINK_TO_LOGIN_PAGE: 'login',
     LINK_TO_LOGIN_INDEX_PAGE: 'loginPanel',
-    LINK_TO_LOGIN_PASSWORD_RESET_PAGE: 'passwordResetPanel',
+    LINK_TO_LOGIN_PASSWORD_RESET_PAGE: 'passwordReset',
     LINK_TO_REGISTER_PAGE: 'register',
+    LINK_TO_PERSONAL_INFO_PAGE: 'personalInfo',
     // Student
     LINK_TO_MY_TOPIC_PAGE: 'myTopic',
     LINK_TO_REGISTER_TOPIC_PAGE: 'registerTopic',

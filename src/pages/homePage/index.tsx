@@ -7,7 +7,6 @@ import { useSelector } from "react-redux";
 import { RootState} from '../../store';
 
 
-
 const Home: React.FC = (props: any) => {
     const { isLoggedIn } = useSelector((state: RootState) => state.auth);
     return (

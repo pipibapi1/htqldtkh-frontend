@@ -109,7 +109,7 @@ const Header: React.FC<Props> = (props: any) => {
                 >
                     <img
                     className="p-1 w-9 h-9 rounded-full ring-2 ring-gray-300 dark:ring-gray-500 inline-block mr-5"
-                    src="https://media.istockphoto.com/vectors/three-persons-icon-black-vector-vector-id1158561473?k=20&m=1158561473&s=612x612&w=0&h=pSRNS3mkeYMYcleK_Pzf89gnkVQuxtiSGMm4yll-UXg="
+                    src={currentUser?.image}
                     alt="Bordered avatar"
                     ></img>
 
@@ -125,11 +125,13 @@ const Header: React.FC<Props> = (props: any) => {
                     }
                     style={{borderRadius: "none"}}
                 >
-                    <div className="py-1" onClick={() => alert("Thông tin cá nhân")}>
-                        <div className="text-gray-700 block px-4 py-2 text-sm hover:bg-slate-100 rounded-md">
-                        Thông tin cá nhân
+                    <Link to={`/${appRouters.LINK_TO_PERSONAL_INFO_PAGE}`}>
+                        <div className="py-1">
+                            <div className="text-gray-700 block px-4 py-2 text-sm hover:bg-slate-100 rounded-md">
+                            Thông tin cá nhân
+                            </div>
                         </div>
-                    </div>
+                    </ Link>
                     <div className="py-1" onClick={() => navigate("/")}>
                         <div className="text-gray-700 block px-4 py-2 text-sm hover:bg-slate-100 rounded-md">
                         Trang chủ
