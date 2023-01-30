@@ -28,7 +28,6 @@ interface RegisterInput{
   email: string;
   phoneNumber: string;
   name: string;
-  fmName: string;
   username: string;
   password: string;
   studentId: string;

@@ -4,6 +4,12 @@ import Calendar from "../../assets/images/calendar.png";
 import { GenderType } from '../../shared/types/gender';
 import { EducationType } from '../../shared/types/educationType';
 import { RoleType } from '../../shared/types/role';
+import { StudentAccountStatusEnum } from '../../shared/types/studentAccountStatus';
+import { AppDispatch } from '../../store';
+import { useDispatch} from "react-redux";
+import Swal from 'sweetalert2';
+
+import {updatePersonalInfoAction} from '../../actions/studentAction';
 
 interface Props {
     onViewMode: (e: Boolean) => void;
@@ -23,6 +29,18 @@ const PersonalPanel:React.FC<Props> = (props: Props) => {
     else{
         userInfo = {}
     }
+
+    const Toast = Swal.mixin({
+        toast: true,
+        position: 'top-end',
+        showConfirmButton: false,
+        timer: 4000,
+        timerProgressBar: true,
+        didOpen: (toast: any) => {
+          toast.addEventListener('mouseenter', Swal.stopTimer)
+          toast.addEventListener('mouseleave', Swal.resumeTimer)
+        }
+      })
     
     
     const [editMode, setEditMode] = React.useState(false);
@@ -31,6 +49,12 @@ const PersonalPanel:React.FC<Props> = (props: Props) => {
     const [birthDate, setBirthDate] = useState(userInfo.birthDate);
     const [imageFile, setImageFile] = useState();
 
+    const useAppDispatch: () => AppDispatch = useDispatch
+
+    const dispatch = useAppDispatch()
+
+    const [loading, setLoading] = useState(false);
+
     const [img, setImg] = useState(user.image);
 
     const capitalizeFirstLetter = (str: EducationType | string) => {
@@ -38,15 +62,122 @@ const PersonalPanel:React.FC<Props> = (props: Props) => {
         return str2;
     }
 
-    const updateInfo = () => {
-        setUser(newInfo);
-        setEditMode(!editMode);
+    const updateInfo = (e:any) => {
+        setLoading(true);
+        e.preventDefault();
+
+        Swal.fire({
+            icon: 'question',
+            title: 'Bạn có chắc muốn cập nhật thông tin?',
+            showDenyButton: true,
+            showCancelButton: false,
+            confirmButtonText: 'Yes',
+          }).then((result) => {
+            /* Read more about isConfirmed, isDenied below */
+            if(result.isConfirmed){
+                
+                if(userInfo.role === RoleType.Student){
+                    const newInfoData = {
+                        fmName: newInfo.fmName,
+                        name: newInfo.name,
+                        studentId: newInfo.studentId,
+                        gender: newInfo.gender,
+                        birthDate: newInfo.birthDate,
+                        educationType: newInfo.educationType,
+                        email: newInfo.email,
+                        phoneNumber: newInfo.phoneNumber,
+                        image: newInfo.image
+                    }
+                    dispatch(updatePersonalInfoAction(newInfoData))
+                        .then((user) => {
+                            setLoading(false);
+                            setUser(newInfo);
+                            setEditMode(!editMode);
+                            localStorage.setItem("user", JSON.stringify(newInfo));
+
+                            Swal.fire({
+                                icon: 'success',
+                                title: 'Cập nhật thông tin thành công!',
+                                showDenyButton: false,
+                                showCancelButton: false,
+                                confirmButtonText: 'OK',
+                              })
+
+                              window.location.reload();
+                        })
+                        .catch((error) => {
+                            setLoading(false);
+                            if (error.response) {
+                                // The request was made and the server responded with a status code
+                                // that falls out of the range of 2xx
+                                if(error.response.status === 400){
+                                    Toast.fire({
+                                        icon: 'error',
+                                        title: 'Bad request'
+                                      })
+                                }
+            
+                                if(error.response.status === 404){
+                                    Toast.fire({
+                                        icon: 'error',
+                                        title: 'Người dùng không tồn tại'
+                                      })
+                                }
+            
+                                if(error.response.status === 403){
+                                    Toast.fire({
+                                        icon: 'error',
+                                        title: 'Không có quyền'
+                                      })
+                                }
+                              } else if (error.request) {
+                                // The request was made but no response was received
+                                // `error.request` is an instance of XMLHttpRequest in the browser and an instance of
+                                // http.ClientRequest in node.js
+                                Toast.fire({
+                                    icon: 'error',
+                                    title: error.request
+                                  })
+                              } else {
+                                // Something happened in setting up the request that triggered an Error
+                                Toast.fire({
+                                    icon: 'error',
+                                    title: error.message
+                                  })
+                              }
+                        });
+                }
+                else if(userInfo.role === RoleType.FVD){
+    
+                }
+                else if(userInfo.role === RoleType.FS){
+    
+                }
+                else{
+                    console.log("SOMETHING WRONG!!!!")
+                }
+            }
+
+            if(result.isDenied){
+                setLoading(false);
+            }
+
+          })        
     }
 
     const cancelUpdate = () => {
         setEditMode(!editMode)
         setImg(user.image);
     }
+
+    const file2Base64 = (file: File): Promise<string> => {
+        return new Promise<string>((resolve, reject) => {
+          const reader = new FileReader();
+          reader.readAsDataURL(file);
+          reader.onload = () => resolve(reader.result?.toString() || '');
+          reader.onerror = (error) => reject(error);
+        });
+      };
 
     const onChangeImage = (e:any) => {
         setImageFile(e.target.files[0]);
@@ -121,26 +252,6 @@ const PersonalPanel:React.FC<Props> = (props: Props) => {
             </div>
             
 
-            
-            <div className='flex items-center mb-5'>
-                    <div className='mr-5 font-bold w-[170px]'>
-                        Họ và tên lót: 
-                    </div>
-                    {!editMode && 
-                        <div className="ml-6">
-                            {user.fmName}
-                        </div>
-                        }
-                        {editMode && 
-                        <div className="ml-6">
-                                <input type="text" defaultValue={user.fmName} onChange={
-                                    (e) => {setNewInfo({...newInfo, fmName: e.target.value})}
-                                }
-                                className = 'bg-white h-[40px] w-[270px] border border-black border-1 rounded-lg focus:ring-blue-500 px-2'/>
-                        </div>
-                        }
-            </div>
-
             <div className='flex items-center mb-5'>
                     <div className='mr-5 font-bold w-[170px]'>
                         Tên: 
@@ -160,6 +271,8 @@ const PersonalPanel:React.FC<Props> = (props: Props) => {
                         }
             </div>
 
+            {userInfo.role === RoleType.Student ?
+            (userInfo.accountStatus === StudentAccountStatusEnum.waiting ? (
             <div className='flex items-center mb-5'>
                     <div className='mr-5 font-bold w-[170px]'>
                         MSSV: 
@@ -177,7 +290,35 @@ const PersonalPanel:React.FC<Props> = (props: Props) => {
                                 className = 'bg-white h-[40px] w-[270px] border border-black border-1 rounded-lg focus:ring-blue-500 px-2'/>
                         </div>
                     }
+            </div>) : (<div className='flex items-center mb-5'>
+                    <div className='mr-5 font-bold w-[170px]'>
+                        MSSV: 
+                    </div>
+                    <div className="ml-6">
+                        {user.studentId}
+                    </div>
+            </div>)) :
+            (
+                <div className='flex items-center mb-5'>
+                    <div className='mr-5 font-bold w-[170px]'>
+                        MSCB: 
+                    </div>
+                    {!editMode && 
+                        <div className="ml-6">
+                            {user.staffId}
+                        </div>
+                        }
+                        {editMode && 
+                        <div className="ml-6">
+                                <input type="text" defaultValue={user.staffId} onChange={
+                                    (e) => {setNewInfo({...newInfo, staffId: e.target.value})}
+                                }
+                                className = 'bg-white h-[40px] w-[270px] border border-black border-1 rounded-lg focus:ring-blue-500 px-2'/>
+                        </div>
+                    }
             </div>
+            )
+            }
 
             <div className='flex items-center mb-5'>
                     <div className='mr-5 font-bold w-[170px]'>
@@ -238,7 +379,9 @@ const PersonalPanel:React.FC<Props> = (props: Props) => {
                         }
             </div>
 
-            <div className='flex items-center mb-5'>
+            {userInfo.role === RoleType.Student && 
+            (userInfo.accountStatus === StudentAccountStatusEnum.waiting ? 
+            (<div className='flex items-center mb-5'>
                     <div className='mr-5 font-bold w-[170px]'>
                         Chương trình đào tạo: 
                     </div>
@@ -263,7 +406,16 @@ const PersonalPanel:React.FC<Props> = (props: Props) => {
                                     </select>
                         </div>
                         }
-            </div>
+            </div>) : (<div className='flex items-center mb-5'>
+                    <div className='mr-5 font-bold w-[170px]'>
+                        Chương trình đào tạo: 
+                    </div>
+                 
+                        <div className="ml-6">
+                            {capitalizeFirstLetter(user.educationType)}
+                        </div>
+                        
+            </div>))}
 
             <div className='flex items-center mb-5'>
                     <div className='mr-5 font-bold w-[170px]'>
@@ -314,9 +466,21 @@ const PersonalPanel:React.FC<Props> = (props: Props) => {
                     </div>
                 }
                 {editMode &&
-                    <div onClick={() => {updateInfo()}} className="w-40 h-16 bg-[#209216] flex justify-center items-center transition text-white font-semibold py-4 border border-white-500 rounded-[15px] hover:bg-[#047636] hover:cursor-pointer">
-                Lưu
-                </div>
+                    <button className="bg-[#0079CC] w-40 h-16 flex justify-center items-center transition text-white font-semibold py-4 border border-white-500 rounded-[15px] hover:bg-[#025A97] hover:cursor-pointer"
+                    onClick={updateInfo}
+                    disabled={loading? true: false}
+                >
+                    {loading?
+                (<div>
+                    Processing...
+                    
+                </div>):
+                (<div>
+                    Lưu
+                </div>)
+}
+                
+                </button>
                 }
                 <div hidden={!editMode}>
                     <div onClick={() => {cancelUpdate()}} className="w-40 h-16 bg-[#E1000E] flex justify-center items-center transition text-white font-semibold py-4 border border-white-500 rounded-[15px] hover:bg-[#B20610] hover:cursor-pointer">

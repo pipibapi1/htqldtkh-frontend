@@ -116,7 +116,7 @@ const Header: React.FC<Props> = (props: any) => {
                     <div
                     className='text-sm font-bold'
                     >
-                        {currentUser?.fmName + " " + currentUser?.name}
+                        {currentUser?.name}
                     </div>
                 </div>
 

@@ -148,11 +148,11 @@ const RegisterPanel: React.FC = (props: any) => {
               })
         }
         else{
+            const fullName = fmName + " " + name;
             const registerData = {
                 email: email,
                 phoneNumber: phoneNumber,
-                name: name,
-                fmName: fmName,
+                name: fullName,
                 username: username,
                 password: password,
                 studentId: studentId,

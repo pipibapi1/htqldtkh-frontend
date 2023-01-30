@@ -21,7 +21,6 @@ interface RegisterInput{
     email: string;
     phoneNumber: string;
     name: string;
-    fmName: string;
     username: string;
     password: string;
     studentId: string;
@@ -48,13 +47,12 @@ const loginService = (signInData: SignInInput) => {
 };
 
 const registerService = (registerData: RegisterInput) => {
-    const {email, phoneNumber, name, fmName, username, password, studentId, gender, educationType, birthDate, role} = registerData;
+    const {email, phoneNumber, name, username, password, studentId, gender, educationType, birthDate, role} = registerData;
     return axios.
         post(AUTH_API_URL + "/signup", {
             email,
             phoneNumber,
             name,
-            fmName,
             username, 
             password,
             studentId,
