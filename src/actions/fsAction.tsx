@@ -1,21 +1,18 @@
-import studentService from "../services/studentService";
+import fsService from "../services/fsService";
 import { GenderType } from "../shared/types/gender";
-import { EducationType } from "../shared/types/educationType";
 
 interface NewInfoInput{
     _id: string;
     name: string;
-    studentId: string;
     gender: GenderType;
     birthDate: Date;
-    educationType: EducationType;
     email: string;
     phoneNumber: string;
     image: string;
 }
 
-const updateStudentPersonalInfoAction = (newInfoData: NewInfoInput) => (dispatch: any) => {
-    return studentService.updateStudentPersonalInfoService(newInfoData).then(
+const updateFsPersonalInfoAction = (newInfoData: NewInfoInput) => (dispatch: any) => {
+    return fsService.updateFsPersonalInfoService(newInfoData).then(
         (data) => {
             return Promise.resolve();
         },
@@ -26,5 +23,5 @@ const updateStudentPersonalInfoAction = (newInfoData: NewInfoInput) => (dispatch
 }
 
 export {
-    updateStudentPersonalInfoAction
+    updateFsPersonalInfoAction
 }

@@ -9,7 +9,9 @@ import { AppDispatch } from '../../store';
 import { useDispatch} from "react-redux";
 import Swal from 'sweetalert2';
 
-import {updatePersonalInfoAction} from '../../actions/studentAction';
+import {updateStudentPersonalInfoAction} from '../../actions/studentAction';
+import { updateFvdPersonalInfoAction } from '../../actions/fvdAction';
+import { updateFsPersonalInfoAction } from '../../actions/fsAction';
 
 interface Props {
     onViewMode: (e: Boolean) => void;
@@ -78,7 +80,7 @@ const PersonalPanel:React.FC<Props> = (props: Props) => {
                 
                 if(userInfo.role === RoleType.Student){
                     const newInfoData = {
-                        fmName: newInfo.fmName,
+                        _id: newInfo._id,
                         name: newInfo.name,
                         studentId: newInfo.studentId,
                         gender: newInfo.gender,
@@ -88,7 +90,7 @@ const PersonalPanel:React.FC<Props> = (props: Props) => {
                         phoneNumber: newInfo.phoneNumber,
                         image: newInfo.image
                     }
-                    dispatch(updatePersonalInfoAction(newInfoData))
+                    dispatch(updateStudentPersonalInfoAction(newInfoData))
                         .then((user) => {
                             setLoading(false);
                             setUser(newInfo);
@@ -101,9 +103,12 @@ const PersonalPanel:React.FC<Props> = (props: Props) => {
                                 showDenyButton: false,
                                 showCancelButton: false,
                                 confirmButtonText: 'OK',
+                              }).then((result) => {
+                                if(result.isConfirmed){
+                                    window.location.reload();
+                                }
                               })
 
-                              window.location.reload();
                         })
                         .catch((error) => {
                             setLoading(false);
@@ -146,22 +151,163 @@ const PersonalPanel:React.FC<Props> = (props: Props) => {
                                   })
                               }
                         });
+
                 }
                 else if(userInfo.role === RoleType.FVD){
-    
+                    
+                    const newInfoData = {
+                        _id: newInfo._id,
+                        name: newInfo.name,
+                        gender: newInfo.gender,
+                        birthDate: newInfo.birthDate,
+                        email: newInfo.email,
+                        phoneNumber: newInfo.phoneNumber,
+                        image: newInfo.image
+                    }
+                    dispatch(updateFvdPersonalInfoAction(newInfoData))
+                        .then((user) => {
+                            setLoading(false);
+                            setUser(newInfo);
+                            setEditMode(!editMode);
+                            localStorage.setItem("user", JSON.stringify(newInfo));
+
+                            Swal.fire({
+                                icon: 'success',
+                                title: 'Cập nhật thông tin thành công!',
+                                showDenyButton: false,
+                                showCancelButton: false,
+                                confirmButtonText: 'OK',
+                              }).then((result) => {
+                                if(result.isConfirmed){
+                                    window.location.reload();
+                                }
+                              })
+
+                        })
+                        .catch((error) => {
+                            setLoading(false);
+                            if (error.response) {
+                                // The request was made and the server responded with a status code
+                                // that falls out of the range of 2xx
+                                if(error.response.status === 400){
+                                    Toast.fire({
+                                        icon: 'error',
+                                        title: 'Bad request'
+                                      })
+                                }
+            
+                                if(error.response.status === 404){
+                                    Toast.fire({
+                                        icon: 'error',
+                                        title: 'Người dùng không tồn tại'
+                                      })
+                                }
+            
+                                if(error.response.status === 403){
+                                    Toast.fire({
+                                        icon: 'error',
+                                        title: 'Không có quyền'
+                                      })
+                                }
+                              } else if (error.request) {
+                                // The request was made but no response was received
+                                // `error.request` is an instance of XMLHttpRequest in the browser and an instance of
+                                // http.ClientRequest in node.js
+                                Toast.fire({
+                                    icon: 'error',
+                                    title: error.request
+                                  })
+                              } else {
+                                // Something happened in setting up the request that triggered an Error
+                                Toast.fire({
+                                    icon: 'error',
+                                    title: error.message
+                                  })
+                              }
+                        });
+
                 }
                 else if(userInfo.role === RoleType.FS){
-    
+                    
+                    const newInfoData = {
+                        _id: newInfo._id,
+                        name: newInfo.name,
+                        gender: newInfo.gender,
+                        birthDate: newInfo.birthDate,
+                        email: newInfo.email,
+                        phoneNumber: newInfo.phoneNumber,
+                        image: newInfo.image
+                    }
+                    dispatch(updateFsPersonalInfoAction(newInfoData))
+                        .then((user) => {
+                            setLoading(false);
+                            setUser(newInfo);
+                            setEditMode(!editMode);
+                            localStorage.setItem("user", JSON.stringify(newInfo));
+
+                            Swal.fire({
+                                icon: 'success',
+                                title: 'Cập nhật thông tin thành công!',
+                                showDenyButton: false,
+                                showCancelButton: false,
+                                confirmButtonText: 'OK',
+                              }).then((result) => {
+                                if(result.isConfirmed){
+                                    window.location.reload();
+                                }
+                              })
+
+                        })
+                        .catch((error) => {
+                            setLoading(false);
+                            if (error.response) {
+                                // The request was made and the server responded with a status code
+                                // that falls out of the range of 2xx
+                                if(error.response.status === 400){
+                                    Toast.fire({
+                                        icon: 'error',
+                                        title: 'Bad request'
+                                      })
+                                }
+            
+                                if(error.response.status === 404){
+                                    Toast.fire({
+                                        icon: 'error',
+                                        title: 'Người dùng không tồn tại'
+                                      })
+                                }
+            
+                                if(error.response.status === 403){
+                                    Toast.fire({
+                                        icon: 'error',
+                                        title: 'Không có quyền'
+                                      })
+                                }
+                              } else if (error.request) {
+                                // The request was made but no response was received
+                                // `error.request` is an instance of XMLHttpRequest in the browser and an instance of
+                                // http.ClientRequest in node.js
+                                Toast.fire({
+                                    icon: 'error',
+                                    title: error.request
+                                  })
+                              } else {
+                                // Something happened in setting up the request that triggered an Error
+                                Toast.fire({
+                                    icon: 'error',
+                                    title: error.message
+                                  })
+                              }
+                        });
+
                 }
                 else{
-                    console.log("SOMETHING WRONG!!!!")
+                    console.log("SOMETHING WRONG WITH THE CURRENT INFORMATION!!!!")
                 }
             }
-
             if(result.isDenied){
                 setLoading(false);
             }
-
           })        
     }
 
@@ -303,19 +449,11 @@ const PersonalPanel:React.FC<Props> = (props: Props) => {
                     <div className='mr-5 font-bold w-[170px]'>
                         MSCB: 
                     </div>
-                    {!editMode && 
-                        <div className="ml-6">
-                            {user.staffId}
-                        </div>
-                        }
-                        {editMode && 
-                        <div className="ml-6">
-                                <input type="text" defaultValue={user.staffId} onChange={
-                                    (e) => {setNewInfo({...newInfo, staffId: e.target.value})}
-                                }
-                                className = 'bg-white h-[40px] w-[270px] border border-black border-1 rounded-lg focus:ring-blue-500 px-2'/>
-                        </div>
-                    }
+                    <div className="ml-6">
+                        {user.staffId}
+                    </div>
+                        
+                    
             </div>
             )
             }

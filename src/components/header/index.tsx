@@ -117,6 +117,10 @@ const Header: React.FC<Props> = (props: any) => {
                     className='text-sm font-bold'
                     >
                         {currentUser?.name}
+                        <div className='text-xs italic'>
+                            {currentUser.role === RoleType.Student ? "Sinh viên" : 
+                            (currentUser.role === RoleType.FVD ? "Phó chủ nhiệm" : "Thư ký")}
+                        </div>
                     </div>
                 </div>
 
