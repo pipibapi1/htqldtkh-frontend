@@ -5,6 +5,7 @@ import MainHomePageContent from './HomePageContent';
 import Announcement from './Announcement';
 import { useSelector } from "react-redux";
 import { RootState} from '../../store';
+import ThongBao from '../../assets/images/ThongBaoMoiNhat.pdf'
 
 
 const Home: React.FC = (props: any) => {
@@ -13,7 +14,7 @@ const Home: React.FC = (props: any) => {
         <div className=''>
             <Header isLogin={isLoggedIn} isAccountServicePage={false}/>
             <MainHomePageContent/>
-            <Announcement/>
+            <Announcement image = {ThongBao}/>
             <Footer/>
         </div>
     );
