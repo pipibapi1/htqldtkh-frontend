@@ -29,8 +29,16 @@ export const fvdSideBarOptions: {name: string, icon: any, link: string, children
 ]
 
 export const fsSideBarOptions: {name: string, icon: any, link: string, children: {name: string, link: string}[]}[]  = [
-    {name: "BÁO BIỂU THỐNG KÊ", icon: Statistics, link: "/fsExpenseStatistic", children:[]},
-    {name: "QUẢN LÝ TÀI KHOẢN", icon: Account, link: "/fsExpenseStatistic", children:[]},
+    {name: "BÁO BIỂU THỐNG KÊ", icon: Statistics, link: "/" + appRouters.LINK_TO_FS_TOPIC_STATISTIC, 
+    children:[
+        {name: "Đề tài", link: "/" + appRouters.LINK_TO_FS_TOPIC_STATISTIC},
+        {name: "Phân bổ kinh phí", link: "/" + appRouters.LINK_TO_FS_EXPENSE_STATISTIC}
+    ]},
+    {name: "QUẢN LÝ TÀI KHOẢN", icon: Account, link: "/" + appRouters.LINK_TO_STUDENT_ACCOUNT_MANAGEMENT, 
+    children:[
+        {name: "Sinh viên", link: "/" + appRouters.LINK_TO_STUDENT_ACCOUNT_MANAGEMENT},
+        {name: "Phó chủ nhiệm", link: "/" + appRouters.LINK_TO_VICEDEAN_ACCOUNT_MANAGEMENT}
+    ]},
     {name: "QUẢN LÝ ĐỀ TÀI", icon: Folder, link: "/fsExpenseStatistic", children:[]},
     {name: "TẠO BIỂU MẪU", icon: TemplateIcon, link: "/fsExpenseStatistic", children:[]},
     {name: "TẠO HỘI ĐỒNG", icon: Council, link: "/fsExpenseStatistic", children:[]},

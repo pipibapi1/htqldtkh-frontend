@@ -1,12 +1,12 @@
 import React from 'react';
 import Header from '../../../../components/header';
-import SideNav from '../../../../components/sideNav';
 import PathHead from '../../../../components/pathHead';
+import SideNav from '../../../../components/sideNav';
 import { RoleType } from '../../../../shared/types/role';
 import { useLocation } from 'react-router-dom';
-import ExpenseStatistic from './ExpenseStatistic';
 
-const FSExpenseStatistics: React.FC = () => {
+
+const VicedeanAccountManagement: React.FC = () => {
     const location = useLocation();
     return (
         <div className=''>
@@ -14,12 +14,14 @@ const FSExpenseStatistics: React.FC = () => {
             <div className='flex'>
                 <SideNav role={RoleType.FS} pathName={location.pathname}/>
                 <div className=''>
-                    <PathHead path={"BÁO BIỂU THỐNG KÊ / Phân bổ kinh phí"}/>
-                    <ExpenseStatistic />
+                    <PathHead path={"QUẢN LÝ TÀI KHOẢN / Phó chủ nhiệm"}/>
+                    <div>
+                    VicedeanAccountManagement
+                    </div>
                 </div>
             </div>
         </div>
     )
 }
 
-export default FSExpenseStatistics;
+export default VicedeanAccountManagement;

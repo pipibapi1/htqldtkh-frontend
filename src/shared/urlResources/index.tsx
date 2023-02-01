@@ -18,6 +18,9 @@ export const appRouters = {
     LINK_TO_REQUEST_MANAGEMENT: 'requestManagement',
     // Faculty secretary
     LINK_TO_FS_EXPENSE_STATISTIC: 'fsExpenseStatistic',
-    LINK_TO_FS_TOPIC_STATISTIC: 'fsTopicStatistic'
+    LINK_TO_FS_TOPIC_STATISTIC: 'fsTopicStatistic',
+    LINK_TO_STUDENT_ACCOUNT_MANAGEMENT: 'studentAccountManagement',
+    LINK_TO_VICEDEAN_ACCOUNT_MANAGEMENT: 'vicedeanAccountManagement',
+    
   };
   
