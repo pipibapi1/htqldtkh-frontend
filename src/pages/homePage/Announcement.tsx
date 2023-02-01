@@ -1,13 +1,21 @@
 import OldAnnouncement from './OldAnnouncement';
 import { appRouters } from '../../shared/urlResources';
-import {Link, useNavigate} from "react-router-dom";
+import {Link} from "react-router-dom";
 import { Document,Page } from 'react-pdf/dist/esm/entry.webpack5';
 import {useState} from 'react'
 
+interface AnnouncementType{
+  _id: string;
+  title: string;
+  fileType: string;
+  fileName: string;
+  createAt: Date;
+  content: string;
+}
 
-// {image}: {image: string}
+  const Announcement = ({image, announcements, _id}: {image: string, announcements: AnnouncementType[], _id:string}) => {
 
-  const Announcement = ({image}: {image: string}) => {
+    const oldAnnouncements = announcements.slice(1);
 
     const [numPages, setNumPages] = useState(null);
     const [pageNumber, setPageNumber] = useState(1);
@@ -32,7 +40,7 @@ import {useState} from 'react'
     return (
       <div className= 'grid grid-cols-3'>
         <main className = 'px-12 py-6 border-r col-span-2'>
-          <Link to={`/${appRouters.LINK_TO_OLD_ANNOUNCEMENT_PAGE}`}>
+          <Link to={`/${appRouters.LINK_TO_OLD_ANNOUNCEMENT_PAGE}` + `/${_id}`}>
           <div className = 'py-4 text-blue-600 font-semibold'>THÔNG BÁO MỚI NHẤT</div>
           </Link>
 
@@ -50,11 +58,8 @@ import {useState} from 'react'
           </Document>
         </main>
 
+        <OldAnnouncement oldAnnouncements={oldAnnouncements}/>
 
-        
-        <Link to={`/${appRouters.LINK_TO_OLD_ANNOUNCEMENT_PAGE}`}>
-        <OldAnnouncement/>
-        </Link>
       </div>
     );
   };
