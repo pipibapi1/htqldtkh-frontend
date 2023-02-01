@@ -32,7 +32,7 @@ cp .env_setup .env
 ```
 ## 1 Install the package
 
-### `npm instal`
+### `npm install`
 ## 2 Run the app
 ### `npm start`
 

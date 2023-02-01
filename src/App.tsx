@@ -24,7 +24,7 @@ function App() {
   return (
     <Routes>
       <Route path={appRouters.LINK_TO_HOME_PAGE} element={<Home/>} />
-      <Route path={appRouters.LINK_TO_OLD_ANNOUNCEMENT_PAGE} element={<OldAnnouncement/>} />
+      <Route path={appRouters.LINK_TO_OLD_ANNOUNCEMENT_PAGE + '/:announcementId'} element={<OldAnnouncement/>} />
       <Route path={appRouters.LINK_TO_LOGIN_PAGE} element={<Login/>} />
       <Route path={appRouters.LINK_TO_LOGIN_INDEX_PAGE} element={<LoginIndex/>} />
       <Route path={appRouters.LINK_TO_LOGIN_PASSWORD_RESET_PAGE} element={<PasswordResetIndex/>} />
