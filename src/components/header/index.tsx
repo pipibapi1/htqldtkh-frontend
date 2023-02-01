@@ -119,7 +119,7 @@ const Header: React.FC<Props> = (props: any) => {
                         {currentUser?.name}
                         <div className='text-xs italic'>
                             {currentUser.role === RoleType.Student ? "Sinh viên" : 
-                            (currentUser.role === RoleType.FVD ? "Phó chủ nhiệm Khoa" : "Thư ký Khoa")}
+                            (currentUser.role === RoleType.FVD ? "Phó chủ nhiệm" : "Thư ký")}
                         </div>
                     </div>
                 </div>

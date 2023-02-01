@@ -6,7 +6,7 @@ import authHeader from "./authHeader";
 const PI_API_URL = process.env.REACT_APP_API_URL + "/api/student";
 
 interface NewInfoInput{
-    fmName: string;
+    _id: string;
     name: string;
     studentId: string;
     gender: GenderType;
@@ -17,18 +17,18 @@ interface NewInfoInput{
     image: string;
 }
 
-const updatePersonalInfoService = (newInfoData: NewInfoInput) => {
-    const {studentId} = newInfoData;
+const updateStudentPersonalInfoService = (newInfoData: NewInfoInput) => {
+    const {_id} = newInfoData;
     const newInfo = {
         student: newInfoData
     }
     return axios.
-        put(PI_API_URL + '/' +studentId, newInfo, { headers: authHeader() })
+        put(PI_API_URL + '/' + _id, newInfo, { headers: authHeader() })
             .then((response) => {
                 return response.data
             })
 }
 
 export default {
-    updatePersonalInfoService
+    updateStudentPersonalInfoService
 }
