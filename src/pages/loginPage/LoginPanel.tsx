@@ -9,6 +9,7 @@ import { Navigate, useNavigate  } from 'react-router-dom';
 import { loginAction } from "../../actions/authAction";
 import { RootState, AppDispatch } from '../../store';
 import Swal from 'sweetalert2';
+import { appRouters } from '../../shared/urlResources';
 
 
 const LoginPanel: React.FC = () => {
@@ -247,7 +248,7 @@ const LoginPanel: React.FC = () => {
                     
                     </button>
 
-                    <Link to={"/passwordResetPanel"}
+                    <Link to={"/" + appRouters.LINK_TO_LOGIN_PASSWORD_RESET_PAGE}
                           state={{role: role}}
                     >
                     <div className="w-full bg-[#ff0000] transition text-white text-center font-semibold py-4 px-4  border border-white-500  hover:bg-[#b00000] hover:cursor-pointer">
