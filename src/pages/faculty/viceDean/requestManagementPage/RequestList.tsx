@@ -1,17 +1,105 @@
-import React, { useState, useRef } from 'react';
-import {Link} from "react-router-dom";
+import React, { useState, useRef, useEffect } from 'react';
 import RowTable from './RowTable';
 import PaginationTag from './PaginationTag';
 import LeftTag from './LeftTag';
 import RightTag from './RightTag';
+import { RequestStatus } from '../../../../shared/types/requestStatus';
+import { RequestType } from '../../../../shared/types/requestType';
+import { PeriodStatus } from '../../../../shared/types/periodStatus';
+import { useDispatch} from "react-redux";
+import { AppDispatch } from '../../../../store';
+import { getRequestListAction } from '../../../../actions/requestAction';
+
+import {getAllPeriodsAction} from "../../../../actions/periodAction"
 
 const RECORD_PER_PAGE = 5;
 const TOTAL_PAGE_DEFAULT = 1;
 
-const RequestList: React.FC = () => {
+interface Period{
+    _id: string;
+    period: string;
+    status: PeriodStatus;
+    createAt: Date;
+}
 
+interface Request{
+    _id: string;
+    type: RequestType;
+    topicId: string;
+    topicName: string;
+    studentName: string;
+    studentId: string;
+    status: RequestStatus;
+    extensionTime: number;
+    createAt: string;
+}
+
+const RequestList= () => {
+
+    const [periods, setPeriods] = useState<Period[]>([]);
     const [currentPage, setCurrentPage] = useState<number>(TOTAL_PAGE_DEFAULT);
+    const [currentPeriod, setCurrentPeriod] = useState<string>("");
+    const [currentType, setCurrentType] = useState<string>("");
+    const [currentStatus, setCurrentStatus] = useState<string>("");
+    const [requests, setRequests] = useState<Request[]>([]);
     const totalPage = useRef(TOTAL_PAGE_DEFAULT);
+
+    const useAppDispatch: () => AppDispatch = useDispatch
+    const dispatch = useAppDispatch()
+
+
+    const getRequestList = async(period: string, type: string, status: string) => {
+        let queryData: any = {
+            page: currentPage,
+            limit: RECORD_PER_PAGE,
+            period: period
+        }
+        if(type !== ""){
+            queryData = {
+                ...queryData,
+                type: type
+            }
+        }
+        if(status !== ""){
+            queryData = {
+                ...queryData,
+                status: status
+            }
+        }
+        dispatch(getRequestListAction(queryData))
+        .then((data) => {
+             console.log(data?.requests)
+             setRequests(data?.requests)
+            }
+        )
+        .catch((error) => {
+
+        })
+    }
+    useEffect(() => {
+        dispatch(getAllPeriodsAction())
+            .then((data) => {
+                setPeriods(data?.periods)
+                setCurrentPeriod(data?.periods[0]._id)
+                let queryData: any = {
+                    page: currentPage,
+                    limit: RECORD_PER_PAGE,
+                    period: data?.periods[0]._id
+                }
+                dispatch(getRequestListAction(queryData))
+                .then((data) => {
+                    setRequests(data?.requests)
+                    }
+                )
+                .catch((error) => {
+
+                })
+            })
+            .catch((error) => {
+                
+            })
+    }, []);
+
 
     const prevPage = () => {
         if (currentPage <= 1) return;
@@ -21,6 +109,11 @@ const RequestList: React.FC = () => {
         if (currentPage >= totalPage.current) return;
         setCurrentPage(currentPage + 1);
       };
+
+    const periodDisplay = (period: string) => {
+        const x = new Date(period);
+        return (x.getMonth() + 1) + "/" + x.getFullYear();
+    }
 
     return(
         <div className='p-4 overflow-y-auto'>
@@ -32,13 +125,13 @@ const RequestList: React.FC = () => {
                         <select
                             className="bg-white h-[40px] w-[270px] border border-black border-1 rounded-lg focus:ring-blue-500 px-2"
                                 onChange={(e) => {
+                                    e.preventDefault();
+                                    setCurrentPeriod(e.target.value);
+                                    getRequestList(e.target.value, currentType, currentStatus);
                                 }}
-                                defaultValue={"dfdasf"}
+                                defaultValue={periods.length === 0 ? "" : periods[0]._id}
                             >
-                            <option value="">06/2022</option>
-                            <option value="">06/2021</option>
-                            <option value="">06/2020</option>
-                            <option value="">06/2019</option>
+                            {periods.map((period, index) => <option value={period._id}>{periodDisplay(period.period)}</option>)}
                         </select>
                     </div>
                 </div>
@@ -53,12 +146,16 @@ const RequestList: React.FC = () => {
                             <select
                                 className="bg-white h-[40px] w-[270px] border border-black border-1 rounded-lg focus:ring-blue-500 px-2"
                                     onChange={(e) => {
+                                        e.preventDefault();
+                                        setCurrentType(e.target.value);
+                                        getRequestList(currentPeriod, e.target.value, currentStatus);
                                     }}
-                                    defaultValue={"dfdasf"}
+                                    defaultValue={""}
                                 >
-                                <option value="">Xin giấy chứng nhận</option>
-                                <option value="">Gia hạn đề tài</option>
-                                <option value="">Hủy đề tài</option>
+                                <option value="">Toàn bộ</option>
+                                <option value={RequestType.GET_CERTIFICATE}>Xin giấy chứng nhận</option>
+                                <option value={RequestType.EXTEND_PROJECT}>Gia hạn đề tài</option>
+                                <option value={RequestType.CANCEL_PROJECT}>Hủy đề tài</option>
                             </select>
                         </div>
                     </div>
@@ -71,11 +168,16 @@ const RequestList: React.FC = () => {
                             <select
                                 className="bg-white h-[40px] w-[270px] border border-black border-1 rounded-lg focus:ring-blue-500 px-2"
                                     onChange={(e) => {
+                                        e.preventDefault();
+                                        setCurrentStatus(e.target.value);
+                                        getRequestList(currentPeriod, currentType, e.target.value);
                                     }}
-                                    defaultValue={"dfdasf"}
+                                    defaultValue={""}
                                 >
-                                <option value="">Chờ xét duyệt</option>
-                                <option value="">Đã duyệt</option>
+                                <option value="">Toàn bộ</option>
+                                <option value={RequestStatus.WAIT_APPROVAL}>Chờ xét duyệt</option>
+                                <option value={RequestStatus.APPROVED}>Đã duyệt</option>
+                                <option value={RequestStatus.REFUSED}>Bị từ chối</option>
                             </select>
                         </div>
                     </div>
@@ -92,9 +194,9 @@ const RequestList: React.FC = () => {
                                     <tr>
                                     <th
                                         scope='col'
-                                        className='text-sm text-center font-bold text-white px-2 py-3 text-left border-l-2'
+                                        className='w-[5%] text-sm text-center font-bold text-white px-2 py-3 text-left border-l-2'
                                     >
-                                        Mã yêu cầu
+                                        STT
                                     </th>
                                     <th
                                         scope='col'
@@ -110,9 +212,9 @@ const RequestList: React.FC = () => {
                                     </th>
                                     <th
                                         scope='col'
-                                        className='text-sm text-center font-bold text-white px-2 py-3 text-left border-l-2'
+                                        className='w-[20%] text-sm text-center font-bold text-white px-2 py-3 text-left border-l-2'
                                     >
-                                        Mã đề tài
+                                        Tên đề tài
                                     </th>
                                     <th
                                         scope='col'
@@ -128,7 +230,7 @@ const RequestList: React.FC = () => {
                                     </th>
                                     <th
                                         scope='col'
-                                        className='text-sm text-center font-bold text-white px-2 py-3 text-left border-l-2'
+                                        className='w-[20%] text-sm text-center font-bold text-white px-2 py-3 text-left border-l-2'
                                     >
                                         Thông tin bổ sung
                                     </th>
@@ -142,66 +244,18 @@ const RequestList: React.FC = () => {
                                     </tr>
                                 </thead>
                                 <tbody className=''>
-                                    <RowTable
-                                    index={1}
-                                    requestId={"RQ1890-TH00-MM55"}
-                                    requestType={"Xin giấy chứng nhận"}
-                                    requestStatus={"Chờ xét duyệt"}
-                                    topicRegister={"Trần Anh Quân"}
-                                    createdDate={"date"}
-                                    additionalInfor={""}
-                                    topicId={"KH1890-MX201-MM55"}
-                                    />
-                                    <RowTable
-                                    index={2}
-                                    requestId={"RQ1890-TH00-MM55"}
-                                    requestType={"Gia hạn đề tài"}
-                                    requestStatus={"Đã duyệt"}
-                                    topicRegister={"Trần Anh Quân"}
-                                    createdDate={"date"}
-                                    additionalInfor={"Thời gian gia hạn: 6 tháng"}
-                                    topicId={"KH1890-MX201-MM55"}
-                                    />
-                                    <RowTable
-                                    index={3}
-                                    requestId={"RQ1890-TH00-MM55"}
-                                    requestType={"Xin giấy chứng nhận"}
-                                    requestStatus={"Chờ xét duyệt"}
-                                    topicRegister={"Trần Anh Quân"}
-                                    createdDate={"date"}
-                                    additionalInfor={""}
-                                    topicId={"KH1890-MX201-MM55"}
-                                    />
-                                    <RowTable
-                                    index={4}
-                                    requestId={"RQ1890-TH00-MM55"}
-                                    requestType={"Xin giấy chứng nhận"}
-                                    requestStatus={"Chờ xét duyệt"}
-                                    topicRegister={"Trần Anh Quân"}
-                                    createdDate={"date"}
-                                    additionalInfor={""}
-                                    topicId={"KH1890-MX201-MM55"}
-                                    />
-                                    <RowTable
-                                    index={5}
-                                    requestId={"RQ1890-TH00-MM55"}
-                                    requestType={"Gia hạn đề tài"}
-                                    requestStatus={"Đã duyệt"}
-                                    topicRegister={"Trần Anh Quân"}
-                                    createdDate={"date"}
-                                    additionalInfor={"Thời gian gia hạn: 6 tháng"}
-                                    topicId={"KH1890-MX201-MM55"}
-                                    />
-                                    <RowTable
-                                    index={6}
-                                    requestId={"RQ1890-TH00-MM55"}
-                                    requestType={"Gia hạn đề tài"}
-                                    requestStatus={"Đã duyệt"}
-                                    topicRegister={"Trần Anh Quân"}
-                                    createdDate={"date"}
-                                    additionalInfor={"Thời gian gia hạn: 6 tháng"}
-                                    topicId={"KH1890-MX201-MM55"}
-                                    />
+                                    {requests.map((request, index) => {
+                                        return (<RowTable
+                                            index={index + 1}
+                                            requestId={request._id}
+                                            requestType={request.type}
+                                            requestStatus={request.status}
+                                            topicRegister={request.studentName}
+                                            createdDate={request.createAt}
+                                            additionalInfor={""}
+                                            topicName={request.topicName}
+                                            />)
+                                    })}
                                 </tbody>
                             </table>
                         </div>

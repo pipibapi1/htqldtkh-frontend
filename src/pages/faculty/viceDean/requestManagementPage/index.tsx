@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import Header from '../../../../components/header';
 import SideNav from '../../../../components/sideNav';
 import { RoleType } from '../../../../shared/types/role';
@@ -6,7 +6,16 @@ import { useLocation } from 'react-router-dom';
 import PathHead from '../../../../components/pathHead';
 import RequestList from './RequestList';
 
+interface PeriodType{
+    _id: string;
+    period: string;
+    status: PeriodType;
+    createAt: Date;
+}
+
 const RequestManagement: React.FC = () => {
+
+
     const location = useLocation();
     return (
         <div className=''>
@@ -18,7 +27,6 @@ const RequestManagement: React.FC = () => {
                     <RequestList />
                 </div>
             </div>
-            
         </div>
     )
 }

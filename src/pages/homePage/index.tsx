@@ -5,8 +5,7 @@ import MainHomePageContent from './HomePageContent';
 import Announcement from './Announcement';
 import { useDispatch, useSelector } from "react-redux";
 import { RootState, AppDispatch } from '../../store';
-import ThongBao from '../../assets/images/ThongBaoMoiNhat.pdf'
-import { getAnnouncementFileAction, getAnnouncementsAction } from '../../actions/announcementAction';
+import { getAnnouncementsAction } from '../../actions/announcementAction';
 
 const MAX_INT = "999999";
 
