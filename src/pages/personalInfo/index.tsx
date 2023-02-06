@@ -6,7 +6,7 @@ import UserProfile from './UserProfile';
 const PersonalInfoPage: React.FC = (props: any) => {
     return (
         <div className=''>
-            <Header isLogin={true} isAccountServicePage={false}/>
+            <Header isLogin={false} isAccountServicePage={false}/>
             <div className='px-5'>
                 <div className=''>
                     <div className='text-lg font-bold mt-2'>
