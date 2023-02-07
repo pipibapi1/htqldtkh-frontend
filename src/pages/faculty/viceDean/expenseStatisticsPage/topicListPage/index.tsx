@@ -7,7 +7,6 @@ import RightTag from './RightTag';
 const RECORD_PER_PAGE = 5;
 
 
-
 const TopicListPage= (props: any) => {
  
     const {topics, totalPage, onChangePage} = props;
@@ -89,7 +88,8 @@ const TopicListPage= (props: any) => {
                                         topicType={topic.type}
                                         topicRegister={topic.student.name}
                                         expense={topic.expense}
-                                        date={topic.creationDate} 
+                                        date={topic.creationDate}
+                                        currentPage={currentPage}
                                     />)
                                     })}
                                 

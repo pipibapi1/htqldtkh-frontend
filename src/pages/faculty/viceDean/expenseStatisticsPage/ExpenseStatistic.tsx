@@ -118,6 +118,9 @@ const ExpenseStatistic: React.FC = () => {
         dispatch(getTopicListAction(queryDataForTopic))
         .then((data) => {
             setTopics(data?.topics)
+            if(data?.metadata.totalPage > 0){
+                setTotalPage(totalPage)
+            }
             }
         )
         .catch((error) => {
@@ -141,6 +144,9 @@ const ExpenseStatistic: React.FC = () => {
         dispatch(getTopicListAction(queryDataForTopic))
         .then((data) => {
             setTopics(data?.topics)
+            if(data?.metadata.totalPage > 0){
+                setTotalPage(totalPage)
+            }
             }
         )
         .catch((error) => {

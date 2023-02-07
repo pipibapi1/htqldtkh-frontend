@@ -89,7 +89,8 @@ const TopicListPage= (props: any) => {
                                         topicType={topic.type}
                                         topicRegister={topic.student.name}
                                         expense={topic.expense}
-                                        date={topic.creationDate} 
+                                        date={topic.creationDate}
+                                        currentPage={currentPage}
                                     />)
                                     })}
                                 

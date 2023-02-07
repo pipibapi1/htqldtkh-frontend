@@ -91,6 +91,9 @@ const TopicListPage: React.FC<Props> = (props: Props) => {
         dispatch(getTopicListAction(queryData))
                 .then((data) => {
                     setTopicList(data?.topics)
+                    if(data?.metadata.totalPage > 0){
+                        setTotalPage(totalPage)
+                    }
                     }
                 )
                 .catch((error) => {
@@ -350,7 +353,8 @@ const TopicListPage: React.FC<Props> = (props: Props) => {
                                         topicStatus={topic.status}
                                         extensionStatus={extensionStatus(topic)}
                                         topicRegister={topic.student.name}
-                                        date={topic.creationDate} 
+                                        date={topic.creationDate}
+                                        currentPage={currentPage}
                                     />)
                                     })}
                                 </tbody>

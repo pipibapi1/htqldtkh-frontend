@@ -1,26 +1,116 @@
-import React, { useState, useRef } from 'react';
-import {Link} from "react-router-dom";
+import React, { useState, useEffect } from 'react';
 import RowTable from './RowTable';
 import PaginationTag from './PaginationTag';
 import LeftTag from './LeftTag';
 import RightTag from './RightTag';
+import { StudentAccountStatusEnum } from '../../../../shared/types/studentAccountStatus';
+import { useDispatch} from "react-redux";
+import { AppDispatch } from '../../../../store';
+import { getStudentListAction } from '../../../../actions/studentAction';
 
-const RECORD_PER_PAGE = 5;
-const TOTAL_PAGE_DEFAULT = 1;
+const RECORD_PER_PAGE = 10;
+
+interface Student{
+    _id: string;
+    name: string;
+    gender: string;
+    phoneNumber: string;
+    email: string;
+    username: string;
+    password: string;
+    studentId: string;
+    image: string;
+    educationType: string;
+    birthDate: string;
+    accountStatus: string;
+    accountCreationDate: string;
+}
 
 const RequestList: React.FC = () => {
 
-    const [currentPage, setCurrentPage] = useState<number>(TOTAL_PAGE_DEFAULT);
-    const totalPage = useRef(TOTAL_PAGE_DEFAULT);
+    const useAppDispatch: () => AppDispatch = useDispatch
+    const dispatch = useAppDispatch()
+
+    const [currentPage, setCurrentPage] = useState<number>(1);
+    const [totalPage, setTotalPage] = useState(1);
+    const [students, setStudents] = useState<Student[]>([]);
+    const [currentStatus, setCurrentStatus] = useState("")
 
     const prevPage = () => {
         if (currentPage <= 1) return;
+        onChangePage(currentPage - 1)
         setCurrentPage(currentPage - 1);
       };
-      const nextPage = () => {
-        if (currentPage >= totalPage.current) return;
+    const nextPage = () => {
+        if (currentPage >= totalPage) return;
+        onChangePage(currentPage + 1)
         setCurrentPage(currentPage + 1);
-      };
+    };
+    
+    const onChangeStatus = (e:any) =>{
+        let queryData: any = {
+            page: currentPage,
+            limit: RECORD_PER_PAGE,
+        }
+        if(e.target.value !== ""){
+            queryData = {
+                ...queryData,
+                status: e.target.value
+            }
+        }
+
+        dispatch(getStudentListAction(queryData))
+        .then((data) => {
+            setStudents(data?.students)
+            if(data?.metadata.totalPage > 0){
+                setTotalPage(totalPage)
+            }
+            }
+        )
+        .catch((error) => {
+
+        })
+    }
+
+    const onChangePage = (page: number) => {
+        let queryData: any = {
+            page: page,
+            limit: RECORD_PER_PAGE,
+        }
+        if(currentStatus != ""){
+            queryData= {
+                ... queryData,
+                status: currentStatus
+            }
+        }
+        dispatch(getStudentListAction(queryData))
+        .then((data) => {
+            setStudents(data?.students)
+            }
+        )
+        .catch((error) => {
+
+        })
+    }
+
+      useEffect(() => {
+        let queryData: any = {
+            page: currentPage,
+            limit: RECORD_PER_PAGE,
+        }
+
+        dispatch(getStudentListAction(queryData))
+        .then((data) => {
+            setStudents(data?.students)
+            if(data?.metadata.totalPage > 0){
+                setTotalPage(totalPage)
+            }
+            }
+        )
+        .catch((error) => {
+
+        })
+    }, []);
 
     return(
         <div className='p-4 overflow-y-auto'>
@@ -34,12 +124,16 @@ const RequestList: React.FC = () => {
                             <select
                                 className="bg-white h-[40px] w-[270px] border border-black border-1 rounded-lg focus:ring-blue-500 px-2"
                                     onChange={(e) => {
-                                    }}
-                                    defaultValue={"dfdasf"}
+                                        e.preventDefault()
+                                        setCurrentStatus(e.target.value)
+                                        onChangeStatus(e);
+                                        }
+                                    }
+                                    defaultValue={""}
                                 >
                                 <option value="">Toàn bộ</option>
-                                <option value="">Chờ xét duyệt</option>
-                                <option value="">Đã duyệt</option>
+                                <option value={StudentAccountStatusEnum.waiting}>Chờ duyệt</option>
+                                <option value={StudentAccountStatusEnum.approved}>Đã duyệt</option>
                             </select>
                         </div>
                     </div>
@@ -56,9 +150,9 @@ const RequestList: React.FC = () => {
                                     <tr>
                                     <th
                                         scope='col'
-                                        className='text-sm text-center font-bold text-white px-2 py-3  border-l-2'
+                                        className='w-[5%] text-sm text-center font-bold text-white px-2 py-3  border-l-2'
                                     >
-                                        Mã tài khoản
+                                        STT
                                     </th>
                                     <th
                                         scope='col'
@@ -71,18 +165,6 @@ const RequestList: React.FC = () => {
                                         className='text-sm text-center font-bold text-white px-2 py-3  border-l-2'
                                     >
                                         Tên đăng nhập
-                                    </th>
-                                    <th
-                                        scope='col'
-                                        className='text-sm text-center font-bold text-white px-2 py-3  border-l-2'
-                                    >
-                                        Mật khẩu
-                                    </th>
-                                    <th
-                                        scope='col'
-                                        className='text-sm text-center font-bold text-white px-2 py-3  border-l-2'
-                                    >
-                                        Vai trò
                                     </th>
                                     <th
                                         scope='col'
@@ -112,66 +194,18 @@ const RequestList: React.FC = () => {
                                     </tr>
                                 </thead>
                                 <tbody className=''>
-                                    <RowTable
-                                    index={1}
-                                    accountId={"RQ1890-TH00-MM55"}
-                                    fullName={"Trần Anh Quân"}
-                                    accountName={"quan123"}
-                                    password={"123456"}
-                                    role={"Sinh Viên"}
-                                    createdDate={"date"}
-                                    accountStatus={"Chờ xét duyệt"}
-                                    />
-                                    <RowTable
-                                    index={2}
-                                    accountId={"RQ1890-TH00-MM55"}
-                                    fullName={"Trương Anh Khoa"}
-                                    accountName={"khoa123"}
-                                    password={"123456"}
-                                    role={"Sinh Viên"}
-                                    createdDate={"date"}
-                                    accountStatus={"Đã duyệt"}
-                                    />
-                                    <RowTable
-                                    index={3}
-                                    accountId={"RQ1890-TH00-MM55"}
-                                    fullName={"Phạm Minh Duy"}
-                                    accountName={"duy123"}
-                                    password={"123456"}
-                                    role={"Sinh Viên"}
-                                    createdDate={"date"}
-                                    accountStatus={"Chờ xét duyệt"}
-                                    />
-                                    <RowTable
-                                    index={4}
-                                    accountId={"RQ1890-TH00-MM55"}
-                                    fullName={"Trương Anh Khoa"}
-                                    accountName={"khoa456"}
-                                    password={"123456"}
-                                    role={"Sinh Viên"}
-                                    createdDate={"date"}
-                                    accountStatus={"Chờ xét duyệt"}
-                                    />
-                                    <RowTable
-                                    index={5}
-                                    accountId={"RQ1890-TH00-MM55"}
-                                    fullName={"Trần Anh Quân"}
-                                    accountName={"quan456"}
-                                    password={"123456"}
-                                    role={"Sinh Viên"}
-                                    createdDate={"date"}
-                                    accountStatus={"Đã duyệt"}
-                                    />
-                                    <RowTable
-                                    index={6}
-                                    accountId={"RQ1890-TH00-MM55"}
-                                    fullName={"Phạm Minh Duy"}
-                                    accountName={"duy456"}
-                                    password={"123456"}
-                                    role={"Sinh Viên"}
-                                    createdDate={"date"}
-                                    accountStatus={"Đã duyệt"}
-                                    />
+                                    
+                                    {students.map((student: any, index: number) => {
+                                        return (<RowTable
+                                            index={index+1}
+                                            fullName={student.name}
+                                            accountName={student.username}
+                                            createdDate={student.accountCreationDate}
+                                            accountStatus={student.accountStatus}
+                                            currentPage={currentPage}
+                                            student={student}
+                                    />)
+                                    })}
                                 </tbody>
                             </table>
                         </div>
@@ -183,12 +217,13 @@ const RequestList: React.FC = () => {
             <div className='grid justify-items-end px-5'>
                         <ul className='inline-flex items-center -space-x-px'>
                             <LeftTag onClick={prevPage} />
-                            {Array.from(Array(totalPage.current).keys()).map((index) => (
+                            {Array.from(Array(totalPage).keys()).map((index) => (
                                 <PaginationTag
                                 key={index}
                                 numPage={index + 1}
                                 setCurrentPage={setCurrentPage}
                                 currentPage={currentPage}
+                                onChangePage={onChangePage}
                                 />
                             ))}
                             <RightTag onClick={nextPage} />
