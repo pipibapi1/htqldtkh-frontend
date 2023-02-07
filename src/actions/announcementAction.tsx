@@ -1,9 +1,11 @@
+
 import announcementService from "../services/announcementService";
 
 interface Query{
     page: string;
     limit: string;
 }
+
 
 const getAnnouncementsAction = (queryData: Query) => (dispatch: any) => {
     return announcementService.getAnnouncementsService(queryData).then(
@@ -27,7 +29,19 @@ const getAnnouncementFileAction = (_id: string) => (dispatch: any) => {
     )
 }
 
+const postAddAnAnnouncementAction = (announcement: FormData) => (dispatch: any) => {
+    return announcementService.postAddAnAnnouncementService(announcement).then(
+        (data) => {
+            return Promise.resolve(data);
+        },
+        (error) => {
+            return Promise.reject(error)
+        }
+    )
+}
+
 export {
     getAnnouncementsAction,
-    getAnnouncementFileAction
+    getAnnouncementFileAction,
+    postAddAnAnnouncementAction
 }

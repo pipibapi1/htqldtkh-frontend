@@ -7,7 +7,7 @@ interface Props {
   topicName: string;
   topicType: string
   topicRegister: string;
-  expense: string;
+  expense: number;
   date: string;
 }
 
@@ -16,6 +16,9 @@ const RowTable: React.FC<Props> = (props) => {
 
   return (
     <tr className={(index % 2 === 1) ? 'border-t-2 transition duration-300 ease-in-out' : 'border-t-2 bg-[#1488D8]/25 transition duration-300 ease-in-out'}>
+      <td className='text-center font-medium px-1 py-1 text-sm text-gray-900 border-l-2'>
+        #{index}
+      </td>
       <td className='text-center font-medium px-1 py-1 text-sm text-gray-900 border-l-2'>
         {topicId}
       </td>
@@ -29,7 +32,7 @@ const RowTable: React.FC<Props> = (props) => {
         {topicRegister}
       </td>
       <td className='text-center font-medium text-sm text-gray-900 px-1 py-1 border-l-2'>
-        {expense}
+        {expense.toLocaleString()} VND
       </td>
       <td className='text-center font-medium text-sm text-gray-900 px-1 py-1 border-l-2'>
         {date}

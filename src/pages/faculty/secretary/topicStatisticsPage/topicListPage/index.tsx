@@ -1,32 +1,181 @@
-import React, { useState, useRef } from 'react';
+import React, {useState, useRef, useEffect} from 'react';
 import RowTable from './RowTable';
 import PaginationTag from './PaginationTag';
 import LeftTag from './LeftTag';
 import RightTag from './RightTag';
 import BackIcon from '../../../../../assets/images/🦆 icon _arrow circle left_.png';
-
+import { PeriodStatus } from '../../../../../shared/types/periodStatus';
+import { TopicTypeEnum } from '../../../../../shared/types/topicType';
+import { TopicStatusEnum } from '../../../../../shared/types/topicStatus';
+import { useDispatch} from "react-redux";
+import { AppDispatch } from '../../../../../store';
+import { getTopicListAction } from '../../../../../actions/topicAction';
 const RECORD_PER_PAGE = 5;
-const TOTAL_PAGE_DEFAULT = 1;
 
+interface Period{
+    _id: string;
+    period: string;
+    status: PeriodStatus;
+    createAt: Date;
+}
 interface Props{
-    moveBack: () => void
+    moveBack: () => void,
+    currentPeriod: string,
+    periods: Period[],
+    setCurrentPeriod: React.Dispatch<React.SetStateAction<string>>,
+    getTopicList: (period: string) => Promise<void>,
+}
+
+interface Topic{
+    _id: string;
+    name: string;
+    type: TopicTypeEnum;
+    startTime: string;
+    endTime: string;
+    isExtended: boolean;
+    extensionTime: number;
+    status: TopicStatusEnum;
+    period: string;
+    productPath: string;
+    studentId: string;
+    creationDate: string;
+    topicGivenId: string;
+    student: {
+        _id: string;
+        name: string;
+    }
 }
 
 const TopicListPage: React.FC<Props> = (props: Props) => {
 
-    const{moveBack} = props;
+    const{moveBack, currentPeriod, periods, setCurrentPeriod, getTopicList} = props;
+    
 
-    const [currentPage, setCurrentPage] = useState<number>(TOTAL_PAGE_DEFAULT);
-    const totalPage = useRef(TOTAL_PAGE_DEFAULT);
+    const [currentPage, setCurrentPage] = useState<number>(1);
+    const [currentType, setCurrentType] = useState<string>("");
+    const [currentStatus, setCurrentStatus] = useState<string>("");
+    const [currentExtensionStatus, setCurrentExtensionStatus] = useState<string>("");
+
+    const extensionStatus = (topic: Topic) => {
+        if(topic.isExtended){
+            return "Thời gian gia hạn: " + topic.extensionTime + " tháng"
+        }
+        return ""
+    }
+
+    const onChangeFilter = (period: string, type: string, status: string, extensionStatus: string) => {
+        let queryData: any = {
+            page: currentPage,
+            limit: RECORD_PER_PAGE,
+            period: period
+        }
+        if(type !== ""){
+            queryData = {
+                ...queryData,
+                type: type
+            }
+        }
+        if(status !== ""){
+            queryData = {
+                ...queryData,
+                status: status
+            }
+        }
+        if(extensionStatus !== ""){
+            queryData = {
+                ...queryData,
+                isExtended: extensionStatus
+            }
+        }
+
+        dispatch(getTopicListAction(queryData))
+                .then((data) => {
+                    setTopicList(data?.topics)
+                    }
+                )
+                .catch((error) => {
+
+                })
+    }
+
+    const [topicList, setTopicList] = useState<Topic[]>([]);
+
+    const [totalPage, setTotalPage] = useState<number>(1);
+
+    const useAppDispatch: () => AppDispatch = useDispatch
+    const dispatch = useAppDispatch()
+
+    useEffect(() => {
+        let queryData: any = {
+            page: currentPage,
+            limit: RECORD_PER_PAGE,
+            period: currentPeriod
+        }
+        dispatch(getTopicListAction(queryData))
+                .then((data) => {
+                    setTopicList(data?.topics)
+                    if(data?.metadata.totalPage > 0){
+                        setTotalPage(totalPage)
+                    }
+                    }
+                )
+                .catch((error) => {
+
+                })
+                
+    }, []);
+
+    const onChangePage = (page: number) => {
+        let queryData: any = {
+            page: page,
+            limit: RECORD_PER_PAGE,
+            period: currentPeriod
+        }
+        if(currentType !== ""){
+            queryData = {
+                ...queryData,
+                type: currentType
+            }
+        }
+        if(currentStatus !== ""){
+            queryData = {
+                ...queryData,
+                status: currentStatus
+            }
+        }
+        if(currentExtensionStatus !== ""){
+            queryData = {
+                ...queryData,
+                isExtended: currentExtensionStatus
+            }
+        }
+
+        dispatch(getTopicListAction(queryData))
+                .then((data) => {
+                    setTopicList(data?.topics)
+                    }
+                )
+                .catch((error) => {
+
+                })
+    }
+
 
     const prevPage = () => {
         if (currentPage <= 1) return;
         setCurrentPage(currentPage - 1);
+        onChangePage(currentPage - 1)
       };
       const nextPage = () => {
-        if (currentPage >= totalPage.current) return;
+        if (currentPage >= totalPage) return;
         setCurrentPage(currentPage + 1);
+        onChangePage(currentPage + 1)
       };
+
+      const periodDisplay = (period: string) => {
+        const x = new Date(period);
+        return (x.getMonth() + 1) + "/" + x.getFullYear();
+    }
 
     return(
         <div className='p-4 overflow-y-auto'>
@@ -35,61 +184,97 @@ const TopicListPage: React.FC<Props> = (props: Props) => {
                     <img src={BackIcon} className='h-5' alt="" />
                 </div>
                 <div className='flex items-center mb-5'>
-                    <div className='mr-5'>
-                        Đợt: 
-                    </div>
-                    <div className="">
-                        <select
-                            className="bg-white h-[40px] w-[270px] border border-black border-1 rounded-lg focus:ring-blue-500 px-2"
-                                onChange={(e) => {
-                                }}
-                                defaultValue={"dfdasf"}
-                            >
-                            <option value="">06/2022</option>
-                            <option value="">06/2021</option>
-                            <option value="">06/2020</option>
-                            <option value="">06/2019</option>
-                        </select>
-                    </div>
-                </div>
-            </div>
-
-            <div className='grid justify-items-end px-5'>
-                <div className='flex items-center py-4'>
-                    <div className='flex items-center mr-20'>
-                        <div className='mr-5'>
-                            Gia hạn: 
+                <div className='mr-5'>
+                                Đợt: 
                         </div>
                         <div className="">
                             <select
                                 className="bg-white h-[40px] w-[270px] border border-black border-1 rounded-lg focus:ring-blue-500 px-2"
                                     onChange={(e) => {
+                                        e.preventDefault();
+                                        setCurrentPeriod(e.target.value);
+                                        getTopicList(e.target.value);
+                                        onChangeFilter(e.target.value, currentType, currentStatus, currentExtensionStatus)
                                     }}
-                                    defaultValue={"dfdasf"}
+                                    defaultValue={periods.length === 0 ? "" : periods[0]._id}
+                                    value={currentPeriod}
                                 >
-                                <option value="">Chưa gia hạn</option>
-                                <option value="">Đã gia hạn</option>
+                                {periods.map((period, index) => 
+                                <option value={period._id} id={period._id}>{periodDisplay(period.period)}</option>
+                                )}
+                            </select>
+                        </div>
+                </div>
+            </div>
+
+            <div className='grid justify-items-end px-5'>
+                
+                <div className='flex items-center py-4'>
+                    <div className='flex items-center mr-20'>
+                        <div className='mr-3'>
+                            Loại đề tài: 
+                        </div>
+                        <div className="">
+                            <select
+                                className="bg-white h-[40px] w-[250px] border border-black border-1 rounded-lg focus:ring-blue-500 px-2"
+                                    onChange={(e) => {
+                                        e.preventDefault();
+                                        setCurrentType(e.target.value)
+                                        onChangeFilter(currentPeriod, e.target.value, currentStatus, currentExtensionStatus)
+                                    }}
+                                    defaultValue={""}
+                                >
+                                <option value="">Toàn bộ</option>
+                                <option value={TopicTypeEnum.CQ}>Chính quy</option>
+                                <option value={TopicTypeEnum.KSTN}>Kĩ sư tài năng</option>
+                                <option value={TopicTypeEnum.CLC}>Chất lượng cao</option>
+                                <option value={TopicTypeEnum.CLC_LVTN}>Chất lượng cao(LVTN)</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div className='flex items-center mr-20'>
+                        <div className='mr-3'>
+                            Gia hạn: 
+                        </div>
+                        <div className="">
+                            <select
+                                className="bg-white h-[40px] w-[250px] border border-black border-1 rounded-lg focus:ring-blue-500 px-2"
+                                    onChange={(e) => {
+                                        e.preventDefault();
+                                        setCurrentExtensionStatus(e.target.value);
+                                        onChangeFilter(currentPeriod, currentType, currentStatus, e.target.value)
+                                    }}
+                                    defaultValue={""}
+                                >
+                                <option value="">Toàn bộ</option>
+                                <option value="false">Chưa gia hạn</option>
+                                <option value="true">Đã gia hạn</option>
                             </select>
                         </div>
                     </div>
 
                     <div className='flex items-center'>
-                        <div className='mr-5'>
+                        <div className='mr-3'>
                             Trạng thái: 
                         </div>
                         <div className="">
                             <select
-                                className="bg-white h-[40px] w-[270px] border border-black border-1 rounded-lg focus:ring-blue-500 px-2"
+                                className="bg-white h-[40px] w-[250px] border border-black border-1 rounded-lg focus:ring-blue-500 px-2"
                                     onChange={(e) => {
+                                        e.preventDefault();
+                                        setCurrentStatus(e.target.value)
+                                        onChangeFilter(currentPeriod, currentType, e.target.value, currentExtensionStatus)
                                     }}
-                                    defaultValue={"dfdasf"}
+                                    defaultValue={""}
                                 >
-                                <option value="">Tạo mới</option>
-                                <option value="">Đang thực hiện</option>
-                                <option value="">Đến hạn nghiệm thu</option>
-                                <option value="">Đã hoàn thành</option>
-                                <option value="">Trễ hạn</option>
-                                <option value="">Bị hủy</option>
+                                <option value="">Toàn bộ</option>
+                                <option value={TopicStatusEnum.NEW}>Tạo mới</option>
+                                <option value={TopicStatusEnum.CARRY_OUT}>Đang thực hiện</option>
+                                <option value={TopicStatusEnum.DUE_TO_ACCEPT}>Đến hạn nghiệm thu</option>
+                                <option value={TopicStatusEnum.FINISHED}>Đã hoàn thành</option>
+                                <option value={TopicStatusEnum.OUT_OF_DATE}>Trễ hạn</option>
+                                <option value={TopicStatusEnum.CANCELED}>Bị hủy</option>
                             </select>
                         </div>
                     </div>
@@ -106,25 +291,31 @@ const TopicListPage: React.FC<Props> = (props: Props) => {
                                     <tr>
                                     <th
                                         scope='col'
+                                        className='w-[5%] text-sm text-center font-bold text-white px-2 py-3 text-left border-l-2'
+                                    >
+                                        STT
+                                    </th>
+                                    <th
+                                        scope='col'
                                         className='text-sm text-center font-bold text-white px-2 py-3 text-left border-l-2'
                                     >
                                         Mã đề tài
                                     </th>
                                     <th
                                         scope='col'
-                                        className='text-sm text-center font-bold text-white px-2 py-3 text-left border-l-2'
+                                        className='w-[20%] text-sm text-center font-bold text-white px-2 py-3 text-left border-l-2'
                                     >
                                         Tên đề tài
                                     </th>
                                     <th
                                         scope='col'
-                                        className='text-sm text-center font-bold text-white px-2 py-3 text-left border-l-2'
+                                        className='w-[10%] text-sm text-center font-bold text-white px-2 py-3 text-left border-l-2'
                                     >
                                         Loại đề tài
                                     </th>
                                     <th
                                         scope='col'
-                                        className='text-sm text-center font-bold text-white px-2 py-3 text-left border-l-2'
+                                        className='w-[10%] text-sm text-center font-bold text-white px-2 py-3 text-left border-l-2'
                                     >
                                         Trạng thái
                                     </th>
@@ -136,13 +327,13 @@ const TopicListPage: React.FC<Props> = (props: Props) => {
                                     </th>
                                     <th
                                         scope='col'
-                                        className='text-sm text-center font-bold text-white px-2 py-3 text-left border-l-2'
+                                        className='w-[10%] text-sm text-center font-bold text-white px-2 py-3 text-left border-l-2'
                                     >
                                         Chủ nhiệm
                                     </th>
                                     <th
                                         scope='col'
-                                        className='text-sm text-center font-bold text-white px-2 py-3 text-left border-l-2'
+                                        className='w-[10%] text-sm text-center font-bold text-white px-2 py-3 text-left border-l-2'
                                     >
                                         Ngày tạo
                                     </th>
@@ -150,66 +341,18 @@ const TopicListPage: React.FC<Props> = (props: Props) => {
                                     </tr>
                                 </thead>
                                 <tbody className=''>
-                                    <RowTable
-                                        index={1}
-                                        topicId={"KH1890-MX201-MM55"}
-                                        topicName={"Hệ thống quản lý đề tài khoa học cấp sinh viên"}
-                                        topicType={"Chính quy"}
-                                        topicStatus={"Đang thực hiện"}
-                                        extensionStatus={"topic Extension Status"}
-                                        topicRegister={"Trần Anh Quân"}
-                                        date={"12/09/2022"}
-                                    /> 
-                                        <RowTable
-                                        index={2}
-                                        topicId={"KH1890-MX201-MM55"}
-                                        topicName={"Hệ thống quản lý đề tài khoa học cấp sinh viên"}
-                                        topicType={"Chính quy"}
-                                        topicStatus={"Đang thực hiện"}
-                                        extensionStatus={"topic Extension Status"}
-                                        topicRegister={"Trần Anh Quân"}
-                                        date={"12/09/2022"}
-                                    />    
-                                        <RowTable
-                                        index={3}
-                                        topicId={"KH1890-MX201-MM55"}
-                                        topicName={"Hệ thống quản lý đề tài khoa học cấp sinh viên"}
-                                        topicType={"Chính quy"}
-                                        topicStatus={"Đang thực hiện"}
-                                        extensionStatus={"topic Extension Status"}
-                                        topicRegister={"Trần Anh Quân"}
-                                        date={"12/09/2022"}
-                                    />    
-                                        <RowTable
-                                        index={4}
-                                        topicId={"KH1890-MX201-MM55"}
-                                        topicName={"Hệ thống quản lý đề tài khoa học cấp sinh viên"}
-                                        topicType={"Chính quy"}
-                                        topicStatus={"Đang thực hiện"}
-                                        extensionStatus={"topic Extension Status"}
-                                        topicRegister={"Trần Anh Quân"}
-                                        date={"12/09/2022"}
-                                    />
-                                        <RowTable
-                                        index={5}
-                                        topicId={"KH1890-MX201-MM55"}
-                                        topicName={"Hệ thống quản lý đề tài khoa học cấp sinh viên"}
-                                        topicType={"Chính quy"}
-                                        topicStatus={"Đang thực hiện"}
-                                        extensionStatus={"topic Extension Status"}
-                                        topicRegister={"Trần Anh Quân"}
-                                        date={"12/09/2022"}
-                                    />
-                                        <RowTable
-                                        index={6}
-                                        topicId={"KH1890-MX201-MM55"}
-                                        topicName={"Hệ thống quản lý đề tài khoa học cấp sinh viên"}
-                                        topicType={"Chính quy"}
-                                        topicStatus={"Đang thực hiện"}
-                                        extensionStatus={"topic Extension Status"}
-                                        topicRegister={"Trần Anh Quân"}
-                                        date={"12/09/2022"}
-                                    />    
+                                    {topicList.map((topic, index) => {
+                                        return (<RowTable
+                                        index={index+1}
+                                        topicId={topic.topicGivenId}
+                                        topicName={topic.name}
+                                        topicType={topic.type}
+                                        topicStatus={topic.status}
+                                        extensionStatus={extensionStatus(topic)}
+                                        topicRegister={topic.student.name}
+                                        date={topic.creationDate} 
+                                    />)
+                                    })}
                                 </tbody>
                             </table>
                         </div>
@@ -221,12 +364,13 @@ const TopicListPage: React.FC<Props> = (props: Props) => {
             <div className='grid justify-items-end px-5'>
                         <ul className='inline-flex items-center -space-x-px'>
                             <LeftTag onClick={prevPage} />
-                            {Array.from(Array(totalPage.current).keys()).map((index) => (
+                            {Array.from(Array(totalPage).keys()).map((index) => (
                                 <PaginationTag
                                 key={index}
                                 numPage={index + 1}
                                 setCurrentPage={setCurrentPage}
                                 currentPage={currentPage}
+                                onChangePage={onChangePage}
                                 />
                             ))}
                             <RightTag onClick={nextPage} />

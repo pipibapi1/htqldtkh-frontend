@@ -1,4 +1,5 @@
 import axios from "axios";
+import authHeader from "./authHeader";
 
 const ANNOUNCEMENT_API_URL = process.env.REACT_APP_API_URL + "/api/announcement";
 
@@ -6,6 +7,7 @@ interface Query{
     page: string;
     limit: string;
 }
+
 
 const getAnnouncementsService = (queryData: Query) => {
     const {page, limit} = queryData;
@@ -25,7 +27,23 @@ const getAnnouncementFileService = (_id: string) => {
         })
 }
 
+const postAddAnAnnouncementService = (announcement: FormData) => {
+    let headers: any = authHeader();
+    headers = {
+        ... headers,
+        'Content-Type': 'multipart/form-data'
+    }
+    return axios.
+        post(ANNOUNCEMENT_API_URL, announcement, { 
+            headers: headers
+        })
+        .then((response) => {
+            return response.data
+        })
+}
+
 export default{
     getAnnouncementsService,
-    getAnnouncementFileService
+    getAnnouncementFileService,
+    postAddAnAnnouncementService
 }

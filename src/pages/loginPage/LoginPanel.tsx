@@ -108,10 +108,10 @@ const LoginPanel: React.FC = () => {
                             if(role === RoleType.Student){
                                 navigate("/myTopic");
                             }else if(role === RoleType.FVD){
-                                navigate("/fvdExpenseStatistic");
+                                navigate("/fvdTopicStatistic");
                             }
                             else{
-                                navigate("/fsExpenseStatistic");
+                                navigate("/fsTopicStatistic");
                             }
                             window.location.reload();
                         } 
@@ -168,10 +168,10 @@ const LoginPanel: React.FC = () => {
         if(currentUser.role === RoleType.Student){
             return <Navigate to="/myTopic" />;
         }else if(currentUser.role === RoleType.FVD){
-            return <Navigate to="/fvdExpenseStatistic" />;
+            return <Navigate to="/fvdTopicStatistic" />;
         }
         else if(currentUser.role === RoleType.FS){
-            return <Navigate to="/fsExpenseStatistic" />;
+            return <Navigate to="/fsTopicStatistic" />;
         }
         else{
         }
