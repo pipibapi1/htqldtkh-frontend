@@ -14,7 +14,7 @@ const VicedeanAccountManagement: React.FC = () => {
     const [numOfOtherMember, setNumOfOtherMember] = useState<number>(1);
     return (
         <div className=''>
-            <Header isLogin={false} isAccountServicePage={false}/>
+            <Header isLogin={true} isAccountServicePage={false}/>
             <div className='flex'>
                 <SideNav role={RoleType.FS} pathName={location.pathname}/>
                 <div className=''>

@@ -12,7 +12,7 @@ const StudentAccountManagement: React.FC = () => {
     const location = useLocation();
     return (
         <div className=''>
-            <Header isLogin={false} isAccountServicePage={false}/>
+            <Header isLogin={true} isAccountServicePage={false}/>
             <div className='flex'>
                 <SideNav role={RoleType.FS} pathName={location.pathname}/>
                 <div className=''>
