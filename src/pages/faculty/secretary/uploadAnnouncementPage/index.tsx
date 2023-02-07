@@ -4,7 +4,8 @@ import PathHead from '../../../../components/pathHead';
 import SideNav from '../../../../components/sideNav';
 import { RoleType } from '../../../../shared/types/role';
 import { useLocation } from 'react-router-dom';
-import RequestList from './RequestList';
+import UploadInterface from './UploadInterface';
+
 
 
 const StudentAccountManagement: React.FC = () => {
@@ -15,8 +16,8 @@ const StudentAccountManagement: React.FC = () => {
             <div className='flex'>
                 <SideNav role={RoleType.FS} pathName={location.pathname}/>
                 <div className=''>
-                    <PathHead path={"QUẢN LÝ TÀI KHOẢN / Sinh viên"}/>    
-                    <RequestList />
+                    <PathHead path={"UPLOAD THÔNG BÁO"}/>    
+                    <UploadInterface/>
                 </div>
             </div>
         </div>

@@ -18,6 +18,7 @@ import RequestManagement from './pages/faculty/viceDean/requestManagementPage';
 import FSTopicStatistics from './pages/faculty/secretary/topicStatisticsPage';
 import StudentAccountManagement from './pages/faculty/secretary/studentAccountPage';
 import VicedeanAccountManagement from './pages/faculty/secretary/vicedeanAccountPage';
+import FSUploadAnnouncement from './pages/faculty/secretary/uploadAnnouncementPage';
 
 function App() {
   
@@ -44,6 +45,7 @@ function App() {
       <Route path={appRouters.LINK_TO_FS_TOPIC_STATISTIC} element={<FSTopicStatistics/>} />
       <Route path={appRouters.LINK_TO_STUDENT_ACCOUNT_MANAGEMENT} element={<StudentAccountManagement/>} />
       <Route path={appRouters.LINK_TO_VICEDEAN_ACCOUNT_MANAGEMENT} element={<VicedeanAccountManagement/>} />
+      <Route path={appRouters.LINK_TO_FS_UPLOAD_ANNOUNCEMENT} element={<FSUploadAnnouncement/>} />
     </Routes>
   );
 }
