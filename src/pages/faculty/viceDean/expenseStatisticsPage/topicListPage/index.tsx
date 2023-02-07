@@ -3,26 +3,26 @@ import RowTable from './RowTable';
 import PaginationTag from './PaginationTag';
 import LeftTag from './LeftTag';
 import RightTag from './RightTag';
-import BackIcon from '../../../../../assets/images/🦆 icon _arrow circle left_.png';
 
 const RECORD_PER_PAGE = 5;
-const TOTAL_PAGE_DEFAULT = 1;
 
 
 
-const TopicListPage: React.FC = (props: any) => {
+const TopicListPage= (props: any) => {
+ 
+    const {topics, totalPage, onChangePage} = props;
 
-
-    const [currentPage, setCurrentPage] = useState<number>(TOTAL_PAGE_DEFAULT);
-    const totalPage = useRef(TOTAL_PAGE_DEFAULT);
+    const [currentPage, setCurrentPage] = useState<number>(1);
 
     const prevPage = () => {
         if (currentPage <= 1) return;
         setCurrentPage(currentPage - 1);
+        onChangePage(currentPage - 1)
       };
       const nextPage = () => {
-        if (currentPage >= totalPage.current) return;
+        if (currentPage >= totalPage) return;
         setCurrentPage(currentPage + 1);
+        onChangePage(currentPage + 1)
       };
 
     return(
@@ -37,13 +37,19 @@ const TopicListPage: React.FC = (props: any) => {
                                     <tr>
                                     <th
                                         scope='col'
-                                        className='text-sm text-center font-bold text-white px-2 py-3 text-left border-l-2'
+                                        className='w-[5%] text-sm text-center font-bold text-white px-2 py-3 text-left border-l-2'
+                                    >
+                                        STT
+                                    </th>
+                                    <th
+                                        scope='col'
+                                        className='w-[15%] text-sm text-center font-bold text-white px-2 py-3 text-left border-l-2'
                                     >
                                         Mã đề tài
                                     </th>
                                     <th
                                         scope='col'
-                                        className='text-sm text-center font-bold text-white px-2 py-3 text-left border-l-2'
+                                        className='w-[20%] text-sm text-center font-bold text-white px-2 py-3 text-left border-l-2'
                                     >
                                         Tên đề tài
                                     </th>
@@ -75,33 +81,17 @@ const TopicListPage: React.FC = (props: any) => {
                                     </tr>
                                 </thead>
                                 <tbody className=''>
-                                    <RowTable
-                                        index={1}
-                                        topicId={"KH1890-MX201-MM55"}
-                                        topicName={"Hệ thống quản lý đề tài khoa học cấp sinh viên"}
-                                        topicType={"Chính quy"}
-                                        topicRegister={"Trần Anh Quân"}
-                                        expense={'5.000.000 VNĐ'}
-                                        date={"12/09/2022"}
-                                    />
-                                    <RowTable
-                                        index={2}
-                                        topicId={"KH1890-MX201-MM55"}
-                                        topicName={"Hệ thống quản lý đề tài khoa học cấp sinh viên"}
-                                        topicType={"Chính quy"}
-                                        topicRegister={"Trần Anh Quân"}
-                                        expense={'5.000.000 VNĐ'}
-                                        date={"12/09/2022"}
-                                    />
-                                    <RowTable
-                                        index={3}
-                                        topicId={"KH1890-MX201-MM55"}
-                                        topicName={"Hệ thống quản lý đề tài khoa học cấp sinh viên"}
-                                        topicType={"Chính quy"}
-                                        topicRegister={"Trần Anh Quân"}
-                                        expense={'5.000.000 VNĐ'}
-                                        date={"12/09/2022"}
-                                    /> 
+                                    {topics.map((topic: any, index: number) => {
+                                        return (<RowTable
+                                        index={index+1}
+                                        topicId={topic.topicGivenId}
+                                        topicName={topic.name}
+                                        topicType={topic.type}
+                                        topicRegister={topic.student.name}
+                                        expense={topic.expense}
+                                        date={topic.creationDate} 
+                                    />)
+                                    })}
                                 
                                 </tbody>
                             </table>
@@ -114,12 +104,13 @@ const TopicListPage: React.FC = (props: any) => {
             <div className='grid justify-items-end px-5'>
                         <ul className='inline-flex items-center -space-x-px'>
                             <LeftTag onClick={prevPage} />
-                            {Array.from(Array(totalPage.current).keys()).map((index) => (
+                            {Array.from(Array(totalPage).keys()).map((index) => (
                                 <PaginationTag
                                 key={index}
                                 numPage={index + 1}
                                 setCurrentPage={setCurrentPage}
                                 currentPage={currentPage}
+                                onChangePage={onChangePage}
                                 />
                             ))}
                             <RightTag onClick={nextPage} />

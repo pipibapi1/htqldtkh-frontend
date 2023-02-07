@@ -14,9 +14,12 @@ interface Props {
 
 const RowTable: React.FC<Props> = (props) => {
   const { index ,topicId, topicName, topicType, topicStatus, extensionStatus, topicRegister, date} = props;
-
+ 
   return (
     <tr className={(index % 2 === 1) ? 'border-t-2 transition duration-300 ease-in-out' : 'border-t-2 bg-[#1488D8]/25 transition duration-300 ease-in-out'}>
+      <td className='text-center font-medium px-1 py-1 text-sm text-gray-900 border-l-2'>
+        #{index}
+      </td>
       <td className='text-center font-medium px-1 py-1 text-sm text-gray-900 border-l-2'>
         {topicId}
       </td>
