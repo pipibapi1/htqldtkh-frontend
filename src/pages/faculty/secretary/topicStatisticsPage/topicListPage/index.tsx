@@ -379,7 +379,7 @@ const TopicListPage: React.FC<Props> = (props: Props) => {
                             ))}
                             <RightTag onClick={nextPage} />
                         </ul>
-                </div>
+            </div>
         </div>
     )
 }

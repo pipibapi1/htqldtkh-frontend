@@ -1,20 +1,42 @@
 import fvdService from "../services/fvdService";
-import { GenderType } from "../shared/types/gender";
 
-interface NewInfoInput{
-    _id: string;
-    name: string;
-    gender: GenderType;
-    birthDate: Date;
-    email: string;
-    phoneNumber: string;
-    image: string;
+const getFvdListAction = (queryData: any) => (dispatch: any) => {
+    return fvdService.getFvdListService(queryData).then(
+        (data) => {
+            return Promise.resolve(data);
+        },
+        (error) => {
+              return Promise.reject(error);
+        }
+    )
 }
 
-const updateFvdPersonalInfoAction = (newInfoData: NewInfoInput) => (dispatch: any) => {
+const addAFvdAction = (info: any) => (dispatch: any) => {
+    return fvdService.addAFvdService(info).then(
+        (data) => {
+            return Promise.resolve(data);
+        },
+        (error) => {
+              return Promise.reject(error);
+        }
+    )
+}
+
+const updateFvdPersonalInfoAction = (newInfoData: any) => (dispatch: any) => {
     return fvdService.updateFvdPersonalInfoService(newInfoData).then(
         (data) => {
-            return Promise.resolve();
+            return Promise.resolve(data);
+        },
+        (error) => {
+              return Promise.reject(error);
+        }
+    )
+}
+
+const deleteAFvdAction = (_id: string) => (dispatch: any) => {
+    return fvdService.deleteAFvdService(_id).then(
+        (data) => {
+            return Promise.resolve(data);
         },
         (error) => {
               return Promise.reject(error);
@@ -23,5 +45,8 @@ const updateFvdPersonalInfoAction = (newInfoData: NewInfoInput) => (dispatch: an
 }
 
 export {
-    updateFvdPersonalInfoAction
+    getFvdListAction,
+    addAFvdAction,
+    updateFvdPersonalInfoAction,
+    deleteAFvdAction
 }

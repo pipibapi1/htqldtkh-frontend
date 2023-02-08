@@ -83,7 +83,7 @@ const Modal = ({isVisible, onClose, student}: {isVisible: boolean, onClose: any,
                                     Họ và tên
                                 </label>
                                 <input type = 'text' name = 'text' id ='email'
-                                className = "bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+                                className = "bg-gray-300 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
                                 value={student.name}
                                 required
                                 disabled
@@ -95,7 +95,7 @@ const Modal = ({isVisible, onClose, student}: {isVisible: boolean, onClose: any,
                                     MSSV
                                 </label>
                                 <input type = 'email' name = 'email' id ='email'
-                                className = "bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+                                className = "bg-gray-300 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
                                 value={student.studentId}
                                 required
                                 disabled
@@ -109,7 +109,7 @@ const Modal = ({isVisible, onClose, student}: {isVisible: boolean, onClose: any,
                                     Giới tính
                                 </label>
                                 <select
-                                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+                                className="bg-gray-300 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
                                 onChange={(e) => {}}
                                 value={student.gender}
                                 disabled
@@ -138,7 +138,7 @@ const Modal = ({isVisible, onClose, student}: {isVisible: boolean, onClose: any,
                                     showYearDropdown
                                     dropdownMode="select"
                                     locale="vi"
-                                    className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+                                    className="bg-gray-300 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
                                     />
                                     <div className='absolute mr-2'>
                                         <img src={Calendar} alt="calendarIcon" className='h-5 w-5'/>
@@ -155,7 +155,7 @@ const Modal = ({isVisible, onClose, student}: {isVisible: boolean, onClose: any,
                                     Email
                                 </label>
                                 <input type = 'email' name = 'email' id ='email'
-                                className = "bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+                                className = "bg-gray-300 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
                                 value={student.email}
                                 required
                                 disabled
@@ -167,7 +167,7 @@ const Modal = ({isVisible, onClose, student}: {isVisible: boolean, onClose: any,
                                     Số điện thoại
                                 </label>
                                 <input type = 'email' name = 'email' id ='email'
-                                className = "bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+                                className = "bg-gray-300 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
                                 value={student.phoneNumber}
                                 required
                                 disabled
@@ -183,7 +183,7 @@ const Modal = ({isVisible, onClose, student}: {isVisible: boolean, onClose: any,
                                     Chương trình đào tạo
                                 </label>
                                 <select
-                                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+                                className="bg-gray-300 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
                                 onChange={(e) => {}}
                                 value={student.educationType}
                                 disabled
@@ -199,7 +199,7 @@ const Modal = ({isVisible, onClose, student}: {isVisible: boolean, onClose: any,
                                     Tên tài khoản
                                 </label>
                                 <input type = 'email' name = 'email' id ='email'
-                                className = "bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+                                className = "bg-gray-300 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
                                 value={student.username}
                                 required
                                 disabled

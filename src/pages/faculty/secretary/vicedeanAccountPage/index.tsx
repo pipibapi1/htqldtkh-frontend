@@ -21,8 +21,6 @@ const VicedeanAccountManagement: React.FC = () => {
                     <PathHead path={"QUẢN LÝ TÀI KHOẢN / Phó chủ nhiệm"}/>
                     <div>
                     <RequestInterface 
-                        numOfInstructor={numOfInstructor} 
-                        numOfOtherMember={numOfOtherMember}
                     />
                     </div>
                 </div>

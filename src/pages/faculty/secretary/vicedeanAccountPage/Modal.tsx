@@ -3,19 +3,102 @@ import Calendar from "../../../../assets/images/calendar.png";
 import DatePicker from "react-datepicker";
 import EyeOpen from "../../../../assets/images/eyeOpen.png";
 import EyeClose from "../../../../assets/images/eyeClose.png"
+import { GenderType } from '../../../../shared/types/gender';
+import { useDispatch} from "react-redux";
+import { AppDispatch } from '../../../../store';
+import Swal from 'sweetalert2';
+import { updateFvdPersonalInfoAction } from '../../../../actions/fvdAction';
 
-
-
-const Modal = ({isVisible, onClose}: {isVisible: boolean, onClose: any}) => {
-    const [birthDate, setBirthDate] = useState(new Date());
+const Modal = ({isVisible, onClose, vicedean}: {isVisible: boolean, onClose: any, vicedean: any}) => {
+    const useAppDispatch: () => AppDispatch = useDispatch
+    const dispatch = useAppDispatch()
+    const [birthDate, setBirthDate] = useState(new Date(vicedean.birthDate));
     const [showPassword, setShowPassword] = useState<boolean>(false);
-    const toggleShowPassword = () => {
+    const [username, setUsername] = useState<string>(vicedean.username);
+    const [password, setPassword] = useState<string>(vicedean.rawPassword)
+    const toggleShowPassword = (e: any) => {
+        e.preventDefault();
         setShowPassword(!showPassword);
     }
     if (!isVisible) return null;
 
     const handleClose = (e: any) => {
         if (e.target.id === "wrapper") onClose();
+    }
+    const Toast = Swal.mixin({
+        toast: true,
+        position: 'top-end',
+        showConfirmButton: false,
+        timer: 4000,
+        timerProgressBar: true,
+        didOpen: (toast: any) => {
+          toast.addEventListener('mouseenter', Swal.stopTimer)
+          toast.addEventListener('mouseleave', Swal.resumeTimer)
+        }
+      })
+
+    const handleUpdate = (e:any) => {
+        e.preventDefault();
+        if(username === ""){
+            Toast.fire({
+                icon: 'warning',
+                title: 'Bạn không được để trống tên đăng nhập'
+              })
+        }
+        else if(password === ""){
+            Toast.fire({
+                icon: 'warning',
+                title: 'Bạn không được để  trống mật khẩu'
+              })
+        }
+        else{
+            const updateInfo = {
+                _id: vicedean._id,
+                username: username,
+                password: password,
+                rawPassword: password
+            }
+
+            Swal.fire({
+                icon: 'question',
+                title: 'Bạn có chắc muốn cập nhật tài khoản phó chủ nhiệm này?',
+                showDenyButton: true,
+                showCancelButton: false,
+                confirmButtonText: 'Yes',
+            }).then((result) => {
+          
+                if(result.isConfirmed){
+                  dispatch(updateFvdPersonalInfoAction(updateInfo))
+                  .then((data) => {
+                    Swal.fire({
+                      icon: 'success',
+                      title: 'Cập nhật tài khoản thành công',
+                      showDenyButton: false,
+                      showCancelButton: false,
+                      confirmButtonText: 'OK',
+                    }).then((result) => {
+                      /* Read more about isConfirmed, isDenied below */
+                      if (result.isConfirmed) {
+                        window.location.reload();
+                      } 
+                    })
+                    }
+                  )
+                  .catch((error) => {
+                    Swal.fire({
+                      icon: 'error',
+                      title: 'Có lỗi gì đó đã xảy ra, thử lại sau!',
+                      showDenyButton: false,
+                      showCancelButton: false,
+                      confirmButtonText: 'OK',
+                    })
+                  })
+                }
+          
+                if(result.isDenied){
+                }
+            })
+        }
     }
 
     return (
@@ -30,81 +113,99 @@ const Modal = ({isVisible, onClose}: {isVisible: boolean, onClose: any}) => {
                             <div className = 'flex flex-row '>
                                 <div className = 'mr-6 w-[230px]'>
                                 <label htmlFor='email' className = "block mb-2 text-sm font-medium text-gray-900">
-                                    Họ và tên lót
+                                    Họ và tên
                                 </label>
-                                <input type = 'email' name = 'email' id ='email'
-                                className = "bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
-                                placeholder = "Nguyễn Văn"
+                                <input type = 'text' name = 'name' id ='name'
+                                className = "bg-gray-300 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
                                 required
+                                value={vicedean.name}
+                                disabled
                                 />
                                 </div>
 
                                 <div className = 'ml-6 w-[230px] '>
-                                <label htmlFor='email' className = "block mb-2 text-sm font-medium text-gray-900">
-                                    Tên
-                                </label>
-                                <input type = 'email' name = 'email' id ='email'
-                                className = "bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
-                                placeholder = "A"
-                                required
-                                />
-                                </div>
-                            </div>
-
-                            <div className = 'flex flex-row '>
-                                <div className = 'mr-6 w-[230px]'>
                                 <label htmlFor='email' className = "block mb-2 text-sm font-medium text-gray-900">
                                     MSCB
                                 </label>
                                 <input type = 'email' name = 'email' id ='email'
-                                className = "bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
-                                placeholder = "111111"
+                                className = "bg-gray-300 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
                                 required
+                                value={vicedean.staffId}
+                                disabled
                                 />
                                 </div>
+                            </div>
 
-                                <div className = 'ml-6 w-[230px] '>
+                            <div className = 'flex flex-row '>
+                            <div className = 'mr-6 w-[230px] '>
                                 <label htmlFor='email' className = "block mb-2 text-sm font-medium text-gray-900">
                                     Giới tính
                                 </label>
                                 <select
-                                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+                                className="bg-gray-300 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
                                 onChange={(e) => {}}
-                                defaultValue={"dfdasf"}
+                                value={vicedean.gender}
+                                disabled
                                 >
-                                    <option value="">Nam</option>
-                                    <option value="">Nữ</option>
+                                    <option value={GenderType.MALE}>Nam</option>
+                                    <option value={GenderType.FEMALE}>Nữ</option>
                                     
                                 </select>
                                 </div>
+                            <div className = 'ml-6 w-[230px] '>
+                                <label htmlFor='email' className = "block mb-2 text-sm font-medium text-gray-900">
+                                    Ngày sinh
+                                </label>
+                                <div className = "grid justify-items-end items-center">
+                                    <DatePicker
+                                    disabled
+                                    onChange={date => {
+                                    if(date){
+                                        setBirthDate(date);
+                                    }
+                                    }}
+                                    selected={birthDate}
+                                    dateFormat="dd/MM/yyyy"
+                                    peekNextMonth
+                                    showMonthDropdown
+                                    showYearDropdown
+                                    dropdownMode="select"
+                                    locale="vi"
+                                    className="bg-gray-300 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+                                    />
+                                    <div className='absolute mr-2'>
+                                        <img src={Calendar} alt="calendarIcon" className='h-5 w-5'/>
+                                    </div>
+                                </div>
+                                </div>
+
+                                
                             </div>
 
 
                             <div className = 'flex flex-row '>
                                 <div className = 'mr-6 w-[230px]'>
                                 <label htmlFor='email' className = "block mb-2 text-sm font-medium text-gray-900">
-                                    Số điện thoại
+                                    Email
                                 </label>
                                 <input type = 'email' name = 'email' id ='email'
-                                className = "bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
-                                placeholder = "0999999999"
+                                className = "bg-gray-300 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+                                value={vicedean.email}
                                 required
+                                disabled
                                 />
                                 </div>
 
                                 <div className = 'ml-6 w-[230px] '>
                                 <label htmlFor='email' className = "block mb-2 text-sm font-medium text-gray-900">
-                                    Vai Trò
+                                    Số điện thoại
                                 </label>
-                                <select
-                                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
-                                onChange={(e) => {}}
-                                defaultValue={"dfdasf"}
-                                >
-                                    <option value="">Phó chủ nhiệm</option>
-                                    <option value="">Thư ký</option>
-                                    <option value="">Giảng Viên</option>
-                                </select>
+                                <input type = 'email' name = 'email' id ='email'
+                                className = "bg-gray-300 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+                                required
+                                value={vicedean.phoneNumber}
+                                disabled
+                                />
                                 </div>
                             </div>
 
@@ -113,9 +214,13 @@ const Modal = ({isVisible, onClose}: {isVisible: boolean, onClose: any}) => {
                                 <label htmlFor='email' className = "block mb-2 text-sm font-medium text-gray-900">
                                     Tên tài khoản
                                 </label>
-                                <input type = 'email' name = 'email' id ='email'
+                                <input type = 'text' name = 'username' id ='username'
                                 className = "bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
-                                placeholder = "Phochunhiem123"
+                                defaultValue={vicedean.username}
+                                onChange={(e) => {
+                                    e.preventDefault();
+                                    setUsername(e.target.value);
+                                }}
                                 required
                                 />
                                 </div>
@@ -128,6 +233,11 @@ const Modal = ({isVisible, onClose}: {isVisible: boolean, onClose: any}) => {
                                     <input
                                         type={showPassword? "text":"password"}
                                         name="name"
+                                        defaultValue={vicedean.rawPassword}
+                                        onChange={(e) => {
+                                            e.preventDefault();
+                                            setPassword(e.target.value);
+                                        }}
                                         className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
                                     />
                                     <div className='absolute mr-2'>
@@ -145,8 +255,9 @@ const Modal = ({isVisible, onClose}: {isVisible: boolean, onClose: any}) => {
                             <div className = 'flex flex-row '>
                             <button type = 'submit' 
                                 className = 'w-full mr-2 text-white font-medium text-sm px-5 py-2.5 text-center rounded-lg bg-blue-700 hover:bg-blue-700 focus:ring-4 focus:outline-none focus:ring-blue-300'
+                                onClick={handleUpdate}
                             >
-                                Duyệt
+                                Cập nhật
                             </button>
 
                             <button
@@ -156,8 +267,6 @@ const Modal = ({isVisible, onClose}: {isVisible: boolean, onClose: any}) => {
                             >
                                 Hủy
                             </button>
-
-
                             </div>
                         </form>
 

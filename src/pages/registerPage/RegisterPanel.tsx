@@ -190,6 +190,12 @@ const RegisterPanel: React.FC = (props: any) => {
                                     title: 'Tên đăng nhập đã tồn tại'
                                   })
                             }
+                            else if(error.response.data.msg === "existed email"){
+                                Toast.fire({
+                                    icon: 'error',
+                                    title: 'Email đã được sử dụng'
+                                  })
+                            }
                             else{
                                 Toast.fire({
                                     icon: 'error',
