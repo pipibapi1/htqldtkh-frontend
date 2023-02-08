@@ -21,7 +21,8 @@ export const appRouters = {
     LINK_TO_FS_TOPIC_STATISTIC: 'fsTopicStatistic',
     LINK_TO_STUDENT_ACCOUNT_MANAGEMENT: 'studentAccountManagement',
     LINK_TO_VICEDEAN_ACCOUNT_MANAGEMENT: 'vicedeanAccountManagement',
+    LINK_TO_FS_TOPIC_CONDITION_MANAGEMENT: 'topicCondition',
+    LINK_TO_FS_TOPIC_MANAGEMENT: 'topic',
     LINK_TO_FS_UPLOAD_ANNOUNCEMENT: 'fsUploadAnnouncement'
-    
   };
   
