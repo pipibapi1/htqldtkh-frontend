@@ -10,9 +10,8 @@ const RECORD_PER_PAGE = 5;
 
 const TopicListPage= (props: any) => {
  
-    const {topics, totalPage, onChangePage} = props;
+    const {topics, totalPage, onChangePage, currentPage, setCurrentPage} = props;
 
-    const [currentPage, setCurrentPage] = useState<number>(1);
 
     const prevPage = () => {
         if (currentPage <= 1) return;

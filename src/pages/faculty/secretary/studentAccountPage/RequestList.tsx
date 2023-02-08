@@ -48,6 +48,7 @@ const RequestList: React.FC = () => {
     };
     
     const onChangeStatus = (e:any) =>{
+        setCurrentPage(1)
         let queryData: any = {
             page: currentPage,
             limit: RECORD_PER_PAGE,

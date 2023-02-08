@@ -285,7 +285,7 @@ const TopicStatistic: React.FC = () => {
                     </div>
                     <div className='flex justify-center my-10'>
                     <PieChart className='w-1/2 text-[6px]'
-                    label={({ dataEntry }) => `${Math.round(dataEntry.percentage)} %`}
+                    label={({ dataEntry }) => { return dataEntry.percentage > 0 ? `${Math.round(dataEntry.percentage)} %` : ''}}
                     data={[
                         { title: 'Tạo mới', value: numOfNew, color: '#13B04999' },
                         { title: 'Đang thực hiện', value: numOfCarryOut, color: '#1C2ED199' },

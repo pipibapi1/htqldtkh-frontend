@@ -64,8 +64,9 @@ const TopicListPage: React.FC<Props> = (props: Props) => {
     }
 
     const onChangeFilter = (period: string, type: string, status: string, extensionStatus: string) => {
+        setCurrentPage(1)
         let queryData: any = {
-            page: currentPage,
+            page: 1,
             limit: RECORD_PER_PAGE,
             period: period
         }
@@ -92,7 +93,7 @@ const TopicListPage: React.FC<Props> = (props: Props) => {
                 .then((data) => {
                     setTopicList(data?.topics)
                     if(data?.metadata.totalPage > 0){
-                        setTotalPage(totalPage)
+                        setTotalPage(data?.metadata.totalPage)
                     }
                     }
                 )
@@ -118,7 +119,7 @@ const TopicListPage: React.FC<Props> = (props: Props) => {
                 .then((data) => {
                     setTopicList(data?.topics)
                     if(data?.metadata.totalPage > 0){
-                        setTotalPage(totalPage)
+                        setTotalPage(data?.metadata.totalPage)
                     }
                     }
                 )
