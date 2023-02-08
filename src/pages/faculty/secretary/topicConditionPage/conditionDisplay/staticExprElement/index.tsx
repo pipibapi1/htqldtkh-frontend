@@ -32,7 +32,7 @@ const LogicalExprElement : React.FC<exprComponent> = ({exprId}) => {
                         }
                         else return variable.variable
                     }).reduce((strVar1, strVar2) => {
-                        return strVar1 + ' ' + strVar2
+                        return strVar1 + ' + ' + strVar2
                     })}
                 </p>
             </div>
