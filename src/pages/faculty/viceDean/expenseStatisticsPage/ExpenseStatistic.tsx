@@ -93,6 +93,7 @@ const ExpenseStatistic: React.FC = () => {
     }
 
     const onChangePeriod = (period: string) => {
+        setCurrentPage(1)
         let queryDataForExpense: any = {
             period: period
         }
@@ -105,7 +106,7 @@ const ExpenseStatistic: React.FC = () => {
             })
             let queryDataForTopic: any = {
                 period: period,
-                page: currentPage,
+                page: 1,
                 limit: RECORD_PER_PAGE,
 
             }
@@ -118,6 +119,9 @@ const ExpenseStatistic: React.FC = () => {
         dispatch(getTopicListAction(queryDataForTopic))
         .then((data) => {
             setTopics(data?.topics)
+            if(data?.metadata.totalPage > 0){
+                setTotalPage(data?.metadata.totalPage)
+            }
             }
         )
         .catch((error) => {
@@ -126,9 +130,10 @@ const ExpenseStatistic: React.FC = () => {
     }
 
     const onChangeType = (type: string) => {
+        setCurrentPage(1)
         let queryDataForTopic: any = {
             period: currentPeriod,
-            page: currentPage,
+            page: 1,
             limit: RECORD_PER_PAGE,
 
         }
@@ -141,6 +146,9 @@ const ExpenseStatistic: React.FC = () => {
         dispatch(getTopicListAction(queryDataForTopic))
         .then((data) => {
             setTopics(data?.topics)
+            if(data?.metadata.totalPage > 0){
+                setTotalPage(data?.metadata.totalPage)
+            }
             }
         )
         .catch((error) => {
@@ -195,7 +203,7 @@ const ExpenseStatistic: React.FC = () => {
                 .then((data) => {
                     setTopics(data?.topics)
                     if(data?.metadata.totalPage > 0){
-                        setTotalPage(totalPage)
+                        setTotalPage(data?.metadata.totalPage)
                     }
                     }
                 )
@@ -347,6 +355,8 @@ const ExpenseStatistic: React.FC = () => {
 
                 <TopicListPage topics={topics} 
                     totalPage={totalPage}
+                    currentPage={currentPage}
+                    setCurrentPage={setCurrentPage}
                     onChangePage={onChangePage}
                     />
             </div>

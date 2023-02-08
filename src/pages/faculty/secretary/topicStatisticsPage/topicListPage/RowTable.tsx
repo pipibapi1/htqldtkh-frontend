@@ -1,5 +1,5 @@
 import React from 'react';
-import {Link} from "react-router-dom";
+const RECORD_PER_PAGE = 8;
 
 interface Props {
   index: number
@@ -10,15 +10,22 @@ interface Props {
   extensionStatus: string;
   topicRegister: string;
   date: string;
+  currentPage: number;
 }
 
 const RowTable: React.FC<Props> = (props) => {
-  const { index ,topicId, topicName, topicType, topicStatus, extensionStatus, topicRegister, date} = props;
-
+  const { index ,topicId, topicName, topicType, topicStatus, extensionStatus, topicRegister, date, currentPage} = props;
+  const displayDate = (dateStr: string) => {
+    const date = new Date(dateStr);
+    return date.getDate() + "/" + (date.getMonth() + 1) + "/" + date.getFullYear();
+  }
   return (
     <tr className={(index % 2 === 1) ? 'border-t-2 transition duration-300 ease-in-out' : 'border-t-2 bg-[#1488D8]/25 transition duration-300 ease-in-out'}>
       <td className='text-center font-medium px-1 py-1 text-sm text-gray-900 border-l-2'>
-        {topicId}
+      #{(currentPage - 1)*RECORD_PER_PAGE + index}
+      </td>
+      <td className='text-center font-medium px-1 py-1 text-sm text-gray-900 border-l-2'>
+      {topicId === "" ? "Chưa được cấp" : topicId}
       </td>
       <td className='text-center font-medium text-sm text-gray-900 px-1 py-1 border-l-2'>
         {topicName}
@@ -36,7 +43,7 @@ const RowTable: React.FC<Props> = (props) => {
         {topicRegister}
       </td>
       <td className='text-center font-medium text-sm text-gray-900 px-1 py-1 border-l-2'>
-        {date}
+      {displayDate(date)}
       </td>
       
     </tr>

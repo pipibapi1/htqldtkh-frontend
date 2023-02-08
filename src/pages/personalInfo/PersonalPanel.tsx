@@ -30,7 +30,7 @@ const PersonalPanel:React.FC<Props> = (props: Props) => {
     }
     else{
         userInfo = {}
-    }
+    } 
 
     const Toast = Swal.mixin({
         toast: true,
@@ -52,7 +52,6 @@ const PersonalPanel:React.FC<Props> = (props: Props) => {
     const [imageFile, setImageFile] = useState();
 
     const useAppDispatch: () => AppDispatch = useDispatch
-
     const dispatch = useAppDispatch()
 
     const [loading, setLoading] = useState(false);
@@ -539,7 +538,6 @@ const PersonalPanel:React.FC<Props> = (props: Props) => {
                                     >
                                         <option value={EducationType.CQ}>{capitalizeFirstLetter(EducationType.CQ)}</option>
                                         <option value={EducationType.CLC}>{capitalizeFirstLetter(EducationType.CLC)}</option>
-                                        <option value={EducationType.CLCLV}>{capitalizeFirstLetter(EducationType.CLCLV)}</option>
                                         <option value={EducationType.KSTN}>{capitalizeFirstLetter(EducationType.KSTN)}</option>
                                     </select>
                         </div>

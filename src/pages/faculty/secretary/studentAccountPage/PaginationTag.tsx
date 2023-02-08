@@ -4,7 +4,7 @@ interface Props {
   numPage: number;
   setCurrentPage: React.Dispatch<React.SetStateAction<number>>;
   currentPage: number;
-  onChangePage: any;
+  onChangePage: (page: number) => void;
 }
 
 const PaginationTag: React.FC<Props> = (props) => {
@@ -13,7 +13,7 @@ const PaginationTag: React.FC<Props> = (props) => {
     <li onClick={() => {
       setCurrentPage(numPage)
       onChangePage(numPage)
-      }}>
+    }}>
       <div
         aria-current='page'
         className={
