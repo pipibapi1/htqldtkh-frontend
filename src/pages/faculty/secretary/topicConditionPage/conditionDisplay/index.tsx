@@ -1,5 +1,6 @@
 import React from "react";
-import StaticExprElement from "./staticExpressionElement";
+import StaticExprElement from "./staticExprElement";
+import EditableExprElement from "./editableExprElement";
 import { useSelector } from "react-redux";
 import { RootState} from "../../../../../store";
 
@@ -11,11 +12,20 @@ const ConditionDisplay: React.FC<props> = (props) => {
     const {expression} = useSelector((state: RootState) => state.topicCondition);
 
     if (Object.values(expression).length > 0) {
-        return (
-            <div>
-                <StaticExprElement exprId="root"/>
-            </div>
-        )
+        if (props.isEditing) {
+            return (
+                <div>
+                    <EditableExprElement exprId="root"/>
+                </div>
+            )
+        }
+        else {
+            return (
+                <div>
+                    <StaticExprElement exprId="root"/>
+                </div>
+            )
+        }
     }
     else {
         return (

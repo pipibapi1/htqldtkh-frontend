@@ -7,7 +7,7 @@ interface topicConditionIntf {
     type?: string,
     createAt?: string,
     expression?: {[k: string]: (relationExprIntf | logicExprIntf)},
-    isLoading: boolean
+    isLoading?: boolean
 }
 
 interface relationExprIntf {

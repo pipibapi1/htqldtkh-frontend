@@ -1,16 +1,16 @@
 import React from "react";
-import { exprComponent, expression, logicExprIntf } from "./interface";
+import { exprComponent, expression, logicExprIntf } from "../interface";
 import { useSelector } from "react-redux";
-import { RootState } from "../../../../../store";
-import { OperationTypeEnum } from "../../../../../shared/types/operationType";
+import { RootState } from "../../../../../../store";
+import { OperationTypeEnum } from "../../../../../../shared/types/operationType";
 
 const RelationExprElement : React.FC<exprComponent> = ({exprId}) => {
     const {expression} = useSelector((state: RootState) => state.topicCondition);
     const operator = (expression as expression)[exprId].operator;
     return (
-        <div className="flex flex-col border-[#1488d8] border-2 rounded p-2 mx-1 my-2">
+        <div className="flex flex-col border-[#d9d9d9] border-2 rounded p-2 mx-1 my-2">
             <StaticExprElement exprId={`${exprId},l`}/>
-            <div>
+            <div className="mx-2">
                 {operator}
             </div>
             <StaticExprElement exprId={`${exprId},r`}/>
@@ -23,8 +23,8 @@ const LogicalExprElement : React.FC<exprComponent> = ({exprId}) => {
     const subExpr = (expression as expression)[exprId] as logicExprIntf;
     const variableArr = subExpr.leftExpr;
     return (
-        <div className="flex flex-row items-center border-[#1488d8] border-2 rounded p-2 mx-1 my-2">
-            <div className="bg-[#d9d9d9] rounded-sm mx-1 p-1">
+        <div className="flex flex-row items-center border-[#d9d9d9] border-2 rounded p-2 mx-1 my-2">
+            <div className="bg-[#d9d9d9] rounded mx-1 p-1">
                 <p>
                     {variableArr.map((variable) => {
                         if (variable.weight) {
@@ -39,13 +39,13 @@ const LogicalExprElement : React.FC<exprComponent> = ({exprId}) => {
             <div className="mx-1 p-1">
                 của
             </div>
-            <div className="bg-[#d9d9d9] rounded-sm mx-1 p-1">
+            <div className="bg-[#d9d9d9] rounded mx-1 p-1">
                 {subExpr.object}
             </div>
-            <div className="bg-[#d9d9d9] rounded-sm mx-1 p-1">
+            <div className="bg-[#d9d9d9] rounded mx-1 p-1">
                 {subExpr.operator}
             </div>
-            <div className="bg-[#d9d9d9] rounded-sm mx-1 p-1">
+            <div className="bg-[#d9d9d9] rounded mx-1 p-1">
                 {subExpr.rightValue}
             </div>
         </div>

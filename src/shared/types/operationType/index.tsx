@@ -5,6 +5,6 @@ export enum OperationTypeEnum {
     DIFFERENT = "Khác",
     GREATER = "Lớn hơn",
     LESS = "Bé hơn",
-    GT = "Lớn hơn hoặc bằng",
-    LT = "Bé hơn hoặc bằng"
+    GE = "Lớn hơn hoặc bằng",
+    LE = "Bé hơn hoặc bằng"
 }

@@ -3,7 +3,7 @@ export interface topicConditionIntf {
     type?: string,
     createAt?: string,
     expression?: expression,
-    isLoading: boolean
+    isLoading?: boolean
 }
 
 export interface expression {
@@ -17,7 +17,7 @@ export interface relationExprIntf {
 export interface logicExprIntf{
     operator: string,
     object: string,
-    leftExpr: {variable: string, weight?: string}[],
+    leftExpr: {variable: string, weight?: number, key?: string}[],
     rightValue: string
 }
 

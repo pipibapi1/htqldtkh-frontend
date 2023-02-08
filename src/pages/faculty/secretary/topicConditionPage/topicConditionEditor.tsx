@@ -2,16 +2,18 @@ import {FC, useState, MouseEvent, useEffect, ChangeEvent} from 'react';
 import { TopicTypeEnum } from '../../../../shared/types/topicType';
 import topicConditionService from '../../../../services/topicConditionService';
 import ConditionDisplay from './conditionDisplay';
-import { topicConditionIntf } from './conditionDisplay/interface';
-import { useDispatch} from "react-redux";
-import { AppDispatch } from '../../../../store';
+import { expression, topicConditionIntf } from './conditionDisplay/interface';
+import { useDispatch, useSelector} from "react-redux";
+import { AppDispatch, RootState } from '../../../../store';
 import { setTopicConditionAction } from '../../../../actions/topicConditionAction';
+import Swal from 'sweetalert2';
 
 const FSTopicConditionEditor: FC = () => {
     const [isEditing, setIsEditing] = useState<boolean>(false);
     const [type, setType] = useState<string>(Object.values(TopicTypeEnum)[0]);
     const [topicCondition, setTopicCondition] = useState<topicConditionIntf>({isLoading: true});
 
+    const {expression} = useSelector((state: RootState) => state.topicCondition);
     const useAppDispatch: () => AppDispatch = useDispatch
     const dispatch = useAppDispatch()
 
@@ -30,24 +32,47 @@ const FSTopicConditionEditor: FC = () => {
     }
 
     const onChangeTopicType = (e : ChangeEvent<HTMLSelectElement>) => {
-        setType(e.target.value);
+        if (isEditing) {
+            e.preventDefault();
+        }
+        else {
+            setType(e.target.value);
+        }
     }
 
     useEffect(() => {
-        topicConditionService.getTopicConditionByType(type)
-            .then((condition) => {
-                const newCondition: topicConditionIntf = {
-                    ...condition,
-                    isLoading: false
-                }
-                setTopicCondition(newCondition);
-                dispatch(setTopicConditionAction(newCondition.expression))
-            })
-            .catch((err)=> {console.log(err)})
-        return () => {
-            dispatch(setTopicConditionAction())
+        if (!isEditing) {
+            topicConditionService.getTopicConditionByType(type)
+                .then((condition) => {
+                    const newCondition: topicConditionIntf = {
+                        ...condition,
+                        isLoading: false
+                    }
+                    setTopicCondition(newCondition);
+                    dispatch(setTopicConditionAction(newCondition.expression))
+                })
+                .catch((err)=> {console.log(err)})
         }
-    }, [type, dispatch])
+    }, [type, dispatch, isEditing])
+
+    const onClickConfirmBtn = (event : MouseEvent<HTMLButtonElement>) => {
+        topicConditionService.postTopicCondition({
+            expression: expression as expression,
+            type: type,
+        }).then((data) => {
+            Swal.fire({
+                icon: 'success',
+                title: 'Cập nhật thành công',
+                showDenyButton: false,
+                showCancelButton: false,
+                confirmButtonText: 'OK',
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    setIsEditing(false);
+                } 
+            })
+        })
+    }
 
     return (
         <div className='px-5 py-5 flex flex-col'>
@@ -60,9 +85,10 @@ const FSTopicConditionEditor: FC = () => {
                         <div className="">
                             <select
                                 className="bg-white h-[40px] w-[270px] border border-black border-1 rounded-lg focus:ring-blue-500 px-2"
-                                    onChange={onChangeTopicType}
-                                    defaultValue={Object.values(TopicTypeEnum)[0]}
-                                >
+                                onChange={onChangeTopicType}
+                                value={type}
+                                disabled={isEditing}
+                            >
                                 {Object.values(TopicTypeEnum).map((type) => {
                                     return (
                                         <option value={type} key={type}>{type}</option>
@@ -94,7 +120,9 @@ const FSTopicConditionEditor: FC = () => {
                             >
                                 Hủy
                             </button>
-                            <button className='button bg-[#1488d8] w-32 py-2 rounded-lg text-white'>
+                            <button className='button bg-[#1488d8] w-32 py-2 rounded-lg text-white'
+                                onClick={onClickConfirmBtn}
+                            >
                                 Xác nhận
                             </button>
                         </>
