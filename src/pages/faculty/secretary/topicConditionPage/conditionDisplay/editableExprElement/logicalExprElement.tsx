@@ -12,7 +12,7 @@ import { updateExprTopicCondition,
 } from "../../../../../../actions/topicConditionAction";
 
 interface variableIntf {
-    key?: string,
+    key: string,
     variable: string,
     weight?: number
 }
@@ -22,13 +22,24 @@ type variableArrAction = (arr: variableIntf[]) => variableIntf[]
 export const LogicalExprElement : React.FC<exprComponent> = ({exprId}) => {
     const {expression} = useSelector((state: RootState) => state.topicCondition);
     const subExpr = (expression as expression)[exprId] as logicExprIntf;
-    const variableArr = subExpr.leftExpr.map((ele) => {
-        const key = Math.floor(Math.random() * 999)
-        return {
-            ...ele,
-            key: ele.variable + key.toString()
+    const variableArr = subExpr.leftExpr;
+
+    let isValidExpr = true;
+    const isValidRightValue = subExpr.rightValue? true : false;
+    if (!isValidRightValue) {
+        isValidExpr = false;
+    }
+    else if (variableArr.length === 0) {
+        isValidExpr = false;
+    }
+    else {
+        const indexOfErrVariable = variableArr.findIndex((variable) => {
+            return !(variable.variable)
+        })
+        if (indexOfErrVariable !== -1) {
+            isValidExpr = false;
         }
-    })
+    }
 
     //for topic condition action in redux
     const useAppDispatch: () => AppDispatch = useDispatch;
@@ -70,7 +81,6 @@ export const LogicalExprElement : React.FC<exprComponent> = ({exprId}) => {
     const onClickAddVariable = (event: React.MouseEvent<HTMLButtonElement>) => {
         const randomNum = (Math.floor(Math.random() * 999)).toString();
         const timeStamp = (new Date()).getTime().toString();
-        console.log(timeStamp)
         const newVariable = {
             variable: "",
             weight: 1,
@@ -84,8 +94,16 @@ export const LogicalExprElement : React.FC<exprComponent> = ({exprId}) => {
         dispatch(updateExprTopicCondition(newSubExpr, exprId));
     }
 
+    const onDeleteSubExpr = (event: React.MouseEvent<HTMLButtonElement>) => {
+        dispatch(deleteExprTopicCondition(exprId))
+    }
+
     return (
-        <div className="flex flex-row items-center border-[#1488d8] border-2 rounded p-2 mx-1 my-2">
+        <div className={`flex flex-row items-center ${isValidExpr? "border-[#d9d9d9]" : "border-red-500"} border-2 rounded p-2 mx-1 my-2`}>
+            <button
+                className="ml-1 mr-3 pi pi-trash border border-1 border-[#1488d8] rounded p-2"
+                onClick={onDeleteSubExpr}
+            ></button>
             <div className="mx-1 flex flex-col items-center">
                 <div className="mb-1">
                     Tổng của:
@@ -103,7 +121,7 @@ export const LogicalExprElement : React.FC<exprComponent> = ({exprId}) => {
                 })}
                 <div className="mt-1">
                     <button
-                        className="bg-white h-[40px] w-[80px] border border-black border-1 rounded-lg focus:ring-blue-500 px-1"
+                        className="bg-white h-[40px] w-[80px] border border-[#1488d8] border-1 rounded-lg focus:ring-blue-500 px-1"
                         onClick={onClickAddVariable}
                     >
                         Thêm
@@ -115,7 +133,7 @@ export const LogicalExprElement : React.FC<exprComponent> = ({exprId}) => {
             </div>
             <div className="mx-1">
                 <select
-                    className="bg-white h-[40px] w-[180px] border border-black border-1 rounded-lg focus:ring-blue-500 px-1"
+                    className="bg-white h-[40px] w-[180px] border border-[#1488d8] border-1 rounded-lg focus:ring-blue-500 px-1"
                     value={subExpr.object}
                     onChange={onChangeTopicMemberType}
                 >
@@ -133,7 +151,7 @@ export const LogicalExprElement : React.FC<exprComponent> = ({exprId}) => {
             </div>
             <div className="mx-1">
                 <select
-                    className="bg-white h-[40px] w-[180px] border border-black border-1 rounded-lg focus:ring-blue-500 px-1"
+                    className="bg-white h-[40px] w-[180px] border border-[#1488d8] border-1 rounded-lg focus:ring-blue-500 px-1"
                     value={subExpr.operator}
                     onChange={onChangeOperatorType}
                 >
@@ -147,7 +165,7 @@ export const LogicalExprElement : React.FC<exprComponent> = ({exprId}) => {
             </div>
             <div className="mx-1">
                 <input
-                    className="bg-white h-[40px] w-[160px] border border-black border-1 rounded-lg focus:ring-blue-500 px-1"
+                    className={`bg-white h-[40px] w-[160px] border ${isValidRightValue? "border-[#1488d8]" : "border-red-500"} border-1 rounded-lg focus:ring-blue-500 px-1`}
                     defaultValue={subExpr.rightValue}
                     placeholder="Giá trị dùng để so sánh"
                     onChange={onChangeRightValueInput}

@@ -1,7 +1,7 @@
 import React from "react";
 
 interface variableIntf {
-    key?: string,
+    key: string,
     variable: string,
     weight?: number
 }
@@ -14,11 +14,14 @@ interface variableElement {
 }
 
 type variableArrAction = (arr: variableIntf[]) => variableIntf[]
-type variableArrUpdate = (acion: variableArrAction) => void
+type variableArrUpdate = (action: variableArrAction) => void
 
 export const VariableElement: React.FC<variableElement> = ({variable, weight, onUpdate, keyId}) => {
     const [isEditingName, setIsEditingName] = React.useState<boolean>(false);
     const [isEditingWeight, setIsEditingWeight] = React.useState<boolean>(false);
+
+    //for style invalid input
+    const isValidVariable = variable? true : false;
 
     const onDelete = (event: React.MouseEvent<HTMLButtonElement>) => {
         const deleteThisVariable = (variableArr: variableIntf[]) => {
@@ -28,6 +31,7 @@ export const VariableElement: React.FC<variableElement> = ({variable, weight, on
     }
 
     const onChangeVariable = (event: React.ChangeEvent<HTMLInputElement>) => {
+        event.preventDefault();
         setIsEditingName(false)
         const changeVariable = (variableArr: variableIntf[]) => {
             return variableArr.map((variable) => {
@@ -50,13 +54,15 @@ export const VariableElement: React.FC<variableElement> = ({variable, weight, on
     }
 
     const onChangeWeight = (event: React.ChangeEvent<HTMLInputElement>) => {
+        event.preventDefault();
         setIsEditingWeight(false);
         const changeWeight = (variableArr: variableIntf[]) => {
             return variableArr.map((variable) => {
                 if (variable.key === keyId) {
+                    const checkWeight: boolean = (event.target.value && !isNaN(parseFloat(event.target.value)))? true : false;
                     return {
                         ...variable,
-                        weight: event.target.value? parseFloat(event.target.value) : undefined
+                        weight: checkWeight? parseFloat(event.target.value) : undefined
                     };
                 }
                 else {
@@ -77,15 +83,18 @@ export const VariableElement: React.FC<variableElement> = ({variable, weight, on
                 onClick={onDelete}
             ></button>
             <input
-                className="bg-white h-[40px] w-[180px] border border-black border-1 rounded-lg px-1 mx-1"
+                className={`bg-white h-[40px] w-[180px] border ${isValidVariable? "border-[#1488d8]" : "border-red-500"} border-1 rounded-lg px-1 mx-1`}
                 defaultValue={variable}
                 onMouseDown={isEditingName? undefined : onStartEditVariable}
                 onBlur={isEditingName? onChangeVariable : undefined}
                 placeholder="Giá trị"
             >
             </input>
+            <div>
+                X
+            </div>
             <input
-                className="bg-white h-[40px] w-[80px] border border-black border-1 rounded-lg px-1 mx-1"
+                className="bg-white h-[40px] w-[80px] border border-[#1488d8] border-1 rounded-lg px-1 mx-1"
                 defaultValue={weight}
                 onMouseDown={isEditingWeight? undefined : onStartEditWeight}
                 onBlur={isEditingWeight? onChangeWeight : undefined}

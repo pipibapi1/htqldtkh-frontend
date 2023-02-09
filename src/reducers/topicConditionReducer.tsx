@@ -15,7 +15,7 @@ interface relationExprIntf {
 interface logicExprIntf{
     operator: string,
     object: string,
-    leftExpr: {variable: string, weight?: string}[],
+    leftExpr: {variable: string, weight?: string, key: string}[],
     rightValue: string
 }
 
@@ -41,7 +41,10 @@ export default function (state = initialState, action: any) {
         }
     
     case ADD_EXPR_TOPIC_CONDITION:
-        return {};
+        newExpr[payload.exprId] = payload.subExpr
+        return {
+            expression: newExpr
+        };
     
     case DELETE_EXPR_TOPIC_CONDITION:
         Object.keys(newExpr).forEach((key) => {

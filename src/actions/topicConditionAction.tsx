@@ -15,7 +15,7 @@ interface relationExprIntf {
 interface logicExprIntf{
     operator: string,
     object: string,
-    leftExpr: {variable: string, weight?: number, key?: string}[],
+    leftExpr: {variable: string, weight?: number, key: string}[],
     rightValue: string
 }
 
@@ -36,7 +36,7 @@ const updateExprTopicCondition = (expr: relationExprIntf | logicExprIntf, exprId
     })
 }
 
-const deleteExprTopicCondition = (expr: relationExprIntf | logicExprIntf, exprId: string) => (dispatch: any) => {
+const deleteExprTopicCondition = (exprId: string) => (dispatch: any) => {
     return dispatch({
         type: DELETE_EXPR_TOPIC_CONDITION,
         payload: {
@@ -45,8 +45,19 @@ const deleteExprTopicCondition = (expr: relationExprIntf | logicExprIntf, exprId
     })
 }
 
+const addExprTopicCondition = (expr: relationExprIntf | logicExprIntf, exprId: string) => (dispatch: any) => {
+    return dispatch({
+        type: ADD_EXPR_TOPIC_CONDITION,
+        payload: {
+            subExpr: expr,
+            exprId: exprId
+        }
+    })
+}
+
 export {
     setTopicConditionAction,
     updateExprTopicCondition,
-    deleteExprTopicCondition
+    deleteExprTopicCondition,
+    addExprTopicCondition
 }
