@@ -2,11 +2,12 @@ import {FC, useState, MouseEvent, useEffect, ChangeEvent} from 'react';
 import { TopicTypeEnum } from '../../../../shared/types/topicType';
 import topicConditionService from '../../../../services/topicConditionService';
 import ConditionDisplay from './conditionDisplay';
-import { expression, topicConditionIntf } from './conditionDisplay/interface';
+import { expression, topicConditionIntf, logicExprIntf } from './conditionDisplay/interface';
 import { useDispatch, useSelector} from "react-redux";
 import { AppDispatch, RootState } from '../../../../store';
 import { setTopicConditionAction } from '../../../../actions/topicConditionAction';
 import Swal from 'sweetalert2';
+import { OperationTypeEnum } from '../../../../shared/types/operationType';
 
 const FSTopicConditionEditor: FC = () => {
     const [isEditing, setIsEditing] = useState<boolean>(false);
@@ -26,9 +27,11 @@ const FSTopicConditionEditor: FC = () => {
 
     const onClickBtnCancelEdit = (e : MouseEvent<HTMLElement>) => {
         e.preventDefault();
-        if (!topicCondition.isLoading) {
-            setIsEditing(false);
-        }
+        setTopicCondition({
+            ...topicCondition,
+            isLoading: true
+        })
+        setIsEditing(false);
     }
 
     const onChangeTopicType = (e : ChangeEvent<HTMLSelectElement>) => {
@@ -56,28 +59,70 @@ const FSTopicConditionEditor: FC = () => {
     }, [type, dispatch, isEditing])
 
     const onClickConfirmBtn = (event : MouseEvent<HTMLButtonElement>) => {
-        topicConditionService.postTopicCondition({
-            expression: expression as expression,
-            type: type,
-        }).then((data) => {
+        let isValidExpr = true;
+        for (let key in expression as expression) {
+            const subExpr = expression[key];
+            if (subExpr.operator === OperationTypeEnum.AND || subExpr.operator === OperationTypeEnum.OR) {
+                const leftExpr = expression[key + ',l'];
+                const rightExpr = expression[key + ',r'];
+                if (!leftExpr || !rightExpr) {
+                    isValidExpr = false;
+                    break;
+                }
+            }
+            else {
+                const currExpr = subExpr as  logicExprIntf;
+                if (!currExpr.rightValue) {
+                    isValidExpr = false;
+                    break;
+                }
+                else if (currExpr.leftExpr.length === 0) {
+                    isValidExpr = false;
+                    break;
+                }
+                else {
+                    const indexOfErrVariable = currExpr.leftExpr.findIndex((variable) => {
+                        return !(variable.variable)
+                    })
+                    if (indexOfErrVariable !== -1) {
+                        isValidExpr = false;
+                    }
+                }
+            }
+        }
+        if (isValidExpr) {
+            topicConditionService.postTopicCondition({
+                expression: expression as expression,
+                type: type,
+            }).then((data) => {
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Cập nhật thành công',
+                    showDenyButton: false,
+                    showCancelButton: false,
+                    confirmButtonText: 'OK',
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        setIsEditing(false);
+                    } 
+                })
+            })
+        }
+        else {
             Swal.fire({
-                icon: 'success',
-                title: 'Cập nhật thành công',
+                icon: 'error',
+                text: 'Cập nhật không thành công. Một số dữ liệu bị thiếu và được đánh dấu màu đỏ. Vui lòng điền dữ liệu còn thiếu và thử lại sau',
                 showDenyButton: false,
                 showCancelButton: false,
                 confirmButtonText: 'OK',
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    setIsEditing(false);
-                } 
             })
-        })
+        }
     }
 
     return (
         <div className='px-5 py-5 flex flex-col'>
-            <div className='flex flex-row items-start justify-between w-full'>
-                <div className='flex flex-col items-start'>
+            <div className='flex flex-row items-start justify-start w-full'>
+                <div className='flex flex-col items-start mr-5'>
                     <div className='flex flex-row items-center'>
                         <div className='mr-5'>
                             Loại đề tài:
