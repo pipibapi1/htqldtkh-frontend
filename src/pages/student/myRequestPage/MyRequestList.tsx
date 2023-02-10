@@ -1,14 +1,16 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, Fragment } from 'react';
 import {Link} from "react-router-dom";
 import RowTable from './RowTable';
 import PaginationTag from './PaginationTag';
 import LeftTag from './LeftTag';
 import RightTag from './RightTag';
+import Modal from "./Modal";
 
 const RECORD_PER_PAGE = 5;
 const TOTAL_PAGE_DEFAULT = 1;
 
 const MyRequestList: React.FC = () => {
+    const [showModal, setShowModal] = useState<boolean>(false);
 
     const [currentPage, setCurrentPage] = useState<number>(TOTAL_PAGE_DEFAULT);
     const totalPage = useRef(TOTAL_PAGE_DEFAULT);
@@ -20,16 +22,21 @@ const MyRequestList: React.FC = () => {
       const nextPage = () => {
         if (currentPage >= totalPage.current) return;
         setCurrentPage(currentPage + 1);
-      };
+      }; 
 
     return(
+    <div>
         <div className='p-4 overflow-y-auto'>
             <div className='grid justify-items-end px-5'>
-                <Link to={'/registerTopic'} className="">
-                    <div className="w-40 bg-[#0079CC] flex justify-center items-center transition text-white font-semibold py-4 border border-white-500 rounded-[15px] hover:bg-[#025A97] hover:cursor-pointer">
+                <div className="w-40 bg-[#0079CC] flex justify-center items-center transition text-white font-semibold py-4 border border-white-500 rounded-[15px] hover:bg-[#025A97] hover:cursor-pointer"
+                    onClick={(e:any) => {
+                        e.preventDefault();
+                        setShowModal(true);
+                    }}
+                >
                     Tạo yêu cầu
-                    </div>
-                </Link>
+                </div>
+  
             </div>
 
             <div className='grid justify-items-end px-5'>
@@ -178,6 +185,8 @@ const MyRequestList: React.FC = () => {
                         </ul>
                 </div>
         </div>
+        <Modal isVisible = {showModal} onClose = {() => setShowModal(false)}/>
+    </div>
     )
 }
 

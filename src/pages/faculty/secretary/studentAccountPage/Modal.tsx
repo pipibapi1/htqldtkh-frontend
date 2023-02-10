@@ -77,29 +77,29 @@ const Modal = ({isVisible, onClose, student}: {isVisible: boolean, onClose: any,
                             Thông tin chi tiết tài khoản
                         </div>
                         <form className = "space-y-3" action = "#">
-                            <div className = 'flex flex-row '>
+                            <div className = 'flex flex-row'>
                                 <div className = 'mr-6 w-[230px]'>
-                                <label htmlFor='email' className = "block mb-2 text-sm font-medium text-gray-900">
-                                    Họ và tên
-                                </label>
-                                <input type = 'text' name = 'text' id ='email'
-                                className = "bg-gray-300 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
-                                value={student.name}
-                                required
-                                disabled
-                                />
+                                    <label htmlFor='email' className = "block mb-2 text-sm font-medium text-gray-900">
+                                        Họ và tên
+                                    </label>
+                                    <input type = 'text' name = 'text' id ='email'
+                                    className = "bg-gray-300 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+                                    value={student.name}
+                                    required
+                                    disabled
+                                    />
                                 </div>
 
                                 <div className = 'ml-6 w-[230px] '>
-                                <label htmlFor='email' className = "block mb-2 text-sm font-medium text-gray-900">
-                                    MSSV
-                                </label>
-                                <input type = 'email' name = 'email' id ='email'
-                                className = "bg-gray-300 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
-                                value={student.studentId}
-                                required
-                                disabled
-                                />
+                                    <label htmlFor='email' className = "block mb-2 text-sm font-medium text-gray-900">
+                                        MSSV
+                                    </label>
+                                    <input type = 'email' name = 'email' id ='email'
+                                    className = "bg-gray-300 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+                                    value={student.studentId}
+                                    required
+                                    disabled
+                                    />
                                 </div>
                             </div>
 

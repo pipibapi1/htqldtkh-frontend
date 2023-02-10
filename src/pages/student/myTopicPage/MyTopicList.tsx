@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 import {Link} from "react-router-dom";
 import RowTable from './RowTable';
 import PaginationTag from './PaginationTag';
@@ -6,30 +6,48 @@ import LeftTag from './LeftTag';
 import RightTag from './RightTag';
 
 const RECORD_PER_PAGE = 5;
-const TOTAL_PAGE_DEFAULT = 1;
 
 const MyTopicList: React.FC = () => {
 
-    const [currentPage, setCurrentPage] = useState<number>(TOTAL_PAGE_DEFAULT);
-    const totalPage = useRef(TOTAL_PAGE_DEFAULT);
+    const [currentPage, setCurrentPage] = useState<number>(1);
+    const [totalPage, setTotalPage] = useState<number>(1);
 
     const prevPage = () => {
         if (currentPage <= 1) return;
         setCurrentPage(currentPage - 1);
       };
       const nextPage = () => {
-        if (currentPage >= totalPage.current) return;
+        if (currentPage >= totalPage) return;
         setCurrentPage(currentPage + 1);
       };
 
     return(
         <div className='p-4 overflow-y-auto'>
-            <div className='grid justify-items-end px-5'>
-                <Link to={'/registerTopic'} className="">
-                    <div className="w-40 bg-[#0079CC] flex justify-center items-center transition text-white font-semibold py-4 border border-white-500 rounded-[15px] hover:bg-[#025A97] hover:cursor-pointer">
-                    Nhập đề tài mới
+            <div className='grid grid-cols-14 px-5 flex'>
+                    <div className='col-start-1 col-span-2 flex items-center'>
+                        <div className='mr-5'>
+                                Đợt: 
+                        </div>
+                        <div className="">
+                            <select
+                                className="bg-white h-[40px] w-[270px] border border-black border-1 rounded-lg focus:ring-blue-500 px-2"
+                                    onChange={(e) => {
+                                        
+                                    }}
+                                    // defaultValue={periods.length === 0 ? "" : periods[0]._id}
+                                    // value={currentPeriod}
+                                >
+                                
+                                <option value="">6/2022</option>
+                                <option value="">3/2022</option>
+                            </select>
+                        </div>
                     </div>
-                </Link>
+                <div className="col-start-13 col-span-2 flex justify-end">
+                    <Link to={'/registerTopic'} className="w-40 bg-[#0079CC] flex justify-center items-center transition text-white font-semibold py-4 border border-white-500 rounded-[15px] hover:bg-[#025A97] hover:cursor-pointer">
+                    Nhập đề tài mới
+                    </Link>
+                </div>
             </div>
 
             <div className='flex grid justify-items-end px-5'>
@@ -211,7 +229,7 @@ const MyTopicList: React.FC = () => {
             <div className='grid justify-items-end px-5'>
                         <ul className='inline-flex items-center -space-x-px'>
                             <LeftTag onClick={prevPage} />
-                            {Array.from(Array(totalPage.current).keys()).map((index) => (
+                            {Array.from(Array(totalPage).keys()).map((index) => (
                                 <PaginationTag
                                 key={index}
                                 numPage={index + 1}

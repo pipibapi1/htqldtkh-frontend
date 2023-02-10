@@ -20,6 +20,9 @@ import StudentAccountManagement from './pages/faculty/secretary/studentAccountPa
 import VicedeanAccountManagement from './pages/faculty/secretary/vicedeanAccountPage';
 import FSTopicConditionManagement from './pages/faculty/secretary/topicConditionPage';
 import FSUploadAnnouncement from './pages/faculty/secretary/uploadAnnouncementPage';
+import StudentTopicDetail from './pages/student/studentTopicDetail';
+import StudentTopicProduct from './pages/student/studentTopicProduct';
+import StudentTopicPapers from './pages/student/studentTopicPapers';
 
 function App() {
   
@@ -34,6 +37,9 @@ function App() {
       <Route path={appRouters.LINK_TO_PERSONAL_INFO_PAGE} element={<PersonalInfo/>} />
 
       <Route path={appRouters.LINK_TO_MY_TOPIC_PAGE} element={<MyTopicPage/>} />
+        <Route path={appRouters.LINK_TO_STUDENT_TOPIC_DETAIL} element={<StudentTopicDetail/>} />
+        <Route path={appRouters.LINK_TO_STUDENT_TOPIC_PRODUCT} element={<StudentTopicProduct/>} />
+        <Route path={appRouters.LINK_TO_STUDENT_TOPIC_PAPERS} element={<StudentTopicPapers/>} />
       <Route path={appRouters.LINK_TO_REGISTER_TOPIC_PAGE} element={<RegisterTopicPage/>} />
       <Route path={appRouters.LINK_TO_MY_REQUEST_PAGE} element={<MyRequestPage/>} />
       <Route path={appRouters.LINK_TO_VIEW_TEMPLATES_PAGE} element={<TemplatesPage/>} />
