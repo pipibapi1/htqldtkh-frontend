@@ -7,10 +7,14 @@ import { useSelector } from "react-redux";
 import { RootState} from '../../store';
 import { Document,Page } from 'react-pdf/dist/esm/entry.webpack5';
 import {useState} from 'react'
-import ThongBao from '../../assets/images/ThongBaoMoiNhat.pdf'
+import {
+  useParams
+} from "react-router-dom";
 
 
 const Home: React.FC = (props: any) => {
+  let { announcementId} = useParams();
+  const file = process.env.REACT_APP_API_URL + "/api/announcement" + `/${announcementId}/file`;
   const { isLoggedIn } = useSelector((state: RootState) => state.auth);
 
   const [numPages, setNumPages] = useState(null);
@@ -32,6 +36,9 @@ const Home: React.FC = (props: any) => {
   const changePageNext = () => {
     changePage(+1);
   }
+
+  
+
     return (
         <div className=''>
         <Header isLogin={isLoggedIn} isAccountServicePage={false}/>
@@ -44,7 +51,7 @@ const Home: React.FC = (props: any) => {
         </div>
         
         
-        <Document file ={ThongBao} onLoadSuccess={onDocumentLoadSuccess} className = ' border border-3 rounded-lg py-5 px-5 mx-28 my-10 flex flex-col justify-center items-center'>
+        <Document file ={file} onLoadSuccess={onDocumentLoadSuccess} className = ' border border-3 rounded-lg py-5 px-5 mx-28 my-10 flex flex-col justify-center items-center'>
             <Page width = {1200}  pageNumber={pageNumber} renderTextLayer = {false} renderAnnotationLayer = {false} />
             <p className = 'text-center'> Page {pageNumber} of {numPages}</p>
 
