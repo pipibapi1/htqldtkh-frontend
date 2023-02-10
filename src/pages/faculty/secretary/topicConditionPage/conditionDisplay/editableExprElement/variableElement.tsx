@@ -17,8 +17,6 @@ type variableArrAction = (arr: variableIntf[]) => variableIntf[]
 type variableArrUpdate = (action: variableArrAction) => void
 
 export const VariableElement: React.FC<variableElement> = ({variable, weight, onUpdate, keyId}) => {
-    const [isEditingName, setIsEditingName] = React.useState<boolean>(false);
-    const [isEditingWeight, setIsEditingWeight] = React.useState<boolean>(false);
 
     //for style invalid input
     const isValidVariable = variable? true : false;
@@ -32,49 +30,29 @@ export const VariableElement: React.FC<variableElement> = ({variable, weight, on
 
     const onChangeVariable = (event: React.ChangeEvent<HTMLInputElement>) => {
         event.preventDefault();
-        setIsEditingName(false)
         const changeVariable = (variableArr: variableIntf[]) => {
-            return variableArr.map((variable) => {
-                if (variable.key === keyId) {
-                    return {
-                        ...variable,
-                        variable: event.target.value
-                    };
-                }
-                else {
-                    return variable;
-                }
-            })
+            const targetVariable = event.target.value;
+            const updateIndex = variableArr.findIndex((variable) => variable.key === keyId);
+            if (updateIndex !== -1) {
+                variableArr[updateIndex].variable = targetVariable
+            }
+            return variableArr;
         }
         onUpdate(changeVariable);
     }
 
-    const onStartEditVariable = (event: React.MouseEvent<HTMLInputElement>) => {
-        setIsEditingName(true);
-    }
-
     const onChangeWeight = (event: React.ChangeEvent<HTMLInputElement>) => {
         event.preventDefault();
-        setIsEditingWeight(false);
         const changeWeight = (variableArr: variableIntf[]) => {
-            return variableArr.map((variable) => {
-                if (variable.key === keyId) {
-                    const checkWeight: boolean = (event.target.value && !isNaN(parseFloat(event.target.value)))? true : false;
-                    return {
-                        ...variable,
-                        weight: checkWeight? parseFloat(event.target.value) : undefined
-                    };
-                }
-                else {
-                    return variable;
-                }
-            })
+            const checkWeight: boolean = (event.target.value && !isNaN(parseFloat(event.target.value)))? true : false;
+            const weight = checkWeight? parseFloat(event.target.value) : undefined
+            const updateIndex = variableArr.findIndex((variable) => variable.key === keyId);
+            if (updateIndex !== -1) {
+                variableArr[updateIndex].weight = weight
+            }
+            return variableArr;
         }
         onUpdate(changeWeight);
-    }
-
-    const onStartEditWeight = (event: React.MouseEvent<HTMLInputElement>) => {
-        setIsEditingWeight(true);
     }
 
     return (
@@ -85,8 +63,7 @@ export const VariableElement: React.FC<variableElement> = ({variable, weight, on
             <input
                 className={`bg-white h-[40px] w-[180px] border ${isValidVariable? "border-[#1488d8]" : "border-red-500"} border-1 rounded-lg px-1 mx-1`}
                 defaultValue={variable}
-                onMouseDown={isEditingName? undefined : onStartEditVariable}
-                onBlur={isEditingName? onChangeVariable : undefined}
+                onChange={onChangeVariable}
                 placeholder="Giá trị"
             >
             </input>
@@ -96,8 +73,7 @@ export const VariableElement: React.FC<variableElement> = ({variable, weight, on
             <input
                 className="bg-white h-[40px] w-[80px] border border-[#1488d8] border-1 rounded-lg px-1 mx-1"
                 defaultValue={weight}
-                onMouseDown={isEditingWeight? undefined : onStartEditWeight}
-                onBlur={isEditingWeight? onChangeWeight : undefined}
+                onChange={onChangeWeight}
                 placeholder="Trọng số"
             >
             </input>
