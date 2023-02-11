@@ -6,12 +6,16 @@ import { TopicStatusEnum } from '../../../../shared/types/topicStatus';
 import { useDispatch} from "react-redux";
 import { AppDispatch } from '../../../../store';
 
+import DatePicker from "react-datepicker";
+import Calendar from "../../../../assets/images/calendar.png";
 
 import {getAllPeriodsAction} from "../../../../actions/periodAction"
 import { getTopicListAction } from '../../../../actions/topicAction';
 import { getExpenseDetailByPeriodAction } from '../../../../actions/expenseAction';
 
-const RECORD_PER_PAGE = 3;
+import {ResponsiveContainer, BarChart, Bar, XAxis, YAxis, Tooltip, CartesianAxis, CartesianGrid, Legend, Label} from 'recharts';
+
+const RECORD_PER_PAGE = 10;
 
 interface Period{
     _id: string;
@@ -76,6 +80,7 @@ const ExpenseStatistic: React.FC = () => {
         usedExpense:0,
         used: ""
     });
+    const [year, setYear] = useState(new Date())
     const [topics, setTopics] = useState<Topic[]>([])
     const [currentPeriod, setCurrentPeriod] = useState<string>("");
     const [currentType, setCurrentType] = useState<string>("");
@@ -226,13 +231,131 @@ const ExpenseStatistic: React.FC = () => {
         return (x.getMonth() + 1) + "/" + x.getFullYear();
     }
 
+    const onChangeYear = (d: Date) => {
+        let query: any = {
+            year: d.getFullYear()
+        }
+        dispatch(getAllPeriodsAction(query))
+            .then((data) => {
+                setPeriods(data?.periods)
+                setCurrentPeriod(data?.periods[0]._id)
+                let queryDataForExpense: any = {
+                    period: data?.periods[0]._id
+                }
+                dispatch(getExpenseDetailByPeriodAction(queryDataForExpense))
+                    .then((data) => {
+                        setExpense(data?.expense)
+                    })
+                    .catch((error) => {
+
+                    })
+                    let queryDataForTopic: any = {
+                        period: data?.periods[0]._id,
+                        page: currentPage,
+                        limit: RECORD_PER_PAGE,
+                    }
+                dispatch(getTopicListAction(queryDataForTopic))
+                .then((data) => {
+                    setTopics(data?.topics)
+                    if(data?.metadata.totalPage > 0){
+                        setTotalPage(data?.metadata.totalPage)
+                    }
+                    }
+                )
+                .catch((error) => {
+
+                })
+            })
+            .catch((error) => {
+                
+            })
+    }
+
+    const periodUsedExpenseList = [
+        {
+            period: "3/2022",
+            fee: 100
+        },
+        {
+            period: "6/2022",
+            fee: 80
+        },
+        {
+            period: "9/2022",
+            fee: 55
+        },
+        {
+            period: "12/2022",
+            fee: 75
+        },
+        {
+            period: "3/2023",
+            fee: 100
+        },
+        {
+            period: "6/2023",
+            fee: 80
+        },
+        {
+            period: "9/2023",
+            fee: 55
+        },
+        {
+            period: "12/2023",
+            fee: 75
+        }
+    ]
+
     return(
         <div className='px-5 py-5'>
-            <div className='flex items-center mb-5'>
-                        <div className='mr-5'>
-                                Đợt: 
+
+            <div className='text-lg font-bold'>
+                Thống kê kinh phí sử dụng các đợt
+            </div>
+
+            <div className='mt-5 w-full flex items-center justify-center'>
+                <BarChart data={periodUsedExpenseList} width={1000} height={300}>
+                    <CartesianGrid />
+                    <XAxis dataKey="period">
+                    </XAxis>
+                    <YAxis>
+                        <Label value="Kinh phí sử dụng (triệu đồng)" angle={-90} position="insideBottomLeft" />
+                    </YAxis>
+                    <Tooltip />
+                    <Bar dataKey="fee" fill="#96060F"/>
+                </BarChart>
+
+            </div>
+
+            <div className='mt-2 text-lg font-bold'>
+                Chi tiết kinh phí theo đợt
+            </div>
+
+            <div className='flex items-center mb-5 mt-2'>
+            <div className='mr-5'>
+                        Năm: 
+                    </div>
+                    <div className='grid justify-items-end items-center mr-10'>
+                        <DatePicker
+                            onChange={date => {
+                                if(date){
+                                    setYear(date);
+                                    onChangeYear(date);
+                                }
+                                }}
+                            selected={year}
+                            dateFormat="yyyy"
+                            showYearPicker
+                            className="h-[40px] w-[90px] border border-black border-1 rounded-md px-2"
+                                    />
+                        <div className='absolute mr-2'>
+                            <img src={Calendar} alt="calendarIcon" className='h-5 w-5'/>
                         </div>
-                        <div className="">
+                    </div>
+                        {periods.length > 0 && <div className='mr-5'>
+                                Đợt: 
+                        </div>}
+                        {periods.length > 0 && <div className="">
                             <select
                                 className="bg-white h-[40px] w-[270px] border border-black border-1 rounded-lg focus:ring-blue-500 px-2"
                                     onChange={(e) => {
@@ -247,10 +370,10 @@ const ExpenseStatistic: React.FC = () => {
                                 <option value={period._id} id={period._id}>{periodDisplay(period.period)}</option>
                                 )}
                             </select>
-                        </div>
+                        </div>}
             </div>
             
-            <div>
+            {periods.length > 0 ? (<div>
                 <div>
                 Tổng kinh phí: <span className='text-[#030391]'>{expense?.totalExpense.toLocaleString()}</span> VNĐ
                 </div>
@@ -331,9 +454,13 @@ const ExpenseStatistic: React.FC = () => {
                 <div>
                     Dư: <span className='text-[#030391]'>{(expense?.totalExpense - expense?.usedExpense - expense?.generalExpense).toLocaleString()}</span> VNĐ
                 </div>
-            </div>
+            </div>):
+            (<div>
+                Không có đợt đăng ký
+            </div>)
+            }
 
-            <div>
+            {periods.length > 0 && <div>
                 <div className='flex items-center mb-1'>
                     <div className='mr-5'>
                         Loại đề tài: 
@@ -363,7 +490,7 @@ const ExpenseStatistic: React.FC = () => {
                     currentPage={currentPage}
                     setCurrentPage={setCurrentPage}
                     />
-            </div>
+            </div>}
             
         </div>
     )

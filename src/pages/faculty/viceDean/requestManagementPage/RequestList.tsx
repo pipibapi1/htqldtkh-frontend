@@ -9,7 +9,8 @@ import { PeriodStatus } from '../../../../shared/types/periodStatus';
 import { useDispatch} from "react-redux";
 import { AppDispatch } from '../../../../store';
 import { getRequestListAction } from '../../../../actions/requestAction';
-
+import DatePicker from "react-datepicker";
+import Calendar from "../../../../assets/images/calendar.png";
 import {getAllPeriodsAction} from "../../../../actions/periodAction"
 
 const RECORD_PER_PAGE = 5;
@@ -43,7 +44,7 @@ const RequestList= () => {
     const [currentStatus, setCurrentStatus] = useState<string>("");
     const [requests, setRequests] = useState<Request[]>([]);
     const totalPage = useRef(TOTAL_PAGE_DEFAULT);
-
+    const [year, setYear] = useState(new Date())
     const useAppDispatch: () => AppDispatch = useDispatch
     const dispatch = useAppDispatch()
 
@@ -103,6 +104,33 @@ const RequestList= () => {
             })
     }, []);
 
+    const onChangeYear = (d: Date) => {
+        let query: any = {
+            year: d.getFullYear()
+        }
+        dispatch(getAllPeriodsAction(query))
+            .then((data) => {
+                setPeriods(data?.periods)
+                setCurrentPeriod(data?.periods[0]._id)
+                let queryData: any = {
+                    page: currentPage,
+                    limit: RECORD_PER_PAGE,
+                    period: data?.periods[0]._id
+                }
+                dispatch(getRequestListAction(queryData))
+                .then((data) => {
+                    setRequests(data?.requests)
+                    }
+                )
+                .catch((error) => {
+
+                })
+            })
+            .catch((error) => {
+                
+            })
+    }
+
 
     const prevPage = () => {
         if (currentPage <= 1) return;
@@ -120,7 +148,28 @@ const RequestList= () => {
 
     return(
         <div className='p-4 overflow-y-auto'>
+
             <div className='flex items-center mb-5'>
+            <div className='mr-5'>
+                        Năm: 
+                    </div>
+                    <div className='grid justify-items-end items-center mr-10'>
+                        <DatePicker
+                            onChange={date => {
+                                if(date){
+                                    setYear(date);
+                                    onChangeYear(date);
+                                }
+                                }}
+                            selected={year}
+                            dateFormat="yyyy"
+                            showYearPicker
+                            className="h-[40px] w-[90px] border border-black border-1 rounded-md px-2"
+                                    />
+                        <div className='absolute mr-2'>
+                            <img src={Calendar} alt="calendarIcon" className='h-5 w-5'/>
+                        </div>
+                    </div>
                     <div className='mr-5'>
                         Đợt: 
                     </div>
@@ -137,9 +186,9 @@ const RequestList= () => {
                             {periods.map((period, index) => <option value={period._id}>{periodDisplay(period.period)}</option>)}
                         </select>
                     </div>
-                </div>
+            </div>
 
-            <div className='grid justify-items-end px-5'>
+            {periods.length > 0 ? (<div className='grid justify-items-end px-5'>
                 <div className='flex items-center py-4'>
                     <div className='flex items-center mr-20'>
                         <div className='mr-5'>
@@ -185,9 +234,12 @@ const RequestList= () => {
                         </div>
                     </div>
                 </div>
+            </div>) : (<div>
+                Không có đợt đăng ký
             </div>
+            )}
 
-            <div className='w-full'>
+            {periods.length > 0 && <div className='w-full'>
                 <div className='flex flex-col'>
                     <div className=''>
                         <div className='inline-block w-full pr-5'>
@@ -265,9 +317,9 @@ const RequestList= () => {
                         </div>
                     </div>
                 </div>
-            </div>
+            </div>}
 
-            <div className='grid justify-items-end px-5'>
+            {periods.length > 0 && <div className='grid justify-items-end px-5'>
                         <ul className='inline-flex items-center -space-x-px'>
                             <LeftTag onClick={prevPage} />
                             {Array.from(Array(totalPage.current).keys()).map((index) => (
@@ -280,7 +332,7 @@ const RequestList= () => {
                             ))}
                             <RightTag onClick={nextPage} />
                         </ul>
-                </div>
+            </div>}
         </div>
     )
 }

@@ -7,9 +7,10 @@ import RightTag from './RightTag';
 const RECORD_PER_PAGE = 5;
 
 
+
 const TopicListPage= (props: any) => {
  
-    const {topics, totalPage, currentPage, onChangePage, setCurrentPage} = props;
+    const {topics, totalPage, onChangePage, currentPage, setCurrentPage} = props;
 
 
     const prevPage = () => {

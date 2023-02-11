@@ -11,6 +11,8 @@ import TopicListPage from './topicListPage';
 import { PeriodStatus } from '../../../../shared/types/periodStatus';
 import { useDispatch} from "react-redux";
 import { AppDispatch } from '../../../../store';
+import DatePicker from "react-datepicker";
+import Calendar from "../../../../assets/images/calendar.png";
 
 
 import {getAllPeriodsAction} from "../../../../actions/periodAction"
@@ -117,17 +119,17 @@ const TopicStatistic: React.FC = () => {
     const [currentPeriod, setCurrentPeriod] = useState<string>("");
     const [topics, setTopics] = useState<Topic[]>([]);
 
-    const [numOfTotal, setNumOfTotal] = useState(-1);
+    const [numOfTotal, setNumOfTotal] = useState(0);
 
-    const [numOfNew, setNumOfNew] = useState(-1);
-    const [numOfCarryOut, setNumOfCarryOut] = useState(-1);
-    const [numOfDueToAccept, setNumOfDueToAccept] = useState(-1);
-    const [numOfFinished, setNumOfFinished] = useState(-1);
-    const [numOfOutOfDated, setNumOfOutOfDated] = useState(-1);
-    const [numOfCanceled, setNumOfCanceled] = useState(-1);
+    const [numOfNew, setNumOfNew] = useState(0);
+    const [numOfCarryOut, setNumOfCarryOut] = useState(0);
+    const [numOfDueToAccept, setNumOfDueToAccept] = useState(0);
+    const [numOfFinished, setNumOfFinished] = useState(0);
+    const [numOfOutOfDated, setNumOfOutOfDated] = useState(0);
+    const [numOfCanceled, setNumOfCanceled] = useState(0);
 
-    const [numOfExtended, setNumOfExtended] = useState(-1);
-
+    const [numOfExtended, setNumOfExtended] = useState(0);
+    const [year, setYear] = useState(new Date())
     const useAppDispatch: () => AppDispatch = useDispatch
     const dispatch = useAppDispatch()
 
@@ -209,11 +211,65 @@ const TopicStatistic: React.FC = () => {
         }
     }
 
+    const onChangeYear = (d: Date) => {
+        let query: any = {
+            year: d.getFullYear()
+        }
+        dispatch(getAllPeriodsAction(query))
+            .then((data) => {
+                setPeriods(data?.periods)
+                setCurrentPeriod(data?.periods[0]._id)
+                let queryData: any = {
+                    period: data?.periods[0]._id
+                }
+                dispatch(getTopicListAction(queryData))
+                .then((data) => {
+                    setTopics(data?.topics)
+                    setNumOfTotal(data?.topics.length)
+                    setNumOfNew(data?.topics.filter((topic:any) => topic.status === TopicStatusEnum.NEW).length)
+                    setNumOfCarryOut(data?.topics.filter((topic:any) => topic.status === TopicStatusEnum.CARRY_OUT).length)
+                    setNumOfDueToAccept(data?.topics.filter((topic:any) => topic.status === TopicStatusEnum.DUE_TO_ACCEPT).length)
+                    setNumOfFinished(data?.topics.filter((topic:any) => topic.status === TopicStatusEnum.FINISHED).length)
+                    setNumOfOutOfDated(data?.topics.filter((topic:any) => topic.status === TopicStatusEnum.OUT_OF_DATE).length)
+                    setNumOfCanceled(data?.topics.filter((topic:any) => topic.status === TopicStatusEnum.CANCELED).length)
+                    setNumOfExtended(data?.topics.filter((topic:any) => topic.isExtended === true).length)
+                    }
+                )
+                .catch((error) => {
+
+                })
+            })
+            .catch((error) => {
+                
+            })
+    }
+
     if(isFirst){
         return(
             <div className="px-5 py-5 flex">
                 <div className="w-1/2">
+
                     <div className='flex items-center mb-5'>
+                    <div className='mr-5'>
+                        Năm: 
+                    </div>
+                    <div className='grid justify-items-end items-center mr-10'>
+                        <DatePicker
+                            onChange={date => {
+                                if(date){
+                                    setYear(date);
+                                    onChangeYear(date);
+                                }
+                                }}
+                            selected={year}
+                            dateFormat="yyyy"
+                            showYearPicker
+                            className="h-[40px] w-[90px] border border-black border-1 rounded-md px-2"
+                                    />
+                        <div className='absolute mr-2'>
+                            <img src={Calendar} alt="calendarIcon" className='h-5 w-5'/>
+                        </div>
+                    </div>
                         <div className='mr-5'>
                                 Đợt: 
                         </div>
@@ -235,7 +291,7 @@ const TopicStatistic: React.FC = () => {
                         </div>
                     </div>
     
-                    <div className='w-full flex mt-10 px-10'>
+                    {(periods.length > 0 ? <div className='w-full flex mt-10 px-10'>
                         <div className='w-1/2'>
                             <div className='mb-5'>
                                 <TopicStatusCard
@@ -277,9 +333,13 @@ const TopicStatistic: React.FC = () => {
                                 />
                             </div>
                         </div>
+                    </div> : 
+                    <div>
+                        Không có đợt đăng ký
                     </div>
+                    )}
                 </div>
-                <div className=''>
+                {periods.length > 0 && <div className=''>
                     <div className='text-base font-bold'>
                         Tổng số đề tài: {numOfTotal}
                     </div>
@@ -288,7 +348,7 @@ const TopicStatistic: React.FC = () => {
                     </div>
                     <div className='flex justify-center my-10'>
                     <PieChart className='w-1/2 text-[6px]'
-                    label={({ dataEntry }) => `${Math.round(dataEntry.percentage)} %`}
+                    label={({ dataEntry }) => { return dataEntry.percentage > 0 ? `${Math.round(dataEntry.percentage)} %` : ''}}
                     data={[
                         { title: 'Tạo mới', value: numOfNew, color: '#13B04999' },
                         { title: 'Đang thực hiện', value: numOfCarryOut, color: '#1C2ED199' },
@@ -297,7 +357,7 @@ const TopicStatistic: React.FC = () => {
                         { title: 'Trễ hạn', value: numOfOutOfDated, color: '#C2C61C99' },
                         { title: 'Bị hủy', value: numOfCanceled, color: '#CC292999' },
                     ]}
-                    />;
+                    />
                     </div>
                     <div className='w-full flex justify-center items-center'>
                         <div className='font-bold w-2/3 text-center'>
@@ -311,7 +371,7 @@ const TopicStatistic: React.FC = () => {
                         </div>
                         
                     </div>
-                </div>
+                </div>}
             </div>
             
         )

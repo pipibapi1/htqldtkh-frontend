@@ -10,7 +10,7 @@ import { TopicStatusEnum } from '../../../../../shared/types/topicStatus';
 import { useDispatch} from "react-redux";
 import { AppDispatch } from '../../../../../store';
 import { getTopicListAction } from '../../../../../actions/topicAction';
-const RECORD_PER_PAGE = 5;
+const RECORD_PER_PAGE = 8;
 
 interface Period{
     _id: string;
@@ -212,7 +212,6 @@ const TopicListPage: React.FC<Props> = (props: Props) => {
             </div>
 
             <div className='grid justify-items-end px-5'>
-                
                 <div className='flex items-center py-4'>
                     <div className='flex items-center mr-20'>
                         <div className='mr-3'>
@@ -380,7 +379,7 @@ const TopicListPage: React.FC<Props> = (props: Props) => {
                             ))}
                             <RightTag onClick={nextPage} />
                         </ul>
-                </div>
+            </div>
         </div>
     )
 }

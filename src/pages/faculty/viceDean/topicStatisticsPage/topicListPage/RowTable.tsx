@@ -1,5 +1,5 @@
 import React from 'react';
-const RECORD_PER_PAGE = 5;
+const RECORD_PER_PAGE = 8;
 
 interface Props {
   index: number
@@ -25,7 +25,7 @@ const RowTable: React.FC<Props> = (props) => {
       #{(currentPage - 1)*RECORD_PER_PAGE + index}
       </td>
       <td className='text-center font-medium px-1 py-1 text-sm text-gray-900 border-l-2'>
-        {topicId === "" ? "Chưa được cấp" : topicId}
+      {topicId === "" ? "Chưa được cấp" : topicId}
       </td>
       <td className='text-center font-medium text-sm text-gray-900 px-1 py-1 border-l-2'>
         {topicName}
