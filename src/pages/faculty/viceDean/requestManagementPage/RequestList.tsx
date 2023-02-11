@@ -77,7 +77,10 @@ const RequestList= () => {
         })
     }
     useEffect(() => {
-        dispatch(getAllPeriodsAction())
+        let query= {
+            year: (new Date()).getFullYear()
+        }
+        dispatch(getAllPeriodsAction(query))
             .then((data) => {
                 setPeriods(data?.periods)
                 setCurrentPeriod(data?.periods[0]._id)

@@ -1,7 +1,29 @@
 import periodService from "../services/periodService"
 
-const getAllPeriodsAction = () => (dispatch: any) => {
-    return periodService.getAllPeriodsService().then(
+const getAllPeriodsAction = (query:any) => (dispatch: any) => {
+    return periodService.getAllPeriodsService(query).then(
+        (data) => {
+            return Promise.resolve(data)
+        },
+        (error) => {
+            return Promise.reject(error)
+        }
+    )
+}
+
+const postAddAPeriodAction = (newPeriod: any) => (dispatch: any) => {
+    return periodService.postAddAPeriodService(newPeriod).then(
+        (data) => {
+            return Promise.resolve(data)
+        },
+        (error) => {
+            return Promise.reject(error)
+        }
+    )
+}
+
+const putUpdateAPeriodAction = (updateInfo: any) => (dispatch: any) => {
+    return periodService.putUpdateAPeriodService(updateInfo).then(
         (data) => {
             return Promise.resolve(data)
         },
@@ -12,5 +34,7 @@ const getAllPeriodsAction = () => (dispatch: any) => {
 }
 
 export {
-    getAllPeriodsAction
+    getAllPeriodsAction,
+    postAddAPeriodAction,
+    putUpdateAPeriodAction
 }

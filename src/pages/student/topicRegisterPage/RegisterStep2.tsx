@@ -5,11 +5,12 @@ import {Link} from "react-router-dom";
 interface Props {
     numOfInstructor: number;
     numOfOtherMember: number;
+    period: any;
 }
 
 const RegisterStep2:React.FC<Props> = (props: Props) => {
 
-    const {numOfInstructor, numOfOtherMember} = props;
+    const {numOfInstructor, numOfOtherMember, period} = props;
 
     let instructors = [];
     for (let index = 1; index <= numOfInstructor; ++index){

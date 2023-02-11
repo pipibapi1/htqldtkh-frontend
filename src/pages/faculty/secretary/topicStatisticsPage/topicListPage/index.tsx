@@ -212,7 +212,6 @@ const TopicListPage: React.FC<Props> = (props: Props) => {
             </div>
 
             <div className='grid justify-items-end px-5'>
-                
                 <div className='flex items-center py-4'>
                     <div className='flex items-center mr-20'>
                         <div className='mr-3'>

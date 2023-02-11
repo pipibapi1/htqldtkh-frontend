@@ -1,24 +1,36 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
+import BackIcon from '../../../assets/images/🦆 icon _arrow circle left_.png';
 
 interface Props {
     onSetNumOfInstructor: (num: number) => void;
     onSetNumOfOtherMember: (num: number) => void;
     onSetNextStep: (e: Boolean) => void;
+    period: any,
+    backToChoosePeriod:any
 }
 
 const RegisterStep1:React.FC<Props> = (props: Props) => {
     
-    const {onSetNumOfInstructor, onSetNumOfOtherMember, onSetNextStep} = props;
+    const {onSetNumOfInstructor, onSetNumOfOtherMember, onSetNextStep, period, backToChoosePeriod} = props;
+
+    const displayPeriod = (dateStr: string) => {
+        const date = new Date(dateStr);
+        return (date.getMonth() + 1) + "/" + date.getFullYear();
+      }
 
     return(
         <div className='p-5'>
+            <div className='hover:cursor-pointer w-fit' onClick={backToChoosePeriod}>
+                <img src={BackIcon} className='h-5' alt="" />
+            </div>
             <div>
                 <div className='flex mb-5'>
                     <div className='font-bold mr-5'>
                         Đợt:
                     </div>
                     <div>
-                        06/2022
+                        {displayPeriod(period.period)}
                     </div>
                 </div>
 
@@ -71,11 +83,6 @@ const RegisterStep1:React.FC<Props> = (props: Props) => {
                 <div>
                     <div onClick={() => onSetNextStep(false)} className="w-40 bg-[#0079CC] flex justify-center items-center transition text-white font-semibold py-4 border border-white-500 rounded-[15px] hover:bg-[#025A97] hover:cursor-pointer">
                     Tiếp theo
-                    </div>
-                </div>
-                <div>
-                    <div className="w-40 bg-[#E1000E] flex justify-center items-center transition text-white font-semibold py-4 border border-white-500 rounded-[15px] hover:bg-[#B20610] hover:cursor-pointer">
-                    Hủy
                     </div>
                 </div>
             </div>
