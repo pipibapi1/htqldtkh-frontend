@@ -1,23 +1,83 @@
 import React from 'react';
-import {Link} from "react-router-dom";
+import { RequestStatus } from '../../../shared/types/requestStatus';
+import { useDispatch} from "react-redux";
+import { AppDispatch } from '../../../store';
+import Swal from 'sweetalert2';
+import { deleteRemoveARequestAction } from '../../../actions/requestAction';
+
+const RECORD_PER_PAGE = 7;
 
 interface Props {
   index: number
   requestId: string;
   requestType: string;
   requestStatus: string
-  topicId: string;
   createdDate: string;
+  topicName: string;
   additionalInfor: string;
+  currentPage: number;
+  periodValue: string;
 }
 
 const RowTable: React.FC<Props> = (props) => {
-  const { index ,requestId, requestType, requestStatus, topicId, createdDate, additionalInfor} = props;
+  const { index ,requestId, requestType, requestStatus, topicName, createdDate, additionalInfor, currentPage, periodValue} = props;
+  const displayDate = (dateStr: string) => {
+    const date = new Date(dateStr);
+    return date.getDate() + "/" + (date.getMonth() + 1) + "/" + date.getFullYear();
+  }
+  const displayPeriod = (dateStr: string) => {
+    const date = new Date(dateStr);
+    return (date.getMonth() + 1) + "/" + date.getFullYear();
+  }
+  const useAppDispatch: () => AppDispatch = useDispatch
+  const dispatch = useAppDispatch()
+  const removeARequest = (e:any) => {
+    e.preventDefault()
+    const _id = requestId;
+    Swal.fire({
+      icon: 'question',
+      title: 'Bạn có chắc muốn xóa yêu cầu này?',
+      showDenyButton: true,
+      showCancelButton: false,
+      confirmButtonText: 'Yes',
+  }).then((result) => {
 
+      if(result.isConfirmed){
+        dispatch(deleteRemoveARequestAction(_id))
+        .then((data) => {
+          Swal.fire({
+            icon: 'success',
+            title: 'Xóa yêu cầu thành công',
+            showDenyButton: false,
+            showCancelButton: false,
+            confirmButtonText: 'OK',
+          }).then((result) => {
+            /* Read more about isConfirmed, isDenied below */
+            if (result.isConfirmed) {
+              window.location.reload();
+            } 
+          })
+          }
+        )
+        .catch((error) => {
+          Swal.fire({
+            icon: 'error',
+            title: 'Có lỗi gì đó đã xảy ra, thử lại sau!',
+            showDenyButton: false,
+            showCancelButton: false,
+            confirmButtonText: 'OK',
+          })
+        })
+      }
+
+      if(result.isDenied){
+      }
+  })
+  }
   return (
     <tr className={(index % 2 === 1) ? 'border-t-2 transition duration-300 ease-in-out' : 'border-t-2 bg-[#1488D8]/25 transition duration-300 ease-in-out'}>
       <td className='text-center font-medium px-1 py-1 text-sm text-gray-900 border-l-2'>
-        {requestId}
+      #{(currentPage - 1)*RECORD_PER_PAGE + index}
       </td>
       <td className='text-center font-medium text-sm text-gray-900 px-1 py-1 border-l-2'>
         {requestType}
@@ -26,20 +86,31 @@ const RowTable: React.FC<Props> = (props) => {
         {requestStatus}
       </td>
       <td className='text-center font-medium text-sm text-gray-900 px-1 py-1 border-l-2'>
-        {topicId}
+        {topicName}
       </td>
       <td className='text-center font-medium text-sm text-gray-900 px-1 py-1 border-l-2'>
-        {createdDate}
+        {displayPeriod(periodValue)}
+      </td>
+      <td className='text-center font-medium text-sm text-gray-900 px-1 py-1 border-l-2'>
+      {displayDate(createdDate)}
       </td>
       <td className='text-center font-medium text-sm text-gray-900 px-1 py-1 border-l-2'>
         {additionalInfor}
       </td>
       <td className='text-center font-medium text-sm text-gray-900 px-1 py-1 border-l-2'>
-        <Link to={"/"}>
-            <div className="text-[#0079CC] font-semibold no-underline hover:underline hover:cursor-pointer">
-                Xóa
-            </div>
-        </Link>
+      {
+            requestStatus === RequestStatus.WAIT_APPROVAL?
+          (<button className="text-[#0079CC] font-semibold no-underline hover:underline hover:cursor-pointer"
+            onClick={removeARequest}
+          >
+              Xóa
+          </button>) : 
+          (<button className="text-[#A3A3A3] font-semibold no-underline"
+            disabled
+          >
+          Xóa
+      </button>)
+          }
       </td>
       
     </tr>

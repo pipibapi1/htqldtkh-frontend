@@ -3,13 +3,123 @@ import { useDispatch} from "react-redux";
 import { AppDispatch } from '../../../store';
 import Swal from 'sweetalert2';
 import { RequestType } from '../../../shared/types/requestType';
+import { Topic } from '../../../shared/interfaces/topicInterface';
+import { postAddARequestAction } from '../../../actions/requestAction';
 
-const Modal = ({isVisible, onClose}: {isVisible: boolean, onClose: any}) => {
+const Modal = ({isVisible, onClose, myTopics}: {isVisible: boolean, onClose: any, myTopics: Topic[]}) => {
     const [requestType, setRequestType] = useState<string>(RequestType.GET_CERTIFICATE)
+    const [chosenTopicId, setChosenTopicId] = useState<string>("")
+    const [extensionTime, setExtensionTime] = useState<number>(0)
+    const useAppDispatch: () => AppDispatch = useDispatch
+    const dispatch = useAppDispatch()
     if (!isVisible) return null;
     const handleClose = (e: any) => {
         if (e.target.id === "wrapper") onClose();
     }
+    const Toast = Swal.mixin({
+        toast: true,
+        position: 'top-end',
+        showConfirmButton: false,
+        timer: 4000,
+        timerProgressBar: true,
+        didOpen: (toast: any) => {
+          toast.addEventListener('mouseenter', Swal.stopTimer)
+          toast.addEventListener('mouseleave', Swal.resumeTimer)
+        }
+      })
+    const addNewRequest = (e: any) => {
+        e.preventDefault();
+        if(chosenTopicId === ""){
+            Toast.fire({
+                icon: 'warning',
+                title: 'Vui lòng chọn đề tài'
+              })
+        }
+        else{
+            let newRequest: any = {
+                request:{
+                    topicId: chosenTopicId,
+                    type: requestType,
+                    extensionTime: extensionTime
+                }
+            }
+            if(requestType === RequestType.EXTEND_PROJECT && extensionTime <= 0){
+              
+                Toast.fire({
+                    icon: 'warning',
+                    title: 'Thời gian gia hạn cần lớn hơn 0'
+                })
+                return;
+                
+            }
+            Swal.fire({
+                icon: 'question',
+                title: 'Bạn có chắc muốn tạo yêu cầu mới?',
+                showDenyButton: true,
+                showCancelButton: false,
+                confirmButtonText: 'Yes',
+            }).then((result) => {
+          
+                if(result.isConfirmed){
+                  dispatch(postAddARequestAction(newRequest))
+                  .then((data) => {
+                    Swal.fire({
+                      icon: 'success',
+                      title: 'Tạo yêu cầu thành công',
+                      showDenyButton: false,
+                      showCancelButton: false,
+                      confirmButtonText: 'OK',
+                    }).then((result) => {
+                      /* Read more about isConfirmed, isDenied below */
+                      if (result.isConfirmed) {
+                        window.location.reload();
+                      } 
+                    })
+                    }
+                  )
+                  .catch((error) => {
+                    if (error.response) {
+                        // The request was made and the server responded with a status code
+                        // that falls out of the range of 2xx
+                        if(error.response.status === 400){
+                            if(error.response.data.msg === "Existed same request for same topic"){
+                                Toast.fire({
+                                    icon: 'error',
+                                    title: 'Bạn đã tạo loại yêu cầu tương tự trên đề tài này rồi!'
+                                  })
+                            }
+                            else{
+                                Toast.fire({
+                                    icon: 'error',
+                                    title: 'Bad request'
+                                  })
+                            }
+                            
+                        }
+                      } else if (error.request) {
+                        // The request was made but no response was received
+                        // `error.request` is an instance of XMLHttpRequest in the browser and an instance of
+                        // http.ClientRequest in node.js
+                        Toast.fire({
+                            icon: 'error',
+                            title: error.request
+                          })
+                      } else {
+                        // Something happened in setting up the request that triggered an Error
+                        Toast.fire({
+                            icon: 'error',
+                            title: error.message
+                          })
+                      }
+                  })
+                }
+          
+                if(result.isDenied){
+                }
+            })
+        }
+    }
+
     return ( 
         <div className = "fixed inset-0 bg-black bg-opacity-50 backdrop-blur-0 flex justify-center items-center" id= "wrapper" onClick={handleClose}>
             <div className = "md:w-[600px] w-[90%] mx-auto">
@@ -19,7 +129,7 @@ const Modal = ({isVisible, onClose}: {isVisible: boolean, onClose: any}) => {
                     </div>
                     <form className = "space-y-5 px-5 py-2" action = "#">
                         <div className = 'flex'>
-                            <div className = 'w-[230px] mr-20'>
+                            <div className = 'w-[200px] mr-20'>
                                 <label htmlFor='email' className = "block mb-2 text-sm font-medium text-gray-900">
                                     Loại yêu cầu
                                 </label>
@@ -36,17 +146,24 @@ const Modal = ({isVisible, onClose}: {isVisible: boolean, onClose: any}) => {
                                 </select>
                             </div>
 
-                            <div className = 'w-[230px] '>
+                            <div className = 'w-[300px] '>
                                 <label htmlFor='email' className = "block mb-2 text-sm font-medium text-gray-900">
                                     Chọn đề tài
                                 </label>
                                 <select
                                 className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
-                                onChange={(e) => {}}
+                                onChange={(e) => {
+                                    e.preventDefault();
+                                    setChosenTopicId(e.target.value)
+                                }}
+                                defaultValue={""}
                                 >
-                                    <option value={"Đề tài 1"}>Đề tài 1</option>
-                                    <option value={"Đề tài 1"}>Đề tài 1</option>
-                                    <option value={"Đề tài 1"}>Đề tài 1</option>
+                                    <option value={""}>Chọn đề tài</option>
+                                    {myTopics.map((topic, index) => {
+                                        return(
+                                            <option value={topic._id}>{topic.name}</option>
+                                        )
+                                    })}
                                 </select>
                             </div>
 
@@ -56,9 +173,14 @@ const Modal = ({isVisible, onClose}: {isVisible: boolean, onClose: any}) => {
                                     <label htmlFor='email' className = "block mb-2 mr-5 text-sm font-medium text-gray-900">
                                         Thời gian gia hạn: 
                                     </label>
-                                    <input type = 'email' name = 'email' id ='email'
+                                    <input type = 'number'
                                     className = "bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-1/4 p-2.5"
                                     required
+                                    defaultValue={0}
+                                    onChange={(e) => {
+                                        e.preventDefault();
+                                        setExtensionTime(parseInt(e.target.value))
+                                    }}
                                     />
                                     <label htmlFor='email' className = "block mb-2 ml-2 text-sm font-medium text-gray-900">
                                         tháng.
@@ -69,6 +191,7 @@ const Modal = ({isVisible, onClose}: {isVisible: boolean, onClose: any}) => {
                         <div className = 'flex flex-row justify-end'>
                             <button
                                 className = 'w-1/4 mr-2 text-white font-medium text-sm px-5 py-2.5 text-center rounded-lg bg-blue-700 hover:bg-blue-700 focus:ring-4 focus:outline-none focus:ring-blue-300'
+                                onClick={addNewRequest}
                             >
                                 Tạo yêu cầu
                             </button>

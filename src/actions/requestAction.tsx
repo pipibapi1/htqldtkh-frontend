@@ -1,16 +1,7 @@
-import { RequestType } from "../shared/types/requestType";
-import { RequestStatus } from "../shared/types/requestStatus";
 import requestService from "../services/requestService";
 
-interface Query{
-    page: string;
-    limit: string;
-    period: string;
-    type: RequestType | "";
-    status: RequestStatus | "";
-}
 
-const getRequestListAction = (queryData: Query) => (dispatch: any) =>{
+const getRequestListAction = (queryData: any) => (dispatch: any) =>{
     return requestService.getRequestListService(queryData).then(
         (data) => {
             return Promise.resolve(data);
@@ -21,6 +12,42 @@ const getRequestListAction = (queryData: Query) => (dispatch: any) =>{
     )
 }
 
+const putUpdateARequestAction = (updateInfo: any) => (dispatch: any) => {
+    return requestService.putUpdateARequestService(updateInfo).then(
+        (data) => {
+            return Promise.resolve(data);
+        },
+        (error) =>{
+            return Promise.reject(error);
+        }
+    )
+}
+
+const postAddARequestAction = (newRequest: any) => (dispatch: any) => {
+    return requestService.postAddARequestService(newRequest).then(
+        (data) => {
+            return Promise.resolve(data);
+        },
+        (error) =>{
+            return Promise.reject(error);
+        }
+    )
+}
+
+const deleteRemoveARequestAction = (_id: string) => (dispatch: any) => {
+    return requestService.deleteRemoveARequestService(_id).then(
+        (data) => {
+            return Promise.resolve(data);
+        },
+        (error) =>{
+            return Promise.reject(error);
+        }
+    )
+}
+
 export {
-    getRequestListAction
+    getRequestListAction,
+    putUpdateARequestAction,
+    postAddARequestAction,
+    deleteRemoveARequestAction
 }

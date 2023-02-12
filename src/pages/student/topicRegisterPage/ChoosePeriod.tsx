@@ -116,7 +116,7 @@ const ChoosePeriod = (props: any) => {
                 </div> */}
             </div>
 
-            <div className='grid justify-items-end px-5'>
+            {periods.length > 0 ? (<div className='grid justify-items-end px-5'>
                 <div className='flex items-center py-4'>
                     <div className='flex items-center'>
                         <div className='mr-3'>
@@ -139,15 +139,19 @@ const ChoosePeriod = (props: any) => {
                         </div>
                     </div>
                 </div>
-            </div>
+            </div>) : (
+                <div className='mt-5'> 
+                    Không có đợt đăng ký
+                </div>
+            )}
 
-            <div className='grid justify-items-start'>
+            {periods.length > 0 &&<div className='grid justify-items-start'>
                 <div className='text-xl font-bold mb-2'>
                     Đợt đăng ký
                 </div>
-            </div>
+            </div>}
 
-            <div className='w-full'>
+            {periods.length > 0 &&<div className='w-full'>
                 <div className='flex flex-col'>
                     <div className=''>
                         <div className='inline-block w-full pr-5'>
@@ -200,7 +204,7 @@ const ChoosePeriod = (props: any) => {
                         </div>
                     </div>
                 </div>
-            </div>
+            </div>}
         </div>
     )
 }

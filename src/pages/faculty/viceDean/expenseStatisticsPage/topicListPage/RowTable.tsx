@@ -1,6 +1,6 @@
 import React from 'react';
 
-const RECORD_PER_PAGE = 5;
+const RECORD_PER_PAGE = 7;
 
 interface Props {
   index: number

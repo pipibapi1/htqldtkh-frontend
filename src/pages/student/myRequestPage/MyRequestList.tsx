@@ -1,28 +1,133 @@
-import React, { useState, useRef, Fragment } from 'react';
+import React, { useState, useEffect } from 'react';
 import {Link} from "react-router-dom";
 import RowTable from './RowTable';
 import PaginationTag from './PaginationTag';
 import LeftTag from './LeftTag';
 import RightTag from './RightTag';
 import Modal from "./Modal";
+import { RequestType } from '../../../shared/types/requestType';
+import { RequestStatus } from '../../../shared/types/requestStatus';
+import { useDispatch, useSelector} from "react-redux";
+import { RootState,AppDispatch } from '../../../store';
+import { Request } from '../../../shared/interfaces/requestInterface';
+import { getRequestListAction} from '../../../actions/requestAction';
+import { Topic } from '../../../shared/interfaces/topicInterface';
+import { getTopicListAction } from '../../../actions/topicAction';
 
-const RECORD_PER_PAGE = 5;
-const TOTAL_PAGE_DEFAULT = 1;
+const RECORD_PER_PAGE = 7;
 
 const MyRequestList: React.FC = () => {
-    const [showModal, setShowModal] = useState<boolean>(false);
+    const { user: currentUser } = useSelector((state: RootState) => state.auth);
 
-    const [currentPage, setCurrentPage] = useState<number>(TOTAL_PAGE_DEFAULT);
-    const totalPage = useRef(TOTAL_PAGE_DEFAULT);
+    const [showModal, setShowModal] = useState<boolean>(false);
+    const [currentPage, setCurrentPage] = useState<number>(1);
+    const [totalPage, setTotalPage] = useState(1);
+    const [currentType, setCurrentType] = useState<string>("");
+    const [currentStatus, setCurrentStatus] = useState<string>("");
+    const [requests, setRequests] = useState<Request[]>([]);
+    const [myTopics, setMyToics] = useState<Topic[]>([])
+    const useAppDispatch: () => AppDispatch = useDispatch
+    const dispatch = useAppDispatch()
 
     const prevPage = () => {
         if (currentPage <= 1) return;
         setCurrentPage(currentPage - 1);
+        onChangePage(currentPage - 1)
       };
       const nextPage = () => {
-        if (currentPage >= totalPage.current) return;
+        if (currentPage >= totalPage) return;
         setCurrentPage(currentPage + 1);
-      }; 
+        onChangePage(currentPage + 1)
+      };
+
+    useEffect(() => {
+        let query = {
+            page: 1,
+            limit: RECORD_PER_PAGE,
+            studentId: currentUser._id
+        }
+        dispatch(getRequestListAction(query))
+                .then((data) => {
+                    setRequests(data?.requests)
+                    if(data?.metadata.totalPage > 0){
+                        setTotalPage(data?.metadata.totalPage)
+                    }
+                    }
+                )
+                .catch((error) => {
+
+                })
+        let queryForMyTopic = {
+            student: currentUser._id
+        }
+        dispatch(getTopicListAction(queryForMyTopic))
+            .then((data) => {
+                setMyToics(data?.topics)
+                }
+            )
+            .catch((error) => {
+
+            })
+    }, []);
+
+    const onChangePage = (page: number) => {
+        let queryData: any = {
+            page: page,
+            limit: RECORD_PER_PAGE,
+        }
+        if(currentType !== ""){
+            queryData = {
+                ...queryData,
+                type: currentType
+            }
+        }
+        if(currentStatus !== ""){
+            queryData = {
+                ...queryData,
+                status: currentStatus
+            }
+        }
+
+        dispatch(getRequestListAction(queryData))
+                .then((data) => {
+                    setRequests(data?.requests)
+                    }
+                )
+                .catch((error) => {
+
+                })
+    }
+
+    const getRequestList = async(type: string, status: string) => {
+        setCurrentPage(1)
+        let queryData: any = {
+            page: 1,
+            limit: RECORD_PER_PAGE,
+        }
+        if(type !== ""){
+            queryData = {
+                ...queryData,
+                type: type
+            }
+        }
+        if(status !== ""){
+            queryData = {
+                ...queryData,
+                status: status
+            }
+        }
+        dispatch(getRequestListAction(queryData))
+        .then((data) => {
+             setRequests(data?.requests)
+             if(data?.metadata.totalPage > 0){
+                setTotalPage(data?.metadata.totalPage)
+            }
+            }
+        )
+        .catch((error) => {
+
+        })
+    }
 
     return(
     <div>
@@ -49,12 +154,16 @@ const MyRequestList: React.FC = () => {
                             <select
                                 className="bg-white h-[40px] w-[270px] border border-black border-1 rounded-lg focus:ring-blue-500 px-2"
                                     onChange={(e) => {
+                                        e.preventDefault()
+                                        setCurrentType(e.target.value)
+                                        getRequestList(e.target.value, currentStatus)
                                     }}
-                                    defaultValue={"dfdasf"}
+                                    defaultValue={""}
                                 >
-                                <option value="">Xin giấy chứng nhận</option>
-                                <option value="">Gia hạn đề tài</option>
-                                <option value="">Hủy đề tài</option>
+                                <option value={""}>Toàn bộ</option>
+                                <option value={RequestType.GET_CERTIFICATE}>Xin giấy chứng nhận</option>
+                                <option value={RequestType.EXTEND_PROJECT}>Gia hạn đề tài</option>
+                                <option value={RequestType.CANCEL_PROJECT}>Hủy đề tài</option>
                             </select>
                         </div>
                     </div>
@@ -67,11 +176,16 @@ const MyRequestList: React.FC = () => {
                             <select
                                 className="bg-white h-[40px] w-[270px] border border-black border-1 rounded-lg focus:ring-blue-500 px-2"
                                     onChange={(e) => {
+                                        e.preventDefault()
+                                        setCurrentStatus(e.target.value)
+                                        getRequestList(currentType, e.target.value)
                                     }}
-                                    defaultValue={"dfdasf"}
+                                    defaultValue={""}
                                 >
-                                <option value="">Chờ xét duyệt</option>
-                                <option value="">Đã duyệt</option>
+                                <option value={""}>Toàn bộ</option>
+                                <option value={RequestStatus.WAIT_APPROVAL}>Chờ xét duyệt</option>
+                                <option value={RequestStatus.APPROVED}>Đã duyệt</option>
+                                <option value={RequestStatus.REFUSED}>Bị hủy</option>
                             </select>
                         </div>
                     </div>
@@ -88,9 +202,9 @@ const MyRequestList: React.FC = () => {
                                     <tr>
                                     <th
                                         scope='col'
-                                        className='text-sm text-center font-bold text-white px-2 py-3 text-left border-l-2'
+                                        className='w-[5%] text-sm text-center font-bold text-white px-2 py-3 text-left border-l-2'
                                     >
-                                        Mã yêu cầu
+                                        STT
                                     </th>
                                     <th
                                         scope='col'
@@ -106,9 +220,15 @@ const MyRequestList: React.FC = () => {
                                     </th>
                                     <th
                                         scope='col'
-                                        className='text-sm text-center font-bold text-white px-2 py-3 text-left border-l-2'
+                                        className='w-[25%] text-sm text-center font-bold text-white px-2 py-3 text-left border-l-2'
                                     >
-                                        Mã đề tài
+                                        Tên đề tài
+                                    </th>
+                                    <th
+                                        scope='col'
+                                        className='w-[8%] text-sm text-center font-bold text-white px-2 py-3 text-left border-l-2'
+                                    >
+                                        Đợt
                                     </th>
                                     <th
                                         scope='col'
@@ -118,7 +238,7 @@ const MyRequestList: React.FC = () => {
                                     </th>
                                     <th
                                         scope='col'
-                                        className='text-sm text-center font-bold text-white px-2 py-3 text-left border-l-2'
+                                        className='w-[18%] text-sm text-center font-bold text-white px-2 py-3 text-left border-l-2'
                                     >
                                         Thông tin bổ sung
                                     </th>
@@ -132,7 +252,21 @@ const MyRequestList: React.FC = () => {
                                     </tr>
                                 </thead>
                                 <tbody className=''>
-                                    <RowTable
+                                {requests.map((request, index) => {
+                                        return (<RowTable
+                                            index={index + 1}
+                                            requestId={request._id}
+                                            requestType={request.type}
+                                            requestStatus={request.status}
+                                            createdDate={request.createAt}
+                                            additionalInfor={request.type === RequestType.EXTEND_PROJECT ? 
+                                                `Thời gian gia hạn: ${request.extensionTime} tháng` : ""}
+                                            topicName={request.topicName}
+                                            periodValue={request.periodValue}
+                                            currentPage={currentPage}
+                                            />)
+                                    })}
+                                    {/* <RowTable
                                     index={1}
                                     requestId={"RQ1890-TH00-MM55"}
                                     requestType={"Xin giấy chứng nhận"}
@@ -160,8 +294,7 @@ const MyRequestList: React.FC = () => {
                                     createdDate={"date"}
                                     additionalInfor={""}
                                     topicId={"KH1890-MX201-MM55"}
-                                    />
-    
+                                    /> */}
                                 </tbody>
                             </table>
                         </div>
@@ -173,19 +306,20 @@ const MyRequestList: React.FC = () => {
             <div className='grid justify-items-end px-5'>
                         <ul className='inline-flex items-center -space-x-px'>
                             <LeftTag onClick={prevPage} />
-                            {Array.from(Array(totalPage.current).keys()).map((index) => (
+                            {Array.from(Array(totalPage).keys()).map((index) => (
                                 <PaginationTag
                                 key={index}
                                 numPage={index + 1}
                                 setCurrentPage={setCurrentPage}
                                 currentPage={currentPage}
+                                onChangePage={onChangePage}
                                 />
                             ))}
                             <RightTag onClick={nextPage} />
                         </ul>
                 </div>
         </div>
-        <Modal isVisible = {showModal} onClose = {() => setShowModal(false)}/>
+        <Modal isVisible = {showModal} myTopics={myTopics} onClose = {() => setShowModal(false)}/>
     </div>
     )
 }
