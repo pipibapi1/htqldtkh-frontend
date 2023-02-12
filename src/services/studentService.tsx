@@ -1,6 +1,4 @@
 import axios from "axios";
-import { GenderType } from "../shared/types/gender";
-import { EducationType } from "../shared/types/educationType";
 import authHeader from "./authHeader";
 
 const STUDENT_API_URL = process.env.REACT_APP_API_URL + "/api/student";

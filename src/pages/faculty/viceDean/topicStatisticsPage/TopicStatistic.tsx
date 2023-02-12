@@ -270,10 +270,10 @@ const TopicStatistic: React.FC = () => {
                             <img src={Calendar} alt="calendarIcon" className='h-5 w-5'/>
                         </div>
                     </div>
-                        <div className='mr-5'>
+                        {periods.length > 0 && <div className='mr-5'>
                                 Đợt: 
-                        </div>
-                        <div className="">
+                        </div>}
+                        {periods.length > 0 && <div className="">
                             <select
                                 className="bg-white h-[40px] w-[270px] border border-black border-1 rounded-lg focus:ring-blue-500 px-2"
                                     onChange={(e) => {
@@ -288,7 +288,7 @@ const TopicStatistic: React.FC = () => {
                                 <option value={period._id} id={period._id}>{periodDisplay(period.period)}</option>
                                 )}
                             </select>
-                        </div>
+                        </div>}
                     </div>
     
                     {(periods.length > 0 ? <div className='w-full flex mt-10 px-10'>
