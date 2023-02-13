@@ -1,7 +1,5 @@
 import axios from "axios";
 import authHeader from "./authHeader";
-import { TopicTypeEnum } from "../shared/types/topicType";
-import { TopicStatusEnum } from "../shared/types/topicStatus";
 
 const TOPIC_API_URL = process.env.REACT_APP_API_URL + "/api/topic";
 
@@ -22,6 +20,15 @@ const getTopicListService = (queryData: any) => {
         })
 }
 
+const getTopicDetailService = (_id: string) => {
+    return axios
+        .get(TOPIC_API_URL + "/" + _id, { headers: authHeader() })
+        .then((response) => {
+            return response.data
+        })
+}
+
 export default{
-    getTopicListService
+    getTopicListService,
+    getTopicDetailService
 }

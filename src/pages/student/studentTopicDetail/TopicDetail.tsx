@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, { useState, useEffect } from 'react';
 import BackIcon from '../../../assets/images/🦆 icon _arrow circle left_.png';
 import { useDispatch, useSelector} from "react-redux";
 import { RootState,AppDispatch } from '../../../store';
@@ -7,126 +7,112 @@ import { TopicTypeEnum } from '../../../shared/types/topicType';
 import {Link} from "react-router-dom";
 import Calendar from "../../../assets/images/calendar.png";
 import { GenderType } from '../../../shared/types/gender';
+import { MyTopic } from '../../../shared/interfaces/topicInterface';
 
+import {
+    useParams
+  } from "react-router-dom";
+import { getTopicDetailAction } from '../../../actions/topicAction';
 
-interface Topic{
-    _id: string;
-    name: string;
-    topicGivenId: string;
-    type: string;
-    startTime: string;
-    endTime: string;
-    creationDate: string;
-    period: string;
-    status: string;
-    isExtended: boolean,
-    extensionTime: number
-}
-
-interface Instructor{
-    _id: string,
-    name: string,
-    staffId: string,
-    gender: string,
-    email: string,
-    phoneNumber: string,
-    birthDate: string,
-    academyRank: string,
-    degree: string,
-}
-
-interface OtherMember{
-    _id: string,
-    topicId: string,
-    studentId: string,
-    name: string,
-    gender: string,
-    email: string,
-    phoneNumber: string,
-    educationType: string,
-    birthDate: string
-}
 
 const TopicDetail:React.FC = () => {
-    const topicData: Topic = {
+    let { _id} = useParams();
+    const topicData: MyTopic = {
         _id: "1",
-        name: "Hệ thống quản lý đề tài khoa học cấp sinh viên",
+        name: "1",
         topicGivenId: "",
-        type: "Chính quy",
+        type: "1",
         startTime: "",
         endTime: "",
         creationDate: "",
         period: "1",
-        status: "Tạo mới",
+        status: "1",
         isExtended: false,
-        extensionTime: 0
-    }
-    const instructorData: Instructor[] = [{
-        _id: "1",
-        name: "Trương Thị Thái Minh",
-        staffId: "1111111",
-        gender: "Nữ",
-        email: "thaiminh@hcmut.edu.vn",
-        phoneNumber: "098765432",
-        birthDate: "",
-        academyRank: "",
-        degree: "Thạc sỹ",
+        extensionTime: 0,
+        periodValue: "",
+        studentId: "",
+        productPath: "",
+        expense: 1,
+        student:{
+            _id: "",
+            name: ""
         },
-        {
+        instructors:[{
             _id: "1",
-            name: "Trương Thị Thái Minh",
-            staffId: "1111111",
-            gender: "Nữ",
-            email: "thaiminh@hcmut.edu.vn",
-            phoneNumber: "098765432",
+            name: "1",
+            staffId: "1",
+            gender: "1",
+            email: "1",
+            phoneNumber: "1",
             birthDate: "",
             academyRank: "",
-            degree: "Thạc sỹ",
+            degree: "1",
+            },
+            {
+                _id: "1",
+                name: "1",
+                staffId: "1",
+                gender: "1",
+                email: "1",
+                phoneNumber: "1",
+                birthDate: "",
+                academyRank: "",
+                degree: "1",
+            }],
+
+        instructorsId:["1", "2"],
+        otherMembers: [{
+            studentId: "1",
+            name: "1",
+            gender: "1",
+            email: "1",
+            phoneNumber: "1",
+            educationType: "1",
+            birthDate: "2001-09-06T16:00:00.000Z"
+        },
+        {
+            studentId: "1",
+            name: "1",
+            gender: "1",
+            email: "1",
+            phoneNumber: "1",
+            educationType: "1",
+            birthDate: "2001-09-06T16:00:00.000Z"
         }]
-    const otherMembersData: OtherMember[] = [{
-        _id: '1',
-        topicId: "",
-        studentId: "1912276",
-        name: "Phạm Minh Duy",
-        gender: "Nam",
-        email: "mduy@hcmut.edu.vn",
-        phoneNumber: "096524231",
-        educationType: "chính quy",
-        birthDate: ""
-    },
-    {
-        _id: '1',
-        topicId: "",
-        studentId: "1912276",
-        name: "Phạm Minh Duy",
-        gender: "Nam",
-        email: "mduy@hcmut.edu.vn",
-        phoneNumber: "096524231",
-        educationType: "chính quy",
-        birthDate: ""
-    }]
-    const [topic, setTopic] = useState<Topic>(topicData);
-    const [instructors, setInstructors] = useState<Instructor[]>(instructorData);
-    const [otherMembers, setOtherMembers] = useState<OtherMember[]>(otherMembersData);
+    }
+
+    const useAppDispatch: () => AppDispatch = useDispatch
+    const dispatch = useAppDispatch()
+
+    const [topic, setTopic] = useState<MyTopic>(topicData);
     const { user: currentUser } = useSelector((state: RootState) => state.auth);
-    const [birthDate, setBirthDate] = useState(new Date());
 
-    const addNewInstructor = (e:any) => {
-        e.preventDefault();
-
+    const displayDate = (dateStr: string) => {
+        if(dateStr === "") return "";
+        const date = new Date(dateStr);
+        return date.getDate() + "/" + (date.getMonth() + 1) + "/" + date.getFullYear();
+      }
+      const displayPeriod = (dateStr: string) => {
+        const date = new Date(dateStr);
+        return (date.getMonth() + 1) + "/" + date.getFullYear();
+      }
+      const capitalizeFirstLetter = (str: string) => {
+        const str2 = str.charAt(0).toUpperCase() + str.slice(1);
+        return str2;
     }
+    useEffect(() => {
+        if(_id){
+            dispatch(getTopicDetailAction(_id))
+                    .then((data) => {
+                        setTopic(data?.topic);
+                    }
+                    )
+                    .catch((error) => {
+        
+                    })
+        }
+    }, []);
 
-    const removeInstructor = (e:any) => {
-        e.preventDefault();
-    }
-
-    const addNewOtherMember = (e:any) => {
-        e.preventDefault();
-    }
-
-    const removeOtherMember = (e:any) => {
-        e.preventDefault();
-    }
 
     return (
     <div className='p-3'>
@@ -134,25 +120,31 @@ const TopicDetail:React.FC = () => {
             <Link to={'/myTopic'} className='hover:cursor-pointer w-fit'>
                 <img src={BackIcon} className='h-5' alt="" />
             </Link>
-            <div className='flex justify-end'>
-                    <button
+            <div className='flex justify-end items-center w-full mt-2'>
+                    <div className='w-[100%] text-lg font-bold'>
+                        Thông tin chi tiết của đề tài
+                    </div>
+                    {/* <button
                         className = 'w-[10%] h-[50px] mr-2 text-white font-bold text-sm px-5 py-2.5 text-center rounded-lg bg-[#1488D8] focus:ring-4 focus:outline-none focus:ring-blue-300'
                         >
                         CẬP NHẬT
-                    </button>
+                    </button> */}
             </div>
 
 
-        <form className = "space-y-5 mt-1">
+        <form className = "space-y-5 mt-5">
             <div className = "space-y-3">
                 <div className = 'flex items-center px-5'>
                     <label htmlFor='text' className = "w-[160px] text-md font-semibold mr-1">
                         Tên đề tài: 
                     </label>
-                    <input type = 'text' name = 'name' id ='name'
+                    {/* <input type = 'text' name = 'name' id ='name'
                         className = "w-1/2 border border-gray-500 text-md rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5"
                         defaultValue={topic.name}
-                    />
+                    /> */}
+                    <div className = "w-1/2 text-gray-900 text-md">
+                            {topic.name}
+                    </div>
                 </div>
 
                 <div className = 'flex flex-row px-5'>
@@ -181,7 +173,7 @@ const TopicDetail:React.FC = () => {
                             Ngày tạo: 
                         </label>
                         <div className = "w-1/4 text-gray-900 text-md">
-                            {topic.creationDate}
+                            {displayDate(topic.creationDate)}
                         </div>
                     </div>
 
@@ -191,7 +183,7 @@ const TopicDetail:React.FC = () => {
                         </label>
 
                         <div className = "w-1/4 text-gray-900 text-md">
-                            {topic.startTime} - {topic.endTime}
+                            {displayDate(topic.startTime)} - {displayDate(topic.endTime)}
                         </div>
                     </div>
                 </div>
@@ -202,7 +194,7 @@ const TopicDetail:React.FC = () => {
                             Đợt: 
                         </label>
                         <div className = "w-1/4 text-gray-900 text-md">
-                            {topic.period}
+                            {displayPeriod(topic.periodValue)}
                         </div>
                     </div>
 
@@ -247,7 +239,7 @@ const TopicDetail:React.FC = () => {
                                 Loại chương trình đào tạo: 
                             </label>
                             <div className = "w-1/2 text-gray-900 text-md">
-                                {currentUser.educationType}
+                                {capitalizeFirstLetter(currentUser.educationType)}
                             </div>
                         </div>
                     </div>
@@ -297,7 +289,7 @@ const TopicDetail:React.FC = () => {
                             Ngày sinh: 
                         </label>
                         <div className = "w-1/2 text-gray-900 text-md">
-                            {currentUser.birthDate}
+                            {displayDate(currentUser.birthDate)}
                         </div>
                     </div>
                 </div>
@@ -308,7 +300,7 @@ const TopicDetail:React.FC = () => {
                     Thông tin các giáo viên hướng dẫn:
                 </div>
 
-                {instructors.map((instructor, index) => {
+                {topic.instructors.map((instructor, index) => {
                     return(
                         <div className='mt-3'>
                             <div className='text-md px-1 flex items-center'>
@@ -353,7 +345,7 @@ const TopicDetail:React.FC = () => {
                                             Ngày sinh: 
                                         </label>
                                         <div className = "w-1/2 text-gray-900 text-md">
-                                            {instructor.birthDate}
+                                            {displayDate(instructor.birthDate)}
                                         </div>
                                     </div>
                                 </div>
@@ -364,7 +356,7 @@ const TopicDetail:React.FC = () => {
                                             Học hàm: 
                                         </label>
                                         <div className = "w-1/2 text-gray-900 text-md">
-                                            {instructor.academyRank}
+                                            {instructor.academyRank === "" ? "Không" : instructor.academyRank}
                                         </div>
                                     </div>
 
@@ -409,7 +401,7 @@ const TopicDetail:React.FC = () => {
                     Thông tin các thành viên khác:
                 </div>
 
-                {otherMembers.map((otherMember, index) => {
+                {topic.otherMembers.map((otherMember, index) => {
                     return(
                         <div className='mt-3'>
                             <div className='text-md px-1 flex items-center'>
@@ -423,10 +415,13 @@ const TopicDetail:React.FC = () => {
                                         <label htmlFor='text' className = "text-md w-[120px] mr-1">
                                             Họ và tên: 
                                         </label>
-                                        <input type = 'text' name = 'name' id ='name'
+                                        {/* <input type = 'text' name = 'name' id ='name'
                                             className = "w-1/2 border border-gray-500 text-md rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5"
                                             defaultValue={otherMember.name}
-                                        />
+                                        /> */}
+                                        <div className = "w-1/2 text-gray-900 text-md">
+                                            {otherMember.name}
+                                        </div>
                                     </div>
 
                                     <div className = 'flex flex-row items-center w-1/2'>
@@ -434,7 +429,7 @@ const TopicDetail:React.FC = () => {
                                             Loại chương trình đào tạo: 
                                         </label>
                                         <div className = "w-1/2 text-gray-900 text-md">
-                                            {otherMember.educationType}
+                                            {capitalizeFirstLetter(otherMember.educationType)}
                                         </div>
                                     </div>
                                 </div>
@@ -453,13 +448,16 @@ const TopicDetail:React.FC = () => {
                                         <label htmlFor='text' className = "text-md w-[200px] mr-1">
                                             Giới tính: 
                                         </label>
-                                        <select
+                                        {/* <select
                                         className="bg-white h-[45px] w-1/2 border border-black border-1 rounded-md focus:ring-blue-500 px-2"
                                         defaultValue={otherMember.gender}
                                         >
                                             <option value={GenderType.MALE}>{GenderType.MALE}</option>
                                             <option value={GenderType.FEMALE}>{GenderType.FEMALE}</option>
-                                    </select>
+                                        </select> */}
+                                        <div className = "w-1/2 text-gray-900 text-md">
+                                            {otherMember.gender}
+                                        </div>
                                     </div>
                                 </div>
 
@@ -468,20 +466,26 @@ const TopicDetail:React.FC = () => {
                                         <label htmlFor='text' className = "text-md w-[120px] mr-1">
                                             Email: 
                                         </label>
-                                        <input type = 'text' name = 'name' id ='name'
+                                        {/* <input type = 'text' name = 'name' id ='name'
                                             className = "w-1/2 border border-gray-500 text-md rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5"
                                             defaultValue={otherMember.email}
-                                        />
+                                        /> */}
+                                        <div className = "w-1/2 text-gray-900 text-md">
+                                            {otherMember.email}
+                                        </div>
                                     </div>
 
                                     <div className = 'flex flex-row items-center w-1/2'>
                                         <label htmlFor='text' className = "text-md w-[200px] mr-1">
                                             Số điện thoại: 
                                         </label>
-                                        <input type = 'text' name = 'name' id ='name'
+                                        {/* <input type = 'text' name = 'name' id ='name'
                                             className = "w-1/2 border border-gray-500 text-md rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5"
                                             defaultValue={otherMember.phoneNumber}
-                                        />
+                                        /> */}
+                                        <div className = "w-1/2 text-gray-900 text-md">
+                                            {otherMember.phoneNumber}
+                                        </div>
                                     </div>
                                 </div>
 
@@ -491,7 +495,7 @@ const TopicDetail:React.FC = () => {
                                         <label htmlFor='text' className = "text-md w-[120px] mr-1">
                                             Ngày sinh: 
                                         </label>
-                                        <div className = "w-1/2 text-gray-900 text-md">
+                                        {/* <div className = "w-1/2 text-gray-900 text-md">
                                             <div className='grid justify-items-end items-center'>
                                                 <DatePicker
                                                 onChange={date => {
@@ -512,6 +516,9 @@ const TopicDetail:React.FC = () => {
                                                     <img src={Calendar} alt="calendarIcon" className='h-5 w-5'/>
                                                 </div>
                                             </div>
+                                        </div> */}
+                                        <div className = "w-1/2 text-gray-900 text-md">
+                                            {displayDate(otherMember.birthDate)}
                                         </div>
                                     </div>
 
@@ -519,7 +526,6 @@ const TopicDetail:React.FC = () => {
 
                             </div>
                         </div>
-
                     )
                 })}
             </div>
