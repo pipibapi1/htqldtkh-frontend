@@ -288,6 +288,8 @@ const MyTopicList: React.FC = () => {
                                             time={displayDate(topic.startTime) + " - " + displayDate(topic.endTime)}
                                             period={topic.periodValue}
                                             currentPage={currentPage}
+                                            startTime={topic.startTime}
+                                            endTime={topic.endTime}
                                             />
                                         )
                                     })}

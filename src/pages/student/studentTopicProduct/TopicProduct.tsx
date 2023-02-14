@@ -1,15 +1,22 @@
 import React, {useState} from 'react';
-import {Link} from "react-router-dom";
+import {Link, useLocation} from "react-router-dom";
 import BackIcon from '../../../assets/images/🦆 icon _arrow circle left_.png';
 import FileIcon from "../../../assets/images/files.png"
 
 
 const TopicProduct:React.FC = () => {
+    const { state } = useLocation();
     const [addMode, setAddMode] = useState(false);
     const [file, setFile] = useState<File>();
     const handleChange = (file: any) => {
         setFile(file);
     };
+
+    const displayForDate = (date: string) => {
+        if(date === "") return "";
+        const d = new Date(date);
+        return "Ngày " + d.getDate() + " Tháng " + (d.getMonth() + 1) + " Năm " + d.getFullYear();
+    }
 
     return (
         <div className='p-3'>
@@ -24,7 +31,7 @@ const TopicProduct:React.FC = () => {
                             Bắt đầu: 
                         </div>
                         <div className='text-sm font-medium'>
-                            Ngày 12 Tháng 9 Năm 2022, 12:00 AM
+                            {displayForDate(state?.startTime)}
                         </div>
                     </div>
                     <div className='flex mt-1'>
@@ -32,7 +39,7 @@ const TopicProduct:React.FC = () => {
                             Kết thúc: 
                         </div>
                         <div className='text-sm font-medium'>
-                            Ngày 20 Tháng 11 Năm 2022, 12:00 AM
+                            {displayForDate(state?.endTime)}
                         </div>
                     </div>
                 </div>
@@ -42,7 +49,7 @@ const TopicProduct:React.FC = () => {
                 </div>
             </div>
 
-            {!addMode && (
+            {!addMode && !file && (
             <div className="w-40 mt-5 bg-[#0079CC] flex justify-center items-center transition text-white font-semibold py-4 border border-white-500 rounded-[15px] hover:bg-[#025A97] hover:cursor-pointer"
                 onClick = {(e) => {
                     e.preventDefault();
@@ -51,6 +58,22 @@ const TopicProduct:React.FC = () => {
             >
                 Thêm sản phẩm
             </div>)}
+
+            {!addMode && file && (
+            <div className='flex'>
+                <div className="w-40 mt-5 mr-2 bg-[#0079CC] flex justify-center items-center transition text-white font-semibold py-4 border border-white-500 rounded-[15px] hover:bg-[#025A97] hover:cursor-pointer"
+                    
+                >
+                    Chỉnh sửa
+                </div>
+
+                <div className="w-40 mt-5 bg-[#E1000E] flex justify-center items-center transition text-white font-semibold py-4 border border-white-500 rounded-[15px] hover:bg-[#970D15] hover:cursor-pointer"
+                    
+                >
+                    Xóa
+                </div>
+            </div>
+            )}
 
             {!addMode && (<div className='mt-5 w-full'>
                 <div className='text-xl font-bold'>
@@ -128,6 +151,10 @@ const TopicProduct:React.FC = () => {
             {addMode && (
             <div className='flex items-center justify-center w-full'>
                 <div className="w-40 mt-5 bg-[#0079CC] flex justify-center items-center transition text-white font-semibold py-4 border border-white-500 rounded-[15px] hover:bg-[#025A97] hover:cursor-pointer"
+                    onClick={(e) => {
+                        e.preventDefault();
+                        setAddMode(!addMode)
+                    }}
                 >
                 Lưu thay đổi
                 </div>

@@ -22,7 +22,19 @@ const getTopicDetailAction = (_id: string) => (dispatch: any) => {
     )
 }
 
+const putUpdateATopicAction = (updateInfo: any) => (dispatch: any) => {
+    return topicService.putUpdateATopicService(updateInfo).then(
+        (data) => {
+            return Promise.resolve(data);
+        },
+        (error) =>{
+            return Promise.reject(error);
+        }
+    )
+}
+
 export {
     getTopicListAction,
-    getTopicDetailAction
+    getTopicDetailAction,
+    putUpdateATopicAction
 }

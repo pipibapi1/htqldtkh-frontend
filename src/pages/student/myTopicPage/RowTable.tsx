@@ -13,13 +13,15 @@ interface Props {
   createdDate: string;
   time: string;
   period: string;
-  currentPage: number
+  currentPage: number;
+  startTime: string;
+  endTime: string;
 }
 
 const RECORD_PER_PAGE = 5;
 
 const RowTable: React.FC<Props> = (props) => {
-  const { index, _id ,topicGivenId,topicName, topicType, topicStatus, topicExtensionStatus, createdDate, time, period, currentPage } = props;
+  const { index, _id ,topicGivenId,topicName, topicType, topicStatus, topicExtensionStatus, createdDate, time, period, currentPage, startTime, endTime } = props;
   const displayDate = (dateStr: string) => {
     const date = new Date(dateStr);
     return date.getDate() + "/" + (date.getMonth() + 1) + "/" + date.getFullYear();
@@ -65,7 +67,7 @@ const RowTable: React.FC<Props> = (props) => {
         </Link>
       </td>
       <td className='text-center font-medium text-sm text-gray-900 px-1 py-1 border-l-2'>
-        <Link to={`/myTopic/${_id}/topicProduct`}>
+        <Link to={`/myTopic/${_id}/topicProduct`} state={{startTime: startTime, endTime: endTime}}>
             <div className="text-[#0079CC] font-semibold no-underline hover:underline hover:cursor-pointer">
             Sản phẩm
             </div>

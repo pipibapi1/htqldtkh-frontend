@@ -28,7 +28,17 @@ const getTopicDetailService = (_id: string) => {
         })
 }
 
+const putUpdateATopicService = (updateInfo: any) => {
+    const {_id, topic} = updateInfo;
+    return axios
+        .put(TOPIC_API_URL + "/" + _id, {topic: topic}, { headers: authHeader() })
+        .then((response) => {
+            return response.data
+        })
+}
+
 export default{
     getTopicListService,
-    getTopicDetailService
+    getTopicDetailService,
+    putUpdateATopicService
 }
