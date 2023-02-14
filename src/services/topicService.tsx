@@ -1,7 +1,5 @@
 import axios from "axios";
 import authHeader from "./authHeader";
-import { TopicTypeEnum } from "../shared/types/topicType";
-import { TopicStatusEnum } from "../shared/types/topicStatus";
 import { topicInput } from "../shared/interfaces/topicInterface";
 
 
@@ -30,6 +28,7 @@ const postNewTopic = (topic: topicInput) => {
                 console.log(response.data);
                 return response.data.topic;
             })
+}
             
 const getTopicDetailService = (_id: string) => {
     return axios
