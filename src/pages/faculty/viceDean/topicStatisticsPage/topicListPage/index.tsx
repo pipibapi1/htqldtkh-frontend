@@ -188,7 +188,7 @@ const TopicListPage: React.FC<Props> = (props: Props) => {
                     <img src={BackIcon} className='h-5' alt="" />
                 </div>
                 <div className='flex items-center mb-5'>
-                <div className='mr-5'>
+                        <div className='mr-5'>
                                 Đợt: 
                         </div>
                         <div className="">

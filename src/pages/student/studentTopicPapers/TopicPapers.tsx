@@ -3,6 +3,7 @@ import BackIcon from '../../../assets/images/🦆 icon _arrow circle left_.png';
 import DownIcon from '../../../assets/images/down-arrow.png';
 import RightIcon from '../../../assets/images/next.png';
 import {Link} from "react-router-dom";
+import ThongBao from '../../../assets/images/ThongBaoMoiNhat.pdf';
 
 const TopicPaperCard = () => {
     const [show, setShow] = useState(true);

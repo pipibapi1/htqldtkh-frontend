@@ -266,35 +266,6 @@ const MyRequestList: React.FC = () => {
                                             currentPage={currentPage}
                                             />)
                                     })}
-                                    {/* <RowTable
-                                    index={1}
-                                    requestId={"RQ1890-TH00-MM55"}
-                                    requestType={"Xin giấy chứng nhận"}
-                                    requestStatus={"Chờ xét duyệt"}
-                                    createdDate={"date"}
-                                    additionalInfor={""}
-                                    topicId={"KH1890-MX201-MM55"}
-                                    />
-
-                                    <RowTable
-                                    index={2}
-                                    requestId={"RQ1890-TH00-MM55"}
-                                    requestType={"Gia hạn đề tài"}
-                                    requestStatus={"Đã duyệt"}
-                                    createdDate={"date"}
-                                    additionalInfor={"Thời gian gia hạn: 6 tháng"}
-                                    topicId={"KH1890-MX201-MM55"}
-                                    />
-
-                                    <RowTable
-                                    index={3}
-                                    requestId={"RQ1890-TH00-MM55"}
-                                    requestType={"Hủy đề tài"}
-                                    requestStatus={"Chờ xét duyệt"}
-                                    createdDate={"date"}
-                                    additionalInfor={""}
-                                    topicId={"KH1890-MX201-MM55"}
-                                    /> */}
                                 </tbody>
                             </table>
                         </div>

@@ -44,9 +44,18 @@ const deleteRemoveARequestService = (_id: string) => {
         })
 }
 
+const putApproveARequestService = (_id: string) => {
+    return axios
+        .put(REQUEST_API_URL + "/" + _id + "/" + "approve",{}, { headers: authHeader() })
+        .then((response) => {
+            return response.data
+        })
+}
+
 export default{
     getRequestListService,
     putUpdateARequestService,
     postAddARequestService,
-    deleteRemoveARequestService
+    deleteRemoveARequestService,
+    putApproveARequestService
 }

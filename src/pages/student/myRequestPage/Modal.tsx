@@ -5,6 +5,8 @@ import Swal from 'sweetalert2';
 import { RequestType } from '../../../shared/types/requestType';
 import { Topic } from '../../../shared/interfaces/topicInterface';
 import { postAddARequestAction } from '../../../actions/requestAction';
+import { TopicTypeEnum } from '../../../shared/types/topicType';
+import { TopicStatusEnum } from '../../../shared/types/topicStatus';
 
 const Modal = ({isVisible, onClose, myTopics}: {isVisible: boolean, onClose: any, myTopics: Topic[]}) => {
     const [requestType, setRequestType] = useState<string>(RequestType.GET_CERTIFICATE)
@@ -138,6 +140,7 @@ const Modal = ({isVisible, onClose, myTopics}: {isVisible: boolean, onClose: any
                                 onChange={(e) => {
                                     e.preventDefault();
                                     setRequestType(e.target.value)
+                                    setChosenTopicId("")
                                 }}
                                 >
                                     <option value={RequestType.GET_CERTIFICATE}>Xin giấy chứng nhận</option>
@@ -154,8 +157,31 @@ const Modal = ({isVisible, onClose, myTopics}: {isVisible: boolean, onClose: any
                                 className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
                                 onChange={(e) => {
                                     e.preventDefault();
-                                    setChosenTopicId(e.target.value)
+                                    if(e.target.value != ""){
+                                        const chosenTopic = myTopics.find((topic) => topic._id === e.target.value)
+                                        if(chosenTopic && (chosenTopic.status === TopicStatusEnum.DUE_TO_ACCEPT ||
+                                            chosenTopic.status === TopicStatusEnum.CARRY_OUT ||
+                                            chosenTopic.status === TopicStatusEnum.OUT_OF_DATE) && requestType !== RequestType.GET_CERTIFICATE
+                                            ){
+                                                setChosenTopicId(e.target.value)
+                                        }
+                                        else{
+                                            if(chosenTopic && requestType === RequestType.GET_CERTIFICATE && chosenTopic.status === TopicStatusEnum.FINISHED){
+                                                setChosenTopicId(e.target.value)
+                                            }
+                                            else{
+                                                Toast.fire({
+                                                    icon: 'error',
+                                                    title: 'Đề tài được chọn đang ở trạng thái ' + chosenTopic?.status + " nên không thể tạo yêu cầu " + requestType + " được!"
+                                                  })
+                                            }
+                                        }
+                                    }
+                                    else{
+                                        setChosenTopicId(e.target.value)
+                                    }
                                 }}
+                                value={chosenTopicId}
                                 defaultValue={""}
                                 >
                                     <option value={""}>Chọn đề tài</option>

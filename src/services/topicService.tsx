@@ -4,6 +4,7 @@ import { TopicTypeEnum } from "../shared/types/topicType";
 import { TopicStatusEnum } from "../shared/types/topicStatus";
 import { topicInput } from "../shared/interfaces/topicInterface";
 
+
 const TOPIC_API_URL = process.env.REACT_APP_API_URL + "/api/topic";
 
 const getTopicListService = (queryData: any) => {
@@ -29,9 +30,27 @@ const postNewTopic = (topic: topicInput) => {
                 console.log(response.data);
                 return response.data.topic;
             })
+            
+const getTopicDetailService = (_id: string) => {
+    return axios
+        .get(TOPIC_API_URL + "/" + _id, { headers: authHeader() })
+        .then((response) => {
+            return response.data
+        })
+}
+
+const putUpdateATopicService = (updateInfo: any) => {
+    const {_id, topic} = updateInfo;
+    return axios
+        .put(TOPIC_API_URL + "/" + _id, {topic: topic}, { headers: authHeader() })
+        .then((response) => {
+            return response.data
+        })
 }
 
 export default{
     getTopicListService,
-    postNewTopic
+    postNewTopic,
+    getTopicDetailService,
+    putUpdateATopicService
 }

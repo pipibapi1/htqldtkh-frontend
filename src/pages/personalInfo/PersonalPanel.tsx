@@ -593,7 +593,13 @@ const PersonalPanel:React.FC<Props> = (props: Props) => {
         </div>
 
         <div className='grid grid-rows-6 justify-items-end px-5 col-span-1'>
-                {!editMode && 
+                {
+                    userInfo.accountStatus === StudentAccountStatusEnum.approved && 
+                <div className="w-40 bg-[#A3A3A3] flex justify-center items-center transition text-white font-semibold py-4 border border-white-500 rounded-[15px]">
+                    Chỉnh sửa
+                </div>
+                }
+                {userInfo.accountStatus === StudentAccountStatusEnum.waiting && !editMode && 
                     <div onClick={() => {
                             setEditMode(!editMode)
                             setNewInfo(user)}
@@ -601,7 +607,7 @@ const PersonalPanel:React.FC<Props> = (props: Props) => {
                     Chỉnh sửa
                     </div>
                 }
-                {editMode &&
+                {userInfo.accountStatus === StudentAccountStatusEnum.waiting && editMode &&
                     <button className="bg-[#0079CC] w-40 h-16 flex justify-center items-center transition text-white font-semibold py-4 border border-white-500 rounded-[15px] hover:bg-[#025A97] hover:cursor-pointer"
                     onClick={updateInfo}
                     disabled={loading? true: false}

@@ -8,7 +8,7 @@ import { RequestType } from '../../../../shared/types/requestType';
 import { PeriodStatus } from '../../../../shared/types/periodStatus';
 import { useDispatch} from "react-redux";
 import { AppDispatch } from '../../../../store';
-import { getRequestListAction, putUpdateARequestAction } from '../../../../actions/requestAction';
+import { getRequestListAction, putApproveARequestAction, putUpdateARequestAction } from '../../../../actions/requestAction';
 import DatePicker from "react-datepicker";
 import Calendar from "../../../../assets/images/calendar.png";
 import {getAllPeriodsAction} from "../../../../actions/periodAction"
@@ -156,12 +156,6 @@ const RequestList= () => {
     }
 
     const approveARequest = (_id: string) => {
-        const updateInfo = {
-            _id: _id,
-            request: {
-                status: RequestStatus.APPROVED
-            }
-        }
 
         Swal.fire({
             icon: 'question',
@@ -172,7 +166,7 @@ const RequestList= () => {
         }).then((result) => {
       
             if(result.isConfirmed){
-            dispatch(putUpdateARequestAction(updateInfo))
+            dispatch(putApproveARequestAction(_id))
               .then((data) => {
                 Swal.fire({
                   icon: 'success',
