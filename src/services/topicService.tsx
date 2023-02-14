@@ -2,6 +2,7 @@ import axios from "axios";
 import authHeader from "./authHeader";
 import { TopicTypeEnum } from "../shared/types/topicType";
 import { TopicStatusEnum } from "../shared/types/topicStatus";
+import { topicInput } from "../shared/interfaces/topicInterface";
 
 const TOPIC_API_URL = process.env.REACT_APP_API_URL + "/api/topic";
 
@@ -22,6 +23,15 @@ const getTopicListService = (queryData: any) => {
         })
 }
 
+const postNewTopic = (topic: topicInput) => {
+    return axios.post(TOPIC_API_URL, { topic: topic }, { headers: authHeader() })
+            .then((response) => {
+                console.log(response.data);
+                return response.data.topic;
+            })
+}
+
 export default{
-    getTopicListService
+    getTopicListService,
+    postNewTopic
 }

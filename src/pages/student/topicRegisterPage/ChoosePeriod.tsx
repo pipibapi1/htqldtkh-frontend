@@ -11,7 +11,7 @@ import { PeriodStatus } from '../../../shared/types/periodStatus';
 
 
 const ChoosePeriod = (props: any) => {
-    const {choosePeriod} = props
+    const {choosePeriod, setTopic, topic} = props
 
     const useAppDispatch: () => AppDispatch = useDispatch
     const dispatch = useAppDispatch()
@@ -75,16 +75,16 @@ const ChoosePeriod = (props: any) => {
         <div className="p-4">
             <div className='flex items-center'>
                     <div className='mr-5'>
-                                Năm: 
-                        </div>
+                        Năm: 
+                    </div>
                     <div className='grid justify-items-end items-center mr-10'>
                         <DatePicker
                             onChange={date => {
                                 if(date){
-                                     setYear(date);
-                                     onChangeYear(date);
+                                    setYear(date);
+                                    onChangeYear(date);
                                 }
-                                }}
+                            }}
                             selected={year}
                             dateFormat="yyyy"
                             showYearPicker
@@ -116,7 +116,7 @@ const ChoosePeriod = (props: any) => {
                 </div> */}
             </div>
 
-            {periods.length > 0 ? (<div className='grid justify-items-end px-5'>
+            <div className='grid justify-items-end px-5'>
                 <div className='flex items-center py-4'>
                     <div className='flex items-center'>
                         <div className='mr-3'>
@@ -139,7 +139,8 @@ const ChoosePeriod = (props: any) => {
                         </div>
                     </div>
                 </div>
-            </div>) : (
+            </div>
+            {periods.length > 0 ? null : (
                 <div className='mt-5'> 
                     Không có đợt đăng ký
                 </div>
@@ -195,7 +196,14 @@ const ChoosePeriod = (props: any) => {
                                 <tbody className=''>
                                     {periods.map((period, index) => {
                                         return(
-                                            <PeriodRowTable index={index+1} period={period} choosePeriod={choosePeriod}/>
+                                            <PeriodRowTable 
+                                                key={index}
+                                                index={index+1}
+                                                period={period}
+                                                choosePeriod={choosePeriod}
+                                                topic={topic}
+                                                setTopic={setTopic}
+                                            />
                                         )
                                     })}
                                 </tbody>
