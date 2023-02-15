@@ -25,7 +25,7 @@ const RegisterStep1:React.FC<Props> = (props: Props) => {
                 className='hover:cursor-pointer w-fit' 
                 onClick={backToChoosePeriod}
             >
-                <img src={BackIcon} className='h-8' alt="" />
+                <img src={BackIcon} className='h-5' alt="" />
             </div>
             <div>
                 <div className='flex mb-5 mt-3'>
@@ -89,7 +89,7 @@ const RegisterStep1:React.FC<Props> = (props: Props) => {
                                 if(event){
                                     const numInstructor = parseInt(event.target.value);
                                     let instructorIdList = [];
-                                    for (let i = 0; i <= numInstructor; i++) {
+                                    for (let i = 0; i < numInstructor; i++) {
                                         instructorIdList.push("")
                                     }
                                     setTopic({

@@ -30,7 +30,7 @@ const PeriodRowTable = (props: any) => {
             choosePeriod(period);
             setTopic({
               ...topic,
-              period: period.period
+              period: period._id
             })
           }
             }>

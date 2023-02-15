@@ -47,7 +47,7 @@ const RegisterTopicPage:React.FC = () => {
         setPeriod(period);
         setTopic({
             ...topic,
-            period: period.period
+            period: period._id
         })
     }
 

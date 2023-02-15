@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import OtherMembersInput from './otherMemberInput';
 import { useSelector, useDispatch } from 'react-redux';
 import { RootState, AppDispatch } from '../../../../store';
+import { useNavigate } from "react-router-dom";
 import BackIcon from '../../../../assets/images/🦆 icon _arrow circle left_.png';
 import Swal from 'sweetalert2';
 import StaticExprElement from '../../../faculty/secretary/topicConditionPage/conditionDisplay/staticExprElement';
@@ -19,6 +20,12 @@ import { TopicMemberTypeEnum } from '../../../../shared/types/topicMemberType';
 import topicService from '../../../../services/topicService';
 
 import { getExprResult } from './getExprResult';
+import { TopicTypeEnum } from '../../../../shared/types/topicType';
+import instructorService from '../../../../services/instructorService';
+import { Instructor } from '../../../../shared/interfaces/instructorInterface';
+import { AcademyRank } from '../../../../shared/types/academyRank';
+import { DegreeType } from '../../../../shared/types/degreeType';
+
 
 interface Props {
     backToChoosePeriod: any,
@@ -46,6 +53,7 @@ interface IsValid {
 }
 
 const RegisterStep2:React.FC<Props> = (props: Props) => {
+    const navigate = useNavigate();
     const {backToChoosePeriod, backToStep1, topic, setTopic, setIsAtStep1} = props;
 
     const {expression} = useSelector((state: RootState) => state.topicCondition);
@@ -61,12 +69,36 @@ const RegisterStep2:React.FC<Props> = (props: Props) => {
         leader: {}
     })
 
+    const [instructorsInfo, setInstructorsInfo] = useState<Instructor[]>([])
+
     const [isValid, setIsValid] = useState<IsValid>({
         topicName: true,
         topicCondition: true,
         leader: true,
         othersMember: true,
     });
+
+    const Toast = Swal.mixin({
+        toast: true,
+        position: 'top-end',
+        showConfirmButton: false,
+        timer: 4000,
+        timerProgressBar: true,
+        didOpen: (toast: any) => {
+          toast.addEventListener('mouseenter', Swal.stopTimer)
+          toast.addEventListener('mouseleave', Swal.resumeTimer)
+        }
+      })
+
+    const short = (s: string) => {
+        if(s === AcademyRank.GS) return "GS.";
+        if(s === AcademyRank.PGS) return "PGS.";
+        if(s === DegreeType.CN) return "CN.";
+        if(s === DegreeType.ThS) return "ThS.";
+        if(s === DegreeType.TS) return "TS.";
+
+        return "";
+    }
 
     React.useEffect(() => {
         topicConditionService.getTopicConditionByType(topic.type)
@@ -76,6 +108,12 @@ const RegisterStep2:React.FC<Props> = (props: Props) => {
                     isLoading: false
                 }
                 dispatch(setTopicConditionAction(newCondition.expression))
+            })
+            .catch((err)=> {console.log(err)})
+
+        instructorService.getAllInstructorsService()
+            .then((data) => {
+                setInstructorsInfo(data?.instructors)
             })
             .catch((err)=> {console.log(err)})
     }, [topic, dispatch])
@@ -137,6 +175,7 @@ const RegisterStep2:React.FC<Props> = (props: Props) => {
 
     let instructors = [];
     for (let index = 1; index <= topic.numInstructor; ++index){
+        
         instructors.push(
             <div className='px-2 mb-1'>
                 <div>
@@ -150,11 +189,20 @@ const RegisterStep2:React.FC<Props> = (props: Props) => {
                                 setTopic({
                                     ...topic
                                 })
+                                    
                             }}
-                            defaultValue={"dfdasf"}
+                            defaultValue={""}
                         >
-                        <option value="1">Ths. Trương Thị Thái Minh - MSCB: 1</option>
-                        <option value="2">Ts. Nguyễn An Khương - MSCB: 2</option>
+                            <option disabled value={""}>Chọn GVHD</option>
+                        {
+                            instructorsInfo.map((instructor) => {
+                                return(
+                                    <option value={instructor._id}>
+                                        {short(instructor.academyRank)} {short(instructor.degree)} {instructor.name} - MSCB: {instructor.staffId}
+                                    </option>
+                                )
+                            })
+                        }
                     </select>
                 </div>
             </div>
@@ -210,6 +258,26 @@ const RegisterStep2:React.FC<Props> = (props: Props) => {
                 break;
             }
         }
+
+        let checkDuplicateInstructor = true;
+        for(let i = 0; i < topic.instructorsId.length; i++){
+            const instructorId = topic.instructorsId[i];
+            for (let y = i + 1; y < topic.instructorsId.length; y++){
+                if(topic.instructorsId[y] === instructorId){
+                    checkDuplicateInstructor = false;
+                    break
+                }
+            }
+            if(checkDuplicateInstructor) break
+        }
+
+        let checkUnchosenInstructor = true;
+        for(let i = 0; i < topic.instructorsId.length; i++){
+            if(topic.instructorsId[i] === ""){
+                checkUnchosenInstructor = false;
+                break
+            }
+        }
         
         setIsValid({
             topicName: checkTopicName,
@@ -218,7 +286,7 @@ const RegisterStep2:React.FC<Props> = (props: Props) => {
             othersMember: checkOtherMember
         })
 
-        if (checkLeader && checkOtherMember && checkTopicCondition && checkTopicName) {
+        if (checkUnchosenInstructor && checkDuplicateInstructor && checkLeader && checkOtherMember && checkTopicCondition && checkTopicName) {
             Swal.fire({
                 icon: 'question',
                 title: 'Bạn chắc chắn muốn đăng ký đề tài chứ?',
@@ -237,10 +305,28 @@ const RegisterStep2:React.FC<Props> = (props: Props) => {
                                 confirmButtonText: 'OK',
                             })
                             .then((result) => {
-                                window.location.href = './';
+                                navigate("/myTopic");
                             })
                         })
                 }
+            })
+        }
+        else if(!checkUnchosenInstructor){
+            Swal.fire({
+                icon: 'error',
+                title: 'Vui lòng chọn đủ GVHD!',
+                showDenyButton: false,
+                showCancelButton: false,
+                confirmButtonText: 'OK',
+            })
+        }
+        else if(!checkDuplicateInstructor){
+            Swal.fire({
+                icon: 'error',
+                title: 'Các GVHD bị trùng lặp, vui lòng chọn lại!',
+                showDenyButton: false,
+                showCancelButton: false,
+                confirmButtonText: 'OK',
             })
         }
         else {
@@ -293,7 +379,7 @@ const RegisterStep2:React.FC<Props> = (props: Props) => {
                 className='hover:cursor-pointer w-fit' 
                 onClick={onClickBackBtn}
             >
-                <img src={BackIcon} className='h-8' alt="" />
+                <img src={BackIcon} className='h-5' alt="" />
             </div>
             <div className='flex justify-between mb-2 mt-3'>
                 <div className='flex flex-col w-2/3'>
@@ -337,10 +423,10 @@ const RegisterStep2:React.FC<Props> = (props: Props) => {
                             onChange={onChangeTopicType}
                             defaultValue={topic.type}
                         >
-                        <option value="Chính quy">Chính quy</option>
-                        <option value="Chất lượng cao">Chất lượng cao</option>
-                        <option value="Chất lượng cao (LVTN)">Chất lượng cao (LVTN)</option>
-                        <option value="Kỹ sư tài năng">Kỹ sư tài năng</option>
+                        <option value={TopicTypeEnum.CQ}>Chính quy</option>
+                        <option value={TopicTypeEnum.CLC}>Chất lượng cao</option>
+                        <option value={TopicTypeEnum.CLC_LVTN}>Chất lượng cao (LVTN)</option>
+                        <option value={TopicTypeEnum.KSTN}>Kỹ sư tài năng</option>
                     </select>
                 </div>
             </div>
