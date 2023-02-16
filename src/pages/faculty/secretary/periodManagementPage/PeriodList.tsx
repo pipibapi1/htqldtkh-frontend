@@ -184,7 +184,6 @@ const PeriodList = (props: any) => {
                                         scope='col'
                                         className='text-sm text-center font-bold text-white px-2 py-3 text-left border-l-2'
                                     >
-                                        
                                     </th>
                                     <th
                                         scope='col'
