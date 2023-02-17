@@ -11,7 +11,18 @@ const getTemplatesAction = (queryData: any) => (dispatch: any) =>{
     )
 }
 
+const getTemplatesWithPapersAction = (queryData: any) => (dispatch: any) =>{
+    return templateService.getTemplatesWithPapersService(queryData).then(
+        (data) => {
+            return Promise.resolve(data);
+        },
+        (error) =>{
+            return Promise.reject(error);
+        }
+    )
+}
 
 export {
-    getTemplatesAction
+    getTemplatesAction,
+    getTemplatesWithPapersAction
 }

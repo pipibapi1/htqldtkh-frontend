@@ -2,11 +2,7 @@ import React, { useState, useEffect } from 'react';
 import BackIcon from '../../../assets/images/🦆 icon _arrow circle left_.png';
 import { useDispatch, useSelector} from "react-redux";
 import { RootState,AppDispatch } from '../../../store';
-import DatePicker from "react-datepicker";
-import { TopicTypeEnum } from '../../../shared/types/topicType';
 import {Link} from "react-router-dom";
-import Calendar from "../../../assets/images/calendar.png";
-import { GenderType } from '../../../shared/types/gender';
 import { MyTopic } from '../../../shared/interfaces/topicInterface';
 
 import {
@@ -31,7 +27,7 @@ const TopicDetail:React.FC = () => {
         extensionTime: 0,
         periodValue: "",
         studentId: "",
-        productPath: "",
+        productId: "",
         expense: 1,
         student:{
             _id: "",

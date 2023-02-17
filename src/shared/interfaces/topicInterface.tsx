@@ -11,7 +11,7 @@ export interface Topic{
     extensionTime: number;
     status: string 
     period: string;
-    productPath: string;
+    productId: string;
     studentId: string;
     creationDate: string;
     topicGivenId: string;
@@ -33,7 +33,7 @@ export interface MyTopic{
     extensionTime: number;
     status: string 
     period: string;
-    productPath: string;
+    productId: string;
     studentId: string;
     creationDate: string;
     topicGivenId: string;

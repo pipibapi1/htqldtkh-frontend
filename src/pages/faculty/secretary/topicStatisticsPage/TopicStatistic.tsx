@@ -40,7 +40,7 @@ interface Topic{
     extensionTime: number;
     status: TopicStatusEnum;
     period: string;
-    productPath: string;
+    productId: string;
     studentId: string;
     creationDate: string;
     student: {

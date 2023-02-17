@@ -14,7 +14,18 @@ const getTemplatesService = (queryData: any) => {
         })
 }
 
+const getTemplatesWithPapersService = (queryData: any) => {
+    const {topicId, forStudent}  = queryData;
+    const queryString = '?' + (forStudent !== undefined ? `forStudent=${forStudent}&` : "") ;
+
+    return axios.
+        get(TEMPLATE_API_URL + '/' + 'withPapers' + '/' + topicId +queryString, {headers: authHeader()})
+        .then((response) => {
+            return response.data
+        })
+}
 
 export default{
-    getTemplatesService
+    getTemplatesService,
+    getTemplatesWithPapersService
 }
