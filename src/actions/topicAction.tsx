@@ -33,8 +33,20 @@ const putUpdateATopicAction = (updateInfo: any) => (dispatch: any) => {
     )
 }
 
+const deleteRemoveATopicAction = (_id: string) => (dispatch: any) => {
+    return topicService.deleteRemoveATopicService(_id).then(
+        (data) => {
+            return Promise.resolve(data);
+        },
+        (error) =>{
+            return Promise.reject(error);
+        }
+    )
+}
+
 export {
     getTopicListAction,
     getTopicDetailAction,
-    putUpdateATopicAction
+    putUpdateATopicAction,
+    deleteRemoveATopicAction
 }
