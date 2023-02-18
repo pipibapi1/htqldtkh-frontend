@@ -126,14 +126,13 @@ const ExpenseStatistic: React.FC = () => {
             .catch((error) => {
 
             })
-            setCurrentPage(1)
-            let queryDataForTopic: any = {
+        let queryDataForTopic: any = {
                 period: period,
                 page: 1,
                 limit: RECORD_PER_PAGE,
 
-            }
-            if(currentType != ""){
+        }
+        if(currentType != ""){
                 queryDataForTopic = {
                     ... queryDataForTopic,
                     type: currentType
@@ -220,33 +219,35 @@ const ExpenseStatistic: React.FC = () => {
         dispatch(getAllPeriodsAction(query))
             .then((data) => {
                 setPeriods(data?.periods)
-                setCurrentPeriod(data?.periods[0]._id)
-                let queryDataForExpense: any = {
-                    period: data?.periods[0]._id
-                }
-                dispatch(getExpenseDetailByPeriodAction(queryDataForExpense))
+                if(data?.periods.length > 0){
+                    setCurrentPeriod(data?.periods[0]._id)
+                    let queryDataForExpense: any = {
+                        period: data?.periods[0]._id
+                    }
+                    dispatch(getExpenseDetailByPeriodAction(queryDataForExpense))
+                        .then((data) => {
+                            setExpense(data?.expense)
+                        })
+                        .catch((error) => {
+    
+                        })
+                        let queryDataForTopic: any = {
+                            period: data?.periods[0]._id,
+                            page: currentPage,
+                            limit: RECORD_PER_PAGE,
+                        }
+                    dispatch(getTopicListAction(queryDataForTopic))
                     .then((data) => {
-                        setExpense(data?.expense)
-                    })
+                        setTopics(data?.topics)
+                        if(data?.metadata.totalPage > 0){
+                            setTotalPage(data?.metadata.totalPage)
+                        }
+                        }
+                    )
                     .catch((error) => {
-
+    
                     })
-                    let queryDataForTopic: any = {
-                        period: data?.periods[0]._id,
-                        page: currentPage,
-                        limit: RECORD_PER_PAGE,
-                    }
-                dispatch(getTopicListAction(queryDataForTopic))
-                .then((data) => {
-                    setTopics(data?.topics)
-                    if(data?.metadata.totalPage > 0){
-                        setTotalPage(data?.metadata.totalPage)
-                    }
-                    }
-                )
-                .catch((error) => {
-
-                })
+                }
                 
             })
             .catch((error) => {
@@ -270,33 +271,10 @@ const ExpenseStatistic: React.FC = () => {
         dispatch(getAllPeriodsAction(query))
             .then((data) => {
                 setPeriods(data?.periods)
-                setCurrentPeriod(data?.periods[0]._id)
-                let queryDataForExpense: any = {
-                    period: data?.periods[0]._id
+                if(data?.periods.length > 0){
+                    setCurrentPeriod(data?.periods[0]._id)
+                    onChangePeriod(data?.periods[0]._id)
                 }
-                dispatch(getExpenseDetailByPeriodAction(queryDataForExpense))
-                    .then((data) => {
-                        setExpense(data?.expense)
-                    })
-                    .catch((error) => {
-
-                    })
-                    let queryDataForTopic: any = {
-                        period: data?.periods[0]._id,
-                        page: currentPage,
-                        limit: RECORD_PER_PAGE,
-                    }
-                dispatch(getTopicListAction(queryDataForTopic))
-                .then((data) => {
-                    setTopics(data?.topics)
-                    if(data?.metadata.totalPage > 0){
-                        setTotalPage(data?.metadata.totalPage)
-                    }
-                    }
-                )
-                .catch((error) => {
-
-                })
             })
             .catch((error) => {
                 

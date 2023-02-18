@@ -3,14 +3,17 @@ import RowTable from './RowTable';
 import PaginationTag from './PaginationTag';
 import LeftTag from './LeftTag';
 import RightTag from './RightTag';
-import BackIcon from '../../../../../assets/images/🦆 icon _arrow circle left_.png';
+import DatePicker from "react-datepicker";
+import Calendar from "../../../../../assets/images/calendar.png";
 import { PeriodStatus } from '../../../../../shared/types/periodStatus';
 import { TopicTypeEnum } from '../../../../../shared/types/topicType';
 import { TopicStatusEnum } from '../../../../../shared/types/topicStatus';
 import { useDispatch} from "react-redux";
 import { AppDispatch } from '../../../../../store';
 import { getTopicListAction } from '../../../../../actions/topicAction';
-const RECORD_PER_PAGE = 8;
+import { getAllPeriodsAction } from '../../../../../actions/periodAction';
+import { Topic } from '../../../../../shared/interfaces/topicInterface';
+const RECORD_PER_PAGE = 5;
 
 interface Period{
     _id: string;
@@ -18,43 +21,23 @@ interface Period{
     status: PeriodStatus;
     createAt: Date;
 }
-interface Props{
-    moveBack: () => void,
-    currentPeriod: string,
-    periods: Period[],
-    setCurrentPeriod: React.Dispatch<React.SetStateAction<string>>,
-    getTopicList: (period: string) => Promise<void>,
-}
 
-interface Topic{
-    _id: string;
-    name: string;
-    type: TopicTypeEnum;
-    startTime: string;
-    endTime: string;
-    isExtended: boolean;
-    extensionTime: number;
-    status: TopicStatusEnum;
-    period: string;
-    productId: string;
-    studentId: string;
-    creationDate: string;
-    topicGivenId: string;
-    student: {
-        _id: string;
-        name: string;
-    }
-}
+const TopicListPage = () => {
 
-const TopicListPage: React.FC<Props> = (props: Props) => {
-
-    const{moveBack, currentPeriod, periods, setCurrentPeriod, getTopicList} = props;
-    
+    const [year, setYear] = useState(new Date())
+    const [periods, setPeriods] = useState<Period[]>([]);
+    const [currentPeriod, setCurrentPeriod] = useState<string>("");
 
     const [currentPage, setCurrentPage] = useState<number>(1);
     const [currentType, setCurrentType] = useState<string>("");
     const [currentStatus, setCurrentStatus] = useState<string>("");
     const [currentExtensionStatus, setCurrentExtensionStatus] = useState<string>("");
+
+    const displayDate = (dateStr: string) => {
+        if(dateStr === "") return "";
+        const date = new Date(dateStr);
+        return date.getDate() + "/" + (date.getMonth() + 1) + "/" + date.getFullYear();
+      }
 
     const extensionStatus = (topic: Topic) => {
         if(topic.isExtended){
@@ -110,23 +93,34 @@ const TopicListPage: React.FC<Props> = (props: Props) => {
     const dispatch = useAppDispatch()
 
     useEffect(() => {
-        let queryData: any = {
-            page: currentPage,
-            limit: RECORD_PER_PAGE,
-            period: currentPeriod
+        let query= {
+            year: (new Date()).getFullYear()
         }
-        dispatch(getTopicListAction(queryData))
-                .then((data) => {
-                    setTopicList(data?.topics)
-                    if(data?.metadata.totalPage > 0){
-                        setTotalPage(data?.metadata.totalPage)
+        dispatch(getAllPeriodsAction(query))
+            .then((data) => {
+                setPeriods(data?.periods)
+                if(data?.periods.length > 0){
+                    setCurrentPeriod(data?.periods[0]._id)
+                    let queryData: any = {
+                        period: data?.periods[0]._id
                     }
+                    dispatch(getTopicListAction(queryData))
+                    .then((data) => {
+                        setTopicList(data?.topics)
+                        if(data?.metadata.totalPage > 0){
+                            setTotalPage(data?.metadata.totalPage)
+                        }
                     }
-                )
-                .catch((error) => {
-
-                })
+                    )
+                    .catch((error) => {
+    
+                    })
+                }
                 
+            })
+            .catch((error) => {
+                
+            })
     }, []);
 
     const onChangePage = (page: number) => {
@@ -164,6 +158,26 @@ const TopicListPage: React.FC<Props> = (props: Props) => {
                 })
     }
 
+    const onChangeYear = (d: Date) => {
+        let query: any = {
+            year: d.getFullYear()
+        }
+        dispatch(getAllPeriodsAction(query))
+            .then((data) => {
+                setPeriods(data?.periods)
+                if(data?.periods.length > 0){
+                    setCurrentType("");
+                    setCurrentStatus("");
+                    setCurrentExtensionStatus("");
+                    setCurrentPeriod(data?.periods[0]._id)
+                    onChangeFilter(data?.periods[0]._id, "", "", "")
+                }
+            })
+            .catch((error) => {
+                
+            })
+    }
+
 
     const prevPage = () => {
         if (currentPage <= 1) return;
@@ -184,20 +198,36 @@ const TopicListPage: React.FC<Props> = (props: Props) => {
     return(
         <div className='p-4 overflow-y-auto'>
             <div className=''>
-                <div className='hover:cursor-pointer w-fit' onClick={moveBack}>
-                    <img src={BackIcon} className='h-5' alt="" />
-                </div>
                 <div className='flex items-center mb-5'>
                 <div className='mr-5'>
-                                Đợt: 
+                        Năm: 
+                    </div>
+                    <div className='grid justify-items-end items-center mr-10'>
+                        <DatePicker
+                            onChange={date => {
+                                if(date){
+                                    setYear(date);
+                                    onChangeYear(date);
+                                }
+                                }}
+                            selected={year}
+                            dateFormat="yyyy"
+                            showYearPicker
+                            className="h-[40px] w-[90px] border border-black border-1 rounded-md px-2"
+                                    />
+                        <div className='absolute mr-2'>
+                            <img src={Calendar} alt="calendarIcon" className='h-5 w-5'/>
                         </div>
-                        <div className="">
+                    </div>
+                        {periods.length > 0 && <div className='mr-5'>
+                                Đợt: 
+                        </div>}
+                        {periods.length > 0 && <div className="">
                             <select
                                 className="bg-white h-[40px] w-[270px] border border-black border-1 rounded-lg focus:ring-blue-500 px-2"
                                     onChange={(e) => {
                                         e.preventDefault();
                                         setCurrentPeriod(e.target.value);
-                                        getTopicList(e.target.value);
                                         onChangeFilter(e.target.value, currentType, currentStatus, currentExtensionStatus)
                                     }}
                                     defaultValue={periods.length === 0 ? "" : periods[0]._id}
@@ -207,11 +237,11 @@ const TopicListPage: React.FC<Props> = (props: Props) => {
                                 <option value={period._id} id={period._id}>{periodDisplay(period.period)}</option>
                                 )}
                             </select>
-                        </div>
+                        </div>}
                 </div>
             </div>
 
-            <div className='grid justify-items-end px-5'>
+            {periods.length > 0 ? <div className='grid justify-items-end px-5'>
                 <div className='flex items-center py-4'>
                     <div className='flex items-center mr-20'>
                         <div className='mr-3'>
@@ -226,6 +256,7 @@ const TopicListPage: React.FC<Props> = (props: Props) => {
                                         onChangeFilter(currentPeriod, e.target.value, currentStatus, currentExtensionStatus)
                                     }}
                                     defaultValue={""}
+                                    value={currentType}
                                 >
                                 <option value="">Toàn bộ</option>
                                 <option value={TopicTypeEnum.CQ}>Chính quy</option>
@@ -248,6 +279,7 @@ const TopicListPage: React.FC<Props> = (props: Props) => {
                                         setCurrentExtensionStatus(e.target.value);
                                         onChangeFilter(currentPeriod, currentType, currentStatus, e.target.value)
                                     }}
+                                    value={currentExtensionStatus}
                                     defaultValue={""}
                                 >
                                 <option value="">Toàn bộ</option>
@@ -270,6 +302,7 @@ const TopicListPage: React.FC<Props> = (props: Props) => {
                                         onChangeFilter(currentPeriod, currentType, e.target.value, currentExtensionStatus)
                                     }}
                                     defaultValue={""}
+                                    value={currentStatus}
                                 >
                                 <option value="">Toàn bộ</option>
                                 <option value={TopicStatusEnum.NEW}>Tạo mới</option>
@@ -282,15 +315,17 @@ const TopicListPage: React.FC<Props> = (props: Props) => {
                         </div>
                     </div>
                 </div>
-            </div>
+            </div> : <div>
+                Không có đợt đăng ký
+            </div>}
 
-            <div className='w-full'>
+            {periods.length > 0 && <div className='w-full'>
                 <div className='flex flex-col'>
                     <div className=''>
                         <div className='inline-block w-full pr-5'>
                         <div className=''>
                             <table className='w-full table-fixed border-separate border-spacing-y-1 border-2'>
-                                <thead className='bg-[#1577D2] border-b'>
+                            <thead className='bg-[#1577D2] border-b'>
                                     <tr>
                                     <th
                                         scope='col'
@@ -306,19 +341,19 @@ const TopicListPage: React.FC<Props> = (props: Props) => {
                                     </th>
                                     <th
                                         scope='col'
-                                        className='w-[20%] text-sm text-center font-bold text-white px-2 py-3 text-left border-l-2'
+                                        className='w-[13%] text-sm text-center font-bold text-white px-2 py-3 text-left border-l-2'
                                     >
                                         Tên đề tài
                                     </th>
                                     <th
                                         scope='col'
-                                        className='w-[10%] text-sm text-center font-bold text-white px-2 py-3 text-left border-l-2'
+                                        className='text-sm text-center font-bold text-white px-2 py-3 text-left border-l-2'
                                     >
                                         Loại đề tài
                                     </th>
                                     <th
                                         scope='col'
-                                        className='w-[10%] text-sm text-center font-bold text-white px-2 py-3 text-left border-l-2'
+                                        className='text-sm text-center font-bold text-white px-2 py-3 text-left border-l-2'
                                     >
                                         Trạng thái
                                     </th>
@@ -330,32 +365,68 @@ const TopicListPage: React.FC<Props> = (props: Props) => {
                                     </th>
                                     <th
                                         scope='col'
-                                        className='w-[10%] text-sm text-center font-bold text-white px-2 py-3 text-left border-l-2'
-                                    >
-                                        Chủ nhiệm
-                                    </th>
-                                    <th
-                                        scope='col'
-                                        className='w-[10%] text-sm text-center font-bold text-white px-2 py-3 text-left border-l-2'
+                                        className='text-sm text-center font-bold text-white px-2 py-3 text-left border-l-2'
                                     >
                                         Ngày tạo
                                     </th>
-                                    
+                                    <th
+                                        scope='col'
+                                        className='text-sm text-center font-bold text-white px-2 py-3 text-left border-l-2'
+                                    >
+                                        Thời gian
+                                    </th>
+                                    <th
+                                        scope='col'
+                                        className='text-sm text-center font-bold text-white px-2 py-3 text-left border-l-2'
+                                    >
+                                        Đợt
+                                    </th>
+                                    <th
+                                        scope='col'
+                                        className='text-sm text-center font-bold text-white px-2 py-3 text-left border-l-2'
+                                    >
+                                        
+                                    </th>
+                                    <th
+                                        scope='col'
+                                        className='text-sm text-center font-bold text-white px-2 py-3 text-left border-l-2'
+                                    >
+                                        
+                                    </th>
+                                    <th
+                                        scope='col'
+                                        className='text-sm text-center font-bold text-white px-2 py-3 text-left border-l-2'
+                                    >
+                                        
+                                    </th>
+                                    <th
+                                        scope='col'
+                                        className='text-sm text-center font-bold text-white px-2 py-3 text-left border-l-2'
+                                    >
+                                        
+                                    </th>
                                     </tr>
                                 </thead>
                                 <tbody className=''>
-                                    {topicList.map((topic, index) => {
-                                        return (<RowTable
-                                        index={index+1}
-                                        topicId={topic.topicGivenId}
-                                        topicName={topic.name}
-                                        topicType={topic.type}
-                                        topicStatus={topic.status}
-                                        extensionStatus={extensionStatus(topic)}
-                                        topicRegister={topic.student.name}
-                                        date={topic.creationDate}
-                                        currentPage={currentPage}
-                                    />)
+                                {topicList.map((topic, index) => {
+                                        return(
+                                            <RowTable
+                                            index={index+1}
+                                            _id={topic._id}
+                                            topicGivenId={topic.topicGivenId}
+                                            topicName={topic.name}
+                                            topicType={topic.type}
+                                            topicStatus={topic.status}
+                                            topicExtensionStatus={topic.isExtended? "Thời gian gia hạn: " + topic.extensionTime + " tháng" : ""}
+                                            createdDate={topic.creationDate}
+                                            time={displayDate(topic.startTime) + " - " + displayDate(topic.endTime)}
+                                            period={topic.periodValue}
+                                            currentPage={currentPage}
+                                            startTime={topic.startTime}
+                                            endTime={topic.endTime}
+                                            productId={topic.productId}
+                                            />
+                                        )
                                     })}
                                 </tbody>
                             </table>
@@ -363,9 +434,9 @@ const TopicListPage: React.FC<Props> = (props: Props) => {
                         </div>
                     </div>
                 </div>
-            </div>
+            </div>}
 
-            <div className='grid justify-items-end px-5'>
+            {periods.length > 0 && <div className='grid justify-items-end px-5'>
                         <ul className='inline-flex items-center -space-x-px'>
                             <LeftTag onClick={prevPage} />
                             {Array.from(Array(totalPage).keys()).map((index) => (
@@ -379,7 +450,7 @@ const TopicListPage: React.FC<Props> = (props: Props) => {
                             ))}
                             <RightTag onClick={nextPage} />
                         </ul>
-            </div>
+            </div>}
         </div>
     )
 }

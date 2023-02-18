@@ -39,8 +39,9 @@ export const fsSideBarOptions: {name: string, icon: any, link: string, children:
         {name: "Sinh viên", link: "/" + appRouters.LINK_TO_STUDENT_ACCOUNT_MANAGEMENT},
         {name: "Phó chủ nhiệm", link: "/" + appRouters.LINK_TO_VICEDEAN_ACCOUNT_MANAGEMENT}
     ]},
-    {name: "QUẢN LÝ ĐỀ TÀI", icon: Folder, link: "/" + appRouters.LINK_TO_FS_TOPIC_CONDITION_MANAGEMENT, 
+    {name: "QUẢN LÝ ĐỀ TÀI", icon: Folder, link: "/" + appRouters.LINK_TO_FS_TOPIC_MANAGEMENT, 
     children:[
+        {name: "Đề tài", link: "/" + appRouters.LINK_TO_FS_TOPIC_MANAGEMENT},
         {name: "Mở đợt đăng ký", link: "/" + appRouters.LINK_TO_PERIOD_MANAGEMENT},
         {name: "Điều kiện đăng ký", link: "/" + appRouters.LINK_TO_FS_TOPIC_CONDITION_MANAGEMENT}
     ]},

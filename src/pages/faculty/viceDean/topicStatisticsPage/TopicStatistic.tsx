@@ -52,8 +52,6 @@ interface Topic{
 
 const TopicStatusCard: React.FC<CardProps> = (props: CardProps) => {
 
-
-
     const {status, quantity} = props;
     let color: string = '0';
     let icon: any = "";
@@ -163,26 +161,28 @@ const TopicStatistic: React.FC = () => {
         dispatch(getAllPeriodsAction(query))
             .then((data) => {
                 setPeriods(data?.periods)
-                setCurrentPeriod(data?.periods[0]._id)
-                let queryData: any = {
-                    period: data?.periods[0]._id
-                }
-                dispatch(getTopicListAction(queryData))
-                .then((data) => {
-                    setTopics(data?.topics)
-                    setNumOfTotal(data?.topics.length)
-                    setNumOfNew(data?.topics.filter((topic:any) => topic.status === TopicStatusEnum.NEW).length)
-                    setNumOfCarryOut(data?.topics.filter((topic:any) => topic.status === TopicStatusEnum.CARRY_OUT).length)
-                    setNumOfDueToAccept(data?.topics.filter((topic:any) => topic.status === TopicStatusEnum.DUE_TO_ACCEPT).length)
-                    setNumOfFinished(data?.topics.filter((topic:any) => topic.status === TopicStatusEnum.FINISHED).length)
-                    setNumOfOutOfDated(data?.topics.filter((topic:any) => topic.status === TopicStatusEnum.OUT_OF_DATE).length)
-                    setNumOfCanceled(data?.topics.filter((topic:any) => topic.status === TopicStatusEnum.CANCELED).length)
-                    setNumOfExtended(data?.topics.filter((topic:any) => topic.isExtended === true).length)
+                if(data?.periods.length > 0){
+                    setCurrentPeriod(data?.periods[0]._id)
+                    let queryData: any = {
+                        period: data?.periods[0]._id
                     }
-                )
-                .catch((error) => {
-
-                })
+                    dispatch(getTopicListAction(queryData))
+                    .then((data) => {
+                        setTopics(data?.topics)
+                        setNumOfTotal(data?.topics.length)
+                        setNumOfNew(data?.topics.filter((topic:any) => topic.status === TopicStatusEnum.NEW).length)
+                        setNumOfCarryOut(data?.topics.filter((topic:any) => topic.status === TopicStatusEnum.CARRY_OUT).length)
+                        setNumOfDueToAccept(data?.topics.filter((topic:any) => topic.status === TopicStatusEnum.DUE_TO_ACCEPT).length)
+                        setNumOfFinished(data?.topics.filter((topic:any) => topic.status === TopicStatusEnum.FINISHED).length)
+                        setNumOfOutOfDated(data?.topics.filter((topic:any) => topic.status === TopicStatusEnum.OUT_OF_DATE).length)
+                        setNumOfCanceled(data?.topics.filter((topic:any) => topic.status === TopicStatusEnum.CANCELED).length)
+                        setNumOfExtended(data?.topics.filter((topic:any) => topic.isExtended === true).length)
+                        }
+                    )
+                    .catch((error) => {
+    
+                    })
+                }
                 
             })
             .catch((error) => {
@@ -218,26 +218,28 @@ const TopicStatistic: React.FC = () => {
         dispatch(getAllPeriodsAction(query))
             .then((data) => {
                 setPeriods(data?.periods)
-                setCurrentPeriod(data?.periods[0]._id)
-                let queryData: any = {
-                    period: data?.periods[0]._id
-                }
-                dispatch(getTopicListAction(queryData))
-                .then((data) => {
-                    setTopics(data?.topics)
-                    setNumOfTotal(data?.topics.length)
-                    setNumOfNew(data?.topics.filter((topic:any) => topic.status === TopicStatusEnum.NEW).length)
-                    setNumOfCarryOut(data?.topics.filter((topic:any) => topic.status === TopicStatusEnum.CARRY_OUT).length)
-                    setNumOfDueToAccept(data?.topics.filter((topic:any) => topic.status === TopicStatusEnum.DUE_TO_ACCEPT).length)
-                    setNumOfFinished(data?.topics.filter((topic:any) => topic.status === TopicStatusEnum.FINISHED).length)
-                    setNumOfOutOfDated(data?.topics.filter((topic:any) => topic.status === TopicStatusEnum.OUT_OF_DATE).length)
-                    setNumOfCanceled(data?.topics.filter((topic:any) => topic.status === TopicStatusEnum.CANCELED).length)
-                    setNumOfExtended(data?.topics.filter((topic:any) => topic.isExtended === true).length)
+                if(data?.periods.length > 0){
+                    setCurrentPeriod(data?.periods[0]._id)
+                    let queryData: any = {
+                        period: data?.periods[0]._id
                     }
-                )
-                .catch((error) => {
-
-                })
+                    dispatch(getTopicListAction(queryData))
+                    .then((data) => {
+                        setTopics(data?.topics)
+                        setNumOfTotal(data?.topics.length)
+                        setNumOfNew(data?.topics.filter((topic:any) => topic.status === TopicStatusEnum.NEW).length)
+                        setNumOfCarryOut(data?.topics.filter((topic:any) => topic.status === TopicStatusEnum.CARRY_OUT).length)
+                        setNumOfDueToAccept(data?.topics.filter((topic:any) => topic.status === TopicStatusEnum.DUE_TO_ACCEPT).length)
+                        setNumOfFinished(data?.topics.filter((topic:any) => topic.status === TopicStatusEnum.FINISHED).length)
+                        setNumOfOutOfDated(data?.topics.filter((topic:any) => topic.status === TopicStatusEnum.OUT_OF_DATE).length)
+                        setNumOfCanceled(data?.topics.filter((topic:any) => topic.status === TopicStatusEnum.CANCELED).length)
+                        setNumOfExtended(data?.topics.filter((topic:any) => topic.isExtended === true).length)
+                        }
+                    )
+                    .catch((error) => {
+    
+                    })
+                }
             })
             .catch((error) => {
                 
