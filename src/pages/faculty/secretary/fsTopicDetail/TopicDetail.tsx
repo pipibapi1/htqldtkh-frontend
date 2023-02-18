@@ -1,14 +1,14 @@
 import React, { useState, useEffect } from 'react';
-import BackIcon from '../../../assets/images/🦆 icon _arrow circle left_.png';
+import BackIcon from '../../../../assets/images/🦆 icon _arrow circle left_.png';
 import { useDispatch} from "react-redux";
-import { AppDispatch } from '../../../store';
+import { AppDispatch } from '../../../../store';
 import {Link} from "react-router-dom";
-import { MyTopic } from '../../../shared/interfaces/topicInterface';
+import { MyTopic } from '../../../../shared/interfaces/topicInterface';
 
 import {
     useParams
   } from "react-router-dom";
-import { getTopicDetailAction } from '../../../actions/topicAction';
+import { getTopicDetailAction } from '../../../../actions/topicAction';
 
 
 const TopicDetail:React.FC = () => {
@@ -118,18 +118,13 @@ const TopicDetail:React.FC = () => {
     return (
     <div className='p-3'>
   
-            <Link to={'/myTopic'} className='hover:cursor-pointer w-fit'>
+            <Link to={'/topicManagement'} className='hover:cursor-pointer w-fit'>
                 <img src={BackIcon} className='h-5' alt="" />
             </Link>
             <div className='flex justify-end items-center w-full mt-2'>
                     <div className='w-[100%] text-lg font-bold'>
                         Thông tin chi tiết của đề tài
                     </div>
-                    {/* <button
-                        className = 'w-[10%] h-[50px] mr-2 text-white font-bold text-sm px-5 py-2.5 text-center rounded-lg bg-[#1488D8] focus:ring-4 focus:outline-none focus:ring-blue-300'
-                        >
-                        CẬP NHẬT
-                    </button> */}
             </div>
 
 

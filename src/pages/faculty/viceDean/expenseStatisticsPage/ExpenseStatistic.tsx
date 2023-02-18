@@ -66,7 +66,7 @@ interface Topic{
 
 const ExpenseStatistic: React.FC = () => {
     const [startYear, setStartYear] = useState<Date>(new Date());
-    const [endYear, setEndYear] = useState<Date>(new Date());
+    const [endYear, setEndYear] = useState<Date>(new Date(startYear.getFullYear() + 1, startYear.getMonth(), startYear.getDate()));
     const [periods, setPeriods] = useState<Period[]>([]);
     const [expense, setExpense] = useState<Expense>({
         _id: "",
@@ -296,10 +296,10 @@ const ExpenseStatistic: React.FC = () => {
                         <DatePicker
                             onChange={date => {
                                 if(date){
-                                    if(date.getFullYear() > endYear.getFullYear()){
+                                    if(date.getFullYear() >= endYear.getFullYear()){
                                         Toast.fire({
                                             icon: 'warning',
-                                            title: 'Năm bắt đầu không được lớn hơn năm kết thúc!'
+                                            title: 'Năm bắt đầu phải bé hơn năm kết thúc!'
                                           })
                                     }
                                     else{
@@ -334,10 +334,10 @@ const ExpenseStatistic: React.FC = () => {
                         <DatePicker
                             onChange={date => {
                                 if(date){
-                                    if(date.getFullYear() < startYear.getFullYear()){
+                                    if(date.getFullYear() <= startYear.getFullYear()){
                                         Toast.fire({
                                             icon: 'warning',
-                                            title: 'Năm kết thúc không được bé hơn năm bắt đầu!'
+                                            title: 'Năm kết thúc phải lớn hơn năm bắt đầu!'
                                           })
                                     }
                                     else{

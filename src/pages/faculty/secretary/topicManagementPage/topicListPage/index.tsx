@@ -367,6 +367,12 @@ const TopicListPage = () => {
                                         scope='col'
                                         className='text-sm text-center font-bold text-white px-2 py-3 text-left border-l-2'
                                     >
+                                        Chủ nhiệm
+                                    </th>
+                                    <th
+                                        scope='col'
+                                        className='text-sm text-center font-bold text-white px-2 py-3 text-left border-l-2'
+                                    >
                                         Ngày tạo
                                     </th>
                                     <th
@@ -425,6 +431,7 @@ const TopicListPage = () => {
                                             startTime={topic.startTime}
                                             endTime={topic.endTime}
                                             productId={topic.productId}
+                                            student={topic.student}
                                             />
                                         )
                                     })}
