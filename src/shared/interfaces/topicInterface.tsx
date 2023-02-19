@@ -17,8 +17,14 @@ export interface Topic{
     topicGivenId: string;
     expense: number;
     student: {
-        _id: string;
-        name: string;
+        _id: string, 
+        name: string,
+        studentId: string,
+        educationType: string,
+        gender: string,
+        email: string,
+        phoneNumber: string,
+        birthDate: string
     };
     periodValue: string;
 }

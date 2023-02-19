@@ -20,8 +20,14 @@ interface Props {
   endTime: string;
   productId: string;
   student:{
-    _id: string,
-    name: string
+    _id: string, 
+    name: string,
+    studentId: string,
+    educationType: string,
+    gender: string,
+    email: string,
+    phoneNumber: string,
+    birthDate: string
   }
 }
 
@@ -112,7 +118,23 @@ const RowTable: React.FC<Props> = (props) => {
       </td>
       
     </tr>
-    <Modal isVisible = {showModal} onClose = {() => setShowModal(false)}/>
+    <Modal isVisible = {showModal} onClose = {() => setShowModal(false)} 
+    topic = {
+      {
+        _id: _id,
+        name: topicName,
+        topicGivenId: topicGivenId,
+        type: topicType,
+        createdDate: createdDate,
+        startTime: startTime,
+        endTime: endTime,
+        periodValue: period,
+        status: topicStatus,
+        topicExtensionStatus: topicExtensionStatus,
+        student: student
+      }
+    }
+    />
     </Fragment>
   );
 };

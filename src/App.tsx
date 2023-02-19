@@ -28,6 +28,8 @@ import TopicManagementPage from './pages/faculty/secretary/topicManagementPage';
 import FSTopicDetail from './pages/faculty/secretary/fsTopicDetail';
 import FSTopicProduct from './pages/faculty/secretary/fsTopicProduct';
 import FSTopicPapers from './pages/faculty/secretary/fsTopicPapers';
+import FSResultNotificationPage from './pages/faculty/secretary/resultNotificationPage';
+import FSFeedbackPage from './pages/faculty/secretary/feedbackPage';
 
 function App() {
   
@@ -61,6 +63,8 @@ function App() {
         <Route path={appRouters.LINK_TO_FS_TOPIC_DETAIL} element={<FSTopicDetail/>} />
         <Route path={appRouters.LINK_TO_FS_TOPIC_PRODUCT} element={<FSTopicProduct/>} />
         <Route path={appRouters.LINK_TO_FS_TOPIC_PAPERS} element={<FSTopicPapers/>} />
+        <Route path={appRouters.LINK_TO_FS_RESULT_NOTIFICATION} element={<FSResultNotificationPage/>} />
+        <Route path={appRouters.LINK_TO_FS_FEEDBACK} element={<FSFeedbackPage/>} />
       <Route path={appRouters.LINK_TO_PERIOD_MANAGEMENT} element={<PeriodManagementPage/>} />
       <Route path={appRouters.LINK_TO_FS_TOPIC_CONDITION_MANAGEMENT} element={<FSTopicConditionManagement/>} />
       <Route path={appRouters.LINK_TO_FS_UPLOAD_ANNOUNCEMENT} element={<FSUploadAnnouncement/>} />

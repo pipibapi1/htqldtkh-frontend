@@ -30,6 +30,8 @@ export const appRouters = {
       LINK_TO_FS_TOPIC_DETAIL: 'topicManagement/:_id/topicDetail',
       LINK_TO_FS_TOPIC_PRODUCT: 'topicManagement/:_id/topicProduct',
       LINK_TO_FS_TOPIC_PAPERS: 'topicManagement/:_id/topicPapers',
+      LINK_TO_FS_RESULT_NOTIFICATION: 'topicManagement/:_id/resultNotification',
+      LINK_TO_FS_FEEDBACK: 'topicManagement/:_id/feedback',
     LINK_TO_FS_UPLOAD_ANNOUNCEMENT: 'fsUploadAnnouncement'
   };
   
