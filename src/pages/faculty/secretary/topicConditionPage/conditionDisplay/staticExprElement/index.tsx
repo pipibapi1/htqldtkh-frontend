@@ -53,12 +53,14 @@ const LogicalExprElement : React.FC<exprComponent> = ({exprId}) => {
 }
 
 const StaticExprElement : React.FC<exprComponent> = ({exprId}) => {
-    const {expression} = useSelector((state: RootState) => state.topicCondition);
+    const {expression, leaderCondition} = useSelector((state: RootState) => state.topicCondition);
     const operator = (expression as expression)[exprId].operator;
     if (operator === OperationTypeEnum.AND || 
         operator === OperationTypeEnum.OR)
     {
-        return (<RelationExprElement exprId={exprId}/>)
+        return (
+                <RelationExprElement exprId={exprId}/>
+        )
     }
     else {
         return (<LogicalExprElement exprId={exprId}/>)
