@@ -25,6 +25,14 @@ import StudentTopicDetail from './pages/student/studentTopicDetail';
 import StudentTopicProduct from './pages/student/studentTopicProduct';
 import StudentTopicPapers from './pages/student/studentTopicPapers';
 import PeriodManagementPage from './pages/faculty/secretary/periodManagementPage';
+import TopicManagementPage from './pages/faculty/secretary/topicManagementPage';
+import FSTopicDetail from './pages/faculty/secretary/fsTopicDetail';
+import FSTopicProduct from './pages/faculty/secretary/fsTopicProduct';
+import FSTopicPapers from './pages/faculty/secretary/fsTopicPapers';
+import FSResultNotificationPage from './pages/faculty/secretary/resultNotificationPage';
+import FSFeedbackPage from './pages/faculty/secretary/feedbackPage';
+import TemplateManagementPage from './pages/faculty/secretary/templateManagementPage';
+import TemplateFormCreationPage from './pages/faculty/secretary/templateFormCreation';
 
 function App() {
   
@@ -54,6 +62,14 @@ function App() {
       <Route path={appRouters.LINK_TO_FS_TOPIC_STATISTIC} element={<FSTopicStatistics/>} />
       <Route path={appRouters.LINK_TO_STUDENT_ACCOUNT_MANAGEMENT} element={<StudentAccountManagement/>} />
       <Route path={appRouters.LINK_TO_VICEDEAN_ACCOUNT_MANAGEMENT} element={<VicedeanAccountManagement/>} />
+      <Route path={appRouters.LINK_TO_FS_TOPIC_MANAGEMENT} element={<TopicManagementPage />} />
+        <Route path={appRouters.LINK_TO_FS_TOPIC_DETAIL} element={<FSTopicDetail/>} />
+        <Route path={appRouters.LINK_TO_FS_TOPIC_PRODUCT} element={<FSTopicProduct/>} />
+        <Route path={appRouters.LINK_TO_FS_TOPIC_PAPERS} element={<FSTopicPapers/>} />
+        <Route path={appRouters.LINK_TO_FS_RESULT_NOTIFICATION} element={<FSResultNotificationPage/>} />
+        <Route path={appRouters.LINK_TO_FS_FEEDBACK} element={<FSFeedbackPage/>} />
+      <Route path={appRouters.LINK_TO_FS_TEMPLATE_MANAGEMENT} element={<TemplateManagementPage/>} />
+        <Route path={appRouters.LINK_TO_FS_FORM_CREATION} element={<TemplateFormCreationPage/>} />
       <Route path={appRouters.LINK_TO_PERIOD_MANAGEMENT} element={<PeriodManagementPage/>} />
       <Route path={appRouters.LINK_TO_FS_TOPIC_CONDITION_MANAGEMENT} element={<FSTopicConditionManagement/>} />
       <Route path={appRouters.LINK_TO_FS_UPLOAD_ANNOUNCEMENT} element={<FSUploadAnnouncement/>} />

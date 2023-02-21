@@ -260,10 +260,13 @@ const MyRequestList: React.FC = () => {
                                             requestStatus={request.status}
                                             createdDate={request.createAt}
                                             additionalInfor={request.type === RequestType.EXTEND_PROJECT ? 
-                                                `Thời gian gia hạn: ${request.extensionTime} tháng` : ""}
+                                                `Thời gian gia hạn: ${request.extensionTime} tháng`:
+                                                (request.type === RequestType.OTHER ? `Nội dung yêu cầu: ${request.text}` : "")
+                                            }
                                             topicName={request.topicName}
                                             periodValue={request.periodValue}
                                             currentPage={currentPage}
+                                            topicId={request.topicId}
                                             />)
                                     })}
                                 </tbody>

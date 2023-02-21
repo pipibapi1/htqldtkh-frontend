@@ -47,9 +47,18 @@ const putUpdateATopicService = (updateInfo: any) => {
         })
 }
 
+const deleteRemoveATopicService = (_id: string) => {
+    return axios
+        .delete(TOPIC_API_URL + "/" + _id, { headers: authHeader() })
+        .then((response) => {
+            return response.data
+        })
+}
+
 export default{
     getTopicListService,
     postNewTopic,
     getTopicDetailService,
-    putUpdateATopicService
+    putUpdateATopicService,
+    deleteRemoveATopicService
 }

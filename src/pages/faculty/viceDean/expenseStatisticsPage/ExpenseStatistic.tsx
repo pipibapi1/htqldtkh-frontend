@@ -53,7 +53,7 @@ interface Topic{
     extensionTime: number;
     status: TopicStatusEnum; 
     period: string;
-    productPath: string;
+    productId: string;
     studentId: string;
     creationDate: string;
     topicGivenId: string;
@@ -66,7 +66,7 @@ interface Topic{
 
 const ExpenseStatistic: React.FC = () => {
     const [startYear, setStartYear] = useState<Date>(new Date());
-    const [endYear, setEndYear] = useState<Date>(new Date());
+    const [endYear, setEndYear] = useState<Date>(new Date(startYear.getFullYear() + 1, startYear.getMonth(), startYear.getDate()));
     const [periods, setPeriods] = useState<Period[]>([]);
     const [expense, setExpense] = useState<Expense>({
         _id: "",
@@ -126,14 +126,13 @@ const ExpenseStatistic: React.FC = () => {
             .catch((error) => {
 
             })
-            setCurrentPage(1)
-            let queryDataForTopic: any = {
+        let queryDataForTopic: any = {
                 period: period,
                 page: 1,
                 limit: RECORD_PER_PAGE,
 
-            }
-            if(currentType != ""){
+        }
+        if(currentType != ""){
                 queryDataForTopic = {
                     ... queryDataForTopic,
                     type: currentType
@@ -220,33 +219,35 @@ const ExpenseStatistic: React.FC = () => {
         dispatch(getAllPeriodsAction(query))
             .then((data) => {
                 setPeriods(data?.periods)
-                setCurrentPeriod(data?.periods[0]._id)
-                let queryDataForExpense: any = {
-                    period: data?.periods[0]._id
-                }
-                dispatch(getExpenseDetailByPeriodAction(queryDataForExpense))
+                if(data?.periods.length > 0){
+                    setCurrentPeriod(data?.periods[0]._id)
+                    let queryDataForExpense: any = {
+                        period: data?.periods[0]._id
+                    }
+                    dispatch(getExpenseDetailByPeriodAction(queryDataForExpense))
+                        .then((data) => {
+                            setExpense(data?.expense)
+                        })
+                        .catch((error) => {
+    
+                        })
+                        let queryDataForTopic: any = {
+                            period: data?.periods[0]._id,
+                            page: currentPage,
+                            limit: RECORD_PER_PAGE,
+                        }
+                    dispatch(getTopicListAction(queryDataForTopic))
                     .then((data) => {
-                        setExpense(data?.expense)
-                    })
+                        setTopics(data?.topics)
+                        if(data?.metadata.totalPage > 0){
+                            setTotalPage(data?.metadata.totalPage)
+                        }
+                        }
+                    )
                     .catch((error) => {
-
+    
                     })
-                    let queryDataForTopic: any = {
-                        period: data?.periods[0]._id,
-                        page: currentPage,
-                        limit: RECORD_PER_PAGE,
-                    }
-                dispatch(getTopicListAction(queryDataForTopic))
-                .then((data) => {
-                    setTopics(data?.topics)
-                    if(data?.metadata.totalPage > 0){
-                        setTotalPage(data?.metadata.totalPage)
-                    }
-                    }
-                )
-                .catch((error) => {
-
-                })
+                }
                 
             })
             .catch((error) => {
@@ -270,33 +271,10 @@ const ExpenseStatistic: React.FC = () => {
         dispatch(getAllPeriodsAction(query))
             .then((data) => {
                 setPeriods(data?.periods)
-                setCurrentPeriod(data?.periods[0]._id)
-                let queryDataForExpense: any = {
-                    period: data?.periods[0]._id
+                if(data?.periods.length > 0){
+                    setCurrentPeriod(data?.periods[0]._id)
+                    onChangePeriod(data?.periods[0]._id)
                 }
-                dispatch(getExpenseDetailByPeriodAction(queryDataForExpense))
-                    .then((data) => {
-                        setExpense(data?.expense)
-                    })
-                    .catch((error) => {
-
-                    })
-                    let queryDataForTopic: any = {
-                        period: data?.periods[0]._id,
-                        page: currentPage,
-                        limit: RECORD_PER_PAGE,
-                    }
-                dispatch(getTopicListAction(queryDataForTopic))
-                .then((data) => {
-                    setTopics(data?.topics)
-                    if(data?.metadata.totalPage > 0){
-                        setTotalPage(data?.metadata.totalPage)
-                    }
-                    }
-                )
-                .catch((error) => {
-
-                })
             })
             .catch((error) => {
                 
@@ -318,10 +296,10 @@ const ExpenseStatistic: React.FC = () => {
                         <DatePicker
                             onChange={date => {
                                 if(date){
-                                    if(date.getFullYear() > endYear.getFullYear()){
+                                    if(date.getFullYear() >= endYear.getFullYear()){
                                         Toast.fire({
                                             icon: 'warning',
-                                            title: 'Năm bắt đầu không được lớn hơn năm kết thúc!'
+                                            title: 'Năm bắt đầu phải bé hơn năm kết thúc!'
                                           })
                                     }
                                     else{
@@ -356,10 +334,10 @@ const ExpenseStatistic: React.FC = () => {
                         <DatePicker
                             onChange={date => {
                                 if(date){
-                                    if(date.getFullYear() < startYear.getFullYear()){
+                                    if(date.getFullYear() <= startYear.getFullYear()){
                                         Toast.fire({
                                             icon: 'warning',
-                                            title: 'Năm kết thúc không được bé hơn năm bắt đầu!'
+                                            title: 'Năm kết thúc phải lớn hơn năm bắt đầu!'
                                           })
                                     }
                                     else{

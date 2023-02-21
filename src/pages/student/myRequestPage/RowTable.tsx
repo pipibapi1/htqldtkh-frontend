@@ -1,9 +1,11 @@
-import React from 'react';
+import React, {Fragment, useState} from 'react';
 import { RequestStatus } from '../../../shared/types/requestStatus';
 import { useDispatch} from "react-redux";
 import { AppDispatch } from '../../../store';
 import Swal from 'sweetalert2';
 import { deleteRemoveARequestAction } from '../../../actions/requestAction';
+import TopicDetailModal from './TopicDetailModal';
+import DetaiIcon from '../../../assets/images/information.png';
 
 const RECORD_PER_PAGE = 7;
 
@@ -17,10 +19,12 @@ interface Props {
   additionalInfor: string;
   currentPage: number;
   periodValue: string;
+  topicId: string;
 }
 
 const RowTable: React.FC<Props> = (props) => {
-  const { index ,requestId, requestType, requestStatus, topicName, createdDate, additionalInfor, currentPage, periodValue} = props;
+  const { index ,requestId, requestType, requestStatus, topicName, createdDate, additionalInfor, 
+    currentPage, periodValue,topicId} = props;
   const displayDate = (dateStr: string) => {
     const date = new Date(dateStr);
     return date.getDate() + "/" + (date.getMonth() + 1) + "/" + date.getFullYear();
@@ -29,6 +33,7 @@ const RowTable: React.FC<Props> = (props) => {
     const date = new Date(dateStr);
     return (date.getMonth() + 1) + "/" + date.getFullYear();
   }
+  const [topicDetailModal, setTopicDetailModal] = useState<boolean>(false);
   const useAppDispatch: () => AppDispatch = useDispatch
   const dispatch = useAppDispatch()
   const removeARequest = (e:any) => {
@@ -75,6 +80,8 @@ const RowTable: React.FC<Props> = (props) => {
   })
   }
   return (
+    <Fragment>
+
     <tr className={(index % 2 === 1) ? 'border-t-2 transition duration-300 ease-in-out' : 'border-t-2 bg-[#1488D8]/25 transition duration-300 ease-in-out'}>
       <td className='text-center font-medium px-1 py-1 text-sm text-gray-900 border-l-2'>
       #{(currentPage - 1)*RECORD_PER_PAGE + index}
@@ -85,8 +92,11 @@ const RowTable: React.FC<Props> = (props) => {
       <td className='text-center font-medium text-sm text-gray-900 px-1 py-1 border-l-2'>
         {requestStatus}
       </td>
-      <td className='text-center font-medium text-sm text-gray-900 px-1 py-1 border-l-2'>
-        {topicName}
+      <td className='flex justify-center items-center text-center font-medium text-sm text-gray-900 px-1 py-1 border-l-2'>
+        {topicName} <div onClick={(e) => {
+          e.preventDefault();
+          setTopicDetailModal(true);
+        }} className='hover:cursor-pointer'><img src={DetaiIcon} className='h-5'/></div>
       </td>
       <td className='text-center font-medium text-sm text-gray-900 px-1 py-1 border-l-2'>
         {displayPeriod(periodValue)}
@@ -114,6 +124,10 @@ const RowTable: React.FC<Props> = (props) => {
       </td>
       
     </tr>
+    <TopicDetailModal isVisible={topicDetailModal} onClose = {() => setTopicDetailModal(false)}
+      topicId={topicId}
+    />
+    </Fragment>
 
   );
 };

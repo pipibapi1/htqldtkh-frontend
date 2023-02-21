@@ -1,12 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import BackIcon from '../../../assets/images/🦆 icon _arrow circle left_.png';
-import { useDispatch, useSelector} from "react-redux";
-import { RootState,AppDispatch } from '../../../store';
-import DatePicker from "react-datepicker";
-import { TopicTypeEnum } from '../../../shared/types/topicType';
+import { useDispatch} from "react-redux";
+import { AppDispatch } from '../../../store';
 import {Link} from "react-router-dom";
-import Calendar from "../../../assets/images/calendar.png";
-import { GenderType } from '../../../shared/types/gender';
 import { MyTopic } from '../../../shared/interfaces/topicInterface';
 
 import {
@@ -31,11 +27,17 @@ const TopicDetail:React.FC = () => {
         extensionTime: 0,
         periodValue: "",
         studentId: "",
-        productPath: "",
+        productId: "",
         expense: 1,
         student:{
-            _id: "",
-            name: ""
+            _id: "", 
+            name: "",
+            studentId: "",
+            educationType: "",
+            gender: "",
+            email: "",
+            phoneNumber: "",
+            birthDate: ""
         },
         instructors:[{
             _id: "1",
@@ -85,7 +87,6 @@ const TopicDetail:React.FC = () => {
     const dispatch = useAppDispatch()
 
     const [topic, setTopic] = useState<MyTopic>(topicData);
-    const { user: currentUser } = useSelector((state: RootState) => state.auth);
 
     const displayDate = (dateStr: string) => {
         if(dateStr === "") return "";
@@ -230,7 +231,7 @@ const TopicDetail:React.FC = () => {
                                 Họ và tên: 
                             </label>
                             <div className = "w-1/2 text-gray-900 text-md">
-                                {currentUser.name}
+                                {topic.student.name}
                             </div>
                         </div>
 
@@ -239,7 +240,7 @@ const TopicDetail:React.FC = () => {
                                 Loại chương trình đào tạo: 
                             </label>
                             <div className = "w-1/2 text-gray-900 text-md">
-                                {capitalizeFirstLetter(currentUser.educationType)}
+                                {capitalizeFirstLetter(topic.student.educationType)}
                             </div>
                         </div>
                     </div>
@@ -250,7 +251,7 @@ const TopicDetail:React.FC = () => {
                                 MSSV: 
                             </label>
                             <div className = "w-1/2 text-gray-900 text-md">
-                                {currentUser.studentId}
+                                {topic.student.studentId}
                             </div>
                         </div>
 
@@ -259,7 +260,7 @@ const TopicDetail:React.FC = () => {
                                 Giới tính: 
                             </label>
                             <div className = "w-1/2 text-gray-900 text-md">
-                                {currentUser.gender}
+                                {topic.student.gender}
                             </div>
                         </div>
                     </div>
@@ -270,7 +271,7 @@ const TopicDetail:React.FC = () => {
                                 Email: 
                             </label>
                             <div className = "w-1/2 text-gray-900 text-md">
-                                {currentUser.email}
+                                {topic.student.email}
                             </div>
                         </div>
 
@@ -279,7 +280,7 @@ const TopicDetail:React.FC = () => {
                                 Số điện thoại: 
                             </label>
                             <div className = "w-1/2 text-gray-900 text-md">
-                                {currentUser.phoneNumber}
+                                {topic.student.phoneNumber}
                             </div>
                         </div>
                     </div>
@@ -289,7 +290,7 @@ const TopicDetail:React.FC = () => {
                             Ngày sinh: 
                         </label>
                         <div className = "w-1/2 text-gray-900 text-md">
-                            {displayDate(currentUser.birthDate)}
+                            {displayDate(topic.student.birthDate)}
                         </div>
                     </div>
                 </div>

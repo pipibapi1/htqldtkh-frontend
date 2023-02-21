@@ -26,8 +26,15 @@ export const appRouters = {
     LINK_TO_VICEDEAN_ACCOUNT_MANAGEMENT: 'vicedeanAccountManagement',
     LINK_TO_PERIOD_MANAGEMENT: 'periodManagement',
     LINK_TO_FS_TOPIC_CONDITION_MANAGEMENT: 'topicCondition',
-    LINK_TO_FS_TOPIC_MANAGEMENT: 'topic',
-    LINK_TO_FS_UPLOAD_ANNOUNCEMENT: 'fsUploadAnnouncement',
     LINK_TO_FS_ALLOCATE_EXPENSE: 'fsAllocateExpense'
+    LINK_TO_FS_TOPIC_MANAGEMENT: 'topicManagement',
+      LINK_TO_FS_TOPIC_DETAIL: 'topicManagement/:_id/topicDetail',
+      LINK_TO_FS_TOPIC_PRODUCT: 'topicManagement/:_id/topicProduct',
+      LINK_TO_FS_TOPIC_PAPERS: 'topicManagement/:_id/topicPapers',
+      LINK_TO_FS_RESULT_NOTIFICATION: 'topicManagement/:_id/resultNotification',
+      LINK_TO_FS_FEEDBACK: 'topicManagement/:_id/feedback',
+    LINK_TO_FS_TEMPLATE_MANAGEMENT: 'templateManagement',
+      LINK_TO_FS_FORM_CREATION: 'templateManagement/:_id/formCreation',
+    LINK_TO_FS_UPLOAD_ANNOUNCEMENT: 'fsUploadAnnouncement'
   };
   

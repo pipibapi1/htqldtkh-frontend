@@ -11,14 +11,20 @@ export interface Topic{
     extensionTime: number;
     status: string 
     period: string;
-    productPath: string;
+    productId: string;
     studentId: string;
     creationDate: string;
     topicGivenId: string;
     expense: number;
     student: {
-        _id: string;
-        name: string;
+        _id: string, 
+        name: string,
+        studentId: string,
+        educationType: string,
+        gender: string,
+        email: string,
+        phoneNumber: string,
+        birthDate: string
     };
     periodValue: string;
 }
@@ -33,14 +39,20 @@ export interface MyTopic{
     extensionTime: number;
     status: string 
     period: string;
-    productPath: string;
+    productId: string;
     studentId: string;
     creationDate: string;
     topicGivenId: string;
     expense: number;
     student: {
-        _id: string;
-        name: string;
+        _id: string, 
+        name: string,
+        studentId: string,
+        educationType: string,
+        gender: string,
+        email: string,
+        phoneNumber: string,
+        birthDate: string
     };
     periodValue: string;
     instructors: Instructor[],

@@ -6,14 +6,15 @@ const ANNOUNCEMENT_API_URL = process.env.REACT_APP_API_URL + "/api/announcement"
 interface Query{
     page: string;
     limit: string;
+    period: string;
 }
 
 
 const getAnnouncementsService = (queryData: Query) => {
-    const {page, limit} = queryData;
+    const {page, limit, period} = queryData;
 
     return axios.
-        get(ANNOUNCEMENT_API_URL + `?page=${page}&limit=${limit}`)
+        get(ANNOUNCEMENT_API_URL + `?page=${page}&limit=${limit}&period=${period}`)
         .then((response) => {
             return response.data
         })

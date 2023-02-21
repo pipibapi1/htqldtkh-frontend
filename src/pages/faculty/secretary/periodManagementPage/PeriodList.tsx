@@ -3,7 +3,6 @@ import DatePicker from "react-datepicker";
 import Calendar from "../../../../assets/images/calendar.png";
 import PeriodRowTable from './PeriodRowTable';
 import Modal from "./Modal";
-import Swal from 'sweetalert2';
 import { useDispatch} from "react-redux";
 import { AppDispatch } from '../../../../store';
 import {getAllPeriodsAction} from "../../../../actions/periodAction"

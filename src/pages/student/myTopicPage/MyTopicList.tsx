@@ -290,6 +290,7 @@ const MyTopicList: React.FC = () => {
                                             currentPage={currentPage}
                                             startTime={topic.startTime}
                                             endTime={topic.endTime}
+                                            productId={topic.productId}
                                             />
                                         )
                                     })}

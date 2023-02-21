@@ -11,4 +11,5 @@ export interface Request{
     createAt: string;
     period: string;
     periodValue: string;
+    text: string
 }
