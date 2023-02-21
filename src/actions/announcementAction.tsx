@@ -4,6 +4,7 @@ import announcementService from "../services/announcementService";
 interface Query{
     page: string;
     limit: string;
+    period: string;
 }
 
 

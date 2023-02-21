@@ -256,6 +256,7 @@ const ExpenseStatistic: React.FC = () => {
     }, []);
 
     const periodDisplay = (period: string) => {
+        if(period === "") return ""
         const x = new Date(period);
         return (x.getMonth() + 1) + "/" + x.getFullYear();
     }
