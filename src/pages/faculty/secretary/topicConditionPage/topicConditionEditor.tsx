@@ -1,5 +1,4 @@
 import {FC, useState, MouseEvent, useEffect, ChangeEvent} from 'react';
-import { TopicTypeEnum } from '../../../../shared/types/topicType';
 import topicConditionService from '../../../../services/topicConditionService';
 import ConditionDisplay from './conditionDisplay';
 import { expression, topicConditionIntf, logicExprIntf } from './conditionDisplay/interface';
@@ -7,16 +6,19 @@ import { useDispatch, useSelector} from "react-redux";
 import { AppDispatch, RootState } from '../../../../store';
 import { setTopicConditionAction } from '../../../../actions/topicConditionAction';
 import Swal from 'sweetalert2';
+
 import { OperationTypeEnum } from '../../../../shared/types/operationType';
+import { EducationType } from '../../../../shared/types/educationType';
+import { TopicTypeEnum } from '../../../../shared/types/topicType';
 
 const FSTopicConditionEditor: FC = () => {
     const [isEditing, setIsEditing] = useState<boolean>(false);
     const [type, setType] = useState<string>(Object.values(TopicTypeEnum)[0]);
     const [topicCondition, setTopicCondition] = useState<topicConditionIntf>({isLoading: true});
 
-    const {expression} = useSelector((state: RootState) => state.topicCondition);
+    const {expression, leaderCondition} = useSelector((state: RootState) => state.topicCondition);
     const useAppDispatch: () => AppDispatch = useDispatch
-    const dispatch = useAppDispatch()
+    const dispatch = useAppDispatch();
 
     const onClickBtnEdit = (e : MouseEvent<HTMLElement>) => {
         e.preventDefault();
@@ -52,7 +54,7 @@ const FSTopicConditionEditor: FC = () => {
                         isLoading: false
                     }
                     setTopicCondition(newCondition);
-                    dispatch(setTopicConditionAction(newCondition.expression))
+                    dispatch(setTopicConditionAction(newCondition.expression, newCondition.leaderCondition))
                 })
                 .catch((err)=> {console.log(err)})
         }
@@ -94,6 +96,7 @@ const FSTopicConditionEditor: FC = () => {
             topicConditionService.postTopicCondition({
                 expression: expression as expression,
                 type: type,
+                leaderCondition: leaderCondition
             }).then((data) => {
                 Swal.fire({
                     icon: 'success',

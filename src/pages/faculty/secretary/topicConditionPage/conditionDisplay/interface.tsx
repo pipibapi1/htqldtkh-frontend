@@ -3,6 +3,7 @@ export interface topicConditionIntf {
     type?: string,
     createAt?: string,
     expression?: expression,
+    leaderCondition?: string[]
     isLoading?: boolean
 }
 

@@ -57,13 +57,18 @@ const RegisterStep2:React.FC<Props> = (props: Props) => {
     const {backToChoosePeriod, backToStep1, topic, setTopic, setIsAtStep1} = props;
 
     const {expression} = useSelector((state: RootState) => state.topicCondition);
+    const {user} = useSelector((state: RootState) => state.auth);
     const useAppDispatch: () => AppDispatch = useDispatch
     const dispatch = useAppDispatch();
+
+    const [availableTypes, setAvailableTypesTopic] = useState<string[]>([]);
+    console.log(availableTypes);
     
     let otherMemberDataForCondition: {[k:string] : string}[] = [];
     for (let i = 0 ; i < (topic.numMember - 1); i++) {
         otherMemberDataForCondition.push({});
     }
+
     const [dataForCondition, setDataForCondition] = useState<DataForCondition>({
         otherMembers: otherMemberDataForCondition,
         leader: {}
@@ -117,6 +122,13 @@ const RegisterStep2:React.FC<Props> = (props: Props) => {
             })
             .catch((err)=> {console.log(err)})
     }, [topic, dispatch])
+
+    React.useEffect(() => {
+        topicConditionService.getAvaiableTopicType(user.educationType)
+            .then((types) => {
+                setAvailableTypesTopic(types)
+            })
+    }, [user.educationType])
 
     let memberInfoField: InfoField = {
         otherMembers: {},
@@ -418,16 +430,21 @@ const RegisterStep2:React.FC<Props> = (props: Props) => {
                     Loại đề tài: 
                 </div>
                 <div className="ml-2">
-                    <select
-                        className="bg-white h-[40px] w-[270px] border border-black border-1 rounded-lg focus:ring-blue-500 px-2"
+                    {availableTypes.length < 0? "Chương trình đào tạo hiện tại của bạn không thể đăng ký loại đề tài nào"
+                    : (
+                        <select
+                            className="bg-white h-[40px] w-[300px] border border-black border-1 rounded-lg focus:ring-blue-500 px-2"
                             onChange={onChangeTopicType}
-                            defaultValue={topic.type}
+                            defaultValue=""
                         >
-                        <option value={TopicTypeEnum.CQ}>Chính quy</option>
-                        <option value={TopicTypeEnum.CLC}>Chất lượng cao</option>
-                        <option value={TopicTypeEnum.CLC_LVTN}>Chất lượng cao (LVTN)</option>
-                        <option value={TopicTypeEnum.KSTN}>Kỹ sư tài năng</option>
-                    </select>
+                            <option value="" disabled hidden>Chọn loại đề tài</option>
+                            {availableTypes.map((type) => {
+                                return (
+                                    <option value={type} key={type}>{type}</option>
+                                )
+                            })}
+                        </select>
+                    )}
                 </div>
             </div>
             <div className='mb-3'>

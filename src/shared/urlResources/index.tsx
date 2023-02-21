@@ -27,6 +27,7 @@ export const appRouters = {
     LINK_TO_PERIOD_MANAGEMENT: 'periodManagement',
     LINK_TO_FS_TOPIC_CONDITION_MANAGEMENT: 'topicCondition',
     LINK_TO_FS_TOPIC_MANAGEMENT: 'topic',
-    LINK_TO_FS_UPLOAD_ANNOUNCEMENT: 'fsUploadAnnouncement'
+    LINK_TO_FS_UPLOAD_ANNOUNCEMENT: 'fsUploadAnnouncement',
+    LINK_TO_FS_ALLOCATE_EXPENSE: 'fsAllocateExpense'
   };
   
