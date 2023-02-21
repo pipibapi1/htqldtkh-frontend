@@ -1,4 +1,3 @@
-import { OldAnnouncementData } from './OldAnnouncementData';
 import AnnouncementBanner from './AnnouncementBanner';
 
 interface AnnouncementType{

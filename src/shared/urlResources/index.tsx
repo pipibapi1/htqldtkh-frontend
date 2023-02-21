@@ -32,6 +32,8 @@ export const appRouters = {
       LINK_TO_FS_TOPIC_PAPERS: 'topicManagement/:_id/topicPapers',
       LINK_TO_FS_RESULT_NOTIFICATION: 'topicManagement/:_id/resultNotification',
       LINK_TO_FS_FEEDBACK: 'topicManagement/:_id/feedback',
+    LINK_TO_FS_TEMPLATE_MANAGEMENT: 'templateManagement',
+      LINK_TO_FS_FORM_CREATION: 'templateManagement/:_id/formCreation',
     LINK_TO_FS_UPLOAD_ANNOUNCEMENT: 'fsUploadAnnouncement'
   };
   

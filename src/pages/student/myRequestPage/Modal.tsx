@@ -12,6 +12,7 @@ const Modal = ({isVisible, onClose, myTopics}: {isVisible: boolean, onClose: any
     const [requestType, setRequestType] = useState<string>(RequestType.GET_CERTIFICATE)
     const [chosenTopicId, setChosenTopicId] = useState<string>("")
     const [extensionTime, setExtensionTime] = useState<number>(0)
+    const [text, setText] = useState<string>("");
     const useAppDispatch: () => AppDispatch = useDispatch
     const dispatch = useAppDispatch()
     if (!isVisible) return null;
@@ -42,7 +43,8 @@ const Modal = ({isVisible, onClose, myTopics}: {isVisible: boolean, onClose: any
                 request:{
                     topicId: chosenTopicId,
                     type: requestType,
-                    extensionTime: extensionTime
+                    extensionTime: extensionTime,
+                    text: text
                 }
             }
             if(requestType === RequestType.EXTEND_PROJECT && extensionTime <= 0){
@@ -53,6 +55,13 @@ const Modal = ({isVisible, onClose, myTopics}: {isVisible: boolean, onClose: any
                 })
                 return;
                 
+            }
+            if(requestType === RequestType.OTHER && text === ""){
+                Toast.fire({
+                    icon: 'warning',
+                    title: 'Phần nội dung không được để trống'
+                })
+                return;
             }
             Swal.fire({
                 icon: 'question',
@@ -141,11 +150,15 @@ const Modal = ({isVisible, onClose, myTopics}: {isVisible: boolean, onClose: any
                                     e.preventDefault();
                                     setRequestType(e.target.value)
                                     setChosenTopicId("")
+                                    setExtensionTime(0)
+                                    setText("")
                                 }}
+                                value={requestType}
                                 >
                                     <option value={RequestType.GET_CERTIFICATE}>Xin giấy chứng nhận</option>
                                     <option value={RequestType.CANCEL_PROJECT}>Hủy đề tài</option>
                                     <option value={RequestType.EXTEND_PROJECT}>Gia hạn đề tài</option>
+                                    <option value={RequestType.OTHER}>Yêu cầu khác</option>
                                 </select>
                             </div>
 
@@ -161,12 +174,17 @@ const Modal = ({isVisible, onClose, myTopics}: {isVisible: boolean, onClose: any
                                         const chosenTopic = myTopics.find((topic) => topic._id === e.target.value)
                                         if(chosenTopic && (chosenTopic.status === TopicStatusEnum.DUE_TO_ACCEPT ||
                                             chosenTopic.status === TopicStatusEnum.CARRY_OUT ||
-                                            chosenTopic.status === TopicStatusEnum.OUT_OF_DATE) && requestType !== RequestType.GET_CERTIFICATE
+                                            chosenTopic.status === TopicStatusEnum.OUT_OF_DATE) 
+                                            && requestType !== RequestType.GET_CERTIFICATE
+                                            && requestType !== RequestType.OTHER
                                             ){
                                                 setChosenTopicId(e.target.value)
                                         }
                                         else{
                                             if(chosenTopic && requestType === RequestType.GET_CERTIFICATE && chosenTopic.status === TopicStatusEnum.FINISHED){
+                                                setChosenTopicId(e.target.value)
+                                            }
+                                            else if(chosenTopic && requestType === RequestType.OTHER && chosenTopic.status !== TopicStatusEnum.NEW){
                                                 setChosenTopicId(e.target.value)
                                             }
                                             else{
@@ -204,13 +222,45 @@ const Modal = ({isVisible, onClose, myTopics}: {isVisible: boolean, onClose: any
                                     required
                                     defaultValue={0}
                                     onChange={(e) => {
-                                        e.preventDefault();
-                                        setExtensionTime(parseInt(e.target.value))
+                                        if(requestType === RequestType.EXTEND_PROJECT){
+                                            e.preventDefault();
+                                            setExtensionTime(parseInt(e.target.value))
+                                        }
+                                        else{
+                                            Toast.fire({
+                                                icon: 'error',
+                                                title: 'Vui lòng chọn lại loại đề tài'
+                                              })
+                                        }
                                     }}
                                     />
                                     <label htmlFor='email' className = "block mb-2 ml-2 text-sm font-medium text-gray-900">
                                         tháng.
                                     </label>
+                                </div>
+                            </div>)}
+
+                            {requestType === RequestType.OTHER && (<div className = 'w-full'>
+                                <div className = 'w-full mr-20 flex flex-col'>
+                                    <label htmlFor='email' className = "mb-2 mr-5 text-sm font-medium text-gray-900">
+                                        Nội dung: 
+                                    </label>
+                                    <textarea
+                                    className = "bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 h-[100px]"
+                                    required
+                                    onChange={(e) => {
+                                        if(requestType === RequestType.OTHER){
+                                            e.preventDefault();
+                                            setText(e.target.value);
+                                        }
+                                        else{
+                                            Toast.fire({
+                                                icon: 'error',
+                                                title: 'Vui lòng chọn lại loại đề tài'
+                                              })
+                                        }
+                                    }}
+                                    />
                                 </div>
                             </div>)}
 

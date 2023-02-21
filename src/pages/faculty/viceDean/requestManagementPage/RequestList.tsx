@@ -424,11 +424,14 @@ const RequestList= () => {
                                             topicRegister={request.studentName}
                                             createdDate={request.createAt}
                                             additionalInfor={request.type === RequestType.EXTEND_PROJECT ? 
-                                                `Thời gian gia hạn: ${request.extensionTime} tháng` : ""}
+                                                `Thời gian gia hạn: ${request.extensionTime} tháng`:
+                                                (request.type === RequestType.OTHER ? `Nội dung yêu cầu: ${request.text}` : "")
+                                            }
                                             topicName={request.topicName}
                                             currentPage={currentPage}
                                             approveARequest={approveARequest}
                                             refuseARequest={refuseARequest}
+                                            topicId={request.topicId}
                                             />)
                                     })}
                                 </tbody>

@@ -22,7 +22,31 @@ const getTemplatesWithPapersAction = (queryData: any) => (dispatch: any) =>{
     )
 }
 
+const deleteRemoveATemplateAction = (_id: string) => (dispatch: any) => {
+    return templateService.deleteRemoveATemplateService(_id).then(
+        (data) => {
+            return Promise.resolve(data);
+        },
+        (error) =>{
+            return Promise.reject(error);
+        }
+    )
+}
+
+const postAddATemplateAction = (template: FormData) => (dispatch: any) => {
+    return templateService.postAddATemplateService(template).then(
+        (data) => {
+            return Promise.resolve(data);
+        },
+        (error) =>{
+            return Promise.reject(error);
+        }
+    )
+}
+
 export {
     getTemplatesAction,
-    getTemplatesWithPapersAction
+    getTemplatesWithPapersAction,
+    deleteRemoveATemplateAction,
+    postAddATemplateAction
 }

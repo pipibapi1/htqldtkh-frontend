@@ -30,6 +30,8 @@ import FSTopicProduct from './pages/faculty/secretary/fsTopicProduct';
 import FSTopicPapers from './pages/faculty/secretary/fsTopicPapers';
 import FSResultNotificationPage from './pages/faculty/secretary/resultNotificationPage';
 import FSFeedbackPage from './pages/faculty/secretary/feedbackPage';
+import TemplateManagementPage from './pages/faculty/secretary/templateManagementPage';
+import TemplateFormCreationPage from './pages/faculty/secretary/templateFormCreation';
 
 function App() {
   
@@ -65,6 +67,8 @@ function App() {
         <Route path={appRouters.LINK_TO_FS_TOPIC_PAPERS} element={<FSTopicPapers/>} />
         <Route path={appRouters.LINK_TO_FS_RESULT_NOTIFICATION} element={<FSResultNotificationPage/>} />
         <Route path={appRouters.LINK_TO_FS_FEEDBACK} element={<FSFeedbackPage/>} />
+      <Route path={appRouters.LINK_TO_FS_TEMPLATE_MANAGEMENT} element={<TemplateManagementPage/>} />
+        <Route path={appRouters.LINK_TO_FS_FORM_CREATION} element={<TemplateFormCreationPage/>} />
       <Route path={appRouters.LINK_TO_PERIOD_MANAGEMENT} element={<PeriodManagementPage/>} />
       <Route path={appRouters.LINK_TO_FS_TOPIC_CONDITION_MANAGEMENT} element={<FSTopicConditionManagement/>} />
       <Route path={appRouters.LINK_TO_FS_UPLOAD_ANNOUNCEMENT} element={<FSUploadAnnouncement/>} />
