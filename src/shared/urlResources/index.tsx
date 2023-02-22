@@ -27,6 +27,10 @@ export const appRouters = {
     LINK_TO_PERIOD_MANAGEMENT: 'periodManagement',
     LINK_TO_FS_TOPIC_CONDITION_MANAGEMENT: 'topicCondition',
     LINK_TO_FS_TOPIC_MANAGEMENT: 'topic',
-    LINK_TO_FS_UPLOAD_ANNOUNCEMENT: 'fsUploadAnnouncement'
+    LINK_TO_FS_UPLOAD_ANNOUNCEMENT: 'fsUploadAnnouncement',
+    LINK_TO_FS_CREATE_COUNCIL_1: 'fsCreateCouncil1',
+    LINK_TO_FS_COUNCIL_1_DETAIL: 'fsCouncil1Detail',
+    LINK_TO_FS_CREATE_COUNCIL_2: 'fsCreateCouncil2',
+    LINK_TO_FS_COUNCIL_2_DETAIL: 'fsCouncil2Detail',
   };
   

@@ -24,6 +24,10 @@ import StudentTopicDetail from './pages/student/studentTopicDetail';
 import StudentTopicProduct from './pages/student/studentTopicProduct';
 import StudentTopicPapers from './pages/student/studentTopicPapers';
 import PeriodManagementPage from './pages/faculty/secretary/periodManagementPage';
+import FSCreateCouncil1 from './pages/faculty/secretary/createCouncilPage/Council1';
+import FSCouncil1Detail from './pages/faculty/secretary/createCouncilPage/Council1/CouncilDetail';
+import FSCreateCouncil2 from './pages/faculty/secretary/createCouncilPage/Council2';
+import FSCouncil2Detail from './pages/faculty/secretary/createCouncilPage/Council2/CouncilDetail';
 
 function App() {
   
@@ -56,6 +60,10 @@ function App() {
       <Route path={appRouters.LINK_TO_PERIOD_MANAGEMENT} element={<PeriodManagementPage/>} />
       <Route path={appRouters.LINK_TO_FS_TOPIC_CONDITION_MANAGEMENT} element={<FSTopicConditionManagement/>} />
       <Route path={appRouters.LINK_TO_FS_UPLOAD_ANNOUNCEMENT} element={<FSUploadAnnouncement/>} />
+      <Route path={appRouters.LINK_TO_FS_CREATE_COUNCIL_1} element={<FSCreateCouncil1/>} />
+      <Route path={appRouters.LINK_TO_FS_COUNCIL_1_DETAIL} element={<FSCouncil1Detail/>} />
+      <Route path={appRouters.LINK_TO_FS_CREATE_COUNCIL_2} element={<FSCreateCouncil2/>} />
+      <Route path={appRouters.LINK_TO_FS_COUNCIL_2_DETAIL} element={<FSCouncil2Detail/>} />
     </Routes>
   );
 }
