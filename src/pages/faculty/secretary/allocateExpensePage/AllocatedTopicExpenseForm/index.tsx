@@ -165,8 +165,8 @@ const AllocateTopicExpenseForm: React.FC<Props> = (props: Props) => {
     }
     
     return (
-        <div className={`fixed inset-0 flex justify-center items-center bg-black bg-opacity-50 backdrop-blur-sm`}>
-            <div className='flex flex-col items-center w-[800px] h-[400px] snap-y overflow-auto overscroll-contain bg-white rounded'>
+        <div className={`fixed inset-0 flex justify-center items-center bg-black bg-opacity-50 backdrop-blur-sm z-50`}>
+            <div className='flex flex-col items-center w-1/2 h-fit snap-y overflow-auto overscroll-contain bg-white rounded'>
                 <div className='font-bold text-lg mt-2'>
                     Phân bổ kinh phí cho đề tài
                 </div>
@@ -195,26 +195,31 @@ const AllocateTopicExpenseForm: React.FC<Props> = (props: Props) => {
                     <div className='my-1'>
                         Kinh phí:
                     </div>
-                    <input
-                        className='mx-2 mb-1 rounded border border-[#1488d8] focus:outline-[#1488d8] px-2 py-1 w-[300px]'
-                        value={expense}
-                        onChange={(e) => {
-                            setExpense(e.target.value);
-                        }}
-                    ></input>
+                    <div className='flex items-center space-x-1'>
+                        <input
+                            className='mx-2 mb-1 rounded border border-[#1488d8] focus:outline-[#1488d8] px-2 py-1 w-[300px]'
+                            value={expense}
+                            onChange={(e) => {
+                                setExpense(e.target.value);
+                            }}
+                        ></input>
+                        <div>
+                            VNĐ
+                        </div>
+                    </div>
                 </div>
                 <div className='flex flex-row justify-evenly w-11/12 my-4'>
                     <button
-                        className='py-2 px-6 border border-1 bg-[#1488d8] text-white rounded'
-                        onClick={onClickCancelBtn}
-                    >
-                        Hủy bỏ
-                    </button>
-                    <button
-                        className='py-2 px-6 border border-1 bg-[#1488d8] text-white rounded'
+                        className='py-2 w-[120px] border border-1 bg-[#1488d8]  text-white rounded'
                         onClick={onClickConfirmBtn}
                     >
                         Xác nhận
+                    </button>
+                    <button
+                        className='py-2 w-[120px] border border-1 bg-[#E1000E] text-white rounded'
+                        onClick={onClickCancelBtn}
+                    >
+                        Hủy
                     </button>
                 </div>
             </div>

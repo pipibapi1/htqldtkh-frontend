@@ -26,7 +26,7 @@ export const appRouters = {
     LINK_TO_VICEDEAN_ACCOUNT_MANAGEMENT: 'vicedeanAccountManagement',
     LINK_TO_PERIOD_MANAGEMENT: 'periodManagement',
     LINK_TO_FS_TOPIC_CONDITION_MANAGEMENT: 'topicCondition',
-    LINK_TO_FS_ALLOCATE_EXPENSE: 'fsAllocateExpense'
+    LINK_TO_FS_ALLOCATE_EXPENSE: 'fsAllocateExpense',
     LINK_TO_FS_TOPIC_MANAGEMENT: 'topicManagement',
       LINK_TO_FS_TOPIC_DETAIL: 'topicManagement/:_id/topicDetail',
       LINK_TO_FS_TOPIC_PRODUCT: 'topicManagement/:_id/topicProduct',

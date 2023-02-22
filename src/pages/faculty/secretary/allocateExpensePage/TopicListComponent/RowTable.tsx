@@ -35,7 +35,7 @@ const RowTable: React.FC<Props> = (props) => {
         {topic.student.name}
       </td>
       <td className='text-center font-medium text-sm text-gray-900 px-1 py-1 border-l-2'>
-        {topic.expense.toString()} VND
+        {topic.expense.toLocaleString()} VND
       </td>
       <td className='text-center font-medium text-sm text-gray-900 px-1 py-1 border-l-2'>
         <button

@@ -84,6 +84,10 @@ const Announcement: React.FC = () => {
               `/${data?.announcements[0]._id}/file`
           );
         }
+        else{
+          setLatestAnnouncementId("");
+          setLatestAnnouncement("");
+        }
       })
       .catch((error) => {});
   };
@@ -166,7 +170,7 @@ const Announcement: React.FC = () => {
       <div className="grid grid-cols-3">
 
         <main className="px-12 py-6 border-r col-span-2">
-          {periods.length > 0 ? <Link
+          {periods.length > 0 && latestAnnouncementId !== "" ? <Link
             to={
               `/${appRouters.LINK_TO_OLD_ANNOUNCEMENT_PAGE}` +
               `/${latestAnnouncementId}`
@@ -181,7 +185,7 @@ const Announcement: React.FC = () => {
         </div>
           }
 
-          {periods.length > 0 ?<Document
+          {periods.length > 0 && latestAnnouncement !== "" ?<Document
             file={latestAnnouncement}
             onLoadSuccess={onDocumentLoadSuccess}
             className="border border-3 rounded-lg py-5 px-1 m-1 flex flex-col justify-center items-center"

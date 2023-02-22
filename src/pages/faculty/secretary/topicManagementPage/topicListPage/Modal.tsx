@@ -97,7 +97,7 @@ const Modal = ({isVisible, onClose, topic}: {isVisible: boolean, onClose: any, t
     }
 
     return ( 
-        <div className = "fixed inset-0 bg-black bg-opacity-50 backdrop-blur-0 flex justify-center items-center" id= "wrapper" onClick={handleClose}>
+        <div className = "fixed inset-0 bg-black bg-opacity-50 backdrop-blur-0 flex justify-center items-center z-50" id= "wrapper" onClick={handleClose}>
             <div className = "md:w-[600px] w-[90%] mx-auto">
 
                 {!showTopicStartPopup && <div className = 'bg-white rounded px-5 py-7'>

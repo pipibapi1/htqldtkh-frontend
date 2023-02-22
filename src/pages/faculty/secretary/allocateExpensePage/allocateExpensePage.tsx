@@ -177,6 +177,44 @@ const AllocateExpensePage: FC = () => {
                     setPeriods(data?.periods);
                     if (data && data.periods.length > 0) {
                         setCurrentPeriod(data.periods[0]._id);
+                        // dispatch(getExpenseDetailByPeriodAction({period: data.periods[0]._id}))
+                        // .then((data) => {
+                        //     setExpense(data?.expense);
+                        // })
+                        // .catch((error) => {
+                        //     setExpense({
+                        //         _id: "",
+                        //         createAt: "",
+                        //         lastModified: "",
+                        //         note: "",
+                        //         generalExpense: 0,
+                        //         period: "",
+                        //         totalExpense: 0,
+                        //         allocated:[{
+                        //             type: "",
+                        //             totalExpense: 0,
+                        //             maxExpensePerTopic: 0}
+                        //         ],
+                        //         usedExpense:0,
+                        //         used: {}
+                        //     })
+                        // })
+                        // setCurrentPage(1);
+                        // setCurrentType("");
+                        // let queryForTopic: any = {
+                        //     period: data.periods[0]._id,
+                        //     page: 1,
+                        //     limit: RECORD_PER_PAGE,
+                        // }
+                        // dispatch(getTopicListAction(queryForTopic))
+                        // .then((data) => {
+                        //     setTopics(data?.topics)
+                        //     if(data?.metadata.totalPage > 0){
+                        //         setTotalPage(data?.metadata.totalPage)
+                        //     }
+                        // })
+                        // .catch((error) => {
+                        // })
                     }
                 });
         }
@@ -210,6 +248,7 @@ const AllocateExpensePage: FC = () => {
                     })
                 })
             setCurrentPage(1);
+            setCurrentType("")
         }
     }, [currentPeriod, dispatch])
 
@@ -333,7 +372,7 @@ const AllocateExpensePage: FC = () => {
                         <select
                             className="bg-white h-[40px] w-[270px] border border-black border-1 rounded-lg focus:ring-blue-500 px-2"
                                 onChange={onChangePeriod}
-                                defaultValue={currentPeriod}
+                                value={currentPeriod}
                             >
                             {periods.map((period, index) => 
                                 <option value={period._id} id={period._id} key={period._id}>{periodDisplay(period.period)}</option>
@@ -341,12 +380,12 @@ const AllocateExpensePage: FC = () => {
                         </select>
                     </div>}
                 </div>
-                <button
+                {periods.length > 0 && <button
                     className='btn bg-[#1488d8] text-white rounded py-2 px-5'
                     onClick={onClickSetExpenseBtn}
                 >
                     Chỉnh sửa
-                </button>
+                </button>}
             </div>
             
             {periods.length > 0 ? (<div className='mb-5'>
@@ -421,14 +460,14 @@ const AllocateExpensePage: FC = () => {
                 </div>
             </div>}
                         
-            <TopicListComponent 
+            {periods.length > 0 && <TopicListComponent 
                 topics={topics} 
                 totalPage={totalPage}
                 onChangePage={onChangePage}
                 currentPage={currentPage}
                 setCurrentPage={setCurrentPage}
                 onOpenTopicExpenseForm={onOpenTopicExpenseForm}
-            />
+            />}
 
             <AllocatedGeneralExpenseForm
                 isOpen={isOpenAllocatedForm}

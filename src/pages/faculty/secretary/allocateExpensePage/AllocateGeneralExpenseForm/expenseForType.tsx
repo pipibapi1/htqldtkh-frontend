@@ -71,31 +71,43 @@ const ExpenseForType: React.FC<Props> = (props: Props) => {
     }
 
     return (
-        <div className='flex flex-col items-start my-1 border border-x-0 border-y-2 w-11/12'>
-            <div className='flex flex-row mb-1'>
+        <div className='flex flex-col items-start my-1 py-1 border border-x-0 border-y-2 w-11/12'>
+            <div className='flex flex-row mb-1 font-semibold italic'>
                 {type}:
             </div>
-            <div className='flex flex-row mb-1 items-center'>
-                <div>
-                    Tổng chi phí tối đa:
+            <div className='flex space-x-5'>
+                <div className='flex flex-row items-center'>
+                    <div>
+                        Tổng chi phí tối đa:
+                    </div>
+                    <div className='flex items-center space-x-1'>
+                        <input
+                            className='w-[300px] rounded px-2 py-1 mx-2 my-1 border border-[#1488d8] focus:outline-[#1577d2]'
+                            defaultValue={expenseForType?.totalExpense}
+                            onChange={onChangeTotalExpense}
+                        >
+                        </input>
+                        <div>
+                            VNĐ
+                        </div>
+                    </div>
                 </div>
-                <input
-                    className='w-[300px] rounded px-2 py-1 mx-2 my-1 border border-[#1488d8] focus:outline-[#1577d2]'
-                    defaultValue={expenseForType?.totalExpense}
-                    onChange={onChangeTotalExpense}
-                >
-                </input>
-            </div>
-            <div className='flex flex-row items-center'>
-                <div>
-                    Chi phí tối đa mỗi đề tài:
+                <div className='flex flex-row items-center'>
+                    <div>
+                        Chi phí tối đa mỗi đề tài:
+                    </div>
+                    <div className='flex items-center space-x-1'>
+                        <input
+                            className='w-[300px] rounded px-2 py-1 mx-2 my-1 border border-[#1488d8] focus:outline-[#1577d2]'
+                            defaultValue={expenseForType?.maxExpensePerTopic}
+                            onChange={onChangeMaxExpensePerTopic}
+                        >
+                        </input>
+                        <div>
+                            VNĐ
+                        </div>
+                    </div>
                 </div>
-                <input
-                    className='w-[300px] rounded px-2 py-1 mx-2 my-1 border border-[#1488d8] focus:outline-[#1577d2]'
-                    defaultValue={expenseForType?.maxExpensePerTopic}
-                    onChange={onChangeMaxExpensePerTopic}
-                >
-                </input>
             </div>
         </div>
     )

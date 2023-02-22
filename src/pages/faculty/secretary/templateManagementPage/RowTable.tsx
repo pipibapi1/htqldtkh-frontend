@@ -31,8 +31,8 @@ const RowTable = (props: any) => {
 
     if(template._id){
       Swal.fire({
-        icon: 'question',
-        title: 'Bạn có chắc muốn xóa biểu mẫu này?',
+        icon: 'warning',
+        title: 'Cảnh báo! Nếu bạn xóa biểu mẫu này thì tất cả giấy tờ liên quan ứng với biểu mẫu này mà sinh viên đã nộp cũng sẽ bị xóa theo! Bạn có chắc muốn xóa biểu mẫu này?',
         showDenyButton: true,
         showCancelButton: false,
         confirmButtonText: 'Yes',

@@ -49,8 +49,8 @@ const RowTable: React.FC<Props> = (props) => {
     e.preventDefault();
 
     Swal.fire({
-      icon: 'question',
-      title: 'Bạn có chắc muốn xóa đề tài? những dữ liệu liên quan cũng sẽ bị xóa theo!',
+      icon: 'warning',
+      title: 'Cảnh báo! Những dữ liệu liên quan cũng sẽ bị xóa theo! Bạn có chắc muốn xóa đề tài?',
       showDenyButton: true,
       showCancelButton: false,
       confirmButtonText: 'Yes',
