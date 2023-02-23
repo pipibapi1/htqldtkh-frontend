@@ -474,7 +474,7 @@ const AllocateExpensePage: FC = () => {
                 setIsOpen={setIsOpenAllocatedForm}
                 setDisplayedPeriod={setDisplayedPeriod}
             />
-            {topicExpenseFormData.isOpen && topicExpenseFormData.topic.expense && (
+            {topicExpenseFormData.isOpen && topicExpenseFormData.topic.expense !== undefined && (
                 <AllocateTopicExpenseForm 
                     data={topicExpenseFormData}
                     year={currYear.getFullYear()}

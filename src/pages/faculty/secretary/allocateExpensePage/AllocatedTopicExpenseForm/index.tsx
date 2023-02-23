@@ -9,8 +9,6 @@ import { AppDispatch } from '../../../../../store';
 
 import { putUpdateATopicAction } from '../../../../../actions/topicAction';
 
-const RECORD_PER_PAGE = 10;
-
 interface Props {
     data: TopicExpenseFormData,
     year: number,
