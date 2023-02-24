@@ -298,7 +298,7 @@ const TopicPaperCard = (props: any) => {
                         <img src={show? DownIcon: RightIcon} className='h-7' alt="" />
                     </div>
                     <div className='text-lg font-bold'>
-                        {templateWithPaper.name}
+                    {templateWithPaper.templateGivenId} - {templateWithPaper.name}
                     </div>
                 </div>
                 {show && (
@@ -422,7 +422,8 @@ const TopicPapers:React.FC = () => {
     useEffect(() => {
         let queryData = {
             topicId: _id,
-            forStudent: true
+            forStudent: true,
+            inUse: true
         }
         dispatch(getTemplatesWithPapersAction(queryData))
                 .then((data) => {

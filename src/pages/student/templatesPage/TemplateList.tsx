@@ -50,7 +50,7 @@ const TemplateList: React.FC = () => {
                                 downloadTemplateFile(template._id, template.name);
                             }}
                         >
-                            {template.name}
+                            {template.templateGivenId} - {template.name} - ({template.inUse ? "đang được dùng" : "không được dùng"})
                         </div>
                     )
                 })}

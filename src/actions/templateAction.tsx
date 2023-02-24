@@ -22,6 +22,17 @@ const getTemplatesWithPapersAction = (queryData: any) => (dispatch: any) =>{
     )
 }
 
+const putUpdateATemplateAction = (updateInfo: any) => (dispatch: any) => {
+    return templateService.putUpdateATemplateService(updateInfo).then(
+        (data) => {
+            return Promise.resolve(data);
+        },
+        (error) =>{
+            return Promise.reject(error);
+        }
+    )
+}
+
 const deleteRemoveATemplateAction = (_id: string) => (dispatch: any) => {
     return templateService.deleteRemoveATemplateService(_id).then(
         (data) => {
@@ -47,6 +58,7 @@ const postAddATemplateAction = (template: FormData) => (dispatch: any) => {
 export {
     getTemplatesAction,
     getTemplatesWithPapersAction,
+    putUpdateATemplateAction,
     deleteRemoveATemplateAction,
     postAddATemplateAction
 }

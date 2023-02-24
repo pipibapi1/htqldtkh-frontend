@@ -57,16 +57,21 @@ const TemplateList: React.FC = () => {
                                     >
                                         STT
                                     </th>
-
                                     <th
                                         scope='col'
                                         className='text-sm text-center font-bold text-white px-2 py-3 text-left border-l-2'
+                                    >
+                                        Mã biểu mẫu
+                                    </th>
+                                    <th
+                                        scope='col'
+                                        className='w-[20%] text-sm text-center font-bold text-white px-2 py-3 text-left border-l-2'
                                     >
                                         Tên biểu mẫu
                                     </th>
                                     <th
                                         scope='col'
-                                        className='w-[17%] text-sm text-center font-bold text-white px-2 py-3 text-left border-l-2'
+                                        className='w-[15%] text-sm text-center font-bold text-white px-2 py-3 text-left border-l-2'
                                     >
                                         Loại
                                     </th>
@@ -78,9 +83,15 @@ const TemplateList: React.FC = () => {
                                     </th>
                                     <th
                                         scope='col'
-                                        className='w-[17%] text-sm text-center font-bold text-white px-2 py-3 text-left border-l-2'
+                                        className='w-[15%] text-sm text-center font-bold text-white px-2 py-3 text-left border-l-2'
                                     >
                                         Form
+                                    </th>
+                                    <th
+                                        scope='col'
+                                        className='w-[10%] text-sm text-center font-bold text-white px-2 py-3 text-left border-l-2'
+                                    >
+                                        Được dùng
                                     </th>
                                     <th
                                         scope='col'

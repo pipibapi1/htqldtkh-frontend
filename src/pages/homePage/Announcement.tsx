@@ -56,7 +56,6 @@ const Announcement: React.FC = () => {
     dispatch(getAllPeriodsAction(queryPeriod))
       .then((data) => {
         setPeriods(data?.periods);
-        console.log(data?.periods);
         if (data?.periods.length > 0) {
           setCurrentPeriod(data?.periods[0]._id);
           onChangePeriod(data?.periods[0]._id);
@@ -68,11 +67,23 @@ const Announcement: React.FC = () => {
   }, []);
 
   const onChangePeriod = (period: string) => {
-    const query = {
+    let query: any = {
       page: "1",
       limit: MAX_INT,
-      period: period
-    };
+    }
+    if(period === ""){
+      query = {
+        ...query,
+        year: year.getFullYear()
+      };
+    }
+    else{
+      query = {
+        ...query,
+        period: period
+      };
+    }
+
     dispatch(getAnnouncementsAction(query))
       .then((data) => {
         setAnnouncements(data?.announcements);
@@ -102,6 +113,30 @@ const Announcement: React.FC = () => {
         if (data?.periods.length > 0) {
           setCurrentPeriod(data?.periods[0]?._id);
           onChangePeriod(data?.periods[0]?._id);
+        }
+        else{
+          const queryForYear = {
+            page: "1",
+            limit: MAX_INT,
+            year: d.getFullYear()
+          };
+          dispatch(getAnnouncementsAction(queryForYear))
+          .then((data) => {
+            setAnnouncements(data?.announcements);
+            if (data?.announcements.length > 0) {
+              setLatestAnnouncementId(data?.announcements[0]._id);
+              setLatestAnnouncement(
+                process.env.REACT_APP_API_URL +
+                  "/api/announcement" +
+                  `/${data?.announcements[0]._id}/file`
+              );
+            }
+            else{
+              setLatestAnnouncementId("");
+              setLatestAnnouncement("");
+            }
+          })
+          .catch((error) => {});
         }
       })
       .catch((error) => {});
@@ -145,8 +180,8 @@ const Announcement: React.FC = () => {
             <img src={Calendar} alt="calendarIcon" className="h-5 w-5" />
           </div>
         </div>
-        {periods.length > 0 && <div className="mr-5">Đợt:</div>}
-        {periods.length > 0 && (
+        <div className="mr-5">Đợt:</div>
+        
           <div className="">
             <select
               className="bg-white h-[40px] w-[270px] border border-black border-1 rounded-lg focus:ring-blue-500 px-2"
@@ -163,9 +198,10 @@ const Announcement: React.FC = () => {
                   {periodDisplay(period.period)}
                 </option>
               ))}
+              <option value="">- -</option>
             </select>
           </div>
-        )}
+        
       </div>
       <div className="grid grid-cols-3">
 
@@ -177,7 +213,7 @@ const Announcement: React.FC = () => {
             }
           >
             <div className="py-4 text-blue-600 font-semibold">
-              THÔNG BÁO MỚI NHẤT CỦA ĐỢT {periodDisplatFromId(currentPeriod)}
+              THÔNG BÁO MỚI NHẤT CỦA {currentPeriod !== "" ? "ĐỢT " + periodDisplatFromId(currentPeriod) : "NĂM " + year.getFullYear()}
             </div>
           </Link> : 
           <div className="py-4 text-blue-600 font-semibold">
@@ -226,10 +262,12 @@ const Announcement: React.FC = () => {
 
         {periods.length > 0 ? <OldAnnouncement
           oldAnnouncements={announcements}
-          currentPeriodValue={periodDisplatFromId(currentPeriod) }
+          currentPeriodValue={currentPeriod !== "" ? periodDisplatFromId(currentPeriod) : ""}
+          year={year}
         />: <OldAnnouncement
         oldAnnouncements={[]}
         currentPeriodValue={""}
+        year={year}
       />}
       </div>
     </div>

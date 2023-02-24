@@ -29,6 +29,15 @@ const postAddATemplateService = (template: FormData) => {
         })
 }
 
+const putUpdateATemplateService = (updateInfo: any) => {
+    const {_id, template} = updateInfo;
+    return axios
+        .put(TEMPLATE_API_URL + '/' + _id, {template: template}, { headers: authHeader() })
+        .then((response) => {
+            return response.data
+        })
+}
+
 const deleteRemoveATemplateService = (_id: string) => {
     return axios
         .delete(TEMPLATE_API_URL + '/' + _id, { headers: authHeader() })
@@ -38,8 +47,10 @@ const deleteRemoveATemplateService = (_id: string) => {
 }
 
 const getTemplatesWithPapersService = (queryData: any) => {
-    const {topicId, forStudent}  = queryData;
-    const queryString = '?' + (forStudent !== undefined ? `forStudent=${forStudent}&` : "") ;
+    const {topicId, forStudent, inUse}  = queryData;
+    const queryString = '?' + (forStudent !== undefined ? `forStudent=${forStudent}&` : "") 
+                            + (inUse !== undefined ? `inUse=${inUse}&` : "")
+    ;
 
     return axios
         .get(TEMPLATE_API_URL + '/' + 'withPapers' + '/' + topicId +queryString, {headers: authHeader()})
@@ -51,6 +62,7 @@ const getTemplatesWithPapersService = (queryData: any) => {
 export default{
     getTemplatesService,
     getTemplatesWithPapersService,
+    putUpdateATemplateService,
     deleteRemoveATemplateService,
     postAddATemplateService
 }

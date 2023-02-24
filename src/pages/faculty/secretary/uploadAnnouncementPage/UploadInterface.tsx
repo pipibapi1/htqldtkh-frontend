@@ -93,10 +93,12 @@ const UploadInterface: React.FC = (props: any) => {
             })
         }
         else{
+            
             const info = {
                     title: title,
                     content: content,
-                    period: currentPeriod
+                    period: currentPeriod,
+                    year: year.getFullYear()
             }
 
             let formData = new FormData();
@@ -205,7 +207,7 @@ const UploadInterface: React.FC = (props: any) => {
                             <img src={Calendar} alt="calendarIcon" className='h-5 w-5'/>
                         </div>
                     </div>
-                {periods.length > 0 && <div className='flex items-center'>
+                <div className='flex items-center'>
                         <div className='mr-5'>
                                 Đợt: 
                         </div>
@@ -222,14 +224,13 @@ const UploadInterface: React.FC = (props: any) => {
                                 {periods.map((period, index) => 
                                 <option value={period._id} id={period._id}>{periodDisplay(period.period)}</option>
                                 )}
+                                <option value="">- -</option>
                             </select>
                         </div>
-                </div>}
+                </div>
             </div>
-                {periods.length === 0 && <div className='px-5'>
-                Không có đợt đăng ký
-                </div>}
-            {periods.length > 0 && <div className='p-5'>
+
+            <div className='p-5'>
             <div className='flex justify-between'>
                 <div className='flex flex-col'>
                     <div className='mb-5'>
@@ -298,7 +299,7 @@ const UploadInterface: React.FC = (props: any) => {
                     </div>
 
                 </div>
-            </div>}
+            </div>
         </div>
     )
 }

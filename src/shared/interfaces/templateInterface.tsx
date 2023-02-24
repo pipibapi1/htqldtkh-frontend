@@ -1,9 +1,11 @@
 export interface Template{
     _id: string,
+    templateGivenId: string,
     name: string,
     forStudent: boolean,
     createAt: string,
-    formId: string
+    formId: string,
+    inUse: boolean
 }
 
 export interface TemplateWithPaper{

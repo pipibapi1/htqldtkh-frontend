@@ -8,6 +8,7 @@ const Modal = ({isVisible, onClose, topic}: {isVisible: boolean, onClose: any, t
     const useAppDispatch: () => AppDispatch = useDispatch
     const dispatch = useAppDispatch()
 
+    const [templateGivenId, setTemplateGivenId] = useState("");
     const [templateName, setTemplateName] = useState("");
     const [forStudent, setForStudent] = useState(true);
     const [file, setFile] = useState<File>();
@@ -36,6 +37,7 @@ const Modal = ({isVisible, onClose, topic}: {isVisible: boolean, onClose: any, t
     const addATemplate = (e:any) => {
         e.preventDefault();
         const info = {
+            templateGivenId: templateGivenId,
             name: templateName,
             forStudent: forStudent,
         }
@@ -44,7 +46,13 @@ const Modal = ({isVisible, onClose, topic}: {isVisible: boolean, onClose: any, t
         formData.append('info', JSON.stringify(info))
         formData.append('file', file as File)
 
-        if(templateName === ""){
+        if(templateGivenId === ""){
+            Toast.fire({
+                icon: 'warning',
+                title: 'Bạn không được để trống mã biểu mẫu'
+            })
+        }
+        else if(templateName === ""){
             Toast.fire({
                 icon: 'warning',
                 title: 'Bạn không được để trống tên biểu mẫu'
@@ -139,6 +147,22 @@ const Modal = ({isVisible, onClose, topic}: {isVisible: boolean, onClose: any, t
                         Thêm biểu mẫu mới
                     </div>
                     <div className = "space-y-5 px-5 py-2">
+                    <div className='flex items-center w-full'>
+                            <div className='text-sm font-semibold w-1/3'>
+                                Nhập mã biểu mẫu: 
+                            </div>
+                            <div className='w-2/3'>
+                                    <input
+                                    type="text"
+                                    name="title"
+                                    className="border w-2/3 text-sm border-black border-1 rounded-md h-7 p-2"
+                                    onChange={(e) => {
+                                        e.preventDefault();
+                                        setTemplateGivenId(e.target.value)
+                                    }}
+                                    />
+                            </div>
+                        </div>
                         <div className='flex items-center w-full'>
                             <div className='text-sm font-semibold w-1/3'>
                                 Nhập tên biểu mẫu: 

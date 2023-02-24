@@ -1,14 +1,6 @@
-
 import announcementService from "../services/announcementService";
 
-interface Query{
-    page: string;
-    limit: string;
-    period: string;
-}
-
-
-const getAnnouncementsAction = (queryData: Query) => (dispatch: any) => {
+const getAnnouncementsAction = (queryData: any) => (dispatch: any) => {
     return announcementService.getAnnouncementsService(queryData).then(
         (data) => {
             return Promise.resolve(data);

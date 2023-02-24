@@ -3,18 +3,13 @@ import authHeader from "./authHeader";
 
 const ANNOUNCEMENT_API_URL = process.env.REACT_APP_API_URL + "/api/announcement";
 
-interface Query{
-    page: string;
-    limit: string;
-    period: string;
-}
-
-
-const getAnnouncementsService = (queryData: Query) => {
-    const {page, limit, period} = queryData;
-
+const getAnnouncementsService = (queryData: any) => {
+    const {page, limit, period, year} = queryData;
+    const queryString = `?page=${page}&limit=${limit}` 
+                        + (period !== undefined ? `&period=${period}` : "")
+                        + (year !== undefined ? `&year=${year}`: "");
     return axios.
-        get(ANNOUNCEMENT_API_URL + `?page=${page}&limit=${limit}&period=${period}`)
+        get(ANNOUNCEMENT_API_URL + queryString)
         .then((response) => {
             return response.data
         })
