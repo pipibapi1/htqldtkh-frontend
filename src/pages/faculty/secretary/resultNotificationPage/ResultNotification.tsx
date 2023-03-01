@@ -1,8 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import BackIcon from '../../../../assets/images/🦆 icon _arrow circle left_.png';
 import {Link, useLocation, useParams} from "react-router-dom";
+import { AppDispatch } from '../../../../store';
+import { useDispatch} from "react-redux";
+import Swal from 'sweetalert2';
+import { sendEmailAction } from '../../../../actions/sendEmailAction';
 
 const ResultNotification:React.FC = () => {
+
+    const useAppDispatch: () => AppDispatch = useDispatch
+    const dispatch = useAppDispatch()
 
     const { state } = useLocation();
     const topic = state?.topic;
@@ -10,6 +17,20 @@ const ResultNotification:React.FC = () => {
     const [type, setType] = useState("xét duyệt");
     const [content, setContent] = useState("");
     const [file, setFile] = useState<File>();
+
+    const [loading, setLoading] = useState<boolean>(false);
+
+    const Toast = Swal.mixin({
+        toast: true,
+        position: 'top-end',
+        showConfirmButton: false,
+        timer: 4000,
+        timerProgressBar: true,
+        didOpen: (toast: any) => {
+          toast.addEventListener('mouseenter', Swal.stopTimer)
+          toast.addEventListener('mouseleave', Swal.resumeTimer)
+        }
+      })
 
     const onChangeFile = (e:any) => {
         e.preventDefault();
@@ -38,6 +59,91 @@ const ResultNotification:React.FC = () => {
         const date = new Date(dateStr);
         return (date.getMonth() + 1) + "/" + date.getFullYear();
       }
+
+    const sendResult = (e:any) => {
+        
+        const info = {
+            email: topic.student.email,
+            subject: (type === "xét duyệt" ? "Thông báo kết quả xét duyệt" : "Thông báo kết quả nghiệm thu") + " cho đề tài " + topic.name,
+            text: content
+        }
+
+        let formData = new FormData();
+        formData.append('info', JSON.stringify(info))
+
+        if(file !== undefined){
+            formData.append('file', file as File)
+        }
+
+        if(content === ""){
+            Toast.fire({
+                icon: 'warning',
+                title: 'Phần nội dung không được bỏ trống'
+              })
+        }
+        else{
+            setLoading(true)
+            Swal.fire({
+                icon: 'question',
+                title: 'Bạn có chắc muốn gửi kết quả?',
+                showDenyButton: true,
+                showCancelButton: false,
+                confirmButtonText: 'Yes',
+            }).then((result) => {
+    
+                if(result.isConfirmed){
+                    dispatch(sendEmailAction(formData))
+                    .then(() => {
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Gửi kết quả thành công',
+                            showDenyButton: false,
+                            showCancelButton: false,
+                            confirmButtonText: 'OK',
+                          }).then((result) => {
+                            /* Read more about isConfirmed, isDenied below */
+                            if (result.isConfirmed) {
+                                setLoading(false)
+                            } 
+                          })
+        
+                    })
+                    .catch((error) => {
+                        setLoading(false)
+                        if (error.response) {
+                            // The request was made and the server responded with a status code
+                            // that falls out of the range of 2xx
+                            if(error.response.status === 400){
+                                Toast.fire({
+                                    icon: 'error',
+                                    title: 'Bad request'
+                                  })
+                            }
+                          } else if (error.request) {
+                            // The request was made but no response was received
+                            // `error.request` is an instance of XMLHttpRequest in the browser and an instance of
+                            // http.ClientRequest in node.js
+                            Toast.fire({
+                                icon: 'error',
+                                title: error.request
+                              })
+                          } else {
+                            // Something happened in setting up the request that triggered an Error
+                            Toast.fire({
+                                icon: 'error',
+                                title: error.message
+                              })
+                          }
+                    });
+                }
+    
+                if(result.isDenied){
+                    setLoading(false)
+                }
+            })
+        }
+
+    }
 
     return(
         <div className='p-3'>
@@ -200,13 +306,26 @@ const ResultNotification:React.FC = () => {
 
             <div className='mt-2 flex items-center justify-end'>
                     <div>
+                        {loading ? 
                         <button className="w-40 bg-[#0079CC] flex justify-center items-center transition text-white font-semibold py-4 border border-white-500 rounded-[15px] hover:bg-[#025A97] hover:cursor-pointer"
+                        disabled
                         >
+
+                            <div>
+                                Processing ...
+                            </div>
+                            
+                        </button>
+                        :
+                        <button className="w-40 bg-[#0079CC] flex justify-center items-center transition text-white font-semibold py-4 border border-white-500 rounded-[15px] hover:bg-[#025A97] hover:cursor-pointer"
+                        onClick={sendResult}
+                        >
+
                             <div>
                                 Gửi
                             </div>
                             
-                        </button>
+                        </button>}
 
                     </div>
 

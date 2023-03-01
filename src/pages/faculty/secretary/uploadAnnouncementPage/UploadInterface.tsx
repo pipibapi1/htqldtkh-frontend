@@ -7,7 +7,6 @@ import Calendar from "../../../../assets/images/calendar.png";
 
 import {getAllPeriodsAction} from "../../../../actions/periodAction"
 import { Period } from '../../../../shared/interfaces/periodInterface';
-import { PeriodStatus } from '../../../../shared/types/periodStatus';
 import { postAddAnAnnouncementAction } from '../../../../actions/announcementAction';
 
 const UploadInterface: React.FC = (props: any) => {

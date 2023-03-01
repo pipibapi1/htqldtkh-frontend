@@ -21,7 +21,7 @@ const TemplateList: React.FC = () => {
                 }
                 )
                 .catch((error) => {
-        })
+                })
         }
     , []);
 

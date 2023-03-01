@@ -5,6 +5,7 @@ import {Link} from "react-router-dom";
 import { deleteRemoveATemplateAction, putUpdateATemplateAction } from "../../../../actions/templateAction";
 import InUse from "../../../../assets/images/check.png";
 import NotInUse from "../../../../assets/images/unchecked.png";
+import { deleteRemoveAFormAction } from "../../../../actions/formAction";
 
 const RowTable = (props: any) => {
   const {index, template} = props
@@ -97,6 +98,74 @@ const RowTable = (props: any) => {
     })
     }
   }
+  const removeAForm = (e:any) => {
+    e.preventDefault();
+
+    Swal.fire({
+      icon: 'question',
+      title: 'Bạn có chắc muốn xóa form của biểu mẫu này?',
+      showDenyButton: true,
+      showCancelButton: false,
+      confirmButtonText: 'Yes',
+    }).then((result) => {
+
+      if(result.isConfirmed){
+          dispatch(deleteRemoveAFormAction(template.formId))
+          .then(() => {
+              Swal.fire({
+                  icon: 'success',
+                  title: 'Xóa form thành công',
+                  showDenyButton: false,
+                  showCancelButton: false,
+                  confirmButtonText: 'OK',
+                }).then((result) => {
+                  /* Read more about isConfirmed, isDenied below */
+                  if (result.isConfirmed) {
+                      window.location.reload();
+                  } 
+                })
+
+          })
+          .catch((error) => {
+              
+              if (error.response) {
+                  // The request was made and the server responded with a status code
+                  // that falls out of the range of 2xx
+                  if(error.response.status === 400){
+                      Toast.fire({
+                          icon: 'error',
+                          title: 'Bad request'
+                        })
+                  }
+                  if(error.response.status === 409 && error.response.data.msg === 'Exist relevant paper'){
+                    Toast.fire({
+                        icon: 'error',
+                        title: 'Đã có giấy tờ liên quan được tạo dựa trên biểu mẫu này!'
+                      })
+                }
+                } else if (error.request) {
+                  // The request was made but no response was received
+                  // `error.request` is an instance of XMLHttpRequest in the browser and an instance of
+                  // http.ClientRequest in node.js
+                  Toast.fire({
+                      icon: 'error',
+                      title: error.request
+                    })
+                } else {
+                  // Something happened in setting up the request that triggered an Error
+                  Toast.fire({
+                      icon: 'error',
+                      title: error.message
+                    })
+                }
+          });
+      }
+
+      if(result.isDenied){
+          
+      }
+    })
+  }
   const removeATemplate = (e:any) => {
     e.preventDefault();
 
@@ -107,7 +176,7 @@ const RowTable = (props: any) => {
         showDenyButton: true,
         showCancelButton: false,
         confirmButtonText: 'Yes',
-    }).then((result) => {
+      }).then((result) => {
 
         if(result.isConfirmed){
             dispatch(deleteRemoveATemplateAction(template._id))
@@ -164,7 +233,7 @@ const RowTable = (props: any) => {
         if(result.isDenied){
             
         }
-    })
+      })
     }
   }
   const downloadTemplateFile = (_id: string, fileName: string) => {
@@ -207,16 +276,22 @@ const RowTable = (props: any) => {
                 Chưa có, 
                 <span className="text-[#0079CC] no-underline hover:underline hover:cursor-pointer"
                 >
-                  <Link to={`/templateManagement/${template._id}/formCreation`}>
+                  <Link to={`/templateManagement/${template._id}/formCreation`} state={{templateGivenId: template.templateGivenId, templateName: template.name}}>
                     Tạo mới?
                  </Link>
                 </span>
             </div>
             :
             <div>
-                <span className="text-[#0079CC] no-underline hover:underline hover:cursor-pointer">Cập nhật</span>
+                <span className="text-[#0079CC] no-underline hover:underline hover:cursor-pointer">
+                  <Link to={`/templateManagement/${template._id}/formUpdate`} state={{templateGivenId: template.templateGivenId, templateName: template.name, formId: template.formId}}>
+                  Cập nhật
+                 </Link>
+                </span>
                 <span>, </span>
-                <span className="text-[#0079CC] no-underline hover:underline hover:cursor-pointer">Xóa</span>
+                <span className="text-[#0079CC] no-underline hover:underline hover:cursor-pointer"
+                onClick={removeAForm}
+                >Xóa</span>
             </div>
         }
       </td>

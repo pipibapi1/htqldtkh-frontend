@@ -33,6 +33,7 @@ import FSResultNotificationPage from './pages/faculty/secretary/resultNotificati
 import FSFeedbackPage from './pages/faculty/secretary/feedbackPage';
 import TemplateManagementPage from './pages/faculty/secretary/templateManagementPage';
 import TemplateFormCreationPage from './pages/faculty/secretary/templateFormCreation';
+import TemplateFormUpdatePage from './pages/faculty/secretary/templateFormUpdate';
 
 function App() {
   
@@ -70,6 +71,7 @@ function App() {
         <Route path={appRouters.LINK_TO_FS_FEEDBACK} element={<FSFeedbackPage/>} />
       <Route path={appRouters.LINK_TO_FS_TEMPLATE_MANAGEMENT} element={<TemplateManagementPage/>} />
         <Route path={appRouters.LINK_TO_FS_FORM_CREATION} element={<TemplateFormCreationPage/>} />
+        <Route path={appRouters.LINK_TO_FS_FORM_UPDATE} element={<TemplateFormUpdatePage/>} />
       <Route path={appRouters.LINK_TO_PERIOD_MANAGEMENT} element={<PeriodManagementPage/>} />
       <Route path={appRouters.LINK_TO_FS_TOPIC_CONDITION_MANAGEMENT} element={<FSTopicConditionManagement/>} />
       <Route path={appRouters.LINK_TO_FS_UPLOAD_ANNOUNCEMENT} element={<FSUploadAnnouncement/>} />
