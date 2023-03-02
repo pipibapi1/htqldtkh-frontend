@@ -34,6 +34,7 @@ import FSFeedbackPage from './pages/faculty/secretary/feedbackPage';
 import TemplateManagementPage from './pages/faculty/secretary/templateManagementPage';
 import TemplateFormCreationPage from './pages/faculty/secretary/templateFormCreation';
 import TemplateFormUpdatePage from './pages/faculty/secretary/templateFormUpdate';
+import StudentTopicPaperCreation from './pages/student/studentTopicPaperCreation';
 
 function App() {
   
@@ -51,6 +52,7 @@ function App() {
         <Route path={appRouters.LINK_TO_STUDENT_TOPIC_DETAIL} element={<StudentTopicDetail/>} />
         <Route path={appRouters.LINK_TO_STUDENT_TOPIC_PRODUCT} element={<StudentTopicProduct/>} />
         <Route path={appRouters.LINK_TO_STUDENT_TOPIC_PAPERS} element={<StudentTopicPapers/>} />
+          <Route path={appRouters.LINK_TO_STUDENT_TOPIC_PAPER_CREATION} element={<StudentTopicPaperCreation/>} />
       <Route path={appRouters.LINK_TO_REGISTER_TOPIC_PAGE} element={<RegisterTopicPage/>} />
       <Route path={appRouters.LINK_TO_MY_REQUEST_PAGE} element={<MyRequestPage/>} />
       <Route path={appRouters.LINK_TO_VIEW_TEMPLATES_PAGE} element={<TemplatesPage/>} />

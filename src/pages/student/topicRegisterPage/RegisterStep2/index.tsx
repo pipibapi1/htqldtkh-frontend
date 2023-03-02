@@ -20,7 +20,6 @@ import { TopicMemberTypeEnum } from '../../../../shared/types/topicMemberType';
 import topicService from '../../../../services/topicService';
 
 import { getExprResult } from './getExprResult';
-import { TopicTypeEnum } from '../../../../shared/types/topicType';
 import instructorService from '../../../../services/instructorService';
 import { Instructor } from '../../../../shared/interfaces/instructorInterface';
 import { AcademyRank } from '../../../../shared/types/academyRank';

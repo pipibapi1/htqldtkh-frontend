@@ -10,9 +10,11 @@ export interface Template{
 
 export interface TemplateWithPaper{
     _id: string,
+    templateGivenId: string,
     name: string,
     paper:{
         _id: string,
         paperFileName: string
-    } | undefined
+    } | undefined,
+    formId: string
 }

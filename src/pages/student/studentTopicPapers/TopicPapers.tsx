@@ -14,9 +14,11 @@ import Swal from 'sweetalert2';
 import { deleteRemoveAPaperAction, postAddAPaperAction, putUpdateAPaperAction } from '../../../actions/paperAction';
 
 const TopicPaperCard = (props: any) => {
+
     const {templateWithPaper, topicId} = props;
     const useAppDispatch: () => AppDispatch = useDispatch
     const dispatch = useAppDispatch()
+
     const Toast = Swal.mixin({
         toast: true,
         position: 'top-end',
@@ -338,13 +340,29 @@ const TopicPaperCard = (props: any) => {
                                 Chưa có file nào được upload
                             </div>
                         </div>
-                        <div className='flex justify-end'>
+                        <div className='flex justify-end items-center space-x-4'>
                             <div className="w-40 mt-3 bg-[#0079CC] flex justify-center items-center transition text-white font-semibold py-2 border border-white-500 rounded-[15px] hover:bg-[#025A97] hover:cursor-pointer"
                             onClick={handleUploadFile}
                             >
                                 Upload
                             </div>
+                            {templateWithPaper.formId !== "" && 
+                                <div className='font-semibold'>
+                                    hoặc
+                                </div>
+                            }
+                            {templateWithPaper.formId !== "" && 
+                                <Link to={`${templateWithPaper.templateGivenId}/topicPaperCreation`} state={{formId: templateWithPaper.formId}}>
+
+                                    <div className="w-40 mt-3 bg-[#0079CC] flex justify-center items-center transition text-white font-semibold py-2 border border-white-500 rounded-[15px] hover:bg-[#025A97] hover:cursor-pointer"
+                                    >
+                                        Tạo file
+                                    </div>
+                                </Link>
+                            }
                         </div>
+                        
+                        
                     </div>}
 
                     {addMode && <div>

@@ -12,6 +12,7 @@ export const appRouters = {
       LINK_TO_STUDENT_TOPIC_DETAIL: 'myTopic/:_id/topicDetail',
       LINK_TO_STUDENT_TOPIC_PRODUCT: 'myTopic/:_id/topicProduct',
       LINK_TO_STUDENT_TOPIC_PAPERS: 'myTopic/:_id/topicPapers',
+        LINK_TO_STUDENT_TOPIC_PAPER_CREATION: 'myTopic/:_id/topicPapers/:templateGivenId/topicPaperCreation',
     LINK_TO_REGISTER_TOPIC_PAGE: 'registerTopic',
     LINK_TO_MY_REQUEST_PAGE: 'myRequest',
     LINK_TO_VIEW_TEMPLATES_PAGE: 'templates',
