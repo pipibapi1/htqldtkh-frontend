@@ -8,7 +8,7 @@ import { RequestType } from '../../../../shared/types/requestType';
 import { PeriodStatus } from '../../../../shared/types/periodStatus';
 import { useDispatch} from "react-redux";
 import { AppDispatch } from '../../../../store';
-import { getRequestListAction, putUpdateARequestAction } from '../../../../actions/requestAction';
+import { getRequestListAction, putApproveARequestAction, putUpdateARequestAction } from '../../../../actions/requestAction';
 import DatePicker from "react-datepicker";
 import Calendar from "../../../../assets/images/calendar.png";
 import {getAllPeriodsAction} from "../../../../actions/periodAction"
@@ -72,23 +72,25 @@ const RequestList= () => {
         dispatch(getAllPeriodsAction(query))
             .then((data) => {
                 setPeriods(data?.periods)
-                setCurrentPeriod(data?.periods[0]._id)
-                let queryData: any = {
-                    page: 1,
-                    limit: RECORD_PER_PAGE,
-                    period: data?.periods[0]._id
+                if(data?.periods.length > 0){
+                    setCurrentPeriod(data?.periods[0]._id)
+                    let queryData: any = {
+                        page: 1,
+                        limit: RECORD_PER_PAGE,
+                        period: data?.periods[0]._id
+                    }
+                    dispatch(getRequestListAction(queryData))
+                    .then((data) => {
+                        setRequests(data?.requests)
+                        if(data?.metadata.totalPage > 0){
+                            setTotalPage(data?.metadata.totalPage)
+                        }
+                        }
+                    )
+                    .catch((error) => {
+    
+                    })
                 }
-                dispatch(getRequestListAction(queryData))
-                .then((data) => {
-                    setRequests(data?.requests)
-                    if(data?.metadata.totalPage > 0){
-                        setTotalPage(data?.metadata.totalPage)
-                    }
-                    }
-                )
-                .catch((error) => {
-
-                })
             })
             .catch((error) => {
                 
@@ -103,23 +105,12 @@ const RequestList= () => {
         dispatch(getAllPeriodsAction(query))
             .then((data) => {
                 setPeriods(data?.periods)
-                setCurrentPeriod(data?.periods[0]._id)
-                let queryData: any = {
-                    page: 1,
-                    limit: RECORD_PER_PAGE,
-                    period: data?.periods[0]._id
+                if(data?.periods.length > 0){
+                    setCurrentPeriod(data?.periods[0]._id)
+                    setCurrentType("")
+                    setCurrentStatus("")
+                    getRequestList(data?.periods[0]._id, "", "");
                 }
-                dispatch(getRequestListAction(queryData))
-                .then((data) => {
-                    setRequests(data?.requests)
-                    if(data?.metadata.totalPage > 0){
-                        setTotalPage(data?.metadata.totalPage)
-                    }
-                    }
-                )
-                .catch((error) => {
-
-                })
             })
             .catch((error) => {
                 
@@ -156,12 +147,6 @@ const RequestList= () => {
     }
 
     const approveARequest = (_id: string) => {
-        const updateInfo = {
-            _id: _id,
-            request: {
-                status: RequestStatus.APPROVED
-            }
-        }
 
         Swal.fire({
             icon: 'question',
@@ -172,7 +157,7 @@ const RequestList= () => {
         }).then((result) => {
       
             if(result.isConfirmed){
-            dispatch(putUpdateARequestAction(updateInfo))
+            dispatch(putApproveARequestAction(_id))
               .then((data) => {
                 Swal.fire({
                   icon: 'success',
@@ -439,11 +424,14 @@ const RequestList= () => {
                                             topicRegister={request.studentName}
                                             createdDate={request.createAt}
                                             additionalInfor={request.type === RequestType.EXTEND_PROJECT ? 
-                                                `Thời gian gia hạn: ${request.extensionTime} tháng` : ""}
+                                                `Thời gian gia hạn: ${request.extensionTime} tháng`:
+                                                (request.type === RequestType.OTHER ? `Nội dung yêu cầu: ${request.text}` : "")
+                                            }
                                             topicName={request.topicName}
                                             currentPage={currentPage}
                                             approveARequest={approveARequest}
                                             refuseARequest={refuseARequest}
+                                            topicId={request.topicId}
                                             />)
                                     })}
                                 </tbody>

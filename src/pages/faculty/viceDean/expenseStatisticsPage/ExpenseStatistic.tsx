@@ -9,11 +9,16 @@ import { AppDispatch } from '../../../../store';
 import DatePicker from "react-datepicker";
 import Calendar from "../../../../assets/images/calendar.png";
 
+import Swal from 'sweetalert2';
+
 import {getAllPeriodsAction} from "../../../../actions/periodAction"
 import { getTopicListAction } from '../../../../actions/topicAction';
 import { getExpenseDetailByPeriodAction } from '../../../../actions/expenseAction';
 
-const RECORD_PER_PAGE = 3;
+import {ResponsiveContainer, BarChart, Bar, XAxis, YAxis, Tooltip, CartesianAxis, CartesianGrid, Legend, Label} from 'recharts';
+import { getExpenseStatisticAction } from '../../../../actions/statisticAction';
+
+const RECORD_PER_PAGE = 10;
 
 interface Period{
     _id: string;
@@ -48,7 +53,7 @@ interface Topic{
     extensionTime: number;
     status: TopicStatusEnum; 
     period: string;
-    productPath: string;
+    productId: string;
     studentId: string;
     creationDate: string;
     topicGivenId: string;
@@ -60,7 +65,8 @@ interface Topic{
 }
 
 const ExpenseStatistic: React.FC = () => {
-
+    const [startYear, setStartYear] = useState<Date>(new Date());
+    const [endYear, setEndYear] = useState<Date>(new Date(startYear.getFullYear() + 1, startYear.getMonth(), startYear.getDate()));
     const [periods, setPeriods] = useState<Period[]>([]);
     const [expense, setExpense] = useState<Expense>({
         _id: "",
@@ -78,12 +84,25 @@ const ExpenseStatistic: React.FC = () => {
         usedExpense:0,
         used: ""
     });
+    const [periodUsedExpenseList, setPeriodUsedExpenseList] = useState<{_id: string, period: string, usedExpense: number}[]>([])
     const [year, setYear] = useState(new Date())
     const [topics, setTopics] = useState<Topic[]>([])
     const [currentPeriod, setCurrentPeriod] = useState<string>("");
     const [currentType, setCurrentType] = useState<string>("");
     const [currentPage, setCurrentPage] = useState<number>(1);
     const [totalPage, setTotalPage] = useState<number>(1);
+
+    const Toast = Swal.mixin({
+        toast: true,
+        position: 'top-end',
+        showConfirmButton: false,
+        timer: 4000,
+        timerProgressBar: true,
+        didOpen: (toast: any) => {
+          toast.addEventListener('mouseenter', Swal.stopTimer)
+          toast.addEventListener('mouseleave', Swal.resumeTimer)
+        }
+      })
 
     const useAppDispatch: () => AppDispatch = useDispatch
     const dispatch = useAppDispatch()
@@ -107,14 +126,13 @@ const ExpenseStatistic: React.FC = () => {
             .catch((error) => {
 
             })
-            setCurrentPage(1)
-            let queryDataForTopic: any = {
+        let queryDataForTopic: any = {
                 period: period,
                 page: 1,
                 limit: RECORD_PER_PAGE,
 
-            }
-            if(currentType != ""){
+        }
+        if(currentType != ""){
                 queryDataForTopic = {
                     ... queryDataForTopic,
                     type: currentType
@@ -184,39 +202,52 @@ const ExpenseStatistic: React.FC = () => {
     }
 
     useEffect(() => {
+        let timeRange: any = {
+            startYear: startYear,
+            endYear: endYear
+        }
+        dispatch(getExpenseStatisticAction(timeRange))
+            .then((data) => {
+                setPeriodUsedExpenseList(handlePeriodWithExpenseList(data?.periodListWithUsedExpense))
+            })
+            .catch((error) => {
+
+            })
         let query= {
             year: (new Date()).getFullYear()
         }
         dispatch(getAllPeriodsAction(query))
             .then((data) => {
                 setPeriods(data?.periods)
-                setCurrentPeriod(data?.periods[0]._id)
-                let queryDataForExpense: any = {
-                    period: data?.periods[0]._id
-                }
-                dispatch(getExpenseDetailByPeriodAction(queryDataForExpense))
+                if(data?.periods.length > 0){
+                    setCurrentPeriod(data?.periods[0]._id)
+                    let queryDataForExpense: any = {
+                        period: data?.periods[0]._id
+                    }
+                    dispatch(getExpenseDetailByPeriodAction(queryDataForExpense))
+                        .then((data) => {
+                            setExpense(data?.expense)
+                        })
+                        .catch((error) => {
+    
+                        })
+                        let queryDataForTopic: any = {
+                            period: data?.periods[0]._id,
+                            page: currentPage,
+                            limit: RECORD_PER_PAGE,
+                        }
+                    dispatch(getTopicListAction(queryDataForTopic))
                     .then((data) => {
-                        setExpense(data?.expense)
-                    })
+                        setTopics(data?.topics)
+                        if(data?.metadata.totalPage > 0){
+                            setTotalPage(data?.metadata.totalPage)
+                        }
+                        }
+                    )
                     .catch((error) => {
-
+    
                     })
-                    let queryDataForTopic: any = {
-                        period: data?.periods[0]._id,
-                        page: currentPage,
-                        limit: RECORD_PER_PAGE,
-                    }
-                dispatch(getTopicListAction(queryDataForTopic))
-                .then((data) => {
-                    setTopics(data?.topics)
-                    if(data?.metadata.totalPage > 0){
-                        setTotalPage(data?.metadata.totalPage)
-                    }
-                    }
-                )
-                .catch((error) => {
-
-                })
+                }
                 
             })
             .catch((error) => {
@@ -229,6 +260,10 @@ const ExpenseStatistic: React.FC = () => {
         return (x.getMonth() + 1) + "/" + x.getFullYear();
     }
 
+    const handlePeriodWithExpenseList = (list: {_id: string, period: string, usedExpense: number}[]) => {
+        return list.map((l) => ({_id: l._id, period: periodDisplay(l.period), usedExpense: l.usedExpense / 1000000}))
+    }
+
     const onChangeYear = (d: Date) => {
         let query: any = {
             year: d.getFullYear()
@@ -236,33 +271,10 @@ const ExpenseStatistic: React.FC = () => {
         dispatch(getAllPeriodsAction(query))
             .then((data) => {
                 setPeriods(data?.periods)
-                setCurrentPeriod(data?.periods[0]._id)
-                let queryDataForExpense: any = {
-                    period: data?.periods[0]._id
+                if(data?.periods.length > 0){
+                    setCurrentPeriod(data?.periods[0]._id)
+                    onChangePeriod(data?.periods[0]._id)
                 }
-                dispatch(getExpenseDetailByPeriodAction(queryDataForExpense))
-                    .then((data) => {
-                        setExpense(data?.expense)
-                    })
-                    .catch((error) => {
-
-                    })
-                    let queryDataForTopic: any = {
-                        period: data?.periods[0]._id,
-                        page: currentPage,
-                        limit: RECORD_PER_PAGE,
-                    }
-                dispatch(getTopicListAction(queryDataForTopic))
-                .then((data) => {
-                    setTopics(data?.topics)
-                    if(data?.metadata.totalPage > 0){
-                        setTotalPage(data?.metadata.totalPage)
-                    }
-                    }
-                )
-                .catch((error) => {
-
-                })
             })
             .catch((error) => {
                 
@@ -271,8 +283,110 @@ const ExpenseStatistic: React.FC = () => {
 
     return(
         <div className='px-5 py-5'>
-            <div className='flex items-center mb-5'>
-            <div className='mr-5'>
+
+            <div className='text-lg font-bold'>
+                Thống kê kinh phí sử dụng các đợt
+            </div>
+
+            <div className='flex items-center mt-5 px-5'>
+                <div className='text-md'>
+                    Từ năm 
+                </div>
+                <div className='grid justify-items-end items-center ml-3'>
+                        <DatePicker
+                            onChange={date => {
+                                if(date){
+                                    if(date.getFullYear() >= endYear.getFullYear()){
+                                        Toast.fire({
+                                            icon: 'warning',
+                                            title: 'Năm bắt đầu phải bé hơn năm kết thúc!'
+                                          })
+                                    }
+                                    else{
+                                        setStartYear(date);
+                                        let timeRange: any = {
+                                            startYear: date,
+                                            endYear: endYear
+                                        }
+                                        dispatch(getExpenseStatisticAction(timeRange))
+                                            .then((data) => {
+                                                setPeriodUsedExpenseList(handlePeriodWithExpenseList(data?.periodListWithUsedExpense))
+                                            })
+                                            .catch((error) => {
+                                
+                                            })
+                                    }
+                                }
+                                }}
+                            selected={startYear}
+                            dateFormat="yyyy"
+                            showYearPicker
+                            className="h-[40px] w-[90px] border border-black border-1 rounded-md px-2"
+                                    />
+                        <div className='absolute mr-2'>
+                            <img src={Calendar} alt="calendarIcon" className='h-5 w-5'/>
+                        </div>
+                </div>
+                <div className='text-md ml-3'>
+                    đến năm 
+                </div>
+                <div className='grid justify-items-end items-center ml-3'>
+                        <DatePicker
+                            onChange={date => {
+                                if(date){
+                                    if(date.getFullYear() <= startYear.getFullYear()){
+                                        Toast.fire({
+                                            icon: 'warning',
+                                            title: 'Năm kết thúc phải lớn hơn năm bắt đầu!'
+                                          })
+                                    }
+                                    else{
+                                        setEndYear(date);
+                                        let timeRange: any = {
+                                            startYear: startYear,
+                                            endYear: date
+                                        }
+                                        dispatch(getExpenseStatisticAction(timeRange))
+                                            .then((data) => {
+                                                setPeriodUsedExpenseList(handlePeriodWithExpenseList(data?.periodListWithUsedExpense))
+                                            })
+                                            .catch((error) => {
+                                
+                                            })
+                                    }
+                                }
+                                }}
+                            selected={endYear}
+                            dateFormat="yyyy"
+                            showYearPicker
+                            className="h-[40px] w-[90px] border border-black border-1 rounded-md px-2"
+                                    />
+                        <div className='absolute mr-2'>
+                            <img src={Calendar} alt="calendarIcon" className='h-5 w-5'/>
+                        </div>
+                </div>
+            </div>
+
+            <div className='mt-5 w-full flex items-center justify-center'>
+                <BarChart data={periodUsedExpenseList} width={1000} height={300}>
+                    <CartesianGrid />
+                    <XAxis dataKey="period">
+                    </XAxis>
+                    <YAxis>
+                        <Label value="Kinh phí sử dụng (triệu đồng)" angle={-90} position="insideBottomLeft" />
+                    </YAxis>
+                    <Tooltip />
+                    <Bar dataKey="usedExpense" fill="#96060F"/>
+                </BarChart>
+
+            </div>
+
+            <div className='mt-2 text-lg font-bold'>
+                Chi tiết kinh phí theo đợt
+            </div>
+
+            <div className='flex items-center mb-5 mt-2'>
+                    <div className='mr-5'>
                         Năm: 
                     </div>
                     <div className='grid justify-items-end items-center mr-10'>
@@ -292,10 +406,10 @@ const ExpenseStatistic: React.FC = () => {
                             <img src={Calendar} alt="calendarIcon" className='h-5 w-5'/>
                         </div>
                     </div>
-                        <div className='mr-5'>
+                        {periods.length > 0 && <div className='mr-5'>
                                 Đợt: 
-                        </div>
-                        <div className="">
+                        </div>}
+                        {periods.length > 0 && <div className="">
                             <select
                                 className="bg-white h-[40px] w-[270px] border border-black border-1 rounded-lg focus:ring-blue-500 px-2"
                                     onChange={(e) => {
@@ -310,7 +424,7 @@ const ExpenseStatistic: React.FC = () => {
                                 <option value={period._id} id={period._id}>{periodDisplay(period.period)}</option>
                                 )}
                             </select>
-                        </div>
+                        </div>}
             </div>
             
             {periods.length > 0 ? (<div>

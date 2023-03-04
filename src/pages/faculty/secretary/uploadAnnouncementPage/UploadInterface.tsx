@@ -1,14 +1,22 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import { AppDispatch } from '../../../../store';
 import { useDispatch} from "react-redux";
 import Swal from 'sweetalert2';
+import DatePicker from "react-datepicker";
+import Calendar from "../../../../assets/images/calendar.png";
 
+import {getAllPeriodsAction} from "../../../../actions/periodAction"
+import { Period } from '../../../../shared/interfaces/periodInterface';
 import { postAddAnAnnouncementAction } from '../../../../actions/announcementAction';
 
 const UploadInterface: React.FC = (props: any) => {
 
     const useAppDispatch: () => AppDispatch = useDispatch
     const dispatch = useAppDispatch()
+
+    const [year, setYear] = useState(new Date())
+    const [periods, setPeriods] = useState<Period[]>([])
+    const [currentPeriod, setCurrentPeriod] = useState<string>("");
 
     const [loading, setLoading] = useState(false);
     const [title, setTitle] = useState("");
@@ -26,6 +34,27 @@ const UploadInterface: React.FC = (props: any) => {
           toast.addEventListener('mouseleave', Swal.resumeTimer)
         }
       })
+
+      const periodDisplay = (period: string) => {
+        const x = new Date(period);
+        return (x.getMonth() + 1) + "/" + x.getFullYear();
+    }
+
+      const onChangeYear = (d: Date) => {
+        let query: any = {
+            year: d.getFullYear()
+        }
+        dispatch(getAllPeriodsAction(query))
+            .then((data) => {
+                setPeriods(data?.periods)
+                if(data?.periods.length > 0){
+                    setCurrentPeriod(data?.periods[0]);
+                }
+            })
+            .catch((error) => {
+                
+            })
+    }
 
     const onChangeFile = (e:any) => {
         e.preventDefault();
@@ -63,9 +92,12 @@ const UploadInterface: React.FC = (props: any) => {
             })
         }
         else{
+            
             const info = {
                     title: title,
-                    content: content
+                    content: content,
+                    period: currentPeriod,
+                    year: year.getFullYear()
             }
 
             let formData = new FormData();
@@ -133,11 +165,72 @@ const UploadInterface: React.FC = (props: any) => {
 
         }
     }
+
+    useEffect(() => {
+        let query= {
+            year: (new Date()).getFullYear()
+        }
+        dispatch(getAllPeriodsAction(query))
+            .then((data) => {
+                setPeriods(data?.periods)
+                if(data?.periods.length > 0){
+                    setCurrentPeriod(data?.periods[0]._id)
+                }
+                
+            })
+            .catch((error) => {
+                
+            })
+    }, []);
     
     return (
         <div className=''>
-            <div className='p-5 min-h-[625px] overflow-hidden'>
-            <div className='flex justify-between mb-2'>
+            <div className='flex items-center p-5'>
+                    <div className='mr-5'>
+                                Năm: 
+                    </div>
+                    <div className='grid justify-items-end items-center mr-10'>
+                        <DatePicker
+                            onChange={date => {
+                                if(date){
+                                    setYear(date);
+                                    onChangeYear(date);
+                                }
+                                }}
+                            selected={year}
+                            dateFormat="yyyy"
+                            showYearPicker
+                            className="h-[40px] w-[90px] border border-black border-1 rounded-md px-2"
+                                    />
+                        <div className='absolute mr-2'>
+                            <img src={Calendar} alt="calendarIcon" className='h-5 w-5'/>
+                        </div>
+                    </div>
+                <div className='flex items-center'>
+                        <div className='mr-5'>
+                                Đợt: 
+                        </div>
+                        <div className="">
+                            <select
+                                className="bg-white h-[40px] w-[120px] border border-black border-1 rounded-lg focus:ring-blue-500 px-2"
+                                    onChange={(e) => {
+                                        e.preventDefault();
+                                        setCurrentPeriod(e.target.value);
+                                    }}
+                                    defaultValue={periods.length === 0 ? "" : periods[0]._id}
+                                    value={currentPeriod}
+                                >
+                                {periods.map((period, index) => 
+                                <option value={period._id} id={period._id}>{periodDisplay(period.period)}</option>
+                                )}
+                                <option value="">- -</option>
+                            </select>
+                        </div>
+                </div>
+            </div>
+
+            <div className='p-5'>
+            <div className='flex justify-between'>
                 <div className='flex flex-col'>
                     <div className='mb-5'>
                         <div className='font-bold'>
@@ -172,7 +265,20 @@ const UploadInterface: React.FC = (props: any) => {
                         />
                     </div> 
                 </div>
-                <div className=''>
+
+            </div>
+                <div className='mb-5'>
+                    <div className='font-bold mb-2'>
+                            File đính kèm:
+                    </div>
+                    <input
+                            type="file"
+                            name="name"
+                            className="border border-black border-1 rounded-md w-[800px] h-10 p-1"
+                            onChange={onChangeFile}
+                    />
+                </div>
+                <div className='flex justify-end'>
                     <div>
                         <button className="w-40 bg-[#0079CC] flex justify-center items-center transition text-white font-semibold py-4 border border-white-500 rounded-[15px] hover:bg-[#025A97] hover:cursor-pointer"
                             onClick={onAddAnAnnouncement}
@@ -192,18 +298,6 @@ const UploadInterface: React.FC = (props: any) => {
                     </div>
 
                 </div>
-            </div>
-            <div className='mb-5'>
-                <div className='font-bold mb-2'>
-                        File đính kèm:
-                </div>
-                <input
-                        type="file"
-                        name="name"
-                        className="border border-black border-1 rounded-md w-[800px] h-10 p-1"
-                        onChange={onChangeFile}
-                />
-            </div>
             </div>
         </div>
     )

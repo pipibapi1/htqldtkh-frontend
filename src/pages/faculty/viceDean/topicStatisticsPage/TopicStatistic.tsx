@@ -40,7 +40,7 @@ interface Topic{
     extensionTime: number;
     status: TopicStatusEnum;
     period: string;
-    productPath: string;
+    productId: string;
     studentId: string;
     creationDate: string;
     student: {
@@ -51,8 +51,6 @@ interface Topic{
 
 
 const TopicStatusCard: React.FC<CardProps> = (props: CardProps) => {
-
-
 
     const {status, quantity} = props;
     let color: string = '0';
@@ -163,26 +161,28 @@ const TopicStatistic: React.FC = () => {
         dispatch(getAllPeriodsAction(query))
             .then((data) => {
                 setPeriods(data?.periods)
-                setCurrentPeriod(data?.periods[0]._id)
-                let queryData: any = {
-                    period: data?.periods[0]._id
-                }
-                dispatch(getTopicListAction(queryData))
-                .then((data) => {
-                    setTopics(data?.topics)
-                    setNumOfTotal(data?.topics.length)
-                    setNumOfNew(data?.topics.filter((topic:any) => topic.status === TopicStatusEnum.NEW).length)
-                    setNumOfCarryOut(data?.topics.filter((topic:any) => topic.status === TopicStatusEnum.CARRY_OUT).length)
-                    setNumOfDueToAccept(data?.topics.filter((topic:any) => topic.status === TopicStatusEnum.DUE_TO_ACCEPT).length)
-                    setNumOfFinished(data?.topics.filter((topic:any) => topic.status === TopicStatusEnum.FINISHED).length)
-                    setNumOfOutOfDated(data?.topics.filter((topic:any) => topic.status === TopicStatusEnum.OUT_OF_DATE).length)
-                    setNumOfCanceled(data?.topics.filter((topic:any) => topic.status === TopicStatusEnum.CANCELED).length)
-                    setNumOfExtended(data?.topics.filter((topic:any) => topic.isExtended === true).length)
+                if(data?.periods.length > 0){
+                    setCurrentPeriod(data?.periods[0]._id)
+                    let queryData: any = {
+                        period: data?.periods[0]._id
                     }
-                )
-                .catch((error) => {
-
-                })
+                    dispatch(getTopicListAction(queryData))
+                    .then((data) => {
+                        setTopics(data?.topics)
+                        setNumOfTotal(data?.topics.length)
+                        setNumOfNew(data?.topics.filter((topic:any) => topic.status === TopicStatusEnum.NEW).length)
+                        setNumOfCarryOut(data?.topics.filter((topic:any) => topic.status === TopicStatusEnum.CARRY_OUT).length)
+                        setNumOfDueToAccept(data?.topics.filter((topic:any) => topic.status === TopicStatusEnum.DUE_TO_ACCEPT).length)
+                        setNumOfFinished(data?.topics.filter((topic:any) => topic.status === TopicStatusEnum.FINISHED).length)
+                        setNumOfOutOfDated(data?.topics.filter((topic:any) => topic.status === TopicStatusEnum.OUT_OF_DATE).length)
+                        setNumOfCanceled(data?.topics.filter((topic:any) => topic.status === TopicStatusEnum.CANCELED).length)
+                        setNumOfExtended(data?.topics.filter((topic:any) => topic.isExtended === true).length)
+                        }
+                    )
+                    .catch((error) => {
+    
+                    })
+                }
                 
             })
             .catch((error) => {
@@ -218,26 +218,28 @@ const TopicStatistic: React.FC = () => {
         dispatch(getAllPeriodsAction(query))
             .then((data) => {
                 setPeriods(data?.periods)
-                setCurrentPeriod(data?.periods[0]._id)
-                let queryData: any = {
-                    period: data?.periods[0]._id
-                }
-                dispatch(getTopicListAction(queryData))
-                .then((data) => {
-                    setTopics(data?.topics)
-                    setNumOfTotal(data?.topics.length)
-                    setNumOfNew(data?.topics.filter((topic:any) => topic.status === TopicStatusEnum.NEW).length)
-                    setNumOfCarryOut(data?.topics.filter((topic:any) => topic.status === TopicStatusEnum.CARRY_OUT).length)
-                    setNumOfDueToAccept(data?.topics.filter((topic:any) => topic.status === TopicStatusEnum.DUE_TO_ACCEPT).length)
-                    setNumOfFinished(data?.topics.filter((topic:any) => topic.status === TopicStatusEnum.FINISHED).length)
-                    setNumOfOutOfDated(data?.topics.filter((topic:any) => topic.status === TopicStatusEnum.OUT_OF_DATE).length)
-                    setNumOfCanceled(data?.topics.filter((topic:any) => topic.status === TopicStatusEnum.CANCELED).length)
-                    setNumOfExtended(data?.topics.filter((topic:any) => topic.isExtended === true).length)
+                if(data?.periods.length > 0){
+                    setCurrentPeriod(data?.periods[0]._id)
+                    let queryData: any = {
+                        period: data?.periods[0]._id
                     }
-                )
-                .catch((error) => {
-
-                })
+                    dispatch(getTopicListAction(queryData))
+                    .then((data) => {
+                        setTopics(data?.topics)
+                        setNumOfTotal(data?.topics.length)
+                        setNumOfNew(data?.topics.filter((topic:any) => topic.status === TopicStatusEnum.NEW).length)
+                        setNumOfCarryOut(data?.topics.filter((topic:any) => topic.status === TopicStatusEnum.CARRY_OUT).length)
+                        setNumOfDueToAccept(data?.topics.filter((topic:any) => topic.status === TopicStatusEnum.DUE_TO_ACCEPT).length)
+                        setNumOfFinished(data?.topics.filter((topic:any) => topic.status === TopicStatusEnum.FINISHED).length)
+                        setNumOfOutOfDated(data?.topics.filter((topic:any) => topic.status === TopicStatusEnum.OUT_OF_DATE).length)
+                        setNumOfCanceled(data?.topics.filter((topic:any) => topic.status === TopicStatusEnum.CANCELED).length)
+                        setNumOfExtended(data?.topics.filter((topic:any) => topic.isExtended === true).length)
+                        }
+                    )
+                    .catch((error) => {
+    
+                    })
+                }
             })
             .catch((error) => {
                 
@@ -270,10 +272,10 @@ const TopicStatistic: React.FC = () => {
                             <img src={Calendar} alt="calendarIcon" className='h-5 w-5'/>
                         </div>
                     </div>
-                        <div className='mr-5'>
+                        {periods.length > 0 && <div className='mr-5'>
                                 Đợt: 
-                        </div>
-                        <div className="">
+                        </div>}
+                        {periods.length > 0 && <div className="">
                             <select
                                 className="bg-white h-[40px] w-[270px] border border-black border-1 rounded-lg focus:ring-blue-500 px-2"
                                     onChange={(e) => {
@@ -288,7 +290,7 @@ const TopicStatistic: React.FC = () => {
                                 <option value={period._id} id={period._id}>{periodDisplay(period.period)}</option>
                                 )}
                             </select>
-                        </div>
+                        </div>}
                     </div>
     
                     {(periods.length > 0 ? <div className='w-full flex mt-10 px-10'>

@@ -7,6 +7,7 @@ import RegisterStep2 from './RegisterStep2';
 import ChoosePeriod from './ChoosePeriod';
 import { useLocation } from 'react-router-dom';
 import { RoleType } from '../../../shared/types/role';
+import { topicInput } from '../../../shared/interfaces/topicInterface';
 
 interface Period{
     _id: string;
@@ -18,20 +19,49 @@ interface Period{
 
 const RegisterTopicPage:React.FC = () => {
     const location = useLocation();
-    const [isAtStep1, moveToNextStep] = useState<Boolean>(true);
+    const [isAtStep1, setIsAtStep1] = useState<Boolean>(true);
     const [chosen, setChosen] = useState<Boolean>(false);
     const [period, setPeriod] = useState<Period>()
-    const [numOfInstructor, setNumOfInstructor] = useState<number>(1);
-    const [numOfOtherMember, setNumOfOtherMember] = useState<number>(0);
+    const [topic, setTopic] = useState<topicInput>({
+        name: "",
+        type: "Chính quy",
+        period: "",
+        studentId: "",
+        otherMembers: [{
+            studentId: "",
+            fmName: "",
+            name: "",
+            gender: "Nam",
+            email: "",
+            phoneNumber: "",
+            educationType: "Chính quy",
+            birthDate: (new Date()).toString()
+        }],
+        instructorsId: [""],
+        numInstructor: 1,
+        numMember: 1,
+    });
 
     const choosePeriod = (period: any) => {
         setChosen(true);
         setPeriod(period);
+        setTopic({
+            ...topic,
+            period: period._id
+        })
     }
 
     const backToChoosePeriod = (e: any) => {
         setChosen(false);
         setPeriod(undefined);
+        setTopic({
+            ...topic,
+            period: ""
+        })
+    }
+
+    const backToStep1 = (e: any) => {
+        setIsAtStep1(true);
     }
 
     return (
@@ -43,22 +73,28 @@ const RegisterTopicPage:React.FC = () => {
                     <PathHead path={"ĐĂNG KÝ ĐỀ TÀI"}/>
                     {
                         !chosen && (
-                            <ChoosePeriod choosePeriod={choosePeriod}/>
+                            <ChoosePeriod 
+                                choosePeriod={choosePeriod}
+                                setTopic={setTopic}
+                                topic={topic}
+                            />
                         )
                     }
                     {chosen &&
                     (isAtStep1?
-                    (<RegisterStep1 
-                        onSetNumOfInstructor={setNumOfInstructor} 
-                        onSetNumOfOtherMember={setNumOfOtherMember}
-                        onSetNextStep={moveToNextStep}
+                    (<RegisterStep1
+                        onSetNextStep={setIsAtStep1}
                         period={period}
                         backToChoosePeriod={backToChoosePeriod}
+                        topic={topic}
+                        setTopic={setTopic}
                     />)
-                    :(<RegisterStep2 
-                        numOfInstructor={numOfInstructor} 
-                        numOfOtherMember={numOfOtherMember}
-                        period={period}
+                    :(<RegisterStep2
+                        backToStep1={backToStep1}
+                        backToChoosePeriod={backToChoosePeriod}
+                        topic={topic}
+                        setTopic={setTopic}
+                        setIsAtStep1={setIsAtStep1}
                     />))
                     }
                 </div>

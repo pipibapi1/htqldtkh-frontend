@@ -130,23 +130,29 @@ const PeriodRowTable = (props: any) => {
       <td className='text-center font-medium text-sm text-gray-900 px-1 py-1 border-l-2'>
         {period.status === PeriodStatus.OPEN ? (
 
-          <button onClick={(e:any) => {
+          <button className='w-full flex items-center justify-center' onClick={(e:any) => {
             e.preventDefault();
             
           }
             }>
-              <div className="text-[#E1000E] font-semibold no-underline hover:underline hover:cursor-pointer"
+              <div className="bg-[#E1000E] w-2/3 text-white py-2 rounded-lg font-semibold hover:cursor-pointer"
                 onClick={closePeriod}
               >
-              Đóng
+              Đóng đợt
               </div>
           </button>
         ):(
-          <div className="text-[#0079CC] font-semibold no-underline hover:underline hover:cursor-pointer"
+          <button className='w-full flex items-center justify-center' onClick={(e:any) => {
+            e.preventDefault();
+          
+          }
+            }>
+          <div className="bg-[#0079CC] w-2/3 text-white py-2 rounded-lg font-semibold hover:cursor-pointer"
             onClick={openPeriod}
-          >
-              Mở
+            >
+              Mở đợt
           </div>
+          </button>
         )
         }
       </td>

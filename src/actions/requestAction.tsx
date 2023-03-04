@@ -45,9 +45,21 @@ const deleteRemoveARequestAction = (_id: string) => (dispatch: any) => {
     )
 }
 
+const putApproveARequestAction = (_id: string) => (dispatch: any) => {
+    return requestService.putApproveARequestService(_id).then(
+        (data) => {
+            return Promise.resolve(data);
+        },
+        (error) =>{
+            return Promise.reject(error);
+        }
+    )
+}
+
 export {
     getRequestListAction,
     putUpdateARequestAction,
     postAddARequestAction,
-    deleteRemoveARequestAction
+    deleteRemoveARequestAction,
+    putApproveARequestAction
 }

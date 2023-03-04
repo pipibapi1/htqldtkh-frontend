@@ -1,7 +1,8 @@
 import { SET_TOPIC_CONDITION, 
     ADD_EXPR_TOPIC_CONDITION,
     UPDATE_EXPR_TOPIC_CONDITION,
-    DELETE_EXPR_TOPIC_CONDITION
+    DELETE_EXPR_TOPIC_CONDITION,
+    UPDATE_LEADER_CONDITION
 } from "../shared/authStateType";
 
 interface expression {
@@ -19,10 +20,13 @@ interface logicExprIntf{
     rightValue: string
 }
 
-const setTopicConditionAction = (expression?: expression) => (dispatch: any) => {
+const setTopicConditionAction = (expression?: expression, leaderCondition?: string[]) => (dispatch: any) => {
     return dispatch({
         type: SET_TOPIC_CONDITION,
-        payload: {expression: expression? expression : {}}
+        payload: {
+            expression: expression? expression : {},
+            leaderCondition: leaderCondition
+        }
     })
 }
 
@@ -55,9 +59,19 @@ const addExprTopicCondition = (expr: relationExprIntf | logicExprIntf, exprId: s
     })
 }
 
+const updateLeaderCondition = (eduTypes: string[]) => (dispatch: any) => {
+    return dispatch({
+        type: UPDATE_LEADER_CONDITION,
+        payload: {
+            leaderCondition: eduTypes
+        }
+    })
+}
+
 export {
     setTopicConditionAction,
     updateExprTopicCondition,
     deleteExprTopicCondition,
-    addExprTopicCondition
+    addExprTopicCondition,
+    updateLeaderCondition
 }

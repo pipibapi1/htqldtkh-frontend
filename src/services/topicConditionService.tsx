@@ -7,7 +7,8 @@ interface topicConditionIntf {
     type?: string,
     createAt?: string,
     expression?: {[k: string]: (relationExprIntf | logicExprIntf)},
-    isLoading?: boolean
+    isLoading?: boolean,
+    leaderCondition?: string[]
 }
 
 interface relationExprIntf {
@@ -38,7 +39,17 @@ const postTopicCondition = (condition: topicConditionIntf) => {
     })
 }
 
+const getAvaiableTopicType = (type: string) => {
+    return axios.get(TOPIC_CONDITION_API_URL + `/types?leader=${type}`, {
+        headers: authHeader()
+    })
+    .then((response) => {
+        return response.data.types;
+    })
+}
+
 export default {
     getTopicConditionByType,
-    postTopicCondition
+    postTopicCondition,
+    getAvaiableTopicType
 }

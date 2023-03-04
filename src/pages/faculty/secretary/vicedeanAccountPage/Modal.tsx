@@ -102,7 +102,7 @@ const Modal = ({isVisible, onClose, vicedean}: {isVisible: boolean, onClose: any
     }
 
     return (
-        <div className = "fixed inset-0 bg-black bg-opacity-50 backdrop-blur-0 flex justify-center items-center" id= "wrapper" onClick={handleClose}>
+        <div className = "fixed inset-0 bg-black bg-opacity-50 backdrop-blur-0 flex justify-center items-center z-50" id= "wrapper" onClick={handleClose}>
             <div className = "md:w-[600px] w-[90%] mx-auto">
                 <div className = 'bg-white rounded p-2'>
                     <div className = "py-6 px-6 lg:px-8 text-left">

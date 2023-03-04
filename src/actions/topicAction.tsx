@@ -1,5 +1,3 @@
-import { TopicTypeEnum } from "../shared/types/topicType";
-import { TopicStatusEnum } from "../shared/types/topicStatus";
 import topicService from "../services/topicService";
  
 const getTopicListAction = (queryData: any) => (dispatch: any) =>{
@@ -13,6 +11,42 @@ const getTopicListAction = (queryData: any) => (dispatch: any) =>{
     )
 }
 
+const getTopicDetailAction = (_id: string) => (dispatch: any) => {
+    return topicService.getTopicDetailService(_id).then(
+        (data) => {
+            return Promise.resolve(data);
+        },
+        (error) =>{
+            return Promise.reject(error);
+        }
+    )
+}
+
+const putUpdateATopicAction = (updateInfo: any) => (dispatch: any) => {
+    return topicService.putUpdateATopicService(updateInfo).then(
+        (data) => {
+            return Promise.resolve(data);
+        },
+        (error) =>{
+            return Promise.reject(error);
+        }
+    )
+}
+
+const deleteRemoveATopicAction = (_id: string) => (dispatch: any) => {
+    return topicService.deleteRemoveATopicService(_id).then(
+        (data) => {
+            return Promise.resolve(data);
+        },
+        (error) =>{
+            return Promise.reject(error);
+        }
+    )
+}
+
 export {
-    getTopicListAction
+    getTopicListAction,
+    getTopicDetailAction,
+    putUpdateATopicAction,
+    deleteRemoveATopicAction
 }

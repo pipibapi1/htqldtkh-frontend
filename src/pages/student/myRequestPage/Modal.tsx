@@ -5,11 +5,14 @@ import Swal from 'sweetalert2';
 import { RequestType } from '../../../shared/types/requestType';
 import { Topic } from '../../../shared/interfaces/topicInterface';
 import { postAddARequestAction } from '../../../actions/requestAction';
+import { TopicTypeEnum } from '../../../shared/types/topicType';
+import { TopicStatusEnum } from '../../../shared/types/topicStatus';
 
 const Modal = ({isVisible, onClose, myTopics}: {isVisible: boolean, onClose: any, myTopics: Topic[]}) => {
     const [requestType, setRequestType] = useState<string>(RequestType.GET_CERTIFICATE)
     const [chosenTopicId, setChosenTopicId] = useState<string>("")
     const [extensionTime, setExtensionTime] = useState<number>(0)
+    const [text, setText] = useState<string>("");
     const useAppDispatch: () => AppDispatch = useDispatch
     const dispatch = useAppDispatch()
     if (!isVisible) return null;
@@ -40,7 +43,8 @@ const Modal = ({isVisible, onClose, myTopics}: {isVisible: boolean, onClose: any
                 request:{
                     topicId: chosenTopicId,
                     type: requestType,
-                    extensionTime: extensionTime
+                    extensionTime: extensionTime,
+                    text: text
                 }
             }
             if(requestType === RequestType.EXTEND_PROJECT && extensionTime <= 0){
@@ -51,6 +55,13 @@ const Modal = ({isVisible, onClose, myTopics}: {isVisible: boolean, onClose: any
                 })
                 return;
                 
+            }
+            if(requestType === RequestType.OTHER && text === ""){
+                Toast.fire({
+                    icon: 'warning',
+                    title: 'Phần nội dung không được để trống'
+                })
+                return;
             }
             Swal.fire({
                 icon: 'question',
@@ -121,7 +132,7 @@ const Modal = ({isVisible, onClose, myTopics}: {isVisible: boolean, onClose: any
     }
 
     return ( 
-        <div className = "fixed inset-0 bg-black bg-opacity-50 backdrop-blur-0 flex justify-center items-center" id= "wrapper" onClick={handleClose}>
+        <div className = "fixed inset-0 bg-black bg-opacity-50 backdrop-blur-0 flex justify-center items-center z-50" id= "wrapper" onClick={handleClose}>
             <div className = "md:w-[600px] w-[90%] mx-auto">
                 <div className = 'bg-white rounded px-5 py-7'>
                     <div className = 'mb-2 pb-4 text-xl font-medium text-gray-900 text-center border-b-2 border-black'>
@@ -138,11 +149,16 @@ const Modal = ({isVisible, onClose, myTopics}: {isVisible: boolean, onClose: any
                                 onChange={(e) => {
                                     e.preventDefault();
                                     setRequestType(e.target.value)
+                                    setChosenTopicId("")
+                                    setExtensionTime(0)
+                                    setText("")
                                 }}
+                                value={requestType}
                                 >
                                     <option value={RequestType.GET_CERTIFICATE}>Xin giấy chứng nhận</option>
                                     <option value={RequestType.CANCEL_PROJECT}>Hủy đề tài</option>
                                     <option value={RequestType.EXTEND_PROJECT}>Gia hạn đề tài</option>
+                                    <option value={RequestType.OTHER}>Yêu cầu khác</option>
                                 </select>
                             </div>
 
@@ -154,8 +170,36 @@ const Modal = ({isVisible, onClose, myTopics}: {isVisible: boolean, onClose: any
                                 className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
                                 onChange={(e) => {
                                     e.preventDefault();
-                                    setChosenTopicId(e.target.value)
+                                    if(e.target.value != ""){
+                                        const chosenTopic = myTopics.find((topic) => topic._id === e.target.value)
+                                        if(chosenTopic && (chosenTopic.status === TopicStatusEnum.DUE_TO_ACCEPT ||
+                                            chosenTopic.status === TopicStatusEnum.CARRY_OUT ||
+                                            chosenTopic.status === TopicStatusEnum.OUT_OF_DATE) 
+                                            && requestType !== RequestType.GET_CERTIFICATE
+                                            && requestType !== RequestType.OTHER
+                                            ){
+                                                setChosenTopicId(e.target.value)
+                                        }
+                                        else{
+                                            if(chosenTopic && requestType === RequestType.GET_CERTIFICATE && chosenTopic.status === TopicStatusEnum.FINISHED){
+                                                setChosenTopicId(e.target.value)
+                                            }
+                                            else if(chosenTopic && requestType === RequestType.OTHER && chosenTopic.status !== TopicStatusEnum.NEW){
+                                                setChosenTopicId(e.target.value)
+                                            }
+                                            else{
+                                                Toast.fire({
+                                                    icon: 'error',
+                                                    title: 'Đề tài được chọn đang ở trạng thái ' + chosenTopic?.status + " nên không thể tạo yêu cầu " + requestType + " được!"
+                                                  })
+                                            }
+                                        }
+                                    }
+                                    else{
+                                        setChosenTopicId(e.target.value)
+                                    }
                                 }}
+                                value={chosenTopicId}
                                 defaultValue={""}
                                 >
                                     <option value={""}>Chọn đề tài</option>
@@ -178,13 +222,45 @@ const Modal = ({isVisible, onClose, myTopics}: {isVisible: boolean, onClose: any
                                     required
                                     defaultValue={0}
                                     onChange={(e) => {
-                                        e.preventDefault();
-                                        setExtensionTime(parseInt(e.target.value))
+                                        if(requestType === RequestType.EXTEND_PROJECT){
+                                            e.preventDefault();
+                                            setExtensionTime(parseInt(e.target.value))
+                                        }
+                                        else{
+                                            Toast.fire({
+                                                icon: 'error',
+                                                title: 'Vui lòng chọn lại loại đề tài'
+                                              })
+                                        }
                                     }}
                                     />
                                     <label htmlFor='email' className = "block mb-2 ml-2 text-sm font-medium text-gray-900">
                                         tháng.
                                     </label>
+                                </div>
+                            </div>)}
+
+                            {requestType === RequestType.OTHER && (<div className = 'w-full'>
+                                <div className = 'w-full mr-20 flex flex-col'>
+                                    <label htmlFor='email' className = "mb-2 mr-5 text-sm font-medium text-gray-900">
+                                        Nội dung: 
+                                    </label>
+                                    <textarea
+                                    className = "bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 h-[100px]"
+                                    required
+                                    onChange={(e) => {
+                                        if(requestType === RequestType.OTHER){
+                                            e.preventDefault();
+                                            setText(e.target.value);
+                                        }
+                                        else{
+                                            Toast.fire({
+                                                icon: 'error',
+                                                title: 'Vui lòng chọn lại loại đề tài'
+                                              })
+                                        }
+                                    }}
+                                    />
                                 </div>
                             </div>)}
 

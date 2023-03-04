@@ -20,6 +20,7 @@ import StudentAccountManagement from './pages/faculty/secretary/studentAccountPa
 import VicedeanAccountManagement from './pages/faculty/secretary/vicedeanAccountPage';
 import FSTopicConditionManagement from './pages/faculty/secretary/topicConditionPage';
 import FSUploadAnnouncement from './pages/faculty/secretary/uploadAnnouncementPage';
+import FSAllocateExpense from './pages/faculty/secretary/allocateExpensePage';
 import StudentTopicDetail from './pages/student/studentTopicDetail';
 import StudentTopicProduct from './pages/student/studentTopicProduct';
 import StudentTopicPapers from './pages/student/studentTopicPapers';
@@ -28,6 +29,16 @@ import FSCreateCouncil1 from './pages/faculty/secretary/createCouncilPage/Counci
 import FSCouncil1Detail from './pages/faculty/secretary/createCouncilPage/Council1/CouncilDetail';
 import FSCreateCouncil2 from './pages/faculty/secretary/createCouncilPage/Council2';
 import FSCouncil2Detail from './pages/faculty/secretary/createCouncilPage/Council2/CouncilDetail';
+import TopicManagementPage from './pages/faculty/secretary/topicManagementPage';
+import FSTopicDetail from './pages/faculty/secretary/fsTopicDetail';
+import FSTopicProduct from './pages/faculty/secretary/fsTopicProduct';
+import FSTopicPapers from './pages/faculty/secretary/fsTopicPapers';
+import FSResultNotificationPage from './pages/faculty/secretary/resultNotificationPage';
+import FSFeedbackPage from './pages/faculty/secretary/feedbackPage';
+import TemplateManagementPage from './pages/faculty/secretary/templateManagementPage';
+import TemplateFormCreationPage from './pages/faculty/secretary/templateFormCreation';
+import TemplateFormUpdatePage from './pages/faculty/secretary/templateFormUpdate';
+import StudentTopicPaperCreation from './pages/student/studentTopicPaperCreation';
 
 function App() {
   
@@ -45,6 +56,7 @@ function App() {
         <Route path={appRouters.LINK_TO_STUDENT_TOPIC_DETAIL} element={<StudentTopicDetail/>} />
         <Route path={appRouters.LINK_TO_STUDENT_TOPIC_PRODUCT} element={<StudentTopicProduct/>} />
         <Route path={appRouters.LINK_TO_STUDENT_TOPIC_PAPERS} element={<StudentTopicPapers/>} />
+          <Route path={appRouters.LINK_TO_STUDENT_TOPIC_PAPER_CREATION} element={<StudentTopicPaperCreation/>} />
       <Route path={appRouters.LINK_TO_REGISTER_TOPIC_PAGE} element={<RegisterTopicPage/>} />
       <Route path={appRouters.LINK_TO_MY_REQUEST_PAGE} element={<MyRequestPage/>} />
       <Route path={appRouters.LINK_TO_VIEW_TEMPLATES_PAGE} element={<TemplatesPage/>} />
@@ -57,6 +69,15 @@ function App() {
       <Route path={appRouters.LINK_TO_FS_TOPIC_STATISTIC} element={<FSTopicStatistics/>} />
       <Route path={appRouters.LINK_TO_STUDENT_ACCOUNT_MANAGEMENT} element={<StudentAccountManagement/>} />
       <Route path={appRouters.LINK_TO_VICEDEAN_ACCOUNT_MANAGEMENT} element={<VicedeanAccountManagement/>} />
+      <Route path={appRouters.LINK_TO_FS_TOPIC_MANAGEMENT} element={<TopicManagementPage />} />
+        <Route path={appRouters.LINK_TO_FS_TOPIC_DETAIL} element={<FSTopicDetail/>} />
+        <Route path={appRouters.LINK_TO_FS_TOPIC_PRODUCT} element={<FSTopicProduct/>} />
+        <Route path={appRouters.LINK_TO_FS_TOPIC_PAPERS} element={<FSTopicPapers/>} />
+        <Route path={appRouters.LINK_TO_FS_RESULT_NOTIFICATION} element={<FSResultNotificationPage/>} />
+        <Route path={appRouters.LINK_TO_FS_FEEDBACK} element={<FSFeedbackPage/>} />
+      <Route path={appRouters.LINK_TO_FS_TEMPLATE_MANAGEMENT} element={<TemplateManagementPage/>} />
+        <Route path={appRouters.LINK_TO_FS_FORM_CREATION} element={<TemplateFormCreationPage/>} />
+        <Route path={appRouters.LINK_TO_FS_FORM_UPDATE} element={<TemplateFormUpdatePage/>} />
       <Route path={appRouters.LINK_TO_PERIOD_MANAGEMENT} element={<PeriodManagementPage/>} />
       <Route path={appRouters.LINK_TO_FS_TOPIC_CONDITION_MANAGEMENT} element={<FSTopicConditionManagement/>} />
       <Route path={appRouters.LINK_TO_FS_UPLOAD_ANNOUNCEMENT} element={<FSUploadAnnouncement/>} />
@@ -64,6 +85,7 @@ function App() {
       <Route path={appRouters.LINK_TO_FS_REVIEW_COUNCIL_DETAIL} element={<FSCouncil1Detail/>} />
       <Route path={appRouters.LINK_TO_FS_CREATE_COUNCIL_2} element={<FSCreateCouncil2/>} />
       <Route path={appRouters.LINK_TO_FS_COUNCIL_2_DETAIL} element={<FSCouncil2Detail/>} />
+      <Route path={appRouters.LINK_TO_FS_ALLOCATE_EXPENSE} element={<FSAllocateExpense/>} />
     </Routes>
   );
 }

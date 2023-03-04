@@ -1,6 +1,4 @@
 import studentService from "../services/studentService";
-import { GenderType } from "../shared/types/gender";
-import { EducationType } from "../shared/types/educationType";
 
 
 interface Query{
