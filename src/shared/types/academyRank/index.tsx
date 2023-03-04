@@ -1,4 +1,5 @@
-export enum AcademyRank  {
-    GS= "Giáo sư",
-    PGS= "Phó giáo sư"
-} 
+export enum AcademyRank {
+    GS = "Giáo sư",
+    PGS = "Phó giáo sư",
+    None = "Không có"
+}
