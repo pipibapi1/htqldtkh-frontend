@@ -3,7 +3,7 @@ import { useStepperContext } from "./StepperContext";
 
 import { CouncilMemberIntf } from "../../../../../../shared/interfaces/councilInterface";
 import { GenderType } from "../../../../../../shared/types/gender";
-import { AcademyRankEnum } from "../../../../../../shared/types/academyRank";
+import { AcademyRank } from "../../../../../../shared/types/academyRank";
 import { DegreeEnum } from "../../../../../../shared/types/degree";
 import { CouncilRoleEnum } from "../../../../../../shared/types/councilRole";
 
@@ -75,7 +75,7 @@ export default function Step2() {
 const INIT_MEMBER: CouncilMemberIntf = {
     name: "",
     gender: GenderType.MALE,
-    academyRank: AcademyRankEnum.None,
+    academyRank: AcademyRank.None,
     degree: DegreeEnum.None,
     workUnit: "",
     email: "",
@@ -198,7 +198,7 @@ const MemberForm = (props: {index: number}) => {
                         value={currMember.academyRank}
                         onChange={onChangeMemberAcademyRank}
                     >
-                        {Object.values(AcademyRankEnum).map((rank) => (
+                        {Object.values(AcademyRank).map((rank) => (
                             <option
                                 key={rank}
                                 value={rank}
