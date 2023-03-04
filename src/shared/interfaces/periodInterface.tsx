@@ -3,6 +3,6 @@ export interface Period{
     period: string,
     status: string,
     createAt: string,
-    title: string,
+    title?: string,
     year: string
 }

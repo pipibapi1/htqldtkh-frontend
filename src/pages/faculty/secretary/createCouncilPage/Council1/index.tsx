@@ -4,10 +4,9 @@ import SideNav from '../../../../../components/sideNav';
 import PathHead from '../../../../../components/pathHead';
 import { RoleType } from '../../../../../shared/types/role';
 import { useLocation } from 'react-router-dom';
-import RequestList from './RequestList';
+import CouncilsGeneralInfo from './CouncilsGeneralInfo';
 
-
-const FSExpenseStatistics: React.FC = () => {
+const FSReviewCouncil: React.FC = () => {
     const location = useLocation();
     return (
         <div className=''>
@@ -16,11 +15,11 @@ const FSExpenseStatistics: React.FC = () => {
                 <SideNav role={RoleType.FS} pathName={location.pathname}/>
                 <div className=''>
                     <PathHead path={"TẠO HỘI ĐỒNG / HĐ xét duyệt"}/>
-                    <RequestList />
+                    <CouncilsGeneralInfo/>
                 </div>
             </div>
         </div>
     )
 }
 
-export default FSExpenseStatistics;
+export default FSReviewCouncil;

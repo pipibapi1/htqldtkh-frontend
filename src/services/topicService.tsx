@@ -6,7 +6,8 @@ import { TopicStatusEnum } from "../shared/types/topicStatus";
 const TOPIC_API_URL = process.env.REACT_APP_API_URL + "/api/topic";
 
 const getTopicListService = (queryData: any) => {
-    const {page, limit, period, type, status, student, isExtended} = queryData;
+    const {page, limit, period, type, status, student, isExtended, 
+        reviewCouncil, acceptanceCouncil} = queryData;
     const queryString = '?' + (period !== undefined ? `period=${period}&` : "") 
         +  (page !== undefined ? `page=${page}&` : "")
         +  (limit !== undefined ? `limit=${limit}&` : "")
@@ -14,6 +15,8 @@ const getTopicListService = (queryData: any) => {
         +  (status !== undefined ? `status=${status}&` : "")
         +  (student !== undefined ? `student=${student}&` : "")
         +  (isExtended !== undefined ? `isExtended=${isExtended}&` : "")
+        +  (reviewCouncil !== undefined ? `reviewCouncil=${reviewCouncil}&` : "")
+        +  (acceptanceCouncil !== undefined ? `acceptanceCouncil=${acceptanceCouncil}&` : "")
         ;
     return axios
         .get(TOPIC_API_URL + queryString, { headers: authHeader() })

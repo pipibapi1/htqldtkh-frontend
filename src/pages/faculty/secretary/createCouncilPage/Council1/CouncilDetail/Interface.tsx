@@ -3,220 +3,15 @@ import Calendar from "../../../../../../assets/images/calendar.png";
 import DatePicker from "react-datepicker";
 import AddMemberModal from '../AddMemberCouncilModal';
 import AddTopicModal from '../AddTopicModal';
+import { MemberTable } from './MemberTable';
+import { TopicTable } from './TopicTable';
 
 interface Props {
-    index: number
-    memberName: string;
-    gender: string;
-    degree: string;
-    email: string;
-    role: string;
-    workUnit: string;
-    onEditMode: boolean;
-}
-
-interface Props2 {
-    index: number
-    topicName: string;
-    studentName: string;
-    teacherName: string;
-    time: string;
-    product: string;
-    note: string;
-    onEditMode: boolean;
-}
-
-interface Props3 {
     onViewMode: (e: Boolean) => void;
     onEditMode: (e: Boolean) => void;
-}
+} 
 
-const Table1: React.FC<Props> = (props) => {
-    const { index , memberName, gender, degree, email,role, workUnit, onEditMode} = props;
-    if(onEditMode !== true)
-    {
-    return (
-      <tr className={(index % 2 === 1) ? 'border-t-2 transition duration-300 ease-in-out' : 'border-t-2 bg-[#1488D8]/25 transition duration-300 ease-in-out'}>
-        <td className='text-center font-medium px-1 py-1 text-sm text-gray-900 border-l-2'>
-          {index}
-        </td>
-        <td className='text-center font-medium text-sm text-gray-900 px-1 py-1 border-l-2'>
-          {memberName}
-        </td>
-        <td className='text-center font-medium text-sm text-gray-900 px-1 py-1 border-l-2'>
-          {gender}
-        </td>
-        <td className='text-center font-medium text-sm text-gray-900 px-1 py-1 border-l-2'>
-          {degree}
-        </td>
-        <td className='text-center font-medium text-sm text-gray-900 px-1 py-1 border-l-2'>
-          {email}
-        </td>
-        <td className='text-center font-medium text-sm text-gray-900 px-1 py-1 border-l-2'>
-          {role}
-        </td>
-        <td className='text-center font-medium text-sm text-gray-900 px-1 py-1 border-l-2'>
-          {workUnit}
-        </td>
-        <td className='text-center font-medium text-sm text-gray-900 px-1 py-1 border-l-2'>
-            <div className="text-[#0079CC] font-semibold no-underline hover:underline hover:cursor-pointer">
-                  Xóa
-            </div>
-        </td>
-        
-      </tr>  
-    );
-    }
-    else {
-        return (
-            <tr className={(index % 2 === 1) ? 'border-t-2 transition duration-300 ease-in-out' : 'border-t-2 bg-[#1488D8]/25 transition duration-300 ease-in-out'}>
-              <td className='text-center font-medium px-1 py-1 text-sm text-gray-900 border-l-2'>
-                {index}
-              </td>
-              <td className='text-center font-medium text-sm text-gray-900 px-1 py-1 border-l-2'>
-                <input
-                    type="text"
-                    className="border border-black border-1 rounded-md w-4/5 h-8 p-2"
-                />
-              </td>
-              <td className='text-center font-medium text-sm text-gray-900 px-1 py-1 border-l-2'>
-                <input
-                    type="text"
-                    className="border border-black border-1 rounded-md w-4/5 h-8 p-2"
-                />
-              </td>
-              <td className='text-center font-medium text-sm text-gray-900 px-1 py-1 border-l-2'>
-                <input
-                    type="text"
-                    className="border border-black border-1 rounded-md w-4/5 h-8 p-2"
-                />
-              </td>
-              <td className='text-center font-medium text-sm text-gray-900 px-1 py-1 border-l-2'>
-                <input
-                    type="text"
-                    className="border border-black border-1 rounded-md w-4/5 h-8 p-2"
-                />
-              </td>
-              <td className='text-center font-medium text-sm text-gray-900 px-1 py-1 border-l-2'>
-                <select
-                className="border border-black border-1 rounded-md w-4/5 h-8 px-1"
-                    onChange={(e) => {
-                    }}
-                    defaultValue={""}
-                >
-                <option value="">Chủ tịch</option>
-                <option value="">Ủy viên</option>
-                <option value="">Thư ký</option>
-                </select>
-              </td>
-              <td className='text-center font-medium text-sm text-gray-900 px-1 py-1 border-l-2'>
-                <input
-                    type="text"
-                    className="border border-black border-1 rounded-md w-4/5 h-8 p-2"
-                />
-              </td>
-              <td className='text-center font-medium text-sm text-gray-900 px-1 py-1 border-l-2'>
-                  <div className="text-[#0079CC] font-semibold no-underline hover:underline hover:cursor-pointer">
-                        Xóa
-                  </div>
-              </td>
-              
-            </tr>  
-          ); 
-
-    }
-  };
-
-  const Table2: React.FC<Props2> = (props) => {
-    const { index , topicName, studentName, teacherName, time, product, note, onEditMode} = props;
-    if(onEditMode !== true)
-    {
-    return (
-      <tr className={(index % 2 === 1) ? 'border-t-2 transition duration-300 ease-in-out' : 'border-t-2 bg-[#1488D8]/25 transition duration-300 ease-in-out'}>
-        <td className='text-center font-medium px-1 py-1 text-sm text-gray-900 border-l-2'>
-          {index}
-        </td>
-        <td className='text-center font-medium text-sm text-gray-900 px-1 py-1 border-l-2'>
-          {topicName}
-        </td>
-        <td className='text-center font-medium text-sm text-gray-900 px-1 py-1 border-l-2'>
-          {studentName}
-        </td>
-        <td className='text-center font-medium text-sm text-gray-900 px-1 py-1 border-l-2'>
-          {teacherName}
-        </td>
-        <td className='text-center font-medium text-sm text-gray-900 px-1 py-1 border-l-2'>
-          {time}
-        </td>
-        <td className='text-center font-medium text-sm text-gray-900 px-1 py-1 border-l-2'>
-          {product}
-        </td>
-        <td className='text-center font-medium text-sm text-gray-900 px-1 py-1 border-l-2'>
-          {note}
-        </td>
-        <td className='text-center font-medium text-sm text-gray-900 px-1 py-1 border-l-2'>
-            <div className="text-[#0079CC] font-semibold no-underline hover:underline hover:cursor-pointer">
-                  Xóa
-            </div>
-        </td>
-        
-      </tr>
-    );
-    }
-    else {
-        return (
-            <tr className={(index % 2 === 1) ? 'border-t-2 transition duration-300 ease-in-out' : 'border-t-2 bg-[#1488D8]/25 transition duration-300 ease-in-out'}>
-              <td className='text-center font-medium px-1 py-1 text-sm text-gray-900 border-l-2'>
-                {index}
-              </td>
-              <td className='text-center font-medium text-sm text-gray-900 px-1 py-1 border-l-2'>
-                <input
-                    type="text"
-                    className="border border-black border-1 rounded-md w-4/5 h-8 p-2"
-                />
-              </td>
-              <td className='text-center font-medium text-sm text-gray-900 px-1 py-1 border-l-2'>
-                <input
-                    type="text"
-                    className="border border-black border-1 rounded-md w-4/5 h-8 p-2"
-                />
-              </td>
-              <td className='text-center font-medium text-sm text-gray-900 px-1 py-1 border-l-2'>
-                <input
-                    type="text"
-                    className="border border-black border-1 rounded-md w-4/5 h-8 p-2"
-                />
-              </td>
-              <td className='text-center font-medium text-sm text-gray-900 px-1 py-1 border-l-2'>
-                <input
-                    type="text"
-                    className="border border-black border-1 rounded-md w-4/5 h-8 p-2"
-                />
-              </td>
-              <td className='text-center font-medium text-sm text-gray-900 px-1 py-1 border-l-2'>
-                <input
-                    type="file"
-                    className="border border-black border-1 rounded-md w-full h-9 p-1"
-                />
-              </td>
-              <td className='text-center font-medium text-sm text-gray-900 px-1 py-1 border-l-2'>
-                <input
-                    type="text"
-                    className="border border-black border-1 rounded-md w-4/5 h-8 p-2"
-                />
-              </td>
-              <td className='text-center font-medium text-sm text-gray-900 px-1 py-1 border-l-2'>
-                  <div className="text-[#0079CC] font-semibold no-underline hover:underline hover:cursor-pointer">
-                        Xóa
-                  </div>
-              </td>
-              
-            </tr>  
-          ); 
-    }
-  };  
-
-const Interface: React.FC<Props3> = (props: Props3) => {
+const Interface: React.FC<Props> = (props: Props) => {
     const [editMode, setEditMode] = React.useState(false);
     const [birthDate, setBirthDate] = useState(new Date());
     const cancelUpdate = () => {
@@ -401,7 +196,7 @@ const Interface: React.FC<Props3> = (props: Props3) => {
                                     </tr>
                                 </thead>
                                 <tbody className=''>
-                                    <Table1
+                                    <MemberTable
                                     index={1}
                                     memberName={"Thành viên 1"}
                                     gender={"Nam"}
@@ -411,7 +206,7 @@ const Interface: React.FC<Props3> = (props: Props3) => {
                                     workUnit = {"ĐH Bách Khoa"}
                                     onEditMode = {editMode}
                                     />
-                                    <Table1
+                                    <MemberTable
                                     index={2}
                                     memberName={"Thành viên 2"}
                                     gender={"Nữ"}
@@ -421,7 +216,7 @@ const Interface: React.FC<Props3> = (props: Props3) => {
                                     workUnit = {"ĐH Bách Khoa"}
                                     onEditMode = {editMode}
                                     />
-                                    <Table1
+                                    <MemberTable
                                     index={3}
                                     memberName={"Thành viên 3"}
                                     gender={"Nam"}
@@ -431,7 +226,7 @@ const Interface: React.FC<Props3> = (props: Props3) => {
                                     workUnit = {"ĐH Bách Khoa"}
                                     onEditMode = {editMode}
                                     />
-                                    <Table1
+                                    <MemberTable
                                     index={4}
                                     memberName={"Thành viên 4"}
                                     gender={"Nữ"}
@@ -513,7 +308,7 @@ const Interface: React.FC<Props3> = (props: Props3) => {
                                     </tr>
                                 </thead>
                                 <tbody className=''>
-                                    <Table2
+                                    <TopicTable
                                     index={1}
                                     topicName={"Đề tài 1"}
                                     studentName={"Trần Anh Quân"}
@@ -523,7 +318,7 @@ const Interface: React.FC<Props3> = (props: Props3) => {
                                     note={"Không"}
                                     onEditMode = {editMode}
                                     />
-                                    <Table2
+                                    <TopicTable
                                     index={2}
                                     topicName={"Đề tài 2"}
                                     studentName={"Phạm Minh Duy"}
@@ -533,7 +328,7 @@ const Interface: React.FC<Props3> = (props: Props3) => {
                                     note={"Không"}
                                     onEditMode = {editMode}
                                     />
-                                    <Table2
+                                    <TopicTable
                                     index={3}
                                     topicName={"Đề tài 3"}
                                     studentName={"Trương Anh Khoa"}

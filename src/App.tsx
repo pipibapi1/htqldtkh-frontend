@@ -60,8 +60,8 @@ function App() {
       <Route path={appRouters.LINK_TO_PERIOD_MANAGEMENT} element={<PeriodManagementPage/>} />
       <Route path={appRouters.LINK_TO_FS_TOPIC_CONDITION_MANAGEMENT} element={<FSTopicConditionManagement/>} />
       <Route path={appRouters.LINK_TO_FS_UPLOAD_ANNOUNCEMENT} element={<FSUploadAnnouncement/>} />
-      <Route path={appRouters.LINK_TO_FS_CREATE_COUNCIL_1} element={<FSCreateCouncil1/>} />
-      <Route path={appRouters.LINK_TO_FS_COUNCIL_1_DETAIL} element={<FSCouncil1Detail/>} />
+      <Route path={appRouters.LINK_TO_FS_REVIEW_COUNCIL} element={<FSCreateCouncil1/>} />
+      <Route path={appRouters.LINK_TO_FS_REVIEW_COUNCIL_DETAIL} element={<FSCouncil1Detail/>} />
       <Route path={appRouters.LINK_TO_FS_CREATE_COUNCIL_2} element={<FSCreateCouncil2/>} />
       <Route path={appRouters.LINK_TO_FS_COUNCIL_2_DETAIL} element={<FSCouncil2Detail/>} />
     </Routes>

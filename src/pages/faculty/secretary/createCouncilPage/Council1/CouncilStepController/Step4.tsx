@@ -1,7 +1,6 @@
-import {Link} from "react-router-dom";
 import "./MultiStepProgressBar.css";
 
-export default function Step4() {
+export default function Step4( props: {onClose: any} ) {
     return (
       <div className="container md:mt-10">
         <div className="flex flex-col items-center">
@@ -33,11 +32,11 @@ export default function Step4() {
             Your Account has been created.
           </div> */}
           <a className="mt-10">
-          <Link to={"/fsCreateCouncil2"}>
-            <button className="h-10 px-5 text-green-700 transition-colors duration-150 border border-gray-300 rounded-lg focus:shadow-outline hover:bg-green-500 hover:text-green-100">
+            <button className="h-10 px-5 text-green-700 transition-colors duration-150 border border-gray-300 rounded-lg focus:shadow-outline hover:bg-green-500 hover:text-green-100"
+              onClick={props.onClose}
+            >
               Close
             </button>
-            </Link>
           </a>
         </div>
       </div>

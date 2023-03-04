@@ -1,17 +1,21 @@
 import React, {useState} from 'react';
 import {Link} from "react-router-dom";
 
+import { CouncilInfoIntf } from '../../../../../../shared/interfaces/councilInterface';
+
 interface Props {
-  index: number
-  councilName: string;
-  member: number;
-  time: string;
-  numOfTopic: number;
-  status: string;
+  index: number;
+  council: CouncilInfoIntf
 }
 
 const RowTable: React.FC<Props> = (props) => {
-  const { index , councilName, member, time, numOfTopic,status} = props;
+  const { index , council} = props;
+
+  const displayTime = () => {
+    const arr = council.date.split("-");
+    arr.reverse();
+    return council.time + ` ngày ${arr.join("/")}`
+  }
 
   return (
     
@@ -20,31 +24,31 @@ const RowTable: React.FC<Props> = (props) => {
         {index}
       </td>
       <td className='text-center font-medium text-sm text-gray-900 px-1 py-1 border-l-2'>
-        {councilName}
+        {council.name}
       </td>
       <td className='text-center font-medium text-sm text-gray-900 px-1 py-1 border-l-2'>
-        {member}
+        {council.numMembers}
       </td>
       <td className='text-center font-medium text-sm text-gray-900 px-1 py-1 border-l-2'>
-        {time}
+        {displayTime()}
       </td>
       <td className='text-center font-medium text-sm text-gray-900 px-1 py-1 border-l-2'>
-        {numOfTopic}
+        {council.numTopics}
       </td>
       <td className='text-center font-medium text-sm text-gray-900 px-1 py-1 border-l-2'>
-        {status}
+        {council.status}
       </td>
       <td className='text-center font-medium text-sm text-gray-900 px-1 py-1 border-l-2'>
-      <Link to={"/fsCouncil2Detail"}>
+      <Link to={`/fsReviewCouncil/${council._id}`}>
         <div className="text-[#0079CC] font-semibold no-underline hover:underline hover:cursor-pointer">
           Chi tiết
         </div>
       </Link>
       </td>
       <td className='text-center font-medium text-sm text-gray-900 px-1 py-1 border-l-2'>
-          <div className="text-[#0079CC] font-semibold no-underline hover:underline hover:cursor-pointer">
-                Xóa
-          </div>
+        <div className="text-[#0079CC] font-semibold no-underline hover:underline hover:cursor-pointer">
+              Xóa
+        </div>
       </td>
       
     </tr>   

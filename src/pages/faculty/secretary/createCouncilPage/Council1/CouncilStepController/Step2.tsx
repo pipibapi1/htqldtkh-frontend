@@ -1,98 +1,257 @@
-// import { useStepperContext } from "./StepperContext";
+import React from "react";
+import { useStepperContext } from "./StepperContext";
+
+import { CouncilMemberIntf } from "../../../../../../shared/interfaces/councilInterface";
+import { GenderType } from "../../../../../../shared/types/gender";
+import { AcademyRankEnum } from "../../../../../../shared/types/academyRank";
+import { DegreeEnum } from "../../../../../../shared/types/degree";
+import { CouncilRoleEnum } from "../../../../../../shared/types/councilRole";
 
 export default function Step2() {
-  // const { userData, setUserData } = useStepperContext();
-//   const handleChange = (e) => {
-//     const { name, value } = e.target;
-//     setUserData({ ...userData, [name]: value });
-//   };
-  return (
-    <div className="flex flex-col ">
-      <div className="w-full mx-2 flex-1">
-        <div className = 'mb-4 pb-2 text-xl font-normal text-gray-900 text-center'>
-              Bước 2: Thêm thành viên hội đồng
-        </div>
+    const { council, setCouncil } = useStepperContext();
 
-        <form className = "space-y-4" action = "#">
-        <div className = 'flex flex-row '>
-            <div className = ' w-1/2'>
-            <label htmlFor='email' className = "block mb-2 text-sm font-medium text-gray-900">
-                Tên thành viên
-            </label>
-            <input type = 'email' name = 'email' id ='email'
-            className = "bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
-            placeholder = "name"
-            required
-            />
-            </div>
-            <div className = 'w-1/2 ml-2'>
-            <label htmlFor='email' className = "block mb-2 text-sm font-medium text-gray-900">
-                Giới tính
-            </label>
-            <select
-                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
-                    onChange={(e) => {
-                    }}
-                    defaultValue={""}
-                >
-                <option value="">Nam</option>
-                <option value="">Nữ</option>
-            </select>
-            </div>
-        </div>
+    const MemberFormList = [];
+    for (let idx = 0; idx < council.numMembers; idx++) {
+        MemberFormList.push(
+            <MemberForm
+                key={idx}
+                index={idx}
+            ></MemberForm>
+        )
+    }
 
-        <div className = 'flex flex-row '>
-            <div className = ' w-1/2'>
-            <label htmlFor='email' className = "block mb-2 text-sm font-medium text-gray-900">
-                Học hàm / Học vị
-            </label>
-            <input type = 'email' name = 'email' id ='email'
-            className = "bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
-            placeholder = "degree"
-            required
-            />
-            </div>
-            <div className = 'w-1/2 ml-2'>
-            <label htmlFor='email' className = "block mb-2 text-sm font-medium text-gray-900">
-                Email
-            </label>
-            <input type = 'email' name = 'email' id ='email'
-            className = "bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
-            placeholder = "email"
-            required
-            />
-            </div>
-        </div>
+    const onChangeCouncilNumMember = (event: React.ChangeEvent<HTMLInputElement>) => {
+        const value = parseInt(event.target.value)
+        if (!isNaN(value) && value >= 0) {
+            const newNumMember = value>10? 10 : value;
+            if (newNumMember > council.members.length) {
+                while (newNumMember > council.members.length) {
+                    council.members.push({
+                        ...INIT_MEMBER
+                    })
+                }
+            }
+            setCouncil({
+                ...council,
+                numMembers: newNumMember
+            })
+        }
+        else {
+            setCouncil({
+                ...council,
+                numMembers: undefined
+            })
+        }
+    }
 
-        <div className = 'flex flex-row '>
-            <div className = ' w-1/2'>
-            <label htmlFor='email' className = "block mb-2 text-sm font-medium text-gray-900">
-                Đơn vị công tác
-            </label>
-            <input type = 'email' name = 'email' id ='email'
-            className = "bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
-            placeholder = "school"
-            required
-            />
-            </div>
-            <div className = 'w-1/2 ml-2'>
-            <label htmlFor='email' className = "block mb-2 text-sm font-medium text-gray-900">
-                Vai trò
-            </label>
-            <select
-                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
-                    onChange={(e) => {
-                    }}
-                    defaultValue={""}
-                >
-                <option value="">Chủ tịch</option>
-                <option value="">Ủy viên</option>
-                <option value="">Thư ký</option>
-            </select>
+    return (
+        <div className="flex flex-col ">
+            <div className="w-full mx-2 flex flex-col">
+                <div className = 'mb-4 pb-2 text-xl font-normal text-gray-900 text-center'>
+                    Bước 2: Thêm thành viên hội đồng
+                </div>
+
+                <div className = "mx-4 space-y-4 flex flex-col">
+                    <div className = 'w-full flex flex-row items-center'>
+                        <div className = "block mr-2 text-base font-medium text-gray-900">
+                            Số lượng thành viên:
+                        </div>
+                        <input
+                            className = "bg-gray-50 border border-gray-300 text-gray-900 text-base rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5"
+                            placeholder = "số lượng thành viên"
+                            type="text"
+                            value={council.numMembers}
+                            onChange={onChangeCouncilNumMember}
+                        />
+                    </div>
+                    {MemberFormList}
+                </div>
+                
             </div>
         </div>
-        </form>
-      </div>
-    </div>
-  );
+    );
+}
+
+const INIT_MEMBER: CouncilMemberIntf = {
+    name: "",
+    gender: GenderType.MALE,
+    academyRank: AcademyRankEnum.None,
+    degree: DegreeEnum.None,
+    workUnit: "",
+    email: "",
+    role: CouncilRoleEnum.UV
+}
+
+const MemberForm = (props: {index: number}) => {
+    const index = props.index;
+    const { council, setCouncil } = useStepperContext();
+    const currMember = council.members[index];
+    
+    const onChangeMemberName = (event: React.ChangeEvent<HTMLInputElement>) => {
+        council.members[index].name = event.target.value;
+        setCouncil({
+            ...council
+        })
+    }
+
+    const onChangeMemberGender = (event: React.ChangeEvent<HTMLSelectElement>) => {
+        council.members[index].gender = event.target.value;
+        setCouncil({
+            ...council
+        })
+    }
+
+    const onChangeMemberRole = (event: React.ChangeEvent<HTMLSelectElement>) => {
+        council.members[index].role = event.target.value;
+        setCouncil({
+            ...council
+        })
+    }
+
+
+    const onChangeMemberAcademyRank = (event: React.ChangeEvent<HTMLSelectElement>) => {
+        council.members[index].academyRank = event.target.value;
+        setCouncil({
+            ...council
+        })
+    }
+
+    const onChangeMemberDegree = (event: React.ChangeEvent<HTMLSelectElement>) => {
+        council.members[index].degree = event.target.value;
+        setCouncil({
+            ...council
+        })
+    }
+        
+    const onChangeMemberEmail = (event: React.ChangeEvent<HTMLInputElement>) => {
+        council.members[index].email = event.target.value;
+        setCouncil({
+            ...council
+        })
+    }
+  
+    const onChangeMemberWorkUnit = (event: React.ChangeEvent<HTMLInputElement>) => {
+        council.members[index].workUnit = event.target.value;
+        setCouncil({
+            ...council
+        })
+    }
+
+    return (
+        <>
+            <div className = "w-full block my-2 text-base font-medium text-gray-900 border-y-2 border-black">
+                Thành viên {index + 1}
+            </div>
+            <div className = 'flex flex-row'>
+                <div className = 'w-2/3'>
+                    <div className = "block mb-2 text-base font-medium text-gray-900">
+                        Họ và tên:
+                    </div>
+                    <input  
+                        className = "bg-gray-50 border border-gray-300 text-gray-900 text-base rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+                        placeholder = "Họ và tên"
+                        value={currMember.name}
+                        onChange={onChangeMemberName}
+                        required
+                    />
+                </div>
+            </div>
+            <div className = 'flex flex-row '>
+                <div className = 'w-1/2'>
+                    <div  className = "block mb-2 text-base font-medium text-gray-900">
+                        Giới tính:
+                    </div>
+                    <select
+                        className="bg-gray-50 border border-gray-300 text-gray-900 text-base rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+                        value={currMember.gender}
+                        onChange={onChangeMemberGender}
+                    >
+                        <option value="Nam">Nam</option>
+                        <option value="Nữ">Nữ</option>
+                    </select>
+                </div>
+                <div className = 'w-1/2 pl-2'>
+                    <div className = "block mb-2 text-base font-medium text-gray-900">
+                        Vai trò:
+                    </div>
+                    <select
+                        className="bg-gray-50 border border-gray-300 text-gray-900 text-base rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+                        value={currMember.role}
+                        onChange={onChangeMemberRole}
+                    >
+                        {Object.values(CouncilRoleEnum).map((role) => (
+                            <option
+                                key={role}
+                                value={role}
+                            >{role}</option>
+                        ))}
+                    </select>
+                </div>
+            </div>
+            <div className = 'flex flex-row '>
+                <div className = 'w-1/2'>
+                    <div className = "block mb-2 text-base font-medium text-gray-900">
+                        Học hàm:
+                    </div>
+                    <select
+                        className="bg-gray-50 border border-gray-300 text-gray-900 text-base rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+                        value={currMember.academyRank}
+                        onChange={onChangeMemberAcademyRank}
+                    >
+                        {Object.values(AcademyRankEnum).map((rank) => (
+                            <option
+                                key={rank}
+                                value={rank}
+                            >{rank}</option>
+                        ))}
+                    </select>
+                </div>
+                <div className = 'w-1/2 pl-2'>
+                    <div className = "block mb-2 text-base font-medium text-gray-900">
+                        Học vị:
+                    </div>
+                    <select
+                        className="bg-gray-50 border border-gray-300 text-gray-900 text-base rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+                        value={currMember.degree}
+                        onChange={onChangeMemberDegree}
+                    >
+                        {Object.values(DegreeEnum).map((degree) => (
+                            <option
+                                key={degree}
+                                value={degree}
+                            >{degree}</option>
+                        ))}
+                    </select>
+                </div>
+            </div>
+            <div className = 'flex flex-row'>
+                <div className = 'w-2/3'>
+                    <div className = "block mb-2 text-base font-medium text-gray-900">
+                        Email:
+                    </div>
+                    <input  
+                        className = "bg-gray-50 border border-gray-300 text-gray-900 text-base rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+                        placeholder = "Email"
+                        value={currMember.email}
+                        onChange={onChangeMemberEmail}
+                        required
+                    />
+                </div>
+            </div>
+            <div className = 'flex flex-row'>
+                <div className = 'w-2/3'>
+                    <div className = "block mb-2 text-base font-medium text-gray-900">
+                        Đơn vị công tác:
+                    </div>
+                    <input  
+                        className = "bg-gray-50 border border-gray-300 text-gray-900 text-base rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+                        value={currMember.workUnit}
+                        placeholder = "Đơn vị công tác"
+                        onChange={onChangeMemberWorkUnit}
+                        required
+                    />
+                </div>
+            </div>
+        </>
+    )
 }
