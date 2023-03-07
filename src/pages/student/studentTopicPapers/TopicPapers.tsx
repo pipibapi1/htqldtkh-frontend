@@ -352,7 +352,7 @@ const TopicPaperCard = (props: any) => {
                                 </div>
                             }
                             {templateWithPaper.formId !== "" && 
-                                <Link to={`${templateWithPaper.templateGivenId}/topicPaperCreation`} state={{formId: templateWithPaper.formId}}>
+                                <Link to={`${templateWithPaper.templateGivenId}/topicPaperCreation`} state={{templateId: templateWithPaper._id,formId: templateWithPaper.formId}}>
 
                                     <div className="w-40 mt-3 bg-[#0079CC] flex justify-center items-center transition text-white font-semibold py-2 border border-white-500 rounded-[15px] hover:bg-[#025A97] hover:cursor-pointer"
                                     >

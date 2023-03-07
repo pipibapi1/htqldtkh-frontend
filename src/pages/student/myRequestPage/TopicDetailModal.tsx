@@ -112,7 +112,7 @@ const TopicDetailModal = ({isVisible, onClose, topicId}: {isVisible: boolean, on
     }
 
     return ( 
-        <div className = "fixed inset-0 bg-black bg-opacity-50 backdrop-blur-0 flex justify-center items-center" id= "wrapper" onClick={handleClose}>
+        <div className = "fixed inset-0 bg-black bg-opacity-50 backdrop-blur-0 flex justify-center items-center z-40" id= "wrapper" onClick={handleClose}>
             <div className = "md:w-[600px] w-[90%] mx-auto">
                 <div className = 'bg-white rounded px-5 py-7'>
                     <div className = 'mb-2 pb-4 text-xl font-medium text-gray-900 text-center border-b-2 border-black'>

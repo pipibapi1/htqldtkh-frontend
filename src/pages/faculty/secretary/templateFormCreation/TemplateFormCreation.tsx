@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import Docxtemplater from 'docxtemplater';
 import * as XLSX from 'xlsx';
 import {Link, useLocation, useParams, useNavigate} from "react-router-dom";
@@ -37,7 +37,14 @@ const FormField = (props: any) => {
   const [dataType, setDataType] = useState<string>(field.dataType);
   const [note, setNote] = useState<string>(field.note);
 
-  return (<div className='px-10 mt-3 w-full'>
+  useEffect(() => {
+    setName(field.name);
+    setDataType(field.dataType);
+    setNote(field.note);
+  }, [form])
+
+  return (
+  <div className='px-10 mt-3 w-full'>
   <div className='text-md'><span className='font-semibold'>Trường dữ liệu {indx + 1}:</span> {placeholder}</div>
   <div className='w-2/3'>
     <div className='flex w-full space-x-3'>
@@ -144,7 +151,7 @@ const TemplateFormCreation: React.FC = () => {
     
           sheetData.forEach((row: any) => {
             Object.values(row).forEach((cellValue: any) => {
-              const cellPlaceholders = String(cellValue).match(/{{([^{}]*)}}/g);
+              const cellPlaceholders = String(cellValue).match(/{([^{}]*)}/g);
     
               if (cellPlaceholders) {
                 cellPlaceholders.forEach((placeholder: any) => placeholders.add(placeholder));
@@ -161,7 +168,7 @@ const TemplateFormCreation: React.FC = () => {
           Array.from(placeholders).map((placeholder: string, index: number) => {
             fields = fields.concat([{
               initialName: placeholder,
-              name: "",
+              name: placeholder,
               note: "",
               dataType: DataTypeEnum.Text
             }])
@@ -172,9 +179,14 @@ const TemplateFormCreation: React.FC = () => {
           })
         } else if (file.name.endsWith('.docx') || file.name.endsWith('.doc')) {
           const doc = new Docxtemplater(new PizZip(arrayBuffer), {delimiters: {start: '12op1j2po1j2poj1po', end: 'op21j4po21jp4oj1op24j'}})
-          const placeholders = doc.getZip().file('word/document.xml').asText().match(/{{([^{}]*)}}/g);
+          const placeholders = doc.getZip().file('word/document.xml').asText().match(/{([^{}]*)}/g);
           setPlaceholders(placeholders)
-          let fields: any[] = []
+          let fields: {
+            initialName: string,
+            name: string,
+            note: string,
+            dataType: DataTypeEnum
+          }[] = []
           placeholders.map((placeholder: string, index: number) => {
             fields = fields.concat([{
               initialName: placeholder,

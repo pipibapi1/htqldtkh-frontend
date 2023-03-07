@@ -6,7 +6,6 @@ import Swal from 'sweetalert2';
 
 import { PeriodStatus } from '../../../../../shared/types/periodStatus';
 import { TopicTypeEnum } from '../../../../../shared/types/topicType';
-import { TopicStatusEnum } from '../../../../../shared/types/topicStatus';
 
 import { useDispatch} from "react-redux";
 import { AppDispatch } from '../../../../../store';
@@ -20,8 +19,6 @@ interface Props {
     setIsOpen: any,
     setDisplayedPeriod: any
 }
-
-const RECORD_PER_PAGE = 10;
 
 interface Period{
     _id: string;
@@ -43,26 +40,6 @@ interface Expense{
         totalExpense: number;
         maxExpensePerTopic: number;
     }[]
-}
-interface Topic{
-    _id: string;
-    name: string;
-    type: TopicTypeEnum;
-    startTime: string;
-    endTime: string;
-    isExtended: boolean;
-    extensionTime: number;
-    status: TopicStatusEnum; 
-    period: string;
-    productPath: string;
-    studentId: string;
-    creationDate: string;
-    topicGivenId: string;
-    expense: number;
-    student: {
-        _id: string;
-        name: string;
-    }
 }
 
 const AllocatedGeneralExpenseForm: React.FC<Props> = (props: Props) => {

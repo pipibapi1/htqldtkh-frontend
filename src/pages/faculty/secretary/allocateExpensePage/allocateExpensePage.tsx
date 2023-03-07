@@ -11,7 +11,7 @@ import { getAllPeriodsAction } from "../../../../actions/periodAction";
 import { getExpenseDetailByPeriodAction } from '../../../../actions/expenseAction';
 import { getTopicListAction } from '../../../../actions/topicAction';
 
-import AllocatedGeneralExpenseForm from './AllocateGeneralExpenseForm/indes';
+import AllocatedGeneralExpenseForm from './AllocateGeneralExpenseForm';
 import AllocateTopicExpenseForm from './AllocatedTopicExpenseForm';
 import TopicListComponent from './TopicListComponent';
 

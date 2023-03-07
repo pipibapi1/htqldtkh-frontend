@@ -8,13 +8,27 @@ import { getAFormAction } from '../../../actions/formAction';
 import { DataTypeEnum } from '../../../shared/types/dataType';
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
+import OfficeViewer from './OfficeViewer';
+import Docxtemplater from "docxtemplater";
+import PizZip from "pizzip";
+import * as FileSaver from 'file-saver';
+import Swal from 'sweetalert2';
+import { postAddAPaperAction } from '../../../actions/paperAction';
+
+let PizZipUtils: any = null;
+if (typeof window !== "undefined") {
+  import("pizzip/utils/index.js").then(function (r) {
+    PizZipUtils = r;
+  });
+}
+
+function loadFile(url: string, callback: any) {
+  PizZipUtils.getBinaryContent(url, callback);
+}
 
 const FormField = (props: any) => {
-    const {indx, field} = props;
+    const {indx, field, updateJsonData} = props;
 
-    const [name, setName] = useState<string>(field?.name);
-    const [dataType, setDataType] = useState<string>(field?.dataType);
-    const [note, setNote] = useState<string>(field?.note);
     const [fieldValue, setFieldValue] = useState<any>("");
 
     const [validEmail, setValidEmail] = useState(true);
@@ -25,42 +39,45 @@ const FormField = (props: any) => {
 
     return (
     <div className='w-full mt-5 space-y-2'>
-        <div className='flex w-full text-sm'>
+        <div className='flex flex-col w-full text-sm'>
             <div className='w-1/2 font-semibold'>
-                {name}
+                {field?.name}
             </div>
             <div className='w-1/2 text-[#A3A3A3]'>
-                Kiểu dữ liệu: {dataType}
+                Kiểu dữ liệu: {field?.dataType}
             </div>
         </div>
         <div className='text-xs italic'>
-            *Chú thích: {note}
+            *Chú thích: {field?.note}
         </div>
         <div>
-            {(dataType === DataTypeEnum.Text || dataType === DataTypeEnum.Other) &&
+            {(field?.dataType === DataTypeEnum.Text || field?.dataType === DataTypeEnum.Other) &&
             <input type="text" value={fieldValue} className='border text-sm border-black border-1 rounded-md w-full h-10 p-2'
                 onChange={(e:any) => {
-                    e.preventDefault();
+                    e.preventDefault()
                     setFieldValue(e.target.value)
+                    updateJsonData(field?.initialName, e.target.value)
                 }}
             />
             }
 
-            {dataType === DataTypeEnum.Number && 
+            {field?.dataType === DataTypeEnum.Number && 
             <input type="number" value={fieldValue} className='border text-sm border-black border-1 rounded-md w-full h-10 p-2'
             onChange={(e:any) => {
                 e.preventDefault();
                 setFieldValue(e.target.value)
+                updateJsonData(field?.initialName, e.target.value)
             }}
             />
             }
 
-            {dataType === DataTypeEnum.Date &&
+            {field?.dataType === DataTypeEnum.Date &&
             <div className='grid justify-items-end items-center'>
                 <DatePicker
                 onChange={date => {
                     if(date){
                         setFieldValue(date);
+                        updateJsonData(field?.initialName, `${date.getDate()}-${date.getMonth() + 1}-${date.getFullYear()}`)
                     }
                 }}
                 selected={fieldValue}
@@ -75,7 +92,7 @@ const FormField = (props: any) => {
             </div>
             }
 
-            {dataType === DataTypeEnum.Email &&
+            {field?.dataType === DataTypeEnum.Email &&
                 <div>
                     {!validEmail && (
                         <div className='ml-2 text-red-500 text-xs font-medium'>
@@ -92,12 +109,13 @@ const FormField = (props: any) => {
                             setValidEmail(false)
                         }
                         setFieldValue(email);
+                        updateJsonData(field?.initialName, email)
                     }}
                     />
                 </div>
             }
 
-            {dataType === DataTypeEnum.phoneNum &&
+            {field?.dataType === DataTypeEnum.phoneNum &&
                 <div>
                     {!validPhoneNumber && (
                         <div className='ml-2 text-red-500 text-xs font-medium'>
@@ -114,6 +132,7 @@ const FormField = (props: any) => {
                             setValidPhoneNumber(false)
                         }
                         setFieldValue(phoneNumber);
+                        updateJsonData(field?.initialName, phoneNumber)
                     }}
                     />
                 </div>
@@ -126,9 +145,21 @@ const FormField = (props: any) => {
 
 const TopicPaperCreation: React.FC = () => {
 
-
     const {_id} = useParams();
     const {state} = useLocation();
+
+    const Toast = Swal.mixin({
+        toast: true,
+        position: 'top-end',
+        showConfirmButton: false,
+        timer: 4000,
+        timerProgressBar: true,
+        didOpen: (toast: any) => {
+          toast.addEventListener('mouseenter', Swal.stopTimer)
+          toast.addEventListener('mouseleave', Swal.resumeTimer)
+        }
+      })
+
     const useAppDispatch: () => AppDispatch = useDispatch
     const dispatch = useAppDispatch()
 
@@ -140,10 +171,189 @@ const TopicPaperCreation: React.FC = () => {
         }
     )
 
+    const [jsonData, setJsonData] = useState<any>({})
+    
+    const updateJsonData = (initialName: string, value: string) => {
+        let tempJsonData: any = jsonData;
+        tempJsonData[initialName.slice(1, initialName.length - 1)] = value;
+        setJsonData(tempJsonData);
+    }
+
+    const createPaper = (e:any) => {
+        e.preventDefault();
+        
+        const FORM_API_URL = process.env.REACT_APP_API_URL + "/api/form/" + form._id + "/markedTemplateFile";
+
+        if(form.markedTemplateFileName?.endsWith('.xlsx') || form.markedTemplateFileName?.endsWith('.xls')){
+            
+        }
+        else if(form.markedTemplateFileName?.endsWith('.docx') || form.markedTemplateFileName?.endsWith('.doc')){
+            
+            loadFile(FORM_API_URL, function (
+            error: any,
+            content: any
+            ) {
+                if (error) {
+                throw error;
+                }
+                const zip = new PizZip(content);
+                const doc = new Docxtemplater().loadZip(zip);
+                doc.setData(jsonData);
+                try {
+                    // render the document (replace all occurences of {first_name} by John, {last_name} by Doe, ...)
+                    doc.render();
+                } catch (error: any) {
+                    // The error thrown here contains additional information when logged with JSON.stringify (it contains a properties object containing all suberrors).
+                    
+
+                    if (error.properties && error.properties.errors instanceof Array) {
+                        const errorMessages = error.properties.errors
+                        .map(function (error: any) {
+                            return error.properties.explanation;
+                        })
+                        .join("\n");
+                        console.log("errorMessages", errorMessages);
+                        // errorMessages is a humanly readable message looking like this :
+                        // 'The tag beginning with "foobar" is unopened'
+                    }
+                    throw error;
+                }
+                const out = doc.getZip().generate({
+                type: "blob",
+                mimeType:
+                    "application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+                }); 
+                // Output the document using Data-URI
+                FileSaver.saveAs(out, form.markedTemplateFileName);
+            });
+        }
+    }
+
+    const savePaper = (e:any) => {
+        e.preventDefault();
+        
+        const FORM_API_URL = process.env.REACT_APP_API_URL + "/api/form/" + form._id + "/markedTemplateFile";
+
+        if(form.markedTemplateFileName?.endsWith('.xlsx') || form.markedTemplateFileName?.endsWith('.xls')){
+            
+        }
+        else if(form.markedTemplateFileName?.endsWith('.docx') || form.markedTemplateFileName?.endsWith('.doc')){
+            
+            loadFile(FORM_API_URL, function (
+            error: any,
+            content: any
+            ) {
+                if (error) {
+                throw error;
+                }
+                const zip = new PizZip(content);
+                const doc = new Docxtemplater().loadZip(zip);
+                doc.setData(jsonData);
+                try {
+                    // render the document (replace all occurences of {first_name} by John, {last_name} by Doe, ...)
+                    doc.render();
+                } catch (error: any) {
+                    // The error thrown here contains additional information when logged with JSON.stringify (it contains a properties object containing all suberrors).
+                    
+
+                    if (error.properties && error.properties.errors instanceof Array) {
+                        const errorMessages = error.properties.errors
+                        .map(function (error: any) {
+                            return error.properties.explanation;
+                        })
+                        .join("\n");
+                        console.log("errorMessages", errorMessages);
+                        // errorMessages is a humanly readable message looking like this :
+                        // 'The tag beginning with "foobar" is unopened'
+                    }
+                    throw error;
+                }
+                const out = doc.getZip().generate({
+                type: "blob",
+                mimeType:
+                    "application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+                }); 
+                const paperFile = new File([out], form.markedTemplateFileName ? form.markedTemplateFileName : "");
+
+                const info = {
+                    topicId: _id,
+                    templateId: state?.templateId
+                }
+                
+                let formData = new FormData();
+                formData.append('info', JSON.stringify(info))
+                formData.append('file', paperFile as File)
+                Swal.fire({
+                    icon: 'question',
+                    title: 'Bạn có chắc muốn lưu giấy tờ?',
+                    showDenyButton: true,
+                    showCancelButton: false,
+                    confirmButtonText: 'Yes',
+                }).then((result) => {
+    
+                    if(result.isConfirmed){
+                        dispatch(postAddAPaperAction(formData))
+                        .then(() => {
+                            Swal.fire({
+                                icon: 'success',
+                                title: 'Thêm giấy tờ thành công',
+                                showDenyButton: false,
+                                showCancelButton: false,
+                                confirmButtonText: 'OK',
+                              }).then((result) => {
+                                /* Read more about isConfirmed, isDenied below */
+                                if (result.isConfirmed) {
+                                    window.location.reload()
+                                } 
+                              })
+            
+                        })
+                        .catch((error) => {
+                           
+                            if (error.response) {
+                                // The request was made and the server responded with a status code
+                                // that falls out of the range of 2xx
+                                if(error.response.status === 400){
+                                    Toast.fire({
+                                        icon: 'error',
+                                        title: 'Bad request'
+                                      })
+                                }
+                              } else if (error.request) {
+                                // The request was made but no response was received
+                                // `error.request` is an instance of XMLHttpRequest in the browser and an instance of
+                                // http.ClientRequest in node.js
+                                Toast.fire({
+                                    icon: 'error',
+                                    title: error.request
+                                  })
+                              } else {
+                                // Something happened in setting up the request that triggered an Error
+                                Toast.fire({
+                                    icon: 'error',
+                                    title: error.message
+                                  })
+                              }
+                        });
+                    }
+    
+                    if(result.isDenied){
+                        
+                    }
+                })
+            });
+        }
+    }
+
     useEffect(() => {
         dispatch(getAFormAction(state.formId))
         .then((data) => {
             setForm(data?.form)
+            let tempJsonData : any = {}
+            data?.form.fields.map((field: any) => {
+                tempJsonData[field.initialName.slice(1, field.initialName.length - 1)] = ""
+                setJsonData(tempJsonData)
+            })
         }
         )
         .catch((error) => {
@@ -165,12 +375,13 @@ const TopicPaperCreation: React.FC = () => {
 
                 <div className='max-h-[calc(100vh-350px)] overflow-y-scroll border-t-2 border-b-2 px-2'>
                     {form?.fields.map((field, index) => {
-                        return <FormField indx={index} field={field}/>
+                        return <FormField indx={index} field={field} updateJsonData={updateJsonData}/>
                     })}
                 </div>
 
                 <div 
                 className='w-full mt-2 bg-[#1488D8] rounded-lg py-2 text-md font-semibold text-white flex items-center justify-center hover:cursor-pointer'
+                onClick={createPaper}
                 >
                     Tạo giấy tờ
                 </div>
@@ -178,14 +389,16 @@ const TopicPaperCreation: React.FC = () => {
                 <div 
                 className='flex justify-end mt-3'
                 >
-                    <div className='w-1/4 rounded-lg bg-white border-2 border-[#1488D8] px-1 py-3 text-[#1488D8] flex items-center justify-center hover:cursor-pointer'>
+                    <div className='w-1/4 rounded-lg bg-white border-2 border-[#1488D8] px-1 py-3 text-[#1488D8] flex items-center justify-center hover:cursor-pointer'
+                    onClick={savePaper}
+                    >
                         Lưu giấy tờ
                     </div>
                 </div>
             </div>
 
             <div className='w-2/3'>
-                
+                <OfficeViewer />
             </div>
         </div>
     )

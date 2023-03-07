@@ -65,8 +65,8 @@ interface Topic{
 }
 
 const ExpenseStatistic: React.FC = () => {
-    const [startYear, setStartYear] = useState<Date>(new Date());
-    const [endYear, setEndYear] = useState<Date>(new Date(startYear.getFullYear() + 1, startYear.getMonth(), startYear.getDate()));
+    const [startYear, setStartYear] = useState<Date>(new Date((new Date()).getFullYear(), 0, 1));
+    const [endYear, setEndYear] = useState<Date>(new Date(startYear.getFullYear() + 1, 0, 1));
     const [periods, setPeriods] = useState<Period[]>([]);
     const [expense, setExpense] = useState<Expense>({
         _id: "",
