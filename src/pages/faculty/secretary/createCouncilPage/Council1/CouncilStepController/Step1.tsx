@@ -73,7 +73,7 @@ export default function Step1() {
                     })
                 }
             })
-    }, [currYear, dispatch])
+    }, [currYear, dispatch, council, setCouncil])
 
     return (
         <div className="flex flex-col ">

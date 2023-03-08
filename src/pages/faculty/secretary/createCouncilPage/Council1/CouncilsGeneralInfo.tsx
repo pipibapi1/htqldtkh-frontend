@@ -95,7 +95,7 @@ const CouncilsGeneralInfo: React.FC = () => {
                     }
                 })
         }
-    }, [currentPeriod])
+    }, [currentPeriod, currentPage])
 
     return(
         <div className='p-4 overflow-y-auto'>
