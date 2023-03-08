@@ -61,7 +61,7 @@ export interface CouncilDetailIntf {
     place: string,
     numMembers: number,
     numTopics: number,
-    members?: CouncilMemberIntf[],
+    members: CouncilMemberIntf[],
     topicGeneralInfos?: TopicInCouncilIntf[],
     lastModified?: string
 }
@@ -69,12 +69,13 @@ export interface CouncilDetailIntf {
 export interface TopicInCouncilIntf {
     _id: string,
     topicGivenId: string,
+    type?: string,
     name: string,
     studentId: string,
     studentName?: string,
     acceptanceResult?: string,
     reviewResult?: string,
-    expense?: number
+    instructorsName?: string[]
 }
 
 export interface CouncilMemberIntf {
@@ -85,4 +86,15 @@ export interface CouncilMemberIntf {
     role: string,
     gender: string,
     email: string
+}
+
+
+export interface UpdateCouncilInfo {
+    name?: string,
+    status?: string, 
+    time?: string, 
+    date?: string, 
+    place?: string, 
+    members?: CouncilMemberIntf[],
+    numMembers?: number
 }

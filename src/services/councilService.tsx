@@ -1,6 +1,6 @@
 import axios from "axios";
 import authHeader from "./authHeader";
-import { CouncilDataIntf } from "../shared/interfaces/councilInterface";
+import { CouncilDataIntf, UpdateCouncilInfo } from "../shared/interfaces/councilInterface";
 
 const COUNCIL_API_URL = process.env.REACT_APP_API_URL + "/api/council";
 
@@ -45,6 +45,29 @@ const postNewCouncil = (councilData: CouncilDataIntf) => {
         })
 }
 
+const postAddTopicToCouncil = (councilId: string, topicList: string[]) => {
+    const data = {
+        topics: topicList
+    }
+    return axios.post(`${COUNCIL_API_URL}/${councilId}/topic`, data, { 
+        headers: authHeader()
+    })
+        .then((response) => {
+            return response.data.council
+        })
+}
+
+const putUpdateCouncil = (councilId: string, updateInfo: UpdateCouncilInfo) => {
+    return axios.put(COUNCIL_API_URL + `/${councilId}`, {
+        council: updateInfo
+    } , { 
+        headers: authHeader()
+    })
+        .then((response) => {
+            return response.data.council
+        })
+}
+
 const getCouncilDetail = (councilId: string) => {
     return axios.get(COUNCIL_API_URL + `/${councilId}`, { 
         headers: authHeader()
@@ -54,9 +77,21 @@ const getCouncilDetail = (councilId: string) => {
         })
 }
 
+const deleteCouncil = (councilId: string) => {
+    return axios.delete(COUNCIL_API_URL + `/${councilId}`, { 
+        headers: authHeader()
+    })
+        .then((response) => {
+            return response.data
+        })
+}
+
 export default {
     getCouncilStatistic,
     getListCouncil,
     postNewCouncil,
-    getCouncilDetail
+    getCouncilDetail,
+    deleteCouncil,
+    putUpdateCouncil,
+    postAddTopicToCouncil
 }

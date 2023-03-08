@@ -14,10 +14,10 @@ import { CouncilTypeEnum } from '../../../../../shared/types/councilType';
 import { CouncilStatusEnum } from '../../../../../shared/types/councilStatus';
 
 interface Props {
-  onClose: any,
-  period: string,
-  year: Date,
-  onSuccess: (council: CouncilInfoIntf) => void
+	onClose: any,
+	period: string,
+	year: Date,
+	onSuccess: (council: CouncilInfoIntf) => void
 }
 
 const AddCouncilModal = (props: Props) => {
@@ -75,7 +75,7 @@ const AddCouncilModal = (props: Props) => {
         if ((direction === "next")  && (currentStep === steps.length - 1)) {
 			const councilData = {
 				...council,
-				topics: council.topics.map((topic) => topic._id)
+				topics: council.topics.map((topic) => topic._id).slice(0, council.numTopics)
 			}
 			councilService.postNewCouncil(councilData)
 				.then((data) => {
