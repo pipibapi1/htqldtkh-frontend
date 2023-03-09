@@ -86,10 +86,9 @@ const TopicPapers:React.FC = () => {
 
     useEffect(() => {
         let queryData = {
-            topicId: _id,
             forStudent: true
         }
-        dispatch(getTemplatesWithPapersAction(queryData))
+        dispatch(getTemplatesWithPapersAction(_id?_id:"", queryData))
                 .then((data) => {
                     setTemplatesWithPapers(data?.templatesWithPapers)
                 }

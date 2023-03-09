@@ -1,8 +1,10 @@
 import React from 'react';
+
+import ImageSlider from "./ImageSlider";
+
 import BK1 from "../../assets/images/BK_1.jpg";
 import BK2 from "../../assets/images/BK_2.jpg";
 import BK3 from "../../assets/images/BK_3.jpg";
-import ImageSlider from "./ImageSlider";
 
 export interface slideImage{
   src: string;
@@ -18,16 +20,13 @@ export const slidesImageData: slideImage[] = [
   {
     src: BK3
   }
-  ];
+];
 
-
-const MainHomePageContent: React.FC = (props: any) => {
+const MainHomePageContent: React.FC = () => {
     return (   
-        <div className= 'w-full'>
-        {
-          <ImageSlider/>
-        } 
-        </div>   
+      <div className= 'w-full'>
+        {<ImageSlider/>} 
+      </div>   
     )
 }
 

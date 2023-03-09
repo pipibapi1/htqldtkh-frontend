@@ -10,8 +10,7 @@ const postAddAPaperService = (paper: FormData) => {
         'Content-Type': 'multipart/form-data'
     }
 
-    return axios.
-        post(PAPER_API_URL, paper, { 
+    return axios.post(PAPER_API_URL, paper, { 
             headers: headers
         })
         .then((response) => {
@@ -26,8 +25,7 @@ const putUpdateAPaperService = (paper: FormData) => {
         'Content-Type': 'multipart/form-data'
     }
 
-    return axios.
-        put(PAPER_API_URL, paper, { 
+    return axios.put(PAPER_API_URL, paper, { 
             headers: headers
         })
         .then((response) => {
@@ -36,8 +34,7 @@ const putUpdateAPaperService = (paper: FormData) => {
 }
 
 const deleteRemoveAPaperService = (_id: string) => {
-    return axios
-        .delete(PAPER_API_URL + '/' + _id, { headers: authHeader() })
+    return axios.delete(PAPER_API_URL + '/' + _id, { headers: authHeader() })
         .then((response) => {
             return response.data
         })

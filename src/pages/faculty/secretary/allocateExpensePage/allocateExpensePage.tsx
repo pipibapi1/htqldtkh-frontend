@@ -143,7 +143,7 @@ const AllocateExpensePage: FC = () => {
     const onChangePeriod = (event: React.ChangeEvent<HTMLSelectElement>) => {
         const period = event.target.value;
         setCurrentPeriod(period); 
-        dispatch(getExpenseDetailByPeriodAction({period: period}))
+        dispatch(getExpenseDetailByPeriodAction(period))
             .then((data) => {
                 setExpense(data?.expense)
             });
@@ -177,44 +177,6 @@ const AllocateExpensePage: FC = () => {
                     setPeriods(data?.periods);
                     if (data && data.periods.length > 0) {
                         setCurrentPeriod(data.periods[0]._id);
-                        // dispatch(getExpenseDetailByPeriodAction({period: data.periods[0]._id}))
-                        // .then((data) => {
-                        //     setExpense(data?.expense);
-                        // })
-                        // .catch((error) => {
-                        //     setExpense({
-                        //         _id: "",
-                        //         createAt: "",
-                        //         lastModified: "",
-                        //         note: "",
-                        //         generalExpense: 0,
-                        //         period: "",
-                        //         totalExpense: 0,
-                        //         allocated:[{
-                        //             type: "",
-                        //             totalExpense: 0,
-                        //             maxExpensePerTopic: 0}
-                        //         ],
-                        //         usedExpense:0,
-                        //         used: {}
-                        //     })
-                        // })
-                        // setCurrentPage(1);
-                        // setCurrentType("");
-                        // let queryForTopic: any = {
-                        //     period: data.periods[0]._id,
-                        //     page: 1,
-                        //     limit: RECORD_PER_PAGE,
-                        // }
-                        // dispatch(getTopicListAction(queryForTopic))
-                        // .then((data) => {
-                        //     setTopics(data?.topics)
-                        //     if(data?.metadata.totalPage > 0){
-                        //         setTotalPage(data?.metadata.totalPage)
-                        //     }
-                        // })
-                        // .catch((error) => {
-                        // })
                     }
                 });
         }
@@ -222,10 +184,7 @@ const AllocateExpensePage: FC = () => {
 
     useEffect(() => {
         if (currentPeriod) {
-            let query= {
-                period: currentPeriod
-            };
-            dispatch(getExpenseDetailByPeriodAction(query))
+            dispatch(getExpenseDetailByPeriodAction(currentPeriod))
                 .then((data) => {
                     setExpense(data?.expense);
                 })
@@ -316,10 +275,7 @@ const AllocateExpensePage: FC = () => {
     }
 
     const onConfirmTopicExpenseForm = (newTopicExpense: number) => {
-        let query= {
-            period: currentPeriod
-        };
-        dispatch(getExpenseDetailByPeriodAction(query))
+        dispatch(getExpenseDetailByPeriodAction(currentPeriod))
             .then((data) => {
                 setExpense(data?.expense);
             })

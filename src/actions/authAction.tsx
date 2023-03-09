@@ -9,33 +9,7 @@ import {
     RESET_PASSWORD_FAIL,
     SET_MESSAGE,
   } from "../shared/authStateType";
-import { RoleType } from "../shared/types/role";
-import { GenderType } from "../shared/types/gender";
-import { EducationType } from "../shared/types/educationType";
-
-interface SignInInput{
-    username: string;
-    password: string;
-    role: RoleType;
-}
-
-interface ResetPassWordInput{
-  email: string;
-  role: RoleType;
-}
-
-interface RegisterInput{
-  email: string;
-  phoneNumber: string;
-  name: string;
-  username: string;
-  password: string;
-  studentId: string;
-  gender: GenderType;
-  educationType: EducationType;
-  birthDate: Date;
-  role: RoleType;
-}
+import { RegisterInput, ResetPassWordInput, SignInInput } from "../shared/interfaces/authInterface";
 
 const loginAction = (signInData: SignInInput) => (dispatch: any) => {
  return authService.loginService(signInData).then(
@@ -45,15 +19,15 @@ const loginAction = (signInData: SignInInput) => (dispatch: any) => {
             payload: {user: data}
         });
 
-        return Promise.resolve();
+        return Promise.resolve(data);
     },
     (error) => {
       
         const message = (error.response &&
             error.response.data &&
             error.response.data.message) ||
-          error.message ||
-          error.toString();
+            error.message ||
+            error.toString();
 
           dispatch({
             type: LOGIN_FAIL
@@ -76,14 +50,14 @@ const registerAction = (registerData: RegisterInput) => (dispatch: any) => {
         payload: {user: data}
       });
 
-      return Promise.resolve();
+      return Promise.resolve(data);
     },
     (error) => {
       const message = (error.response &&
         error.response.data &&
         error.response.data.message) ||
-      error.message ||
-      error.toString();
+        error.message ||
+        error.toString();
 
       dispatch({
         type: REGISTER_FAIL
@@ -111,16 +85,14 @@ const resetpwAction = (resetPassWordData: ResetPassWordInput) => (dispatch: any)
       dispatch({
         type: RESET_PASSWORD_SUCCESS
       });
-      return Promise.resolve();
+      return Promise.resolve(data);
     },
     (error) => {
       const message = (error.response &&
         error.response.data &&
         error.response.data.message) ||
-      error.message ||
-      error.toString();
-
-      console.log(message)
+        error.message ||
+        error.toString();
 
       dispatch({
         type: RESET_PASSWORD_FAIL

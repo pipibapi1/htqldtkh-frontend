@@ -1,17 +1,7 @@
 import studentService from "../services/studentService";
+import { StudentQuery } from "../shared/queryInterface/studentQuery";
 
-
-interface Query{
-    page: string;
-    limit: string;
-    name: string;
-    email: string;
-    phoneNumber: string;
-    status: string;
-    eduType: string;
-}
-
-const getStudentListAction = (query: Query) => (dispatch: any) => {
+const getStudentListAction = (query: StudentQuery) => (dispatch: any) => {
     return studentService.getStudentListService(query).then(
         (data) => {
             return Promise.resolve(data);

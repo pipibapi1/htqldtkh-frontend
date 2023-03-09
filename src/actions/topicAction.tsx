@@ -1,6 +1,7 @@
 import topicService from "../services/topicService";
+import { TopicQuery } from "../shared/queryInterface/topicQuery";
  
-const getTopicListAction = (queryData: any) => (dispatch: any) =>{
+const getTopicListAction = (queryData: TopicQuery) => (dispatch: any) =>{
     return topicService.getTopicListService(queryData).then(
         (data) => {
             return Promise.resolve(data);

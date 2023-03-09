@@ -1,9 +1,11 @@
 import React from 'react';
+
 import Header from '../../components/header';
 import Footer from '../../components/footer';
+
 import RegisterPanel from './RegisterPanel';
 
-const Register: React.FC = (props: any) => {
+const Register: React.FC = () => {
     return (
         <div>
             <Header isLogin={false} isAccountServicePage={true}/>

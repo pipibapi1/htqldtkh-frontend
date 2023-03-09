@@ -1,24 +1,25 @@
 import axios from "axios";
+import { PeriodQuery } from "../shared/queryInterface/periodQuery";
 import authHeader from "./authHeader";
 
 const PERIOD_API_URL = process.env.REACT_APP_API_URL + "/api/period";
 
-const getAllPeriodsService = (query: any) => {
+const getAllPeriodsService = (query: PeriodQuery) => {
     const {year, status} = query;
-    const queryString = (year !== undefined ? `?year=${year}` : "")
-                    + (status !== undefined ? `&status=${status}` : "");
+    const queryString = "?" + (year !== undefined ? `year=${year}&` : "")
+                        + (status !== undefined ? `status=${status}&` : "");
         
     return axios.get(PERIOD_API_URL + queryString, { headers: authHeader() })
-                .then((response) => {
-                    return response.data
-                })
+        .then((response) => {
+            return response.data
+        })
 }
 
 const postAddAPeriodService = (newPeriod: any) => {
     return axios.post(PERIOD_API_URL, newPeriod, { headers: authHeader() })
-            .then((response) => {
-                return response.data
-            })
+        .then((response) => {
+            return response.data
+        })
 }
 
 const putUpdateAPeriodService = (updateInfo: any) => {
