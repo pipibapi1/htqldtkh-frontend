@@ -1,5 +1,6 @@
 import React, {useState} from 'react';
 import BKlogo from "../../assets/images/hcmut.png";
+import Bell from "../../assets/images/bell.png";
 import {Link} from "react-router-dom";
 import { appRouters } from '../../shared/urlResources';
 import { useDispatch, useSelector} from "react-redux";
@@ -21,6 +22,13 @@ const Header: React.FC<Props> = (props: any) => {
 
     const { isLoggedIn } = useSelector((state: RootState) => state.auth);
     const { user: currentUser } = useSelector((state: RootState) => state.auth);
+
+    // Dữ liệu giả để chạy header
+    // const currentUser = {
+    //     role : RoleType.FS,
+    //     image: BKlogo,
+    //     name: 'TruongAnhKhoa'
+    // }
 
     const handleLogout = (e:any) => {
         e.preventDefault();
@@ -58,7 +66,41 @@ const Header: React.FC<Props> = (props: any) => {
     }
 
     const [isDroppedDown, setIsDroppedDown] = useState<boolean>(false);
+
+    // PHẦN CODE THÔNG BÁO
+    // const [notifications, setNotifications] = useState([]);
+    const notification = [
+        {senderName: "Thư ký Khoa" , type : 1},
+        {senderName: "Thư ký Khoa" , type : 2},
+        {senderName: "Phó chủ nhiệm Khoa" , type : 3},
+        {senderName: "Phó chủ nhiệm Khoa" , type : 4},
+      ];
+    const [open, setOpen] = useState(false);
+
+    const handleRead = () => {
+        // setNotifications([]);
+        setOpen(false);
+      };
+
     const {isLogin, isAccountServicePage} = props;
+    const displayNotification = ({senderName, type}: {senderName: any, type: any}) => {
+        let action;
+        if (type === 1) {
+            action = "có thông báo mới"
+        }else if (type === 2) {
+            action = "đã phản hồi"
+        }else if (type === 3) {
+            action = "đã chấp thuận"
+        }else {
+            action = "đã từ chối"
+        }
+        return(     
+            <div className = 'font-medium border-b border-gray-800 text-xl'>{`${senderName} ${action} đề tài của bạn \n `} 
+            
+            </div>    
+        )
+    
+    }
 
     return (
         <div className='bg-white grid grid-cols-12 gap-4 p-3 mb-1 max-h-17 border-2 sticky top-0 z-40'>
@@ -102,7 +144,35 @@ const Header: React.FC<Props> = (props: any) => {
 
             {/* Avatar and drop down menu */}
             {isLogin && !isAccountServicePage && (
-            <div className='col-start-12 col-span-5'>
+            <div className='col-start-11 col-span-1 grid-cols-2 grid '>
+                <div 
+                className='relative flex flex-row items-center hover:cursor-pointer pt-5'
+                // onClick = {() => setIsDroppedDown2(!isDroppedDown2)}
+                onClick={() => setOpen(!open)}
+                >
+                    <img
+                    className="p-1 w-9 h-9 rounded-full ring-2 ring-gray-300 dark:ring-gray-500 inline-block "
+                    src={Bell}
+                    alt="Bordered avatar"
+                    ></img>
+                    {
+                        notification.length > 0 &&
+                        <div className="w-5 h-5 bg-red-600 rounded-full text-sm font-bold text-center mb-6 ml-6
+                         items-center content-center absolute">{notification.length}</div>
+                    }
+                </div>
+
+                {open && (
+                    <div className="dropdown-fullname ml-20 mt-20 w-[350px] text-gray-700 block px-4 py-2 ">
+                    {notification.map((n) => displayNotification(n))}
+                    <button className="w-full mr-2 my-2 text-white font-medium text-sm px-5 py-2.5 text-center rounded-lg bg-blue-700 hover:bg-blue-700 
+                    focus:ring-4 focus:outline-none focus:ring-blue-300" onClick={handleRead}>
+                        Đánh dấu đã đọc
+                    </button>
+                    </div>
+                )}
+
+
                 <div 
                 className='relative flex items-center hover:cursor-pointer pt-5'
                 onClick = {() => setIsDroppedDown(!isDroppedDown)}
@@ -125,7 +195,7 @@ const Header: React.FC<Props> = (props: any) => {
                 </div>
 
                 <div className={
-                    "dropdown-fullname divide-y " + (!isDroppedDown ? "hidden" : "")
+                    "dropdown-fullname divide-y mt-20 " + (!isDroppedDown ? "hidden" : "")
                     }
                     style={{borderRadius: "none"}}
                 >
