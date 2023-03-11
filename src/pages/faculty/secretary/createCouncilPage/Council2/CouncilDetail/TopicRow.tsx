@@ -1,4 +1,4 @@
-import { TopicInCouncilIntf } from "../../../../../../shared/interfaces/councilInterface";
+import { TopicInCouncilIntf, CouncilDetailIntf } from "../../../../../../shared/interfaces/councilInterface";
 import TopicService from "../../../../../../services/topicService";
 import Swal from "sweetalert2";
 import React, { useState } from "react";
@@ -13,6 +13,7 @@ export const TopicRow: React.FC<Props> = (props) => {
     const { index } = props;
     const {council, setCouncil} = useCouncilDetailContext();
     const topic = (council.topicGeneralInfos as TopicInCouncilIntf[])[index];
+
     const instructorList = topic.instructorsName? topic.instructorsName : [];
 
     const onClickDeleteBtn = () => {
@@ -28,8 +29,8 @@ export const TopicRow: React.FC<Props> = (props) => {
                 TopicService.putUpdateATopicService({
                     _id: topic._id,
                     topic: {
-                        reviewCouncilId: "",
-                        reviewResult: TopicResultEnum.WAITING
+                        acceptanceCouncilId: "",
+                        acceptanceResult: TopicResultEnum.WAITING
                     }
                 })
                 .then((data) => {
@@ -46,26 +47,26 @@ export const TopicRow: React.FC<Props> = (props) => {
 
     const onChangeTopicResult = (e: React.ChangeEvent<HTMLSelectElement>) => {
         const value = e.target.value;
-        const beforeValue = topic.reviewResult;
-        (council.topicGeneralInfos as TopicInCouncilIntf[])[index].reviewResult = "loading...";
+        const beforeValue = topic.acceptanceResult;
+        (council.topicGeneralInfos as TopicInCouncilIntf[])[index].acceptanceResult = "loading...";
         setCouncil({...council})
         if (value !== beforeValue) {
             TopicService.putUpdateATopicService({
                 _id: topic._id,
                 topic: {
-                    reviewResult: value
+                    acceptanceResult: value
                 }
             }).then((data) => {
-                (council.topicGeneralInfos as TopicInCouncilIntf[])[index].reviewResult = value;
+                (council.topicGeneralInfos as TopicInCouncilIntf[])[index].acceptanceResult = value;
                 setCouncil({...council})
             })
             .catch((data) => {
-                (council.topicGeneralInfos as TopicInCouncilIntf[])[index].reviewResult = beforeValue;
+                (council.topicGeneralInfos as TopicInCouncilIntf[])[index].acceptanceResult = beforeValue;
                 setCouncil({...council})
             })
         }
         else {
-            (council.topicGeneralInfos as TopicInCouncilIntf[])[index].reviewResult = beforeValue;
+            (council.topicGeneralInfos as TopicInCouncilIntf[])[index].acceptanceResult = beforeValue;
             setCouncil({...council})
         }
     }
@@ -93,7 +94,7 @@ export const TopicRow: React.FC<Props> = (props) => {
             <td className='text-center font-medium text-sm text-gray-900 px-1 py-1 border-l-2'>
                 <select
                     className="bg-transparent h-[40px] w-28 border border-black border-1 rounded-lg focus:ring-blue-500 px-2 outline-none"
-                    value={topic.reviewResult? topic.reviewResult : TopicResultEnum.WAITING}
+                    value={topic.acceptanceResult? topic.acceptanceResult : TopicResultEnum.WAITING}
                     onChange={onChangeTopicResult}
                 >
                     {Object.values(TopicResultEnum).map((value) => {

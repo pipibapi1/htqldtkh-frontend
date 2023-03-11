@@ -1,17 +1,14 @@
 import React, { useState, useEffect } from "react";
 import { useStepperContext } from "./StepperContext";
-
 import { getAllPeriodsAction } from "../../../../../../actions/periodAction";
 import { AppDispatch } from "../../../../../../store";
 import { useDispatch } from "react-redux";
-
 import DatePicker from 'react-datepicker';
 import Calendar from '../../../../../../assets/images/calendar.png';
-
 import { Period } from "../../../../../../shared/interfaces/periodInterface";
 
 export default function Step1() {
-    const { council, setCouncil, year } = useStepperContext();
+    const { council, setCouncil, year, error, setError } = useStepperContext();
     const [currYear, setCurrYear] = useState<Date>(year);
     const [periods, setPeriods] = useState<Period[]>([]);
 
@@ -24,37 +21,42 @@ export default function Step1() {
     }
 
     const onChangePeriodSelect = (event: React.ChangeEvent<HTMLSelectElement>) => {
+        const value = event.target.value;
         setCouncil({
             ...council,
-            period: event.target.value
+            period: value
         })
     }
 
     const onChangeCouncilName = (event: React.ChangeEvent<HTMLInputElement>) => {
+        const value = event.target.value;
         setCouncil({
             ...council,
-            name: event.target.value
+            name: value
         })
     }
 
     const onChangeCouncilPlace = (event: React.ChangeEvent<HTMLInputElement>) => {
+        const value = event.target.value;
         setCouncil({
             ...council,
-            place: event.target.value
+            place: value
         })
     }
 
     const onChangeCouncilTime = (event: React.ChangeEvent<HTMLInputElement>) => {
+        const value = event.target.value;
         setCouncil({
             ...council,
-            time: event.target.value
+            time: value
         })
     }
     
     const onChangeCouncilDate = (event: React.ChangeEvent<HTMLInputElement>) => {
+        const value = event.target.value;
         setCouncil({
             ...council,
-            date: event.target.value
+            date: value
         })
     }
 
@@ -66,6 +68,18 @@ export default function Step1() {
             .then((data) => {
                 const newPeriods: Period[] = data?.periods;
                 setPeriods(newPeriods);
+                if (newPeriods.length === 0) {
+                    setError({
+                        ...error,
+                        periodErr: true
+                    })
+                }
+                else {
+                    setError({
+                        ...error,
+                        periodErr: false
+                    })
+                }
                 if (newPeriods.findIndex((period) => period._id === council.period) === -1) {
                     setCouncil({
                         ...council,
@@ -73,7 +87,7 @@ export default function Step1() {
                     })
                 }
             })
-    }, [currYear, dispatch, council, setCouncil])
+    }, [currYear, dispatch, council, setCouncil, error, setError])
 
     return (
         <div className="flex flex-col ">
@@ -115,21 +129,26 @@ export default function Step1() {
                                 {periods.map((period, index) => 
                                     <option value={period._id} id={period._id} key={period._id}>{periodDisplay(period.period)}</option>
                                 )}
-                            </select> : "Không có đợt nào"}
+                            </select> : "Không có đợt nào. Vui lòng thêm đợt mới"}
                     </div>
 
                 <div className = 'flex flex-row '>
-                    <div className = 'mx-6 w-full '>
+                    <div className = 'px-6 w-full flex flex-col'>
                         <div className = "block mb-2 text-base font-medium text-gray-900">
                             Tên hội đồng:
                         </div>
-                        <input
-                            className = "bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
-                            placeholder = "Tên hội đồng"
-                            type="text"
-                            value={council.name}
-                            onChange={onChangeCouncilName}
-                        />
+                        <div className = 'w-full flex flex-col'>
+                            <input
+                                className = "bg-gray-50 border border-gray-300 text-gray-900 text-base rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+                                placeholder = "Tên hội đồng"
+                                type="text"
+                                value={council.name}
+                                onChange={onChangeCouncilName}
+                            />
+                            <div className="text-sm text-red-600 p-1">
+                                {error.nameErr}
+                            </div>
+                        </div>
                     </div>
                 </div>
 
@@ -138,43 +157,58 @@ export default function Step1() {
                         <div className = "block mb-2 text-base font-medium text-gray-900">
                             Thời gian:
                         </div>
-                        <input
-                            className = "bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
-                            placeholder = "Thời gian"
-                            type="time"
-                            value={council.time}
-                            onChange={onChangeCouncilTime}
-                            required
-                        />
+                        <div className = 'w-full flex flex-col'>
+                            <input
+                                className = "bg-gray-50 border border-gray-300 text-gray-900 text-base rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+                                placeholder = "Thời gian"
+                                type="time"
+                                value={council.time}
+                                onChange={onChangeCouncilTime}
+                                required
+                            />
+                            <div className="text-sm text-red-600 p-1">
+                                {error.timeErr}
+                            </div>
+                        </div>
                     </div>
                     <div className = 'mx-6 w-full'>
                         <div className = "block mb-2 text-base font-medium text-gray-900">
                             Ngày diễn ra :
                         </div>
-                        <input
-                            className = "bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
-                            placeholder = "Ngày diễn ra"
-                            value={council.date}
-                            onChange={onChangeCouncilDate}
-                            type="date"
-                            required
-                        />
+                        <div className = 'w-full flex flex-col'>
+                            <input
+                                className = "bg-gray-50 border border-gray-300 text-gray-900 text-base rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+                                placeholder = "Ngày diễn ra"
+                                value={council.date}
+                                onChange={onChangeCouncilDate}
+                                type="date"
+                                required
+                            />
+                            <div className="text-sm text-red-600 p-1">
+                                {error.dateErr}
+                            </div>
+                        </div>
                     </div>
                 </div>
 
                 <div className = 'flex flex-row '>
                     <div className = 'mx-6 w-full'>
-                    <div className = "block mb-2 text-base font-medium text-gray-900">
-                        Địa điểm:
-                    </div>
-                    <input
-                        className = "bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
-                        placeholder = "Địa điểm"
-                        type="text"
-                        required
-                        value={council.place}
-                        onChange={onChangeCouncilPlace}
-                    />
+                        <div className = "block mb-2 text-base font-medium text-gray-900">
+                            Địa điểm:
+                        </div>
+                        <div className = 'w-full flex flex-col'>
+                            <input
+                                className = "bg-gray-50 border border-gray-300 text-gray-900 text-base rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+                                placeholder = "Địa điểm"
+                                type="text"
+                                required
+                                value={council.place}
+                                onChange={onChangeCouncilPlace}
+                            />
+                            <div className="text-sm text-red-600 p-1">
+                                {error.placeErr}
+                            </div>
+                        </div>
                     </div>
                 </div>
                 </form>

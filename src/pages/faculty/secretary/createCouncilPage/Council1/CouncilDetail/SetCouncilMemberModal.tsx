@@ -3,7 +3,7 @@ import { useCouncilDetailContext } from "./CouncilDetailContext";
 import CouncilService from "../../../../../../services/councilService";
 import Swal from "sweetalert2";
 
-import { CouncilDetailIntf, CouncilMemberIntf } from "../../../../../../shared/interfaces/councilInterface";
+import { CouncilMemberIntf } from "../../../../../../shared/interfaces/councilInterface";
 import { GenderType } from "../../../../../../shared/types/gender";
 import { AcademyRank } from "../../../../../../shared/types/academyRank";
 import { DegreeEnum } from "../../../../../../shared/types/degree";
@@ -13,9 +13,15 @@ interface Update {
     members: CouncilMemberIntf[]
 }
 
+interface Error {
+    nameErr: string,
+    emailErr: string
+}
+
 const SetCouncilMemberModal = ({onClose}: {onClose: any}) => {
     const { council, setCouncil } = useCouncilDetailContext();
     const [update, setUpdate] = useState<Update>({members: council.members});
+    const [error, setError] = useState<Error[]>([]);
 
     const MemberFormList = [];
     for (let idx = 0; idx < (council.numMembers? council.numMembers:0); idx++) {
@@ -25,25 +31,63 @@ const SetCouncilMemberModal = ({onClose}: {onClose: any}) => {
                 index={idx}
                 update={update}
                 setUpdate={setUpdate}
+                error={error}
             ></MemberForm>
         )
     }
 
+    const hasError = () => {
+        if (update.members.length === 0){
+            return false;
+        }
+        else {
+            const currErr = update.members.map((member) => {
+                const memberErr = {
+                    nameErr: "",
+                    emailErr: ""
+                }
+                memberErr.nameErr = (member.name === "")?  "* Đây là trường bắt buộc" : "";
+    
+                //validate email
+                const emailRegEx: RegExp = /[a-zA-Z0-9][a-zA-Z0-9.]*@[a-zA-Z0-9][a-zA-Z0-9.]*/;
+                if (member.email === "") {
+                    memberErr.emailErr = "* Đây là trường bắt buộc"
+                }
+                else if (member.email.match(emailRegEx)) {
+                    memberErr.emailErr = ""
+                }
+                else {
+                    memberErr.emailErr = "* Sai định dạng"
+                }
+                return memberErr
+            })
+            setError(currErr);
+            const isErr = currErr.map((memberErr) => {
+                return ((memberErr.emailErr !== "") || (memberErr.nameErr !== ""))
+            }).reduce((prev, curr) => {
+                return prev || curr
+            })
+            return isErr;
+        }
+    }
+
     const onClickConfirmBtn = (event: React.MouseEvent<HTMLButtonElement>) => {
-        CouncilService.putUpdateCouncil(council._id as string, update)
-            .then((data) => {
-                setCouncil(data);
-                onClose();
-            })
-            .catch((data) => {
-                Swal.fire({
-                    icon: 'error',
-                    text: 'Có lỗi xảy ra. Vui lòng thử lại sau.',
-                    showDenyButton: false,
-                    showCancelButton: false,
-                    confirmButtonText: 'OK'
+        if (!hasError()) {
+            CouncilService.putUpdateCouncil(council._id as string, update)
+                .then((data) => {
+                    setCouncil(data);
+                    onClose();
                 })
-            })
+                .catch((data) => {
+                    Swal.fire({
+                        icon: 'error',
+                        text: 'Có lỗi xảy ra. Vui lòng thử lại sau.',
+                        showDenyButton: false,
+                        showCancelButton: false,
+                        confirmButtonText: 'OK'
+                    })
+                })
+        }
     }
 
     return (
@@ -84,12 +128,15 @@ const SetCouncilMemberModal = ({onClose}: {onClose: any}) => {
 interface MemberFormProps {
     index: number,
     update: Update,
-    setUpdate: any
+    setUpdate: any,
+    error: Error[];
+    
 }
 
 const MemberForm = (props: MemberFormProps) => {
-    const {index, update, setUpdate} = props;
+    const {index, update, setUpdate, error} = props;
     const currMember = update.members[index];
+    const currErr = error[index]
     
     const onChangeMemberName = (event: React.ChangeEvent<HTMLInputElement>) => {
         update.members[index].name = event.target.value;
@@ -121,6 +168,11 @@ const MemberForm = (props: MemberFormProps) => {
         update.members[index].email = event.target.value;
         setUpdate({...update});
     }
+        
+    const onChangeMemberPhoneNumber = (event: React.ChangeEvent<HTMLInputElement>) => {
+        update.members[index].phoneNumber = event.target.value;
+        setUpdate({...update});
+    }
   
     const onChangeMemberWorkUnit = (event: React.ChangeEvent<HTMLInputElement>) => {
         update.members[index].workUnit = event.target.value;
@@ -137,13 +189,18 @@ const MemberForm = (props: MemberFormProps) => {
                     <div className = "block mb-2 text-base font-medium text-gray-900">
                         Họ và tên:
                     </div>
-                    <input  
-                        className = "bg-gray-50 border border-gray-300 text-gray-900 text-base rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
-                        placeholder = "Họ và tên"
-                        value={currMember.name}
-                        onChange={onChangeMemberName}
-                        required
-                    />
+                    <div className = 'w-full flex flex-col'>
+                        <input  
+                            className = "bg-gray-50 border border-gray-300 text-gray-900 text-base rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+                            placeholder = "Họ và tên"
+                            value={currMember.name}
+                            onChange={onChangeMemberName}
+                            required
+                        />
+                        <div className="text-sm text-red-600 p-1">
+                            {currErr?.nameErr}
+                        </div>
+                    </div>
                 </div>
             </div>
             <div className = 'flex flex-row '>
@@ -156,8 +213,11 @@ const MemberForm = (props: MemberFormProps) => {
                         value={currMember.gender}
                         onChange={onChangeMemberGender}
                     >
-                        <option value="Nam">Nam</option>
-                        <option value="Nữ">Nữ</option>
+                        {Object.values(GenderType).map(type => {
+                            return (
+                                <option value={type} key={type}>{type}</option>
+                            )
+                        })}
                     </select>
                 </div>
                 <div className = 'w-1/2 pl-2'>
@@ -219,13 +279,34 @@ const MemberForm = (props: MemberFormProps) => {
                     <div className = "block mb-2 text-base font-medium text-gray-900">
                         Email:
                     </div>
-                    <input  
-                        className = "bg-gray-50 border border-gray-300 text-gray-900 text-base rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
-                        placeholder = "Email"
-                        value={currMember.email}
-                        onChange={onChangeMemberEmail}
-                        required
-                    />
+                    <div className = 'w-full flex flex-col'>
+                        <input  
+                            className = "bg-gray-50 border border-gray-300 text-gray-900 text-base rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+                            placeholder = "Email"
+                            value={currMember.email}
+                            onChange={onChangeMemberEmail}
+                            required
+                        />
+                        <div className="text-sm text-red-600 p-1">
+                            {currErr?.emailErr}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div className = 'flex flex-row'>
+                <div className = 'w-2/3'>
+                    <div className = "block mb-2 text-base font-medium text-gray-900">
+                        Số điện thoại:
+                    </div>
+                    <div className = 'w-full flex flex-col'>
+                        <input  
+                            className = "bg-gray-50 border border-gray-300 text-gray-900 text-base rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+                            placeholder = "Số điện thoại"
+                            value={currMember.phoneNumber}
+                            onChange={onChangeMemberPhoneNumber}
+                            required
+                        />
+                    </div>
                 </div>
             </div>
             <div className = 'flex flex-row'>

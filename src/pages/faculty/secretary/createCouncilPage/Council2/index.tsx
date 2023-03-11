@@ -15,7 +15,7 @@ const FSAcceptanceCouncil: React.FC = () => {
                 <SideNav role={RoleType.FS} pathName={location.pathname}/>
                 <div className=''>
                     <PathHead path={"TẠO HỘI ĐỒNG / HĐ nghiệm thu"}/>
-                    <CouncilsGeneralInfo />
+                    <CouncilsGeneralInfo/>
                 </div>
             </div>
         </div>

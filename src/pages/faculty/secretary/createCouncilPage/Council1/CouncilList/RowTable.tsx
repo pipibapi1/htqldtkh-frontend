@@ -7,11 +7,12 @@ import Swal from 'sweetalert2';
 
 interface Props {
   index: number;
-  council: CouncilInfoIntf
+  council: CouncilInfoIntf,
+  onDelete: any
 }
 
 const RowTable: React.FC<Props> = (props) => {
-  const { index , council} = props;
+  const { index, council, onDelete } = props;
 
   const displayTime = () => {
     const arr = council.date.split("-");
@@ -31,6 +32,7 @@ const RowTable: React.FC<Props> = (props) => {
         if (result.isConfirmed) {
           CouncilService.deleteCouncil(council._id as string)
             .then((data) => {
+				onDelete(council._id);
 				Swal.fire({
 					icon: 'success',
 					text: 'Xóa hội đồng thành công.',

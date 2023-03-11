@@ -116,7 +116,11 @@ export default function SetGeneralInfoModal(props: Props) {
         if (!hasError()){
             CouncilService.putUpdateCouncil(council._id as string, update)
                 .then((data) => {
-                    setCouncil(data);
+                    setCouncil({
+                        ...data,
+                        numTopics: council.numTopics,
+                        topicGeneralInfos: council.topicGeneralInfos
+                    });
                     onClose();
                 })
                 .catch((data) => {

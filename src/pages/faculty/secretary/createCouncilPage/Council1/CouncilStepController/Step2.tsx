@@ -79,13 +79,21 @@ const INIT_MEMBER: CouncilMemberIntf = {
     degree: DegreeEnum.None,
     workUnit: "",
     email: "",
+    phoneNumber: "",
     role: CouncilRoleEnum.UV
 }
 
 const MemberForm = (props: {index: number}) => {
     const index = props.index;
-    const { council, setCouncil } = useStepperContext();
+    const { council, setCouncil, error } = useStepperContext();
     const currMember = council.members[index];
+    let currErr = {
+        emailErr: "",
+        nameErr: ""
+    };
+    if (index < error.memberErr.length) {
+        currErr = error.memberErr[index]
+    }
     
     const onChangeMemberName = (event: React.ChangeEvent<HTMLInputElement>) => {
         council.members[index].name = event.target.value;
@@ -129,6 +137,13 @@ const MemberForm = (props: {index: number}) => {
             ...council
         })
     }
+            
+    const onChangeMemberPhoneNumber = (event: React.ChangeEvent<HTMLInputElement>) => {
+        council.members[index].phoneNumber = event.target.value;
+        setCouncil({
+            ...council
+        })
+    }
   
     const onChangeMemberWorkUnit = (event: React.ChangeEvent<HTMLInputElement>) => {
         council.members[index].workUnit = event.target.value;
@@ -147,13 +162,18 @@ const MemberForm = (props: {index: number}) => {
                     <div className = "block mb-2 text-base font-medium text-gray-900">
                         Họ và tên:
                     </div>
-                    <input  
-                        className = "bg-gray-50 border border-gray-300 text-gray-900 text-base rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
-                        placeholder = "Họ và tên"
-                        value={currMember.name}
-                        onChange={onChangeMemberName}
-                        required
-                    />
+                    <div className = 'w-full flex flex-col'>
+                        <input  
+                            className = "bg-gray-50 border border-gray-300 text-gray-900 text-base rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+                            placeholder = "Họ và tên"
+                            value={currMember.name}
+                            onChange={onChangeMemberName}
+                            required
+                        />
+                        <div className="text-sm text-red-600 p-1">
+                            {currErr.nameErr}
+                        </div>
+                    </div>
                 </div>
             </div>
             <div className = 'flex flex-row '>
@@ -229,13 +249,34 @@ const MemberForm = (props: {index: number}) => {
                     <div className = "block mb-2 text-base font-medium text-gray-900">
                         Email:
                     </div>
-                    <input  
-                        className = "bg-gray-50 border border-gray-300 text-gray-900 text-base rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
-                        placeholder = "Email"
-                        value={currMember.email}
-                        onChange={onChangeMemberEmail}
-                        required
-                    />
+                    <div className = 'w-full flex flex-col'>
+                        <input  
+                            className = "bg-gray-50 border border-gray-300 text-gray-900 text-base rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+                            placeholder = "Email"
+                            value={currMember.email}
+                            onChange={onChangeMemberEmail}
+                            required
+                        />
+                        <div className="text-sm text-red-600 p-1">
+                            {currErr.emailErr}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div className = 'flex flex-row'>
+                <div className = 'w-2/3'>
+                    <div className = "block mb-2 text-base font-medium text-gray-900">
+                        Số điện thoại:
+                    </div>
+                    <div className = 'w-full flex flex-col'>
+                        <input  
+                            className = "bg-gray-50 border border-gray-300 text-gray-900 text-base rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+                            placeholder = "Email"
+                            value={currMember.phoneNumber}
+                            onChange={onChangeMemberPhoneNumber}
+                            required
+                        />
+                    </div>
                 </div>
             </div>
             <div className = 'flex flex-row'>
