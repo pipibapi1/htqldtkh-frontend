@@ -41,16 +41,30 @@ const CouncilsGeneralInfo: React.FC = () => {
         setShowModal(false);
     }
 
-    const onCreateCouncilSuccess = (newCouncil: CouncilInfoIntf) => {
+    const onCreateCouncilSuccess = (newCouncil: CouncilInfoIntf, numTopics: number) => {
         if (newCouncil?._id) {
             setCouncilStatistic({
                 ...councilStatistic,
-                numCouncil: councilStatistic.numCouncil as number + 1,
-                topicHadCouncil: councilStatistic.topicHadCouncil as number + newCouncil.numTopics
+                numCouncil: (councilStatistic.numCouncil as number) + 1,
+                topicHadCouncil: councilStatistic.topicHadCouncil as number + numTopics
             })
-            councilList.push(newCouncil);
+            councilList.push({
+                ...newCouncil,
+                numTopics: numTopics
+            });
             setCouncilList(councilList.map(ele => ele));
         }
+    }
+
+    const onDeleteCouncil = (councilId: string) => {
+        const deleteCouncil = councilList.find(ele => ele._id === councilId);
+        setCouncilStatistic({
+            ...councilStatistic,
+            numCouncil: councilStatistic.numCouncil as number - 1,
+            topicHadCouncil: (councilStatistic.topicHadCouncil as number) - (deleteCouncil?.numTopics as number)
+        })
+        const newCouncilList = councilList.filter((council => council._id !== councilId));
+        setCouncilList(newCouncilList);
     }
 
     useEffect(() => {
@@ -168,6 +182,7 @@ const CouncilsGeneralInfo: React.FC = () => {
                 totalPage={totalPage}
                 currentPage={currentPage}
                 setCurrentPage={setCurrentPage}
+                onDelete={onDeleteCouncil}
             />
 
             {showModal && (

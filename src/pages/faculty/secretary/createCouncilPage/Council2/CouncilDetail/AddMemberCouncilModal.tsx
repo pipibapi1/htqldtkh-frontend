@@ -70,7 +70,11 @@ const AddCouncilMemberModal = ({onClose}: {onClose: any}) => {
         } 
         CouncilService.putUpdateCouncil(council._id as string, updateData)
             .then((data) => {
-                setCouncil(data);
+                setCouncil({
+                    ...data,
+                    numTopics: council.numTopics,
+                    topicGeneralInfos: council.topicGeneralInfos
+                });
                 onClose();
             })
             .catch((data) => {

@@ -61,7 +61,11 @@ export const MemberRow: React.FC<Props> = (props) => {
 				update.members.splice(index, 1);
 				councilService.putUpdateCouncil(council._id as string, update)
 					.then((data) => {
-						setCouncil(data);
+						setCouncil({
+							...data,
+							numTopics: council.numTopics,
+							topicGeneralInfos: council.topicGeneralInfos
+						});
 					})
             }
         })

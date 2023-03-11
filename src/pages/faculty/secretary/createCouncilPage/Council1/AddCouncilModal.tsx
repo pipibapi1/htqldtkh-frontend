@@ -17,7 +17,19 @@ interface Props {
 	onClose: any,
 	period: string,
 	year: Date,
-	onSuccess: (council: CouncilInfoIntf) => void
+	onSuccess: (council: CouncilInfoIntf, numTopics: number) => void
+}
+
+interface Error {
+	periodErr: boolean,
+	nameErr: string,
+	timeErr: string,
+	dateErr: string,
+	placeErr: string,
+	memberErr: {
+		nameErr: string,
+		emailErr: string
+	}[]
 }
 
 const AddCouncilModal = (props: Props) => {
@@ -36,11 +48,21 @@ const AddCouncilModal = (props: Props) => {
 		members: [],
 		topics: []
     });
+	const [error, setError] = useState<Error>({
+		periodErr: false,
+		nameErr: "",
+		timeErr: "",
+		dateErr: "",
+		placeErr: "",
+		memberErr: []
+	})
 
     const stepperContextValue = {
 		council: council,
 		setCouncil: setCouncil,
-		year: year
+		year: year,
+		error: error,
+		setError: setError
     }
 
     const steps = [
@@ -70,24 +92,117 @@ const AddCouncilModal = (props: Props) => {
         if (e.target.id === "wrapper") onClose();
     }
 
+	const validateStep1 = () => {
+		//validate name council
+		error.nameErr = (council.name === "")? "* Đây là dữ liệu bắt buộc" : "";
+
+		//validate time of council
+		const timeRegEx: RegExp = /(([0-1][0-9])|(2[0-3])):([0-5][0-9])/;
+		if (council.time === "") {
+			error.timeErr = "* Đây là dữ liệu bắt buộc"
+		}
+		else if (council.time.match(timeRegEx)) {
+			error.timeErr = "";
+		}
+		else {
+			error.timeErr = "* Sai định dạng"
+		}
+
+		//validate date of council
+		const dateRegEx: RegExp = /[0-9]{4}-((0[1-9])|(1[012]))-(([12][0-9])|(3[01])|(0[1-9]))/;
+		if (council.date === "") {
+			error.dateErr = "* Đây là dữ liệu bắt buộc"
+		}
+		else if (council.date.match(dateRegEx)) {
+			error.dateErr = "";
+		}
+		else {
+			error.dateErr = "* Sai định dạng"
+		}
+
+		//validate place of council
+		error.placeErr = (council.place === "")? "* Đây là dữ liệu bắt buộc" : "";
+
+		setError({
+			...error
+		})
+	}
+
+	const validateStep2 = () => {
+		const memberErr = council.members.slice(0, council.numMembers).map((member => {
+			const memberErr = {
+				nameErr: "",
+				emailErr: ""
+			}
+			memberErr.nameErr = (member.name === "")?  "* Đây là trường bắt buộc" : "";
+
+			//validate email
+			const emailRegEx: RegExp = /[a-zA-Z0-9][a-zA-Z0-9.]*@[a-zA-Z0-9][a-zA-Z0-9.]*/;
+			if (member.email === "") {
+				memberErr.emailErr = "* Đây là trường bắt buộc"
+			}
+			else if (member.email.match(emailRegEx)) {
+				memberErr.emailErr = ""
+			}
+			else {
+				memberErr.emailErr = "* Sai định dạng"
+			}
+			return memberErr
+		}))
+		setError({
+			...error,
+			memberErr: memberErr
+		})
+	}
+
+	const hasErr = () => {
+		switch (currentStep){
+			case 1:
+				validateStep1();
+				return error.dateErr || error.periodErr || error.nameErr || error.timeErr || error.placeErr
+			case 2:
+				validateStep2();
+				if (error.memberErr.length === 0) {
+					return false;
+				}
+				else {
+					const isErr = error.memberErr.map((memberErr) => {
+						return (memberErr.emailErr || memberErr.nameErr)? true:false;
+					}).reduce((prev, curr) => {
+						return prev || curr
+					})
+					return isErr
+				}
+			case 3:
+				return false
+			case 4:
+				return false
+			default:
+				return false
+		}
+	}
+
     const handleClick = (direction: any) => {
         let newStep = currentStep;
-        if ((direction === "next")  && (currentStep === steps.length - 1)) {
-			const councilData = {
-				...council,
-				topics: council.topics.map((topic) => topic._id).slice(0, council.numTopics)
+		if (!hasErr()) {
+			if ((direction === "next")  && (currentStep === steps.length - 1)) {
+				const councilData = {
+					...council,
+					members: council.members.slice(0, council.numMembers),
+					topics: council.topics.map((topic) => topic._id).slice(0, council.numTopics)
+				}
+				councilService.postNewCouncil(councilData)
+					.then((data) => {
+						setCurrentStep(currentStep + 1);
+						onSuccess(data, council.topics.length);
+					})
 			}
-			councilService.postNewCouncil(councilData)
-				.then((data) => {
-					setCurrentStep(currentStep + 1);
-					onSuccess(data);
-				})
-        }
-        else {
-			direction === "next" ? newStep++ : newStep--;
-			// check if steps are within bounds
-			newStep > 0 && newStep <= steps.length && setCurrentStep(newStep);
-        }
+			else {
+				direction === "next" ? newStep++ : newStep--;
+				// check if steps are within bounds
+				newStep > 0 && newStep <= steps.length && setCurrentStep(newStep);
+			}
+		}
     };
 
     return (

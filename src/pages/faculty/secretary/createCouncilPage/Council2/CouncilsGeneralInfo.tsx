@@ -12,8 +12,9 @@ import { getAllPeriodsAction } from '../../../../../actions/periodAction';
 import { useDispatch} from "react-redux";
 import { AppDispatch } from '../../../../../store';
 import CouncilService from '../../../../../services/councilService';
+import { CouncilTypeEnum } from '../../../../../shared/types/councilType';
 
-const RECORD_PER_PAGE = 5;
+const RECORD_PER_PAGE = 10;
 const TOTAL_PAGE_DEFAULT = 1;
 
 const CouncilsGeneralInfo: React.FC = () => {
@@ -26,7 +27,6 @@ const CouncilsGeneralInfo: React.FC = () => {
 
     const [councilStatistic, setCouncilStatistic] = useState<CouncilStatisticIntf>({});
     const [councilList, setCouncilList] = useState<CouncilInfoIntf[]>([]);
-    console.log(councilList);
 
     const totalPage = councilStatistic.numCouncil? (Math.floor((councilStatistic.numCouncil - 1) / RECORD_PER_PAGE) + 1):1;
 
@@ -36,6 +36,36 @@ const CouncilsGeneralInfo: React.FC = () => {
     const periodDisplay = (period: string) => {
         const x = new Date(period);
         return (x.getMonth() + 1) + "/" + x.getFullYear();
+    }
+
+    const onCloseAddCouncilModel = () => {
+        setShowModal(false);
+    }
+
+    const onCreateCouncilSuccess = (newCouncil: CouncilInfoIntf, numTopics: number) => {
+        if (newCouncil?._id) {
+            setCouncilStatistic({
+                ...councilStatistic,
+                numCouncil: (councilStatistic.numCouncil as number) + 1,
+                topicHadCouncil: councilStatistic.topicHadCouncil as number + numTopics
+            })
+            councilList.push({
+                ...newCouncil,
+                numTopics: numTopics
+            });
+            setCouncilList(councilList.map(ele => ele));
+        }
+    }
+
+    const onDeleteCouncil = (councilId: string) => {
+        const deleteCouncil = councilList.find(ele => ele._id === councilId);
+        setCouncilStatistic({
+            ...councilStatistic,
+            numCouncil: councilStatistic.numCouncil as number - 1,
+            topicHadCouncil: (councilStatistic.topicHadCouncil as number) - (deleteCouncil?.numTopics as number)
+        })
+        const newCouncilList = councilList.filter((council => council._id !== councilId));
+        setCouncilList(newCouncilList);
     }
 
     useEffect(() => {
@@ -52,7 +82,7 @@ const CouncilsGeneralInfo: React.FC = () => {
     useEffect(() => {
         if (currentPeriod) {
             const queryData = {
-                type: "Nghiệm thu",
+                type: CouncilTypeEnum.NT,
                 period: currentPeriod
             }
             CouncilService.getCouncilStatistic(queryData)
@@ -65,8 +95,10 @@ const CouncilsGeneralInfo: React.FC = () => {
     useEffect(() => {
         if (currentPeriod) {
             const queryData = {
-                type: "Nghiệm thu",
-                period: currentPeriod
+                type: CouncilTypeEnum.NT,
+                period: currentPeriod,
+                page: currentPage,
+                limit: RECORD_PER_PAGE
             }
             CouncilService.getListCouncil(queryData)
                 .then((data) => {
@@ -78,7 +110,7 @@ const CouncilsGeneralInfo: React.FC = () => {
                     }
                 })
         }
-    }, [currentPeriod])
+    }, [currentPeriod, currentPage])
 
     return(
         <div className='p-4 overflow-y-auto'>
@@ -151,9 +183,17 @@ const CouncilsGeneralInfo: React.FC = () => {
                 totalPage={totalPage}
                 currentPage={currentPage}
                 setCurrentPage={setCurrentPage}
+                onDelete={onDeleteCouncil}
             />
 
-            <AddCouncilModal isVisible = {showModal} onClose = {() => setShowModal(false)}/>
+            {showModal && (
+                <AddCouncilModal 
+                    onClose = {onCloseAddCouncilModel}
+                    year={year}
+                    period={currentPeriod}
+                    onSuccess={onCreateCouncilSuccess}
+                />
+            )}
             </Fragment>
         </div>
     )

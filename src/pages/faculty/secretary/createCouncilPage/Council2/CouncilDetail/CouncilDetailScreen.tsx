@@ -23,7 +23,7 @@ const CouncilDetailScreen: React.FC = () => {
     const [council, setCouncil] = useState<CouncilDetailIntf>({
         _id: "",
         name: "",
-        type: CouncilTypeEnum.XD,
+        type: CouncilTypeEnum.NT,
         status: CouncilStatusEnum.NEW,
         period: "",
         time: "",
@@ -140,7 +140,7 @@ const CouncilDetailScreen: React.FC = () => {
             }).join("\n") : "";
 
         const text = `Kính gửi thầy (cô),\n` 
-            + `Khoa Khoa học Kỹ thuật Máy tính, trường Đại học Bách khoa Thành phố Hồ Chí Minh trân trọng thông báo về kế hoạch tổ chức hội đồng xét duyệt đề tài nghiên cứu khoa học cấp sinh viên.\n`
+            + `Khoa Khoa học Kỹ thuật Máy tính, trường Đại học Bách khoa Thành phố Hồ Chí Minh trân trọng thông báo về kế hoạch tổ chức hội đồng nghiệm thu đề tài nghiên cứu khoa học cấp sinh viên.\n`
             + `Tên hội đồng: ${council.name}\n`
             + `Thời gian diễn ra: ${displayTime()}\n`
             + `Địa điểm: ${council.place}\n`
@@ -209,8 +209,10 @@ const CouncilDetailScreen: React.FC = () => {
                 <div className='p-5 min-h-[625px] overflow-hidden'>
                     <div className='flex justify-between mb-2'>
                         <div className='flex flex-col'>
-                            <div className='mb-5font-bold text-3xl'>
-                                {council.name}
+                            <div className='mb-5'>
+                                <div className='font-bold text-3xl'>
+                                    {council.name}
+                                </div>
                             </div> 
                             <div className='mb-5'>
                                 <div>
@@ -407,7 +409,7 @@ const CouncilDetailScreen: React.FC = () => {
                 </div>
             </div>
             {ModalDisplay()}
-        </CouncilDetailContext.Provider>
+            </CouncilDetailContext.Provider>
         </Fragment>
     )
 }
