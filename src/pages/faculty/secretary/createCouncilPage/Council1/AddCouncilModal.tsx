@@ -206,8 +206,8 @@ const AddCouncilModal = (props: Props) => {
     };
 
     return (
-        <div className = "fixed inset-0 bg-black bg-opacity-50 backdrop-blur-0 flex flex-col justify-center items-center" id= "wrapper" onClick={handleClose}>
-            <div className = "md:w-[800px] w-[90%] h-[450px] overflow-y-auto mx-auto">
+        <div className = "fixed inset-0 bg-black bg-opacity-50 backdrop-blur-0 flex flex-col justify-center items-center z-40" id= "wrapper" onClick={handleClose}>
+            <div className = "w-[60%] h-[92%] overflow-y-auto mx-auto">
                 <div className = 'bg-white rounded p-2'>
                     <div className = "py-6 px-6 lg:px-8 text-left">
                       <div className = 'mb-8 pb-4 text-xl font-medium text-gray-900 text-center border-b-2 border-black'>

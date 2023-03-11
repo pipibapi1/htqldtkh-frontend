@@ -1,6 +1,7 @@
 import fvdService from "../services/fvdService";
+import { FvdQuery } from "../shared/queryInterface/fvdQuery";
 
-const getFvdListAction = (queryData: any) => (dispatch: any) => {
+const getFvdListAction = (queryData: FvdQuery) => (dispatch: any) => {
     return fvdService.getFvdListService(queryData).then(
         (data) => {
             return Promise.resolve(data);

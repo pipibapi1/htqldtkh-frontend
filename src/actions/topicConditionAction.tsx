@@ -4,21 +4,7 @@ import { SET_TOPIC_CONDITION,
     DELETE_EXPR_TOPIC_CONDITION,
     UPDATE_LEADER_CONDITION
 } from "../shared/authStateType";
-
-interface expression {
-    [k: string]: (relationExprIntf | logicExprIntf)
-}
-
-interface relationExprIntf {
-    operator: string
-}
-
-interface logicExprIntf{
-    operator: string,
-    object: string,
-    leftExpr: {variable: string, weight?: number, key: string}[],
-    rightValue: string
-}
+import { expression, logicExprIntf, relationExprIntf } from "../shared/interfaces/topicConditionInterface";
 
 const setTopicConditionAction = (expression?: expression, leaderCondition?: string[]) => (dispatch: any) => {
     return dispatch({

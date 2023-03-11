@@ -80,7 +80,7 @@ const RequestInterface = () => {
       const onChangePage = (page: number) => {
         let queryData: any = {
             page: page,
-            limit: RECORD_PER_PAGE,
+            limit: RECORD_PER_PAGE
         }
 
 

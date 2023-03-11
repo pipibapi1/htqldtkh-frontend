@@ -4,7 +4,7 @@ import SideNav from '../../../../components/sideNav';
 import PathHead from '../../../../components/pathHead';
 import { RoleType } from '../../../../shared/types/role';
 import { useLocation } from 'react-router-dom';
-import ExpenseStatistic from './ExpenseStatistic';
+import ExpenseStatistic from '../../statistic/expense/ExpenseStatistic';
 
 const FSExpenseStatistics: React.FC = () => {
     const location = useLocation();

@@ -9,8 +9,7 @@ const sendEmailService = (email: FormData) => {
         ... headers,
         'Content-Type': 'multipart/form-data'
     }
-    return axios.
-        post(SEND_EMAIL_API_URL, email, { 
+    return axios.post(SEND_EMAIL_API_URL, email, { 
             headers: headers
         })
         .then((response) => {

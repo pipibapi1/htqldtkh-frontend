@@ -24,22 +24,25 @@ const leftArrowStyles = {
 
 const SlideBanner = ({SlideImage}: {SlideImage: slideImage}) => {
   const {src} = SlideImage
-  return <div className = 'relative w-full justify-between items-center'>
-      <img src={src} className= 'w-full h-[525px] rounded-md'/>
-      <div className="absolute top-1/2 mt-[-38px] left-1/2 ml-[-343px] z-1">
-          <div className="text-3xl text-[#1488D8] font-black font-outline">
-          ĐẠI HỌC QUỐC GIA THÀNH PHỐ HỒ CHÍ MINH
-          </div>
-          <div className="text-4xl text-[#030391] font-black font-outline">
-          ỨNG DỤNG QUẢN LÝ ĐỀ TÀI KHOA HỌC
-          </div>
-	    </div>
-  </div>
+  return (
+    <div className = 'relative w-full justify-between items-center'>
+        <img src={src} className= 'w-full h-[525px] rounded-md'/>
+        <div className="absolute top-1/2 mt-[-38px] left-1/2 ml-[-343px] z-1">
+            <div className="text-3xl text-[#1488D8] font-black font-outline">
+              ĐẠI HỌC QUỐC GIA THÀNH PHỐ HỒ CHÍ MINH
+            </div>
+            <div className="text-4xl text-[#030391] font-black font-outline">
+              ỨNG DỤNG QUẢN LÝ ĐỀ TÀI KHOA HỌC
+            </div>
+        </div>
+    </div>
+  )
 }
 
-// {slides} : {slides:any}
 const ImageSlider = () => {
+
   const [currentIndex, setCurrentIndex] = useState(0);
+  
   const goToPrevious = () => {
     const isFirstSlide = currentIndex === 0;
     const newIndex = isFirstSlide ? slidesImageData.length - 1 : currentIndex - 1;
@@ -56,19 +59,17 @@ const ImageSlider = () => {
       <div onClick={goToPrevious} style={leftArrowStyles} className = 'static w-1/2 h-1/2 text-center'>
         ❰
       </div>
+
       <main className = 'w-full col-span-3 text-center'>
         {slidesImageData.map((slideImage, index) => 
-          (
-            <div className={index === currentIndex ? 'slide active' : 'slide'} key={index}>
+          (<div className={index === currentIndex ? 'slide active' : 'slide'} key={index}>
                 {index === currentIndex && (
                 <SlideBanner key={index} SlideImage={slideImage} />
                 )}
-            </div>
-          )
-          )
-        }
-
+          </div>)
+        )}
       </main>
+
       <div onClick={goToNext} style={rightArrowStyles} className = 'static w-1/2 h-1/2 text-center'>
         ❱
       </div>

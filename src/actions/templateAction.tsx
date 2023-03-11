@@ -1,6 +1,7 @@
 import templateService from "../services/templateService";
+import { TemplateQuery, TemplateWithPaperQuery } from "../shared/queryInterface/templateQuery";
 
-const getTemplatesAction = (queryData: any) => (dispatch: any) =>{
+const getTemplatesAction = (queryData: TemplateQuery) => (dispatch: any) =>{
     return templateService.getTemplatesService(queryData).then(
         (data) => {
             return Promise.resolve(data);
@@ -11,8 +12,8 @@ const getTemplatesAction = (queryData: any) => (dispatch: any) =>{
     )
 }
 
-const getTemplatesWithPapersAction = (queryData: any) => (dispatch: any) =>{
-    return templateService.getTemplatesWithPapersService(queryData).then(
+const getTemplatesWithPapersAction = (topicId: string, queryData: TemplateWithPaperQuery) => (dispatch: any) =>{
+    return templateService.getTemplatesWithPapersService(topicId, queryData).then(
         (data) => {
             return Promise.resolve(data);
         },

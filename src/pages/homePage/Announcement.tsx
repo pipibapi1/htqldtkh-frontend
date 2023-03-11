@@ -1,76 +1,46 @@
-import OldAnnouncement from "./OldAnnouncement";
-import { appRouters } from "../../shared/urlResources";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { Document, Page } from "react-pdf/dist/esm/entry.webpack5";
 import { useDispatch } from "react-redux";
+
 import { AppDispatch } from "../../store";
-import { getAnnouncementsAction } from "../../actions/announcementAction";
-import DatePicker from "react-datepicker";
-import Calendar from "../../assets/images/calendar.png";
-import React, { useEffect, useState } from "react";
+import { appRouters } from "../../shared/urlResources";
+import OldAnnouncement from "./OldAnnouncement";
+
 import { Period } from "../../shared/interfaces/periodInterface";
+import { AnnouncementType } from "../../shared/interfaces/announcementInterface";
+
+import { periodDisplay } from "../../shared/functions";
+
+import { getAnnouncementsAction } from "../../actions/announcementAction";
 import { getAllPeriodsAction } from "../../actions/periodAction";
 
-const MAX_INT = "999999";
-
-interface AnnouncementType {
-  _id: string;
-  title: string;
-  fileType: string;
-  fileName: string;
-  createAt: Date;
-  content: string;
-}
+import DatePicker from "react-datepicker";
+import Calendar from "../../assets/images/calendar.png";
 
 const Announcement: React.FC = () => {
-  const [numPages, setNumPages] = useState(0);
-  const [pageNumber, setPageNumber] = useState(1);
-
-  const [periods, setPeriods] = useState<Period[]>([]);
-  const [currentPeriod, setCurrentPeriod] = useState<string>("");
-  const [year, setYear] = useState(new Date());
 
   const useAppDispatch: () => AppDispatch = useDispatch;
   const dispatch = useAppDispatch();
 
+  const [numPages, setNumPages] = useState(0);
+  const [pageNumber, setPageNumber] = useState(1);
+  const [periods, setPeriods] = useState<Period[]>([]);
+  const [currentPeriod, setCurrentPeriod] = useState<string>("");
+  const [year, setYear] = useState(new Date());
   const [announcements, setAnnouncements] = useState<AnnouncementType[]>([]);
   const [latestAnnouncement, setLatestAnnouncement] = useState("");
   const [latestAnnouncementId, setLatestAnnouncementId] = useState("");
-  const periodDisplatFromId = (periodId: string) => {
+
+  const periodDisplayFromId = (periodId: string) => {
     const period = periods.find((period) => period._id === periodId);
     if (period) {
       return periodDisplay(period.period);
     }
   };
 
-  const periodDisplay = (period: string) => {
-    if (period === "") return "";
-    const x = new Date(period);
-    return x.getMonth() + 1 + "/" + x.getFullYear();
-  };
-
-  useEffect(() => {
-    let queryPeriod: any = {
-      year: new Date().getFullYear(),
-    };
-    dispatch(getAllPeriodsAction(queryPeriod))
-      .then((data) => {
-        setPeriods(data?.periods);
-        if (data?.periods.length > 0) {
-          setCurrentPeriod(data?.periods[0]._id);
-          onChangePeriod(data?.periods[0]._id);
-         
-        }
-      })
-      .catch((error) => {});
-    
-  }, []);
-
   const onChangePeriod = (period: string) => {
-    let query: any = {
-      page: "1",
-      limit: MAX_INT,
-    }
+    let query: any = {}
     if(period === ""){
       query = {
         ...query,
@@ -116,8 +86,6 @@ const Announcement: React.FC = () => {
         }
         else{
           const queryForYear = {
-            page: "1",
-            limit: MAX_INT,
             year: d.getFullYear()
           };
           dispatch(getAnnouncementsAction(queryForYear))
@@ -159,9 +127,28 @@ const Announcement: React.FC = () => {
     changePage(+1);
   };
 
+  useEffect(() => {
+    let queryPeriod: any = {
+      year: new Date().getFullYear(),
+    };
+    dispatch(getAllPeriodsAction(queryPeriod))
+      .then((data) => {
+        setPeriods(data?.periods);
+        if (data?.periods.length > 0) {
+          setCurrentPeriod(data?.periods[0]._id);
+          onChangePeriod(data?.periods[0]._id);
+        }
+      })
+      .catch((error) => {
+        console.log(error)
+      });
+    
+  }, []);
+
   return (
     <div>
       <div className="border-b px-10 pt-5 pb-2 flex items-center">
+
         <div className="mr-5">Năm:</div>
         <div className="grid justify-items-end items-center mr-10">
           <DatePicker
@@ -180,9 +167,10 @@ const Announcement: React.FC = () => {
             <img src={Calendar} alt="calendarIcon" className="h-5 w-5" />
           </div>
         </div>
+
         <div className="mr-5">Đợt:</div>
         
-          <div className="">
+        <div className="">
             <select
               className="bg-white h-[40px] w-[270px] border border-black border-1 rounded-lg focus:ring-blue-500 px-2"
               onChange={(e) => {
@@ -200,20 +188,22 @@ const Announcement: React.FC = () => {
               ))}
               <option value="">- -</option>
             </select>
-          </div>
+        </div>
         
       </div>
+
       <div className="grid grid-cols-3">
 
         <main className="px-12 py-6 border-r col-span-2">
-          {periods.length > 0 && latestAnnouncementId !== "" ? <Link
+          {periods.length > 0 && latestAnnouncementId !== "" ? 
+          <Link
             to={
               `/${appRouters.LINK_TO_OLD_ANNOUNCEMENT_PAGE}` +
               `/${latestAnnouncementId}`
             }
           >
             <div className="py-4 text-blue-600 font-semibold">
-              THÔNG BÁO MỚI NHẤT CỦA {currentPeriod !== "" ? "ĐỢT " + periodDisplatFromId(currentPeriod) : "NĂM " + year.getFullYear()}
+              THÔNG BÁO MỚI NHẤT CỦA {currentPeriod !== "" ? "ĐỢT " + periodDisplayFromId(currentPeriod) : "NĂM " + year.getFullYear()}
             </div>
           </Link> : 
           <div className="py-4 text-blue-600 font-semibold">
@@ -221,7 +211,8 @@ const Announcement: React.FC = () => {
         </div>
           }
 
-          {periods.length > 0 && latestAnnouncement !== "" ?<Document
+          {periods.length > 0 && latestAnnouncement !== "" ?
+          <Document
             file={latestAnnouncement}
             onLoadSuccess={onDocumentLoadSuccess}
             className="border border-3 rounded-lg py-5 px-1 m-1 flex flex-col justify-center items-center"
@@ -260,15 +251,18 @@ const Announcement: React.FC = () => {
           }
         </main>
 
-        {periods.length > 0 ? <OldAnnouncement
+        {periods.length > 0 ? 
+        <OldAnnouncement
           oldAnnouncements={announcements}
-          currentPeriodValue={currentPeriod !== "" ? periodDisplatFromId(currentPeriod) : ""}
+          currentPeriodValue={currentPeriod !== "" ? periodDisplayFromId(currentPeriod) : ""}
           year={year}
-        />: <OldAnnouncement
+        />: 
+        <OldAnnouncement
         oldAnnouncements={[]}
         currentPeriodValue={""}
         year={year}
-      />}
+        />}
+        
       </div>
     </div>
   );

@@ -1,6 +1,7 @@
 import periodService from "../services/periodService"
+import { PeriodQuery } from "../shared/queryInterface/periodQuery"
 
-const getAllPeriodsAction = (query:any) => (dispatch: any) => {
+const getAllPeriodsAction = (query: PeriodQuery) => (dispatch: any) => {
     return periodService.getAllPeriodsService(query).then(
         (data) => {
             return Promise.resolve(data)

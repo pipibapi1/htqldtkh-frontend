@@ -1,3 +1,5 @@
+import { appRouters } from "../urlResources";
+
 import MyTopicIcon from "../../assets/images/myTopicIcon.png";
 import TopicRegisterIcon from "../../assets/images/topicRegisterIcon.png";
 import RequestIcon from "../../assets/images/requestIcon.png";
@@ -8,8 +10,6 @@ import Account from "../../assets/images/account.png";
 import Council from "../../assets/images/council.png";
 import Folder from "../../assets/images/folder.png";
 import Upload from "../../assets/images/upload.png";
-
-import { appRouters } from "../urlResources";
 
 export const studentSideBarOptions: {name: string, icon: any, link: string, children: {name: string, link: string}[]}[] = [
     {name: "ĐỀ TÀI CỦA TÔI", icon: MyTopicIcon, link: "/" + appRouters.LINK_TO_MY_TOPIC_PAGE, children:[]},
@@ -46,7 +46,7 @@ export const fsSideBarOptions: {name: string, icon: any, link: string, children:
         {name: "Điều kiện đăng ký", link: "/" + appRouters.LINK_TO_FS_TOPIC_CONDITION_MANAGEMENT},
         {name: "Phân bổ kinh phí", link: "/" + appRouters.LINK_TO_FS_ALLOCATE_EXPENSE}
     ]},
-    {name: "TẠO BIỂU MẪU", icon: TemplateIcon, link: "/fsExpenseStatistic", children:[]},
+    {name: "TẠO BIỂU MẪU", icon: TemplateIcon, link: "/" + appRouters.LINK_TO_FS_TEMPLATE_MANAGEMENT, children:[]},
     {name: "TẠO HỘI ĐỒNG", icon: Council, link: "/" + appRouters.LINK_TO_FS_REVIEW_COUNCIL,  
         children:[
         {name: "HĐ xét duyệt", link: "/" +  appRouters.LINK_TO_FS_REVIEW_COUNCIL},
