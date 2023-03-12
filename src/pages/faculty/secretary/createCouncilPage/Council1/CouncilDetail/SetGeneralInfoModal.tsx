@@ -133,10 +133,10 @@ export default function SetGeneralInfoModal(props: Props) {
 
     return (
         <div 
-            className = "fixed inset-0 bg-black bg-opacity-50 backdrop-blur-0 flex justify-center items-center" 
+            className = "fixed inset-0 bg-black bg-opacity-50 backdrop-blur-0 flex flex-col justify-center items-center z-40" 
             id= "wrapper" 
         >
-            <div className = "md:w-[700px] w-[90%] mx-auto h-[450px] bg-white rounded overflow-y-auto mx-auto">
+            <div className = "md:w-[700px] w-[90%] mx-auto max-h-[90%] bg-white rounded overflow-y-auto mx-auto">
                 <div className="px-3 mt-4 w-full flex flex-col">
                     <div className = 'mb-4 pb-2 text-xl font-medium text-gray-900 text-center'>
                         Thay đổi thông tin chung
