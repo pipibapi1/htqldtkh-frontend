@@ -10,11 +10,12 @@ interface Props {
     councilList: CouncilInfoIntf[],
     setCurrentPage: any,
     totalPage: number,
-    currentPage: number
+    currentPage: number,
+    onDelete: any
 }
 
 const CouncilList: React.FC<Props> = (props: Props) => {
-    const {councilList, setCurrentPage, totalPage, currentPage} = props;
+    const {councilList, setCurrentPage, totalPage, currentPage, onDelete} = props;
     let availablePage: number[] = [currentPage];
 
     // set available page can navigate to
@@ -42,6 +43,7 @@ const CouncilList: React.FC<Props> = (props: Props) => {
                 key={index}
                 index={index+1}
                 council={councilList[index]}
+                onDelete={onDelete}
             />)
     }
 

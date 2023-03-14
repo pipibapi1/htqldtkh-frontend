@@ -16,6 +16,7 @@ const INIT_MEMBER: CouncilMemberIntf = {
     degree: DegreeEnum.None,
     workUnit: "",
     email: "",
+    phoneNumber: "",
     role: CouncilRoleEnum.UV
 }
 
@@ -85,10 +86,10 @@ const AddCouncilMemberModal = ({onClose}: {onClose: any}) => {
 
     return (
         <div 
-            className = "fixed inset-0 bg-black bg-opacity-50 backdrop-blur-0 flex justify-center items-center" 
+            className = "fixed inset-0 bg-black bg-opacity-50 backdrop-blur-0 flex flex-col justify-center items-center z-40" 
             id= "wrapper" 
         >
-            <div className = "md:w-[700px] w-[90%] mx-auto max-h-[450px] bg-white rounded overflow-y-auto mx-auto">
+            <div className = "md:w-[700px] w-[90%] max-h-[90%] bg-white rounded overflow-y-auto mx-auto">
                 <div className="w-full px-2 flex flex-col">
                     <div className = 'my-4 pb-2 text-xl font-medium text-gray-900 text-center'>
                         Thêm thành viên hội đồng
@@ -171,7 +172,12 @@ const MemberForm = (props: MemberFormProps) => {
         update.members[index].email = event.target.value;
         setUpdate({...update});
     }
-  
+         
+    const onChangeMemberPhoneNumber = (event: React.ChangeEvent<HTMLInputElement>) => {
+        update.members[index].phoneNumber = event.target.value;
+        setUpdate({...update});
+    }
+
     const onChangeMemberWorkUnit = (event: React.ChangeEvent<HTMLInputElement>) => {
         update.members[index].workUnit = event.target.value;
         setUpdate({...update});
@@ -274,6 +280,20 @@ const MemberForm = (props: MemberFormProps) => {
                         placeholder = "Email"
                         value={currMember.email}
                         onChange={onChangeMemberEmail}
+                        required
+                    />
+                </div>
+            </div>
+            <div className = 'flex flex-row'>
+                <div className = 'w-2/3'>
+                    <div className = "block mb-2 text-base font-medium text-gray-900">
+                        Số điện thoại:
+                    </div>
+                    <input  
+                        className = "bg-gray-50 border border-gray-300 text-gray-900 text-base rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+                        placeholder = "Số điện thoại"
+                        value={currMember.phoneNumber}
+                        onChange={onChangeMemberPhoneNumber}
                         required
                     />
                 </div>

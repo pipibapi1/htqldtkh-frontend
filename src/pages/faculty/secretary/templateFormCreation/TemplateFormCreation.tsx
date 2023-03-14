@@ -127,7 +127,7 @@ const TemplateFormCreation: React.FC = () => {
   const {_id} = useParams();
   
   const [file, setFile] = useState<File | null>(null);
-  const [placeholders, setPlaceholders] = useState<string[]>([]);
+  const [myPlaceholders, setMyPlaceholders] = useState<string[]>([]);
   const [form, setForm] = useState<Form>(
     {
       templateId: _id !== undefined ? _id : "",
@@ -158,7 +158,7 @@ const TemplateFormCreation: React.FC = () => {
               }
             });
           });
-          setPlaceholders(Array.from(placeholders))
+          setMyPlaceholders(Array.from(placeholders))
           let fields: {
             initialName: string,
             name: string,
@@ -180,25 +180,37 @@ const TemplateFormCreation: React.FC = () => {
         } else if (file.name.endsWith('.docx') || file.name.endsWith('.doc')) {
           const doc = new Docxtemplater(new PizZip(arrayBuffer), {delimiters: {start: '12op1j2po1j2poj1po', end: 'op21j4po21jp4oj1op24j'}})
           const placeholders = doc.getZip().file('word/document.xml').asText().match(/{([^{}]*)}/g);
-          setPlaceholders(placeholders)
           let fields: {
             initialName: string,
             name: string,
             note: string,
             dataType: DataTypeEnum
           }[] = []
-          placeholders.map((placeholder: string, index: number) => {
-            fields = fields.concat([{
-              initialName: placeholder,
-              name: placeholder,
-              note: "",
-              dataType: DataTypeEnum.Text
-            }])
+          if(placeholders !== null){
+            setMyPlaceholders(placeholders)
+            placeholders.map((placeholder: string, index: number) => {
+              fields = fields.concat([{
+                initialName: placeholder,
+                name: placeholder,
+                note: "",
+                dataType: DataTypeEnum.Text
+              }])
+            })
+            setForm({
+              ...form,
+              fields: fields
+            })
+          }
+          else{
+            setMyPlaceholders([])
+          }
+        }
+        else{
+          Toast.fire({
+            icon: 'error',
+            title: "Định dạng file không phù hợp!"
           })
-          setForm({
-            ...form,
-            fields: fields
-          })
+          setFile(null)
         }
       };
       reader.readAsArrayBuffer(file);
@@ -298,7 +310,7 @@ const TemplateFormCreation: React.FC = () => {
         </div>
         <input type="file" onChange={handleFileChange} className='mt-1 ml-3 w-1/2'/>
       </div>
-      {placeholders.map((placeholder, index) => {
+      {myPlaceholders.map((placeholder, index) => {
         return (
           <FormField indx={index} placeholder={placeholder} form={form} setForm={setForm}/>
         )

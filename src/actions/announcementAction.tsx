@@ -1,6 +1,7 @@
 import announcementService from "../services/announcementService";
+import { AnnouncementQuery } from "../shared/queryInterface/announcementQuery";
 
-const getAnnouncementsAction = (queryData: any) => (dispatch: any) => {
+const getAnnouncementsAction = (queryData: AnnouncementQuery) => (dispatch: any) => {
     return announcementService.getAnnouncementsService(queryData).then(
         (data) => {
             return Promise.resolve(data);

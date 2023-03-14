@@ -46,20 +46,10 @@ const CouncilDetailScreen: React.FC = () => {
             <MemberRow
                 key={idx}
                 index={idx}
-                council={council}
-                setCouncil={setCouncil}
             />
         ))
     }
 
-    const onDeleteTopic = (topicId: string) => {
-        const newTopics = council.topicGeneralInfos?.filter((topic) => topic._id === topicId);
-        setCouncil({
-            ...council,
-            topicGeneralInfos: newTopics,
-            numTopics: council.numTopics - 1
-        })
-    }
     let topicListComponent = [];
     const numTopics = council.topicGeneralInfos? council.topicGeneralInfos.length : 0;
     for ( let idx = 0; idx < numTopics; idx++) {
@@ -67,8 +57,6 @@ const CouncilDetailScreen: React.FC = () => {
             <TopicRow
                 key={idx}
                 index={idx}
-                topic={(council.topicGeneralInfos as TopicInCouncilIntf[])[idx]}
-                onDelete={onDeleteTopic}
             />
         ))
     }
@@ -216,202 +204,208 @@ const CouncilDetailScreen: React.FC = () => {
 
     return (
     <Fragment>
-        <div className=''>
-            <div className='p-5 min-h-[625px] overflow-hidden'>
-            <div className='flex justify-between mb-2'>
-                <div className='flex flex-col'>
-                    <div className='mb-5'>
-                        <div className='font-bold text-3xl'>
-                            {council.name}
-                        </div>
-                    </div> 
-                    <div className='mb-5'>
-                        <div>
-                            Trạng thái: <span className='text-[#030391]'>{council.status}</span> 
-                        </div>
-                        <div>
-                            Địa điểm: <span className='text-[#030391]'>{council.place}</span> 
-                        </div>
-                        <div>
-                            Thời gian diễn ra: <span className='text-[#030391]'>{displayTime()}</span> 
-                        </div>
-                    </div>
-                </div>
-                <div className='flex flex-row'>
-                    <button 
-                        className="w-40 h-12 mr-2 bg-[#14c437] flex justify-center items-center transition text-white font-semibold py-4 border border-white-500 rounded-[15px] hover:bg-[#13d633] hover:cursor-pointer"
-                        onClick={onClickSendEmailBtn}
-                    >
-                        Gửi thông báo
-                    </button>
-                    <button 
-                        className="w-40 h-12 bg-[#0079CC] flex justify-center items-center transition text-white font-semibold py-4 border border-white-500 rounded-[15px] hover:bg-[#025A97] hover:cursor-pointer"
-                        onClick={onClickSetGeneralInfoBtn}
-                    >
-                        Sửa thông tin
-                    </button>
-                </div>
-            </div>
-            <div className='mb-5'>
-                <div className='flex justify-between mb-2'>
-                    <div className = "font-bold py-4">
-                        Danh sách thành viên hội đồng:
-                    </div>
-                    <div className='flex flex-row'>
-                        <button 
-                            className="w-40 h-12 mr-2 bg-[#0079CC] flex justify-center items-center transition text-white font-semibold py-4 border border-white-500 rounded-[15px] hover:bg-[#025A97] hover:cursor-pointer" 
-                            onClick={() => setShowModal("set_member")}
-                        >
-                            Chỉnh sửa
-                        </button>
-                        <button 
-                            className="w-40 h-12 bg-[#0079CC] flex justify-center items-center transition text-white font-semibold py-4 border border-white-500 rounded-[15px] hover:bg-[#025A97] hover:cursor-pointer" 
-                            onClick={() => setShowModal("add_member")}
-                        >
-                            Thêm thành viên
-                        </button>
-                    </div>
-                </div>
-                <div>
-                    <table className='w-full table-fixed border-separate border-spacing-y-1 border-2'>
-                        <thead className='bg-[#1577D2] border-b'>
-                            <tr>
-                            <th
-                                scope='col'
-                                className='text-sm text-center font-bold text-white px-2 py-3 w-12 border-l-2'
-                            >
-                                STT
-                            </th>
-                            <th
-                                scope='col'
-                                className='text-sm text-center font-bold text-white px-2 py-3  border-l-2'
-                            >
-                                Tên thành viên
-                            </th>
-                            <th
-                                scope='col'
-                                className='text-sm text-center font-bold text-white px-2 py-3 w-24 border-l-2'
-                            >
-                                Giới tính
-                            </th>
-                            <th
-                                scope='col'
-                                className='text-sm text-center font-bold text-white px-2 py-3 w-24 border-l-2'
-                            >
-                                Học hàm / Học vị
-                            </th>
-                            <th
-                                scope='col'
-                                className='text-sm text-center font-bold text-white px-2 py-3  border-l-2'
-                            >
-                                Email
-                            </th>
-                            <th
-                                scope='col'
-                                className='text-sm text-center font-bold text-white px-2 py-3 w-24 border-l-2'
-                            >
-                                Vai trò
-                            </th>
-                            <th
-                                scope='col'
-                                className='text-sm text-center font-bold text-white px-2 py-3  border-l-2'
-                            >
-                                Đơn vị công tác
-                            </th>
-                            <th
-                                scope='col'
-                                className='text-sm text-center font-bold text-white px-2 py-3 w-16 border-l-2'
-                            >
-                                
-                            </th>
-                            
-                            </tr>
-                        </thead>
-                        <tbody className=''>
-                            {memberListComponent}
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-
-            <div className='mb-5'>
-                <div className='flex justify-between mb-2'>
-                    <div className = "font-bold py-4">
-                        Danh sách đề tài:
-                    </div>
-                    <button 
-                        className="w-40 h-12 bg-[#0079CC] flex justify-center items-center transition text-white font-semibold py-4 border border-white-500 rounded-[15px] hover:bg-[#025A97] hover:cursor-pointer" 
-                        onClick={() => setShowModal("add_topic")}
-                    >              
-                        <div>
-                            Thêm đề tài
-                        </div>
-                    </button>
-                </div>
-                <div>
-                    <table className='w-full table-fixed border-separate border-spacing-y-1 border-2'>
-                        <thead className='bg-[#1577D2] border-b'>
-                            <tr>
-                            <th
-                                scope='col'
-                                className='text-sm text-center font-bold text-white px-2 py-3 w-12 border-l-2'
-                            >
-                                STT
-                            </th>
-                            <th
-                                scope='col'
-                                className='text-sm text-center font-bold text-white px-2 py-3  border-l-2'
-                            >
-                                Tên đề tài
-                            </th>
-                            <th
-                                scope='col'
-                                className='text-sm text-center font-bold text-white px-2 py-3  border-l-2'
-                            >
-                                Mã đề tài
-                            </th>
-                            <th
-                                scope='col'
-                                className='text-sm text-center font-bold text-white px-2 py-3  border-l-2'
-                            >
-                                Chủ nhiệm đề tài
-                            </th>
-                            <th
-                                scope='col'
-                                className='text-sm text-center font-bold text-white px-2 py-3  border-l-2'
-                            >
-                                Cán bộ hướng dẫn
-                            </th>
-                            <th
-                                scope='col'
-                                className='text-sm text-center font-bold text-white px-2 py-3  border-l-2'
-                            >
-                                Loại đề tài
-                            </th>
-                            <th
-                                scope='col'
-                                className='text-sm text-center font-bold text-white px-2 py-3  border-l-2'
-                            >
-                                Kêt quả
-                            </th>
-                            <th
-                                scope='col'
-                                className='text-sm text-center font-bold text-white px-2 py-3 w-12 border-l-2'
-                            >
-                                
-                            </th>
-                            
-                            </tr>
-                        </thead>
-                        <tbody className=''>
-                            {topicListComponent}
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-            </div>
-        </div>
         <CouncilDetailContext.Provider value={councilDetailcontextValue}>
+            <div className=''>
+                <div className='p-5 min-h-[625px] overflow-hidden'>
+                    <div className='flex justify-between mb-2'>
+                        <div className='flex flex-col'>
+                            <div className='mb-5font-bold text-3xl'>
+                                {council.name}
+                            </div> 
+                            <div className='mb-5'>
+                                <div>
+                                    Trạng thái: <span className='text-[#030391]'>{council.status}</span> 
+                                </div>
+                                <div>
+                                    Địa điểm: <span className='text-[#030391]'>{council.place}</span> 
+                                </div>
+                                <div>
+                                    Thời gian diễn ra: <span className='text-[#030391]'>{displayTime()}</span> 
+                                </div>
+                            </div>
+                        </div>
+                        <div className='flex flex-row'>
+                            <button 
+                                className="w-40 h-12 mr-2 bg-[#14c437] flex justify-center items-center transition text-white font-semibold py-4 border border-white-500 rounded-[15px] hover:bg-[#13d633] hover:cursor-pointer"
+                                onClick={onClickSendEmailBtn}
+                            >
+                                Gửi thông báo
+                            </button>
+                            <button 
+                                className="w-40 h-12 bg-[#0079CC] flex justify-center items-center transition text-white font-semibold py-4 border border-white-500 rounded-[15px] hover:bg-[#025A97] hover:cursor-pointer"
+                                onClick={onClickSetGeneralInfoBtn}
+                            >
+                                Sửa thông tin
+                            </button>
+                        </div>
+                    </div>
+                    <div className='mb-5'>
+                        <div className='flex justify-between mb-2'>
+                            <div className = "font-bold py-4">
+                                Danh sách thành viên hội đồng:
+                            </div>
+                            <div className='flex flex-row'>
+                                <button 
+                                    className="w-40 h-12 mr-2 bg-[#0079CC] flex justify-center items-center transition text-white font-semibold py-4 border border-white-500 rounded-[15px] hover:bg-[#025A97] hover:cursor-pointer" 
+                                    onClick={() => setShowModal("set_member")}
+                                >
+                                    Chỉnh sửa
+                                </button>
+                                <button 
+                                    className="w-40 h-12 bg-[#0079CC] flex justify-center items-center transition text-white font-semibold py-4 border border-white-500 rounded-[15px] hover:bg-[#025A97] hover:cursor-pointer" 
+                                    onClick={() => setShowModal("add_member")}
+                                >
+                                    Thêm thành viên
+                                </button>
+                            </div>
+                        </div>
+                        <div>
+                            <table className='w-full table-fixed border-separate border-spacing-y-1 border-2'>
+                                <thead className='bg-[#1577D2] border-b'>
+                                    <tr>
+                                    <th
+                                        scope='col'
+                                        className='text-sm text-center font-bold text-white px-2 py-3 w-8 border-l-2'
+                                    >
+                                        
+                                    </th>
+                                    <th
+                                        scope='col'
+                                        className='text-sm text-center font-bold text-white px-2 py-3 w-28 border-l-2'
+                                    >
+                                        Tên thành viên
+                                    </th>
+                                    <th
+                                        scope='col'
+                                        className='text-sm text-center font-bold text-white px-2 py-3 w-20 border-l-2'
+                                    >
+                                        Giới tính
+                                    </th>
+                                    <th
+                                        scope='col'
+                                        className='text-sm text-center font-bold text-white px-2 py-3 w-20 border-l-2'
+                                    >
+                                        Học hàm / Học vị
+                                    </th>
+                                    <th
+                                        scope='col'
+                                        className='text-sm text-center font-bold text-white px-2 py-3  border-l-2'
+                                    >
+                                        Email
+                                    </th>
+                                    <th
+                                        scope='col'
+                                        className='text-sm text-center font-bold text-white px-2 py-3 w-32 border-l-2'
+                                    >
+                                        Số điện thoại
+                                    </th>
+                                    <th
+                                        scope='col'
+                                        className='text-sm text-center font-bold text-white px-2 py-3 w-20 border-l-2'
+                                    >
+                                        Vai trò
+                                    </th>
+                                    <th
+                                        scope='col'
+                                        className='text-sm text-center font-bold text-white px-2 py-3 w-48 border-l-2'
+                                    >
+                                        Đơn vị công tác
+                                    </th>
+                                    <th
+                                        scope='col'
+                                        className='text-sm text-center font-bold text-white px-2 py-3 w-12 border-l-2'
+                                    >
+                                        
+                                    </th>
+                                    
+                                    </tr>
+                                </thead>
+                                <tbody className=''>
+                                    {memberListComponent}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <div className='mb-5'>
+                        <div className='flex justify-between mb-2'>
+                            <div className = "font-bold py-4">
+                                Danh sách đề tài:
+                            </div>
+                            <div className='flex flex-row'>
+                                <button 
+                                    className="w-40 h-12 bg-[#0079CC] flex justify-center items-center transition text-white font-semibold py-4 border border-white-500 rounded-[15px] hover:bg-[#025A97] hover:cursor-pointer" 
+                                    onClick={() => setShowModal("add_topic")}
+                                >              
+                                    <div>
+                                        Thêm đề tài
+                                    </div>
+                                </button>
+                            </div>
+                        </div>
+                        <div>
+                            <table className='w-full table-fixed border-separate border-spacing-y-1 border-2'>
+                                <thead className='bg-[#1577D2] border-b'>
+                                    <tr>
+                                    <th
+                                        scope='col'
+                                        className='text-sm text-center font-bold text-white px-2 py-3 w-8 border-l-2'
+                                    >
+                                        
+                                    </th>
+                                    <th
+                                        scope='col'
+                                        className='text-sm text-center font-bold text-white px-2 py-3  border-l-2'
+                                    >
+                                        Tên đề tài
+                                    </th>
+                                    <th
+                                        scope='col'
+                                        className='text-sm text-center font-bold text-white px-2 py-3 w-28 border-l-2'
+                                    >
+                                        Mã đề tài
+                                    </th>
+                                    <th
+                                        scope='col'
+                                        className='text-sm text-center font-bold text-white px-2 py-3  border-l-2'
+                                    >
+                                        Chủ nhiệm đề tài
+                                    </th>
+                                    <th
+                                        scope='col'
+                                        className='text-sm text-center font-bold text-white px-2 py-3  border-l-2'
+                                    >
+                                        Cán bộ hướng dẫn
+                                    </th>
+                                    <th
+                                        scope='col'
+                                        className='text-sm text-center font-bold text-white px-2 py-3 w-24 border-l-2'
+                                    >
+                                        Loại đề tài
+                                    </th>
+                                    <th
+                                        scope='col'
+                                        className='text-sm text-center font-bold text-white px-2 py-3 w-32 border-l-2'
+                                    >
+                                        Kêt quả
+                                    </th>
+                                    <th
+                                        scope='col'
+                                        className='text-sm text-center font-bold text-white px-2 py-3 w-12 border-l-2'
+                                    >
+                                        
+                                    </th>
+                                    
+                                    </tr>
+                                </thead>
+                                <tbody className=''>
+                                    {topicListComponent}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
             {ModalDisplay()}
         </CouncilDetailContext.Provider>
         </Fragment>

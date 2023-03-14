@@ -1,16 +1,15 @@
-import { CouncilDetailIntf} from "../../../../../../shared/interfaces/councilInterface";
 import { AcademyRank } from "../../../../../../shared/types/academyRank";
 import { DegreeEnum } from "../../../../../../shared/types/degree";
 import Swal from "sweetalert2";
 import councilService from "../../../../../../services/councilService";
+import { useCouncilDetailContext } from "./CouncilDetailContext";
 interface Props {
     index: number;
-    council: CouncilDetailIntf;
-	setCouncil: any;
 }
 
 export const MemberRow: React.FC<Props> = (props) => {
-    const { index , council, setCouncil} = props;
+    const { index } = props;
+	const {council, setCouncil} = useCouncilDetailContext();
 	const member = council.members[index];
 
     const displayDegreeAndAcademyRank = () => {
@@ -85,6 +84,11 @@ export const MemberRow: React.FC<Props> = (props) => {
 			<td className='text-center font-medium text-sm text-gray-900 px-1 py-1 border-l-2'>
 				<p>
 					{member.email}
+				</p>
+			</td>
+			<td className='text-center font-medium text-sm text-gray-900 px-1 py-1 border-l-2'>
+				<p>
+					{member.phoneNumber}
 				</p>
 			</td>
 			<td className='text-center font-medium text-sm text-gray-900 px-1 py-1 border-l-2'>

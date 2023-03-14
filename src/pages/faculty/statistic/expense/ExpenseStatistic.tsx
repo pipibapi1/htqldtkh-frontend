@@ -116,10 +116,7 @@ const ExpenseStatistic: React.FC = () => {
 
     const onChangePeriod = (period: string) => {
         setCurrentPage(1)
-        let queryDataForExpense: any = {
-            period: period
-        }
-        dispatch(getExpenseDetailByPeriodAction(queryDataForExpense))
+        dispatch(getExpenseDetailByPeriodAction(period))
             .then((data) => {
                 setExpense(data?.expense)
             })
@@ -221,10 +218,7 @@ const ExpenseStatistic: React.FC = () => {
                 setPeriods(data?.periods)
                 if(data?.periods.length > 0){
                     setCurrentPeriod(data?.periods[0]._id)
-                    let queryDataForExpense: any = {
-                        period: data?.periods[0]._id
-                    }
-                    dispatch(getExpenseDetailByPeriodAction(queryDataForExpense))
+                    dispatch(getExpenseDetailByPeriodAction(data?.periods[0]._id))
                         .then((data) => {
                             setExpense(data?.expense)
                         })

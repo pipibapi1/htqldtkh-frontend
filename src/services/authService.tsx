@@ -1,39 +1,12 @@
 import axios from "axios";
-import { RoleType } from "../shared/types/role";
-import { GenderType } from "../shared/types/gender";
-import { EducationType } from "../shared/types/educationType";
+import { RegisterInput, ResetPassWordInput, SignInInput } from "../shared/interfaces/authInterface";
 
 const AUTH_API_URL = process.env.REACT_APP_API_URL + "/api/auth";
 
 
-interface SignInInput{
-    username: string;
-    password: string;
-    role: RoleType;
-}
-
-interface ResetPassWordInput{
-    email: string;
-    role: RoleType;
-}
-
-interface RegisterInput{
-    email: string;
-    phoneNumber: string;
-    name: string;
-    username: string;
-    password: string;
-    studentId: string;
-    gender: GenderType;
-    educationType: EducationType;
-    birthDate: Date;
-    role: RoleType;
-}
-
 const loginService = (signInData: SignInInput) => {
     const {username, password, role} = signInData;
-    return axios.
-        post(AUTH_API_URL + "/signin", {
+    return axios.post(AUTH_API_URL + "/signin", {
             username,
             password,
             role
@@ -48,8 +21,7 @@ const loginService = (signInData: SignInInput) => {
 
 const registerService = (registerData: RegisterInput) => {
     const {email, phoneNumber, name, username, password, studentId, gender, educationType, birthDate, role} = registerData;
-    return axios.
-        post(AUTH_API_URL + "/signup", {
+    return axios.post(AUTH_API_URL + "/signup", {
             email,
             phoneNumber,
             name,
@@ -75,8 +47,7 @@ const logoutService = () => {
 
 const resetpwService = (resetPassWordData: ResetPassWordInput) => {
     const {email, role} = resetPassWordData;
-    return axios.
-        put(AUTH_API_URL + "/resetpw", {
+    return axios.put(AUTH_API_URL + "/resetpw", {
             email,
             role
         })

@@ -165,10 +165,7 @@ const AllocatedGeneralExpenseForm: React.FC<Props> = (props: Props) => {
 
     React.useEffect(() => {
         if (currentPeriod) {
-            let query= {
-                period: currentPeriod
-            };
-            dispatch(getExpenseDetailByPeriodAction(query))
+            dispatch(getExpenseDetailByPeriodAction(currentPeriod))
                 .then((data) => {
                     setExpense(data?.expense);
                 })

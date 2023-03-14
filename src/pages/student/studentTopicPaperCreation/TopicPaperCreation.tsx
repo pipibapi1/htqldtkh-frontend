@@ -14,6 +14,7 @@ import PizZip from "pizzip";
 import * as FileSaver from 'file-saver';
 import Swal from 'sweetalert2';
 import { postAddAPaperAction } from '../../../actions/paperAction';
+import { Toast } from '../../../shared/toastNotify/Toast';
 
 let PizZipUtils: any = null;
 if (typeof window !== "undefined") {
@@ -148,20 +149,10 @@ const TopicPaperCreation: React.FC = () => {
     const {_id} = useParams();
     const {state} = useLocation();
 
-    const Toast = Swal.mixin({
-        toast: true,
-        position: 'top-end',
-        showConfirmButton: false,
-        timer: 4000,
-        timerProgressBar: true,
-        didOpen: (toast: any) => {
-          toast.addEventListener('mouseenter', Swal.stopTimer)
-          toast.addEventListener('mouseleave', Swal.resumeTimer)
-        }
-      })
-
     const useAppDispatch: () => AppDispatch = useDispatch
     const dispatch = useAppDispatch()
+
+    const navigate = useNavigate();
 
     const [form, setForm] = useState<Form>(
         {
@@ -172,6 +163,8 @@ const TopicPaperCreation: React.FC = () => {
     )
 
     const [jsonData, setJsonData] = useState<any>({})
+    const [fileUrl, setFileUrl] = useState<string>("")
+    const [fileType, setFileType] = useState<string>("")
     
     const updateJsonData = (initialName: string, value: string) => {
         let tempJsonData: any = jsonData;
@@ -181,15 +174,13 @@ const TopicPaperCreation: React.FC = () => {
 
     const createPaper = (e:any) => {
         e.preventDefault();
-        
-        const FORM_API_URL = process.env.REACT_APP_API_URL + "/api/form/" + form._id + "/markedTemplateFile";
 
         if(form.markedTemplateFileName?.endsWith('.xlsx') || form.markedTemplateFileName?.endsWith('.xls')){
             
         }
         else if(form.markedTemplateFileName?.endsWith('.docx') || form.markedTemplateFileName?.endsWith('.doc')){
             
-            loadFile(FORM_API_URL, function (
+            loadFile(fileUrl, function (
             error: any,
             content: any
             ) {
@@ -231,15 +222,13 @@ const TopicPaperCreation: React.FC = () => {
 
     const savePaper = (e:any) => {
         e.preventDefault();
-        
-        const FORM_API_URL = process.env.REACT_APP_API_URL + "/api/form/" + form._id + "/markedTemplateFile";
 
         if(form.markedTemplateFileName?.endsWith('.xlsx') || form.markedTemplateFileName?.endsWith('.xls')){
             
         }
         else if(form.markedTemplateFileName?.endsWith('.docx') || form.markedTemplateFileName?.endsWith('.doc')){
             
-            loadFile(FORM_API_URL, function (
+            loadFile(fileUrl, function (
             error: any,
             content: any
             ) {
@@ -303,6 +292,7 @@ const TopicPaperCreation: React.FC = () => {
                               }).then((result) => {
                                 /* Read more about isConfirmed, isDenied below */
                                 if (result.isConfirmed) {
+                                    navigate('/myTopic/' + _id + "/topicPapers")
                                     window.location.reload()
                                 } 
                               })
@@ -354,8 +344,14 @@ const TopicPaperCreation: React.FC = () => {
                 tempJsonData[field.initialName.slice(1, field.initialName.length - 1)] = ""
                 setJsonData(tempJsonData)
             })
-        }
-        )
+            setFileUrl(process.env.REACT_APP_API_URL + "/api/form/" + data?.form._id + "/markedTemplateFile")
+            if(data?.form.markedTemplateFileName?.endsWith('.xlsx') || data?.form.markedTemplateFileName?.endsWith('.xls')){
+                setFileType("xlsx")
+            }
+            else if(data?.form.markedTemplateFileName?.endsWith('.docx') || data?.form.markedTemplateFileName?.endsWith('.doc')){
+                setFileType("docx")
+            }
+        })
         .catch((error) => {
         })
     },[])
@@ -373,7 +369,7 @@ const TopicPaperCreation: React.FC = () => {
                     </div>
                 </div>
 
-                <div className='max-h-[calc(100vh-350px)] overflow-y-scroll border-t-2 border-b-2 px-2'>
+                <div className='h-[calc(100vh-350px)] overflow-y-scroll border-t-2 border-b-2 px-2'>
                     {form?.fields.map((field, index) => {
                         return <FormField indx={index} field={field} updateJsonData={updateJsonData}/>
                     })}
@@ -397,8 +393,11 @@ const TopicPaperCreation: React.FC = () => {
                 </div>
             </div>
 
-            <div className='w-2/3'>
-                <OfficeViewer />
+            <div className='w-2/3 h-[calc(100vh-160px)] bg-[#EEEEEE] py-5'>
+                <OfficeViewer 
+                    fileUrl={fileUrl}
+                    fileType={fileType}
+                />
             </div>
         </div>
     )

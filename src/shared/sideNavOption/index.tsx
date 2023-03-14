@@ -1,3 +1,5 @@
+import { appRouters } from "../urlResources";
+
 import MyTopicIcon from "../../assets/images/myTopicIcon.png";
 import TopicRegisterIcon from "../../assets/images/topicRegisterIcon.png";
 import RequestIcon from "../../assets/images/requestIcon.png";
@@ -8,8 +10,6 @@ import Account from "../../assets/images/account.png";
 import Council from "../../assets/images/council.png";
 import Folder from "../../assets/images/folder.png";
 import Upload from "../../assets/images/upload.png";
-
-import { appRouters } from "../urlResources";
 
 export const studentSideBarOptions: {name: string, icon: any, link: string, children: {name: string, link: string}[]}[] = [
     {name: "ĐỀ TÀI CỦA TÔI", icon: MyTopicIcon, link: "/" + appRouters.LINK_TO_MY_TOPIC_PAGE, children:[]},
@@ -51,7 +51,7 @@ export const fsSideBarOptions: {name: string, icon: any, link: string, children:
         children:[
         {name: "HĐ xét duyệt", link: "/" +  appRouters.LINK_TO_FS_REVIEW_COUNCIL},
         // {name: "", link: "/" +  appRouters.LINK_TO_FS_COUNCIL_1_DETAIL},
-        {name: "HĐ nghiệm thu", link: "/" + appRouters.LINK_TO_FS_CREATE_COUNCIL_2}
+        {name: "HĐ nghiệm thu", link: "/" + appRouters.LINK_TO_FS_ACCEPTANCE_COUNCIL}
         // {name: "", link: "/" +  appRouters.LINK_TO_FS_COUNCIL_2_DETAIL},
     ]},
     {name: "UPLOAD THÔNG BÁO", icon: Upload, link: "/" + appRouters.LINK_TO_FS_UPLOAD_ANNOUNCEMENT, children:[]},

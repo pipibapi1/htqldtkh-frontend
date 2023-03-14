@@ -1,63 +1,41 @@
 import React, { useState } from 'react';
+import { Link, useLocation, Navigate, useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import Swal from 'sweetalert2';
+
+import { RootState, AppDispatch } from '../../store';
+
+import { RoleType } from '../../shared/types/role';
+import { appRouters } from '../../shared/urlResources';
+import { Toast } from '../../shared/toastNotify/Toast';
+
+import { loginAction } from "../../actions/authAction";
+
 import BKlogo from "../../assets/images/hcmut.png";
 import EyeOpen from "../../assets/images/eyeOpen.png";
-import EyeClose from "../../assets/images/eyeClose.png"
-import {Link, useLocation} from "react-router-dom";
-import { RoleType } from '../../shared/types/role';
-import { useDispatch, useSelector } from "react-redux";
-import { Navigate, useNavigate  } from 'react-router-dom';
-import { loginAction } from "../../actions/authAction";
-import { RootState, AppDispatch } from '../../store';
-import Swal from 'sweetalert2';
-import { appRouters } from '../../shared/urlResources';
+import EyeClose from "../../assets/images/eyeClose.png";
 
 
 const LoginPanel: React.FC = () => {
-    const location = useLocation();
-    const {role} = location.state;
 
-    let navigate = useNavigate();
+    const location = useLocation();
+    const { role } = location.state;
+    const navigate = useNavigate();
 
     const { isLoggedIn } = useSelector((state: RootState) => state.auth);
-    const { message } = useSelector((state: RootState) => state.message);
     const { user: currentUser } = useSelector((state: RootState) => state.auth);
 
-    const Toast = Swal.mixin({
-        toast: true,
-        position: 'top-end',
-        showConfirmButton: false,
-        timer: 4000,
-        timerProgressBar: true,
-        didOpen: (toast: any) => {
-          toast.addEventListener('mouseenter', Swal.stopTimer)
-          toast.addEventListener('mouseleave', Swal.resumeTimer)
-        }
-      })
+    const useAppDispatch: () => AppDispatch = useDispatch;
+    const dispatch = useAppDispatch();
 
     const [showPassword, setShowPassword] = useState<boolean>(false);
+    const [username, setUsername] = useState("");
+    const [password, setPassword] = useState("");
+    const [loading, setLoading] = useState(false);
 
     const toggleShowPassword = () => {
         setShowPassword(!showPassword);
     }
-    const useAppDispatch: () => AppDispatch = useDispatch
-
-    const dispatch = useAppDispatch()
-
-    let roleDisplay: string = "";
-    
-    if(role === RoleType.Student){
-        roleDisplay = "SINH VIÊN"
-    }
-    else if (role === RoleType.FVD){
-        roleDisplay = "PHÓ CHỦ NHIỆM KHOA"
-    }
-    else{
-        roleDisplay = "THƯ KÝ KHOA"
-    }
-
-    const [username, setUsername] = useState("");
-    const [password, setPassword] = useState("");
-    const [loading, setLoading] = useState(false);
 
     const onChangeUsername = (e: any) => {
         const username = e.target.value;
@@ -72,6 +50,7 @@ const LoginPanel: React.FC = () => {
     const handleLogin = (e: any) => {
         setLoading(true);
         e.preventDefault();
+
         if(username === ""){
             setLoading(false);
             Toast.fire({
@@ -106,12 +85,12 @@ const LoginPanel: React.FC = () => {
                         /* Read more about isConfirmed, isDenied below */
                         if (result.isConfirmed) {
                             if(role === RoleType.Student){
-                                navigate("/myTopic");
+                                navigate("/" + appRouters.LINK_TO_MY_TOPIC_PAGE);
                             }else if(role === RoleType.FVD){
-                                navigate("/fvdTopicStatistic");
+                                navigate("/" + appRouters.LINK_TO_FVD_TOPIC_STATISTIC);
                             }
                             else{
-                                navigate("/fsTopicStatistic");
+                                navigate("/" + appRouters.LINK_TO_FS_TOPIC_STATISTIC);
                             }
                             window.location.reload();
                         } 
@@ -161,21 +140,21 @@ const LoginPanel: React.FC = () => {
                 });
         }
         
-      };
+    };
 
 
     if (isLoggedIn) {
         if(currentUser.role === RoleType.Student){
-            return <Navigate to="/myTopic" />;
+            return <Navigate to={"/" + appRouters.LINK_TO_MY_TOPIC_PAGE} />;
         }else if(currentUser.role === RoleType.FVD){
-            return <Navigate to="/fvdTopicStatistic" />;
+            return <Navigate to={"/" + appRouters.LINK_TO_FVD_TOPIC_STATISTIC} />;
         }
         else if(currentUser.role === RoleType.FS){
-            return <Navigate to="/fsTopicStatistic" />;
+            return <Navigate to={"/" + appRouters.LINK_TO_FS_TOPIC_STATISTIC} />;
         }
         else{
         }
-      }
+    }
     
     return (
             <div className='w-full min-h-[calc(100vh-248px)] bg-[#E9E9E9] flex justify-center items-center py-3'>
@@ -189,7 +168,7 @@ const LoginPanel: React.FC = () => {
                         <div className = 'text-xl font-semibold text-blue-800'>
                         ĐĂNG NHẬP 
                             <div className = 'text-sm font-semibold text-black'>
-                            Vai trò: {roleDisplay}
+                            Vai trò: {role}
                             </div>
                         </div>
                     </div>
@@ -210,51 +189,43 @@ const LoginPanel: React.FC = () => {
                         />
                         
                         <div className='mb-1 mt-1 text-lg font-medium'>
-                        Mật khẩu
+                            Mật khẩu
                         </div>
                         <div className=' grid justify-items-end items-center'>
-                                    <input
-                                        type={showPassword? "text":"password"}
-                                        name="password"
-                                        onChange={onChangePassword}
-                                        className="w-full h-[40px] border border-black large rounded-lg text-base flex justify-center items-center py-4 mb-3 p-2"
-                                    />
-                                    <div className=' absolute mr-2'>
-                                        <button onClick={toggleShowPassword}>
-                                            {showPassword ? 
-                                                (<img src={EyeOpen} alt="eyeIcon" className='h-5 w-6'/>) : 
-                                                (<img src={EyeClose} alt="eyeIcon" className='h-5 w-6'/>)
-                                            }
-                                        </button>
-                                    </div>
-                        </div> 
+                            <input
+                                type={showPassword? "text":"password"}
+                                name="password"
+                                onChange={onChangePassword}
+                                className="w-full h-[40px] border border-black large rounded-lg text-base flex justify-center items-center py-4 mb-3 p-2"
+                            />
+                            <div className=' absolute mr-2'>
+                                <button onClick={toggleShowPassword}>
+                                    {showPassword ? 
+                                        (<img src={EyeOpen} alt="eyeIcon" className='h-5 w-6'/>) : 
+                                        (<img src={EyeClose} alt="eyeIcon" className='h-5 w-6'/>)
+                                    }
+                                </button>
+                            </div>
+                        </div>
                     </div>
 
                     <div className='w-full grid grid-cols-2 space-x-3 content-center   '>
   
-                    <button className="bg-[#0079CC] flex items-center justify-center w-full transition text-white text-center font-semibold py-4 px-4  border border-white-500  hover:bg-[#025A97] hover:cursor-pointer"
-                        onClick={handleLogin}
-                        disabled={loading? true: false}
-                    >
-                        {loading?
-                    (<div>
-                        Processing...
-                        
-                    </div>):
-                    (<div>
-                        ĐĂNG NHẬP
-                    </div>)
-}
-                    
-                    </button>
+                        <button className="bg-[#0079CC] flex items-center justify-center w-full transition text-white text-center font-semibold py-4 px-4  border border-white-500  hover:bg-[#025A97] hover:cursor-pointer"
+                            onClick={handleLogin}
+                            disabled={loading? true: false}
+                        >
+                            {loading ? (<div> Processing... </div>) : (<div> ĐĂNG NHẬP </div>)}
+                        </button>
 
-                    <Link to={"/" + appRouters.LINK_TO_LOGIN_PASSWORD_RESET_PAGE}
-                          state={{role: role}}
-                    >
-                    <div className="w-full bg-[#ff0000] transition text-white text-center font-semibold py-4 px-4  border border-white-500  hover:bg-[#b00000] hover:cursor-pointer">
-                    QUÊN MẬT KHẨU
-                    </div>
-                    </Link>
+                        <Link to={"/" + appRouters.LINK_TO_LOGIN_PASSWORD_RESET_PAGE}
+                            state={{role: role}}
+                        >
+                            <div className="w-full bg-[#ff0000] transition text-white text-center font-semibold py-4 px-4  border border-white-500  hover:bg-[#b00000] hover:cursor-pointer">
+                            QUÊN MẬT KHẨU
+                            </div>
+                        </Link>
+
                     </div>
                 </div>
         </div>

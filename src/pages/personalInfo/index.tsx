@@ -1,9 +1,10 @@
 import React from 'react';
+
 import Header from '../../components/header';
+
 import UserProfile from './UserProfile';
 
-
-const PersonalInfoPage: React.FC = (props: any) => {
+const PersonalInfoPage: React.FC = () => {
     return (
         <div className=''>
             <Header isLogin={true} isAccountServicePage={false}/>
@@ -15,7 +16,6 @@ const PersonalInfoPage: React.FC = (props: any) => {
                     <UserProfile />
                 </div>
             </div>
-            
         </div>
     );
 }

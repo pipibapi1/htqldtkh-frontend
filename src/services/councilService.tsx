@@ -1,33 +1,27 @@
 import axios from "axios";
 import authHeader from "./authHeader";
 import { CouncilDataIntf, UpdateCouncilInfo } from "../shared/interfaces/councilInterface";
+import { CouncilQuery } from "../shared/queryInterface/councilQuery";
 
 const COUNCIL_API_URL = process.env.REACT_APP_API_URL + "/api/council";
 
-interface Query{
-    type?: string;
-    period?: string;
-    page?: number,
-    limit?: number
-}
-
-const getCouncilStatistic = (queryData: Query) => {
+const getCouncilStatistic = (queryData: CouncilQuery) => {
     const {type, period} = queryData;
 
     return axios.get(COUNCIL_API_URL + `/statistics?type=${type}&period=${period}`, { 
-        headers: authHeader()
-    })
+            headers: authHeader()
+        })
         .then((response) => {
             return response.data.councilStatistics
         })
 }
 
-const getListCouncil = (queryData: Query) => {
+const getListCouncil = (queryData: CouncilQuery) => {
     const {type, period, page, limit} = queryData;
 
     return axios.get(COUNCIL_API_URL + `?type=${type}&period=${period}&page=${page}&period=${limit}`, { 
-        headers: authHeader()
-    })
+            headers: authHeader()
+        })
         .then((response) => {
             return response.data.councils
         })
@@ -38,8 +32,8 @@ const postNewCouncil = (councilData: CouncilDataIntf) => {
         council: councilData
     }
     return axios.post(COUNCIL_API_URL, data, { 
-        headers: authHeader()
-    })
+            headers: authHeader()
+        })
         .then((response) => {
             return response.data.council
         })
@@ -50,8 +44,8 @@ const postAddTopicToCouncil = (councilId: string, topicList: string[]) => {
         topics: topicList
     }
     return axios.post(`${COUNCIL_API_URL}/${councilId}/topic`, data, { 
-        headers: authHeader()
-    })
+            headers: authHeader()
+        })
         .then((response) => {
             return response.data.council
         })
@@ -59,10 +53,10 @@ const postAddTopicToCouncil = (councilId: string, topicList: string[]) => {
 
 const putUpdateCouncil = (councilId: string, updateInfo: UpdateCouncilInfo) => {
     return axios.put(COUNCIL_API_URL + `/${councilId}`, {
-        council: updateInfo
-    } , { 
-        headers: authHeader()
-    })
+            council: updateInfo
+        } , { 
+            headers: authHeader()
+        })
         .then((response) => {
             return response.data.council
         })
@@ -70,8 +64,8 @@ const putUpdateCouncil = (councilId: string, updateInfo: UpdateCouncilInfo) => {
 
 const getCouncilDetail = (councilId: string) => {
     return axios.get(COUNCIL_API_URL + `/${councilId}`, { 
-        headers: authHeader()
-    })
+            headers: authHeader()
+        })
         .then((response) => {
             return response.data.council
         })
@@ -79,8 +73,8 @@ const getCouncilDetail = (councilId: string) => {
 
 const deleteCouncil = (councilId: string) => {
     return axios.delete(COUNCIL_API_URL + `/${councilId}`, { 
-        headers: authHeader()
-    })
+            headers: authHeader()
+        })
         .then((response) => {
             return response.data
         })

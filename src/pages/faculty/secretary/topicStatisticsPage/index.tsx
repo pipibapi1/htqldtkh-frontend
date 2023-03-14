@@ -4,7 +4,7 @@ import PathHead from '../../../../components/pathHead';
 import SideNav from '../../../../components/sideNav';
 import { RoleType } from '../../../../shared/types/role';
 import { useLocation } from 'react-router-dom';
-import TopicStatistic from './TopicStatistic';
+import TopicStatistic from '../../statistic/topic/TopicStatistic';
 
 const FSTopicStatistics: React.FC = () => {
     const location = useLocation();

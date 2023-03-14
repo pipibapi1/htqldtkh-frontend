@@ -2,20 +2,20 @@ import { Instructor } from "./instructorInterface";
 import { OtherMember } from "./othermemberInterface";
 
 export interface Topic{
-    _id: string;
-    name: string;
-    type: string;
-    startTime: string;
-    endTime: string;
-    isExtended: boolean;
-    extensionTime: number;
+    _id: string,
+    name: string,
+    type: string,
+    startTime: string,
+    endTime: string,
+    isExtended: boolean,
+    extensionTime: number,
     status: string 
-    period: string;
-    productId: string;
-    studentId: string;
-    creationDate: string;
-    topicGivenId: string;
-    expense: number;
+    period: string,
+    productId: string,
+    studentId: string,
+    creationDate: string,
+    topicGivenId: string,
+    expense: number,
     student: {
         _id: string, 
         name: string,
@@ -25,25 +25,25 @@ export interface Topic{
         email: string,
         phoneNumber: string,
         birthDate: string
-    };
-    periodValue: string;
+    },
+    periodValue: string,
 }
 
 export interface MyTopic{
-    _id: string;
-    name: string;
-    type: string;
-    startTime: string;
-    endTime: string;
-    isExtended: boolean;
-    extensionTime: number;
+    _id: string,
+    name: string,
+    type: string,
+    startTime: string,
+    endTime: string,
+    isExtended: boolean,
+    extensionTime: number,
     status: string 
-    period: string;
-    productId: string;
-    studentId: string;
-    creationDate: string;
-    topicGivenId: string;
-    expense: number;
+    period: string,
+    productId: string,
+    studentId: string,
+    creationDate: string,
+    topicGivenId: string,
+    expense: number,
     student: {
         _id: string, 
         name: string,
@@ -53,8 +53,8 @@ export interface MyTopic{
         email: string,
         phoneNumber: string,
         birthDate: string
-    };
-    periodValue: string;
+    },
+    periodValue: string,
     instructors: Instructor[],
     instructorsId: string[],
     otherMembers: OtherMember[]

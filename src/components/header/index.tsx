@@ -1,10 +1,11 @@
 import React, {useEffect, useState} from 'react';
 import BKlogo from "../../assets/images/hcmut.png";
 import Bell from "../../assets/images/bell.png";
-import {Link} from "react-router-dom";
 import { appRouters } from '../../shared/urlResources';
 import { useDispatch, useSelector} from "react-redux";
-import { Navigate ,useNavigate  } from 'react-router-dom';
+import { Link, useNavigate  } from "react-router-dom";
+
+import { appRouters } from '../../shared/urlResources';
 import { logoutAction } from "../../actions/authAction";
 import { RootState,AppDispatch } from '../../store';
 import { RoleType } from '../../shared/types/role';
@@ -19,12 +20,17 @@ interface Props {
 }
 
 const Header: React.FC<Props> = (props: any) => {
-    let navigate = useNavigate();
+
+    const {isLogin, isAccountServicePage} = props;
+    
+    const navigate = useNavigate();
     const useAppDispatch: () => AppDispatch = useDispatch;
     const dispatch = useAppDispatch();
-
+    
     const { isLoggedIn } = useSelector((state: RootState) => state.auth);
     const { user: currentUser } = useSelector((state: RootState) => state.auth);
+    
+    const [isDroppedDown, setIsDroppedDown] = useState<boolean>(false);
 
     const handleLogout = (e:any) => {
         e.preventDefault();
@@ -50,13 +56,12 @@ const Header: React.FC<Props> = (props: any) => {
         e.preventDefault();
         if(isLoggedIn){
             if(currentUser.role === RoleType.Student){
-                navigate("/myTopic");
+                navigate("/" + appRouters.LINK_TO_MY_TOPIC_PAGE);
             }else if(currentUser.role === RoleType.FVD){
-                navigate("/fvdExpenseStatistic");
-                return <Navigate to="/fvdExpenseStatistic" />;
+                navigate("/" + appRouters.LINK_TO_FVD_TOPIC_STATISTIC);
             }
             else{
-                navigate("/fsExpenseStatistic")
+                navigate("/" + appRouters.LINK_TO_FS_TOPIC_STATISTIC)
             }
         }
     }
@@ -271,6 +276,7 @@ const Header: React.FC<Props> = (props: any) => {
                         </div>
                     </div>
                 </div>
+
             </div>)}
         </div>
     );

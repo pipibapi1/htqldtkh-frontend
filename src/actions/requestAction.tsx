@@ -1,7 +1,7 @@
 import requestService from "../services/requestService";
+import { RequestQuery } from "../shared/queryInterface/requestQuery";
 
-
-const getRequestListAction = (queryData: any) => (dispatch: any) =>{
+const getRequestListAction = (queryData: RequestQuery) => (dispatch: any) =>{
     return requestService.getRequestListService(queryData).then(
         (data) => {
             return Promise.resolve(data);

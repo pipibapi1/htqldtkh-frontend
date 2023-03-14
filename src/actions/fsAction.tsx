@@ -1,20 +1,10 @@
 import fsService from "../services/fsService";
-import { GenderType } from "../shared/types/gender";
+import { FsNewInfoInput } from "../shared/interfaces/fsInterface";
 
-interface NewInfoInput{
-    _id: string;
-    name: string;
-    gender: GenderType;
-    birthDate: Date;
-    email: string;
-    phoneNumber: string;
-    image: string;
-}
-
-const updateFsPersonalInfoAction = (newInfoData: NewInfoInput) => (dispatch: any) => {
+const updateFsPersonalInfoAction = (newInfoData: FsNewInfoInput) => (dispatch: any) => {
     return fsService.updateFsPersonalInfoService(newInfoData).then(
         (data) => {
-            return Promise.resolve();
+            return Promise.resolve(data);
         },
         (error) => {
               return Promise.reject(error);
