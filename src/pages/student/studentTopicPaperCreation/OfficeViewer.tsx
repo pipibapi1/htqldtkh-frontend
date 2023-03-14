@@ -14,7 +14,7 @@ const OfficeViewer = (props: any) => {
         onError={onError}
       />}
       {(fileType === "xlsx" || fileType === "xls") && <div className='px-5 text-lg'>
-        No Preview.
+        No Preview For Excel Files.
       </div>
       }
     </div>
