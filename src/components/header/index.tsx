@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import BKlogo from "../../assets/images/hcmut.png";
 import Bell from "../../assets/images/bell.png";
 import {Link} from "react-router-dom";
@@ -9,6 +9,9 @@ import { logoutAction } from "../../actions/authAction";
 import { RootState,AppDispatch } from '../../store';
 import { RoleType } from '../../shared/types/role';
 import Swal from 'sweetalert2';
+import NotificationService from '../../services/notificationService';
+import StudentService from '../../services/studentService';
+import { NotificationIntf } from '../../shared/interfaces/notificationInterface';
 
 interface Props {
     isLogin: boolean;
@@ -22,13 +25,6 @@ const Header: React.FC<Props> = (props: any) => {
 
     const { isLoggedIn } = useSelector((state: RootState) => state.auth);
     const { user: currentUser } = useSelector((state: RootState) => state.auth);
-
-    // Dữ liệu giả để chạy header
-    // const currentUser = {
-    //     role : RoleType.FS,
-    //     image: BKlogo,
-    //     name: 'TruongAnhKhoa'
-    // }
 
     const handleLogout = (e:any) => {
         e.preventDefault();
@@ -68,39 +64,80 @@ const Header: React.FC<Props> = (props: any) => {
     const [isDroppedDown, setIsDroppedDown] = useState<boolean>(false);
 
     // PHẦN CODE THÔNG BÁO
-    // const [notifications, setNotifications] = useState([]);
-    const notification = [
-        {senderName: "Thư ký Khoa" , type : 1},
-        {senderName: "Thư ký Khoa" , type : 2},
-        {senderName: "Phó chủ nhiệm Khoa" , type : 3},
-        {senderName: "Phó chủ nhiệm Khoa" , type : 4},
-      ];
+    const [notifications, setNotifications] = useState([]);
     const [open, setOpen] = useState(false);
 
     const handleRead = () => {
-        // setNotifications([]);
-        setOpen(false);
-      };
-
-    const {isLogin, isAccountServicePage} = props;
-    const displayNotification = ({senderName, type}: {senderName: any, type: any}) => {
-        let action;
-        if (type === 1) {
-            action = "có thông báo mới"
-        }else if (type === 2) {
-            action = "đã phản hồi"
-        }else if (type === 3) {
-            action = "đã chấp thuận"
-        }else {
-            action = "đã từ chối"
+        if (notifications.length>0) {
+            const data = {
+                _id: currentUser?._id,
+                numNotification: 0
+            }
+            StudentService.updateStudentPersonalInfoService(data)
+                .then((data) => {
+                    setNotifications([])
+                })
         }
-        return(     
-            <div className = 'font-medium border-b border-gray-800 text-xl'>{`${senderName} ${action} đề tài của bạn \n `} 
-            
-            </div>    
-        )
-    
+        setOpen(false);
+    };
+
+    const timeAgo = (date: string) => {
+        const currTime = new Date();
+        let diffTime = Math.floor((currTime.getTime() - (new Date(date)).getTime()) / (1000 * 60));
+
+        if (diffTime < 5) {
+            return "Vài phút trước"
+        }
+        
+        if (diffTime < 60) {
+            return `${diffTime} phút trước`
+        }
+
+        diffTime = Math.floor(diffTime / 60)
+        if (diffTime < 24) {
+            return `${diffTime} giờ trước`
+        }
+
+        diffTime = Math.floor(diffTime / 24)
+        if (diffTime < 31) {
+            return `${diffTime} ngày trước`
+        }
+
+        return "Vài tháng trước"
+
     }
+    const {isLogin, isAccountServicePage} = props;
+    const displayNotification = (notification : NotificationIntf) => {
+        const onClickNotification = (event : React.MouseEvent<HTMLDivElement>) => {
+            navigate(notification.redirect as string);
+        }
+
+        return (
+            <div className='w-full my-2 rounded hover:bg-slate-100 flex flex-col px-2 py-2'
+                onClick={notification.redirect? onClickNotification : undefined}
+            >
+                <div className='text-normal font-medium my-1'>
+                    {notification.subject}
+                </div>
+                <div className='text-sm font-light'>
+                    {notification.content}
+                </div>
+                <div className='text-sm font-medium text-[#1488d8]'>
+                    {timeAgo(notification.createAt)}
+                </div>
+            </div>
+        )
+    }
+
+    useEffect(() => {
+        if (currentUser.role===RoleType.Student) {
+            NotificationService.getUnreadNotificationService()
+                .then ((data) => {
+                    const {notifications} = data;
+                    setNotifications(notifications? notifications: []);
+                })
+        }
+    } , [currentUser])
 
     return (
         <div className='bg-white grid grid-cols-12 gap-4 p-3 mb-1 max-h-17 border-2 sticky top-0 z-40'>
@@ -146,41 +183,53 @@ const Header: React.FC<Props> = (props: any) => {
             {isLogin && !isAccountServicePage && (
             <div className='col-start-11 col-span-1 grid-cols-2 grid '>
                 <div 
-                className='relative flex flex-row items-center hover:cursor-pointer pt-5'
-                // onClick = {() => setIsDroppedDown2(!isDroppedDown2)}
-                onClick={() => setOpen(!open)}
+                    className='relative flex flex-row items-center hover:cursor-pointer pt-5'
+                    // onClick = {() => setIsDroppedDown2(!isDroppedDown2)}
+                    id="notificationBtn"
+                    onClick={() => setOpen(!open)}
                 >
                     <img
-                    className="p-1 w-9 h-9 rounded-full ring-2 ring-gray-300 dark:ring-gray-500 inline-block "
-                    src={Bell}
-                    alt="Bordered avatar"
+                        className="p-1 w-9 h-9 rounded-full ring-2 ring-gray-300 dark:ring-gray-500 inline-block "
+                        src={Bell}
+                        alt="Bordered avatar"
                     ></img>
                     {
-                        notification.length > 0 &&
+                        notifications.length > 0 &&
                         <div className="w-5 h-5 bg-red-600 rounded-full text-sm font-bold text-center mb-6 ml-6
-                         items-center content-center absolute">{notification.length}</div>
+                        items-center content-center absolute">{notifications.length}</div>
                     }
                 </div>
 
-                {open && (
-                    <div className="dropdown-fullname ml-20 mt-20 w-[350px] text-gray-700 block px-4 py-2 ">
-                    {notification.map((n) => displayNotification(n))}
-                    <button className="w-full mr-2 my-2 text-white font-medium text-sm px-5 py-2.5 text-center rounded-lg bg-blue-700 hover:bg-blue-700 
-                    focus:ring-4 focus:outline-none focus:ring-blue-300" onClick={handleRead}>
-                        Đánh dấu đã đọc
-                    </button>
+                {open && currentUser.role===RoleType.Student && (
+                    <div className="dropdown-fullname ml-20 mt-20 w-[450px] max-h-[80vh] text-gray-700 block px-2 py-2 border-2 drop-shadow-lg bg-white overflow-y-auto"
+                        id="notificationList"
+                    >
+                        <div>
+                            {notifications.length>0? (
+                                notifications.map((n) => displayNotification(n))
+                                ) : (
+                                    <i className='text-base'>Không có thông báo nào</i>
+                                )}
+                        </div>
+                        <button 
+                            className="w-full mr-2 my-2 text-white font-medium text-sm px-5 py-2.5 text-center rounded-lg bg-blue-700 hover:bg-blue-700 
+                            focus:ring-4 focus:outline-none focus:ring-blue-300" 
+                            onClick={handleRead}
+                        >
+                            Đánh dấu đã đọc
+                        </button>
                     </div>
                 )}
 
 
                 <div 
-                className='relative flex items-center hover:cursor-pointer pt-5'
-                onClick = {() => setIsDroppedDown(!isDroppedDown)}
+                    className='relative flex items-center hover:cursor-pointer pt-5'
+                    onClick = {() => setIsDroppedDown(!isDroppedDown)}
                 >
                     <img
-                    className="p-1 w-9 h-9 rounded-full ring-2 ring-gray-300 dark:ring-gray-500 inline-block mr-5"
-                    src={currentUser?.image}
-                    alt="Bordered avatar"
+                        className="p-1 w-9 h-9 rounded-full ring-2 ring-gray-300 dark:ring-gray-500 inline-block mr-5"
+                        src={currentUser?.image}
+                        alt="Bordered avatar"
                     ></img>
 
                     <div
