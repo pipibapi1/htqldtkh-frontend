@@ -65,8 +65,6 @@ const Header: React.FC<Props> = (props: any) => {
         }
     }
 
-
-    // PHẦN CODE THÔNG BÁO
     const [notifications, setNotifications] = useState([]);
     const [open, setOpen] = useState(false);
 
@@ -132,7 +130,7 @@ const Header: React.FC<Props> = (props: any) => {
     }
 
     useEffect(() => {
-        if (currentUser.role===RoleType.Student) {
+        if (isLoggedIn && currentUser.role===RoleType.Student) {
             NotificationService.getUnreadNotificationService()
                 .then ((data) => {
                     const {notifications} = data;
