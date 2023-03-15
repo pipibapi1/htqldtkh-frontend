@@ -210,7 +210,7 @@ const CouncilDetailScreen: React.FC = () => {
                     <div className='flex justify-between mb-2'>
                         <div className='flex flex-col'>
                             <div className='mb-5'>
-                                <div className='font-bold text-3xl'>
+                                <div className='text-3xl'>
                                     {council.name}
                                 </div>
                             </div> 
@@ -228,7 +228,7 @@ const CouncilDetailScreen: React.FC = () => {
                         </div>
                         <div className='flex flex-row'>
                             <button 
-                                className="w-40 h-12 mr-2 bg-[#14c437] flex justify-center items-center transition text-white font-semibold py-4 border border-white-500 rounded-[15px] hover:bg-[#13d633] hover:cursor-pointer"
+                                className="w-40 h-12 mr-2 bg-[#0079CC] flex justify-center items-center transition text-white font-semibold py-4 border border-white-500 rounded-[15px] hover:bg-[#025A97] hover:cursor-pointer"
                                 onClick={onClickSendEmailBtn}
                             >
                                 Gửi thông báo

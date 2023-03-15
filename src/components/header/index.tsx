@@ -199,7 +199,7 @@ const Header: React.FC<Props> = (props: any) => {
                     }
                 </div>
 
-                {open && currentUser.role===RoleType.Student && (
+                {open && (
                     <div className="dropdown-fullname ml-20 mt-20 w-[450px] max-h-[80vh] text-gray-700 block px-2 py-2 border-2 drop-shadow-lg bg-white overflow-y-auto"
                         id="notificationList"
                     >

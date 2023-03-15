@@ -223,7 +223,7 @@ const TopicPaperCreation: React.FC = () => {
                     const blob = new Blob([buffer], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
                     // Output the document using Data-URI
                     FileSaver.saveAs(blob, form.markedTemplateFileName);
-                });
+            });
 
         }
         else if(form.markedTemplateFileName?.endsWith('.docx') || form.markedTemplateFileName?.endsWith('.doc')){
@@ -509,6 +509,7 @@ const TopicPaperCreation: React.FC = () => {
             }
         })
         .catch((error) => {
+            console.log(error);
         })
     },[])
 
@@ -549,7 +550,7 @@ const TopicPaperCreation: React.FC = () => {
                 </div>
             </div>
 
-            <div className='w-2/3 h-[calc(100vh-160px)] bg-[#EEEEEE] py-5'>
+            <div className='w-2/3 h-[calc(100vh-160px)] bg-[#EEEEEE] flex p-5'>
                 <OfficeViewer 
                     fileUrl={fileUrl}
                     fileType={fileType}

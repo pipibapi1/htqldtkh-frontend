@@ -17,7 +17,7 @@ const FSCouncil1Detail: React.FC = () => {
                 <div className=''>
                     <PathHead path={"TẠO HỘI ĐỒNG / HĐ xét duyệt / Chi tiết"}/>
                     <Link to={'/fsReviewCouncil'} className='hover:cursor-pointer w-fit'>
-                        <img src={BackIcon} className='h-[40px] w-[40px] m-5' alt="" />
+                        <img src={BackIcon} className='h-5 m-5' alt="" />
                     </Link>
                     <CouncilDetailScreen/>
                 </div>

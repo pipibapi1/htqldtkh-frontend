@@ -32,7 +32,7 @@ export default function Step4( props: {onClose: any} ) {
             Your Account has been created.
           </div> */}
           <a className="mt-10">
-            <button className="h-10 px-5 text-green-700 transition-colors duration-150 border border-gray-300 rounded-lg focus:shadow-outline hover:bg-green-500 hover:text-green-100"
+            <button className="h-10 px-5 text-[#0079CC] transition-colors duration-150 border border-gray-300 rounded-lg focus:shadow-outline hover:bg-[#0079CC] hover:text-white"
               onClick={props.onClose}
             >
               Close

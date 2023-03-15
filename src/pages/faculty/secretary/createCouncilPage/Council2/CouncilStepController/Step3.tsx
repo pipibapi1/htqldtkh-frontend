@@ -90,7 +90,7 @@ const TopicInCouncil = (props: {topic: TopicInCouncilIntf}) => {
                 </div>
             </div>
             {idxInChosenList===-1? (
-                <button className="border border-green-500 rounded text-sm font-medium text-green-500 w-12"
+                <button className="border border-[#0079CC] rounded text-sm font-medium text-[#0079CC] w-12"
                     onClick={onChooseTopic}
                 >
                     Chọn

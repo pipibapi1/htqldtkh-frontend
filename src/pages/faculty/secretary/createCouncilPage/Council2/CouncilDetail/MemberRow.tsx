@@ -38,7 +38,7 @@ export const MemberRow: React.FC<Props> = (props) => {
 				academyRank = "PGS."
 				break;
 			default:
-				degree = "";
+				academyRank = "";
 		}
 
 		return academyRank + " " + degree
