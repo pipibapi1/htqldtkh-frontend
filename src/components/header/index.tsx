@@ -140,7 +140,7 @@ const Header: React.FC<Props> = (props: any) => {
     } , [currentUser])
 
     return (
-        <div className='bg-white grid grid-cols-12 gap-4 p-3 mb-1 max-h-17 border-2 sticky top-0 z-40'>
+        <div className='bg-white grid grid-cols-8 gap-4 p-3 mb-1 max-h-17 border-2 sticky top-0 z-40'>
             {/* The BK icon and the HCMUT name */}
             <Link
                 className='col-start-1 col-span-5 flex items-center hover:cursor-pointer'
@@ -181,10 +181,9 @@ const Header: React.FC<Props> = (props: any) => {
 
             {/* Avatar and drop down menu */}
             {isLogin && !isAccountServicePage && (
-            <div className='col-start-11 col-span-1 grid-cols-2 grid '>
+            <div className='col-start-7 col-span-2 grid-cols-2 grid '>
                 <div 
-                    className='relative flex flex-row items-center hover:cursor-pointer pt-5'
-                    // onClick = {() => setIsDroppedDown2(!isDroppedDown2)}
+                    className='relative flex flex-row items-center justify-end hover:cursor-pointer pr-5'
                     id="notificationBtn"
                     onClick={() => setOpen(!open)}
                 >
@@ -223,7 +222,7 @@ const Header: React.FC<Props> = (props: any) => {
 
 
                 <div 
-                    className='relative flex items-center hover:cursor-pointer pt-5'
+                    className='relative flex items-center hover:cursor-pointer'
                     onClick = {() => setIsDroppedDown(!isDroppedDown)}
                 >
                     <img
@@ -236,7 +235,7 @@ const Header: React.FC<Props> = (props: any) => {
                     className='text-sm font-bold'
                     >
                         {currentUser?.name}
-                        <div className='text-xs italic'>
+                        <div className='text-sx italic'>
                             {currentUser.role === RoleType.Student ? "Sinh viên" : 
                             (currentUser.role === RoleType.FVD ? "Phó chủ nhiệm" : "Thư ký")}
                         </div>
