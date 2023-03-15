@@ -1,7 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import BKlogo from "../../assets/images/hcmut.png";
 import Bell from "../../assets/images/bell.png";
-import { appRouters } from '../../shared/urlResources';
 import { useDispatch, useSelector} from "react-redux";
 import { Link, useNavigate  } from "react-router-dom";
 
@@ -66,7 +65,6 @@ const Header: React.FC<Props> = (props: any) => {
         }
     }
 
-    const [isDroppedDown, setIsDroppedDown] = useState<boolean>(false);
 
     // PHẦN CODE THÔNG BÁO
     const [notifications, setNotifications] = useState([]);
@@ -111,7 +109,6 @@ const Header: React.FC<Props> = (props: any) => {
         return "Vài tháng trước"
 
     }
-    const {isLogin, isAccountServicePage} = props;
     const displayNotification = (notification : NotificationIntf) => {
         const onClickNotification = (event : React.MouseEvent<HTMLDivElement>) => {
             navigate(notification.redirect as string);
