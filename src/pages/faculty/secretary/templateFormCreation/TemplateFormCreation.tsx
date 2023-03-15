@@ -158,6 +158,7 @@ const TemplateFormCreation: React.FC = () => {
               }
             });
           });
+          
           setMyPlaceholders(Array.from(placeholders))
           let fields: {
             initialName: string,
