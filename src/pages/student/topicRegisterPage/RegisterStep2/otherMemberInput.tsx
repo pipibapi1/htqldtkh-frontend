@@ -1,6 +1,8 @@
 import React from 'react';
-import { topicInput } from '../../../../shared/interfaces/topicInterface';
 import DatePicker from "react-datepicker";
+
+import { topicInput } from '../../../../shared/interfaces/topicInterface';
+
 import Calendar from "../../../../assets/images/calendar.png";
 
 interface Props {
@@ -142,7 +144,7 @@ const OtherMembersInput: React.FC<Props> = (props: Props) => {
                             Giới tính:
                         </div>
                         <select
-                            className="bg-white w-2/3 h-10 border border-black border-1 rounded-lg focus:ring-blue-500 px-2 w-40"
+                            className="bg-white w-2/3 h-10 border border-black border-1 rounded-lg focus:ring-blue-500 px-2"
                             name="gender"
                             defaultValue={currMember.gender}
                             onChange={onChangeGender}

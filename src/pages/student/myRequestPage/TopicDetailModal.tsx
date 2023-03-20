@@ -1,10 +1,11 @@
-import {useState, useEffect} from 'react';
-import { useDispatch} from "react-redux";
+import { useState, useEffect } from 'react';
+import { useDispatch } from "react-redux";
+
 import { AppDispatch } from '../../../store';
+
 import { MyTopic } from '../../../shared/interfaces/topicInterface';
+
 import { getTopicDetailAction } from '../../../actions/topicAction';
-
-
 
 const TopicDetailModal = ({isVisible, onClose, topicId}: {isVisible: boolean, onClose: any, topicId: string}) => {
     const topicData: MyTopic = {

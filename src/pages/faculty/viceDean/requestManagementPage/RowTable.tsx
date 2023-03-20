@@ -1,8 +1,10 @@
-import React, {Fragment, useState} from 'react';
-import { RequestType } from '../../../../shared/types/requestType';
+import React, { Fragment, useState } from 'react';
+
 import { RequestStatus } from '../../../../shared/types/requestStatus';
-import DetaiIcon from '../../../../assets/images/information.png';
+
 import TopicDetailModal from './TopicDetailModal';
+
+import DetaiIcon from '../../../../assets/images/information.png';
 
 const RECORD_PER_PAGE = 7;
 

@@ -1,24 +1,26 @@
-import React, { useState, useRef, useEffect } from 'react';
+import { useState, useEffect } from 'react';
+import { useDispatch } from "react-redux";
+import DatePicker from "react-datepicker";
+import Swal from 'sweetalert2';
+
+import { AppDispatch } from '../../../../store';
+
+import { RequestStatus } from '../../../../shared/types/requestStatus';
+import { RequestType } from '../../../../shared/types/requestType';
+import { Period } from '../../../../shared/interfaces/periodInterface';
+import { Request } from '../../../../shared/interfaces/requestInterface';
+
+import { getRequestListAction, putApproveARequestAction, putUpdateARequestAction } from '../../../../actions/requestAction';
+import { getAllPeriodsAction } from "../../../../actions/periodAction";
+
 import RowTable from './RowTable';
 import PaginationTag from './PaginationTag';
 import LeftTag from './LeftTag';
 import RightTag from './RightTag';
-import { RequestStatus } from '../../../../shared/types/requestStatus';
-import { RequestType } from '../../../../shared/types/requestType';
-import { PeriodStatus } from '../../../../shared/types/periodStatus';
-import { useDispatch} from "react-redux";
-import { AppDispatch } from '../../../../store';
-import { getRequestListAction, putApproveARequestAction, putUpdateARequestAction } from '../../../../actions/requestAction';
-import DatePicker from "react-datepicker";
-import Calendar from "../../../../assets/images/calendar.png";
-import {getAllPeriodsAction} from "../../../../actions/periodAction"
-import { Period } from '../../../../shared/interfaces/periodInterface';
-import { Request } from '../../../../shared/interfaces/requestInterface';
-import Swal from 'sweetalert2';
 
+import Calendar from "../../../../assets/images/calendar.png";
 
 const RECORD_PER_PAGE = 7;
-
 
 const RequestList= () => {
 

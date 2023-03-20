@@ -1,24 +1,26 @@
-import React, {useState, useRef, useEffect} from 'react';
+import React, { useState, useEffect } from 'react';
+import DatePicker from "react-datepicker";
+import { PieChart } from 'react-minimal-pie-chart';
+import { useDispatch} from "react-redux";
+
+import { AppDispatch } from '../../../../store';
+
 import { TopicStatusEnum } from '../../../../shared/types/topicStatus';
+import { PeriodStatus } from '../../../../shared/types/periodStatus';
+import { TopicTypeEnum } from '../../../../shared/types/topicType';
+
+import { getAllPeriodsAction } from "../../../../actions/periodAction"
+import { getTopicListAction } from '../../../../actions/topicAction';
+
+import TopicListPage from './topicListPage';
+
+import Calendar from "../../../../assets/images/calendar.png";
 import NewIcon from '../../../../assets/images/new.png';
 import CarryOutIcon from '../../../../assets/images/carryOut.png';
 import DueToAcceptIcon from '../../../../assets/images/dueToAccept.png';
 import FinishedIcon from '../../../../assets/images/finished.png';
 import OutOfDateIcon from '../../../../assets/images/outOfDate.png';
 import CanceledIcon from '../../../../assets/images/canceled.png';
-import { PieChart } from 'react-minimal-pie-chart';
-import TopicListPage from './topicListPage';
-import { PeriodStatus } from '../../../../shared/types/periodStatus';
-import { useDispatch} from "react-redux";
-import { AppDispatch } from '../../../../store';
-import DatePicker from "react-datepicker";
-import Calendar from "../../../../assets/images/calendar.png";
-
-
-import {getAllPeriodsAction} from "../../../../actions/periodAction"
-import { getTopicListAction } from '../../../../actions/topicAction';
-import { TopicTypeEnum } from '../../../../shared/types/topicType';
-
 interface CardProps{
     status: TopicStatusEnum;
     quantity: number;

@@ -1,10 +1,15 @@
-import React, {Fragment, useState} from 'react';
-import { RequestStatus } from '../../../shared/types/requestStatus';
-import { useDispatch} from "react-redux";
-import { AppDispatch } from '../../../store';
+import React, { Fragment, useState } from 'react';
+import { useDispatch } from "react-redux";
 import Swal from 'sweetalert2';
+
+import { AppDispatch } from '../../../store';
+
+import { RequestStatus } from '../../../shared/types/requestStatus';
+
 import { deleteRemoveARequestAction } from '../../../actions/requestAction';
+
 import TopicDetailModal from './TopicDetailModal';
+
 import DetaiIcon from '../../../assets/images/information.png';
 
 const RECORD_PER_PAGE = 7;

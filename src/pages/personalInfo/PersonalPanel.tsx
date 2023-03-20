@@ -591,7 +591,10 @@ const PersonalPanel:React.FC = () => {
                     Chỉnh sửa
                 </div>}
 
-                {userInfo.accountStatus === StudentAccountStatusEnum.waiting && !editMode && 
+                {((userInfo.role === RoleType.Student && userInfo.accountStatus === StudentAccountStatusEnum.waiting) ||
+                    userInfo.role === RoleType.FS || userInfo.role === RoleType.FVD
+                ) 
+                && !editMode && 
                 <div onClick={() => {
                     setEditMode(!editMode)
                     setNewInfo(user)}
@@ -601,7 +604,10 @@ const PersonalPanel:React.FC = () => {
                     Chỉnh sửa
                 </div>}
 
-                {userInfo.accountStatus === StudentAccountStatusEnum.waiting && editMode &&
+                {((userInfo.role === RoleType.Student && userInfo.accountStatus === StudentAccountStatusEnum.waiting) ||
+                    userInfo.role === RoleType.FS || userInfo.role === RoleType.FVD
+                ) 
+                && editMode &&
                 <button className="bg-[#0079CC] w-40 h-16 flex justify-center items-center transition text-white font-semibold py-4 border border-white-500 rounded-[15px] hover:bg-[#025A97] hover:cursor-pointer"
                     onClick={updateInfo}
                     disabled={loading? true: false}

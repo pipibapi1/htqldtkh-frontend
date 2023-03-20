@@ -1,22 +1,23 @@
-import React, {useState, useEffect} from 'react';
-import TopicListPage from './topicListPage';
+import React, { useState, useEffect } from 'react';
+import { useDispatch } from "react-redux";
+import DatePicker from "react-datepicker";
+import Swal from 'sweetalert2';
+import { BarChart, Bar, XAxis, YAxis, Tooltip, CartesianGrid, Label } from 'recharts';
+
+import { AppDispatch } from '../../../../store';
+
 import { TopicTypeEnum } from '../../../../shared/types/topicType';
 import { PeriodStatus } from '../../../../shared/types/periodStatus';
 import { TopicStatusEnum } from '../../../../shared/types/topicStatus';
-import { useDispatch} from "react-redux";
-import { AppDispatch } from '../../../../store';
 
-import DatePicker from "react-datepicker";
-import Calendar from "../../../../assets/images/calendar.png";
-
-import Swal from 'sweetalert2';
-
-import {getAllPeriodsAction} from "../../../../actions/periodAction"
+import { getAllPeriodsAction } from "../../../../actions/periodAction"
 import { getTopicListAction } from '../../../../actions/topicAction';
 import { getExpenseDetailByPeriodAction } from '../../../../actions/expenseAction';
-
-import {ResponsiveContainer, BarChart, Bar, XAxis, YAxis, Tooltip, CartesianAxis, CartesianGrid, Legend, Label} from 'recharts';
 import { getExpenseStatisticAction } from '../../../../actions/statisticAction';
+
+import TopicListPage from './topicListPage';
+
+import Calendar from "../../../../assets/images/calendar.png";
 
 const RECORD_PER_PAGE = 10;
 

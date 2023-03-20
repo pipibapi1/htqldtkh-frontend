@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
-import Calendar from "../../../assets/images/calendar.png";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
+
+import Calendar from "../../../assets/images/calendar.png";
 
 interface Props {
     index: number

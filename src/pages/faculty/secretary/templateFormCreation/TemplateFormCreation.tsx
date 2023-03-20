@@ -1,6 +1,5 @@
 import React, {useEffect, useState} from 'react';
 import Docxtemplater from 'docxtemplater';
-import * as XLSX from 'xlsx';
 import {Link, useLocation, useParams, useNavigate} from "react-router-dom";
 import BackIcon from '../../../../assets/images/🦆 icon _arrow circle left_.png';
 import { Form } from '../../../../shared/interfaces/formInterface';
@@ -135,50 +134,12 @@ const TemplateFormCreation: React.FC = () => {
     }
   );
 
-  
-
   const extractPlaceholders = (file: File) => {
       const reader = new FileReader();
       reader.onload = (event: any) => {
         const arrayBuffer = event.target.result;
     
-        if (file.name.endsWith('.xlsx') || file.name.endsWith('.xls')) {
-          const workbook = XLSX.read(arrayBuffer, { type: 'array' });
-          const sheetName = workbook.SheetNames[0];
-          const sheet = workbook.Sheets[sheetName];
-          const sheetData = XLSX.utils.sheet_to_json(sheet);
-          const placeholders = new Set<string>();
-    
-          sheetData.forEach((row: any) => {
-            Object.values(row).forEach((cellValue: any) => {
-              const cellPlaceholders = String(cellValue).match(/{([^{}]*)}/g);
-    
-              if (cellPlaceholders) {
-                cellPlaceholders.forEach((placeholder: any) => placeholders.add(placeholder));
-              }
-            });
-          });
-          
-          setMyPlaceholders(Array.from(placeholders))
-          let fields: {
-            initialName: string,
-            name: string,
-            note: string,
-            dataType: DataTypeEnum
-          }[] = []
-          Array.from(placeholders).map((placeholder: string, index: number) => {
-            fields = fields.concat([{
-              initialName: placeholder,
-              name: placeholder,
-              note: "",
-              dataType: DataTypeEnum.Text
-            }])
-          })
-          setForm({
-            ...form,
-            fields: fields
-          })
-        } else if (file.name.endsWith('.docx') || file.name.endsWith('.doc')) {
+        if (file.name.endsWith('.docx') || file.name.endsWith('.doc')) {
           const doc = new Docxtemplater(new PizZip(arrayBuffer), {delimiters: {start: '12op1j2po1j2poj1po', end: 'op21j4po21jp4oj1op24j'}})
           const placeholders = doc.getZip().file('word/document.xml').asText().match(/{([^{}]*)}/g);
           let fields: {
@@ -189,7 +150,7 @@ const TemplateFormCreation: React.FC = () => {
           }[] = []
           if(placeholders !== null){
             setMyPlaceholders(placeholders)
-            placeholders.map((placeholder: string, index: number) => {
+            placeholders.map((placeholder: string) => {
               fields = fields.concat([{
                 initialName: placeholder,
                 name: placeholder,
@@ -212,6 +173,11 @@ const TemplateFormCreation: React.FC = () => {
             title: "Định dạng file không phù hợp!"
           })
           setFile(null)
+          setMyPlaceholders([])
+          setForm({
+            templateId: _id !== undefined ? _id : "",
+            fields:[],
+          })
         }
       };
       reader.readAsArrayBuffer(file);
@@ -306,11 +272,17 @@ const TemplateFormCreation: React.FC = () => {
         Tạo form cho biểu mẫu {state.templateGivenId} - {state.templateName}
       </div>
       <div className='px-5 mt-3 w-full flex items-center'>
+        <div className='text-sm italic'>
+          Hiện tại tính năng chỉ hỗ trợ cho file định dạng .docx, .doc
+        </div>
+      </div>
+      <div className='px-5 mt-3 w-full flex items-center'>
         <div className='text-md font-medium'>
           Tải biểu mẫu đã được đánh dấu lên đây:
         </div>
         <input type="file" onChange={handleFileChange} className='mt-1 ml-3 w-1/2'/>
       </div>
+      
       {myPlaceholders.map((placeholder, index) => {
         return (
           <FormField indx={index} placeholder={placeholder} form={form} setForm={setForm}/>

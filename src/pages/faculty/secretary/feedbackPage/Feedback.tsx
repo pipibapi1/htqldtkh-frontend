@@ -4,7 +4,7 @@ import {Link, useLocation, useParams} from "react-router-dom";
 import { AppDispatch } from '../../../../store';
 import { useDispatch} from "react-redux";
 import Swal from 'sweetalert2';
-import { sendEmailAction } from '../../../../actions/sendEmailAction';
+import { resultAndFeedbackAction } from '../../../../actions/resultAndFeedbackAction';
 
 const Feedback:React.FC = () => {
 
@@ -52,6 +52,7 @@ const Feedback:React.FC = () => {
     const sendFeedback = (e:any) => {
         
         const info = {
+            studentId: topic.student._id,
             email: topic.student.email,
             subject: title,
             text: content
@@ -80,18 +81,18 @@ const Feedback:React.FC = () => {
             setLoading(true)
             Swal.fire({
                 icon: 'question',
-                title: 'Bạn có chắc muốn gửi kết quả?',
+                title: 'Bạn có chắc muốn gửi góp ý?',
                 showDenyButton: true,
                 showCancelButton: false,
                 confirmButtonText: 'Yes',
             }).then((result) => {
     
                 if(result.isConfirmed){
-                    dispatch(sendEmailAction(formData))
+                    dispatch(resultAndFeedbackAction(formData))
                     .then(() => {
                         Swal.fire({
                             icon: 'success',
-                            title: 'Gửi kết quả thành công',
+                            title: 'Gửi góp ý thành công',
                             showDenyButton: false,
                             showCancelButton: false,
                             confirmButtonText: 'OK',

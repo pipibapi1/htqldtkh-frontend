@@ -1,14 +1,17 @@
-import React, {useState, useRef, useEffect} from 'react';
+import { useState, useEffect } from 'react';
 import DatePicker from "react-datepicker";
-import Calendar from "../../../assets/images/calendar.png";
-import PeriodRowTable from './PeriodRowTable';
-import { useDispatch} from "react-redux";
+import { useDispatch } from "react-redux";
+
 import { AppDispatch } from '../../../store';
-import {getAllPeriodsAction} from "../../../actions/periodAction"
+
 import { Period } from '../../../shared/interfaces/periodInterface';
 import { PeriodStatus } from '../../../shared/types/periodStatus';
 
+import { getAllPeriodsAction } from "../../../actions/periodAction";
 
+import PeriodRowTable from './PeriodRowTable';
+
+import Calendar from "../../../assets/images/calendar.png";
 
 const ChoosePeriod = (props: any) => {
     const {choosePeriod, setTopic, topic} = props

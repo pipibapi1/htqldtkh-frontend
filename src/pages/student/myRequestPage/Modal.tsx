@@ -1,12 +1,14 @@
-import {useState} from 'react';
-import { useDispatch} from "react-redux";
-import { AppDispatch } from '../../../store';
+import { useState } from 'react';
+import { useDispatch } from "react-redux";
 import Swal from 'sweetalert2';
+
+import { AppDispatch } from '../../../store';
+
 import { RequestType } from '../../../shared/types/requestType';
 import { Topic } from '../../../shared/interfaces/topicInterface';
-import { postAddARequestAction } from '../../../actions/requestAction';
-import { TopicTypeEnum } from '../../../shared/types/topicType';
 import { TopicStatusEnum } from '../../../shared/types/topicStatus';
+
+import { postAddARequestAction } from '../../../actions/requestAction';
 
 const Modal = ({isVisible, onClose, myTopics}: {isVisible: boolean, onClose: any, myTopics: Topic[]}) => {
     const [requestType, setRequestType] = useState<string>(RequestType.GET_CERTIFICATE)

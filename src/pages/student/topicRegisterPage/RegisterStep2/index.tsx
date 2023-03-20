@@ -1,30 +1,30 @@
 import React, { useState } from 'react';
-import OtherMembersInput from './otherMemberInput';
 import { useSelector, useDispatch } from 'react-redux';
-import { RootState, AppDispatch } from '../../../../store';
 import { useNavigate } from "react-router-dom";
-import BackIcon from '../../../../assets/images/🦆 icon _arrow circle left_.png';
 import Swal from 'sweetalert2';
-import StaticExprElement from '../../../faculty/secretary/topicConditionPage/conditionDisplay/staticExprElement';
 
-import topicConditionService from '../../../../services/topicConditionService';
-import { setTopicConditionAction } from '../../../../actions/topicConditionAction';
+import { RootState, AppDispatch } from '../../../../store';
 
 import { topicInput } from '../../../../shared/interfaces/topicInterface';
-import { topicConditionIntf } from '../../../faculty/secretary/topicConditionPage/conditionDisplay/interface';
-import { logicExprIntf, relationExprIntf } from '../../../faculty/secretary/topicConditionPage/conditionDisplay/interface';
-
 import { OperationTypeEnum } from '../../../../shared/types/operationType';
 import { TopicMemberTypeEnum } from '../../../../shared/types/topicMemberType';
-
-import topicService from '../../../../services/topicService';
-
-import { getExprResult } from './getExprResult';
-import instructorService from '../../../../services/instructorService';
 import { Instructor } from '../../../../shared/interfaces/instructorInterface';
 import { AcademyRank } from '../../../../shared/types/academyRank';
 import { DegreeType } from '../../../../shared/types/degreeType';
 
+import topicService from '../../../../services/topicService';
+import instructorService from '../../../../services/instructorService';
+import topicConditionService from '../../../../services/topicConditionService';
+import { setTopicConditionAction } from '../../../../actions/topicConditionAction';
+
+import { topicConditionIntf } from '../../../faculty/secretary/topicConditionPage/conditionDisplay/interface';
+import { logicExprIntf, relationExprIntf } from '../../../faculty/secretary/topicConditionPage/conditionDisplay/interface';
+import StaticExprElement from '../../../faculty/secretary/topicConditionPage/conditionDisplay/staticExprElement';
+
+import { getExprResult } from './getExprResult';
+import OtherMembersInput from './otherMemberInput';
+
+import BackIcon from '../../../../assets/images/🦆 icon _arrow circle left_.png';
 
 interface Props {
     backToChoosePeriod: any,

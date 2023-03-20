@@ -1,16 +1,19 @@
 import React, { useState, useEffect } from 'react';
-import {Link} from "react-router-dom";
+import { Link } from "react-router-dom";
+import { useDispatch, useSelector} from "react-redux";
+
 import RowTable from './RowTable';
 import PaginationTag from './PaginationTag';
 import LeftTag from './LeftTag';
 import RightTag from './RightTag';
+
+import { RootState, AppDispatch } from '../../../store';
+
 import { TopicTypeEnum } from '../../../shared/types/topicType';
 import { TopicStatusEnum } from '../../../shared/types/topicStatus';
-import { useDispatch, useSelector} from "react-redux";
-import { RootState,AppDispatch } from '../../../store';
-import { getTopicListAction } from '../../../actions/topicAction';
 import { Topic } from '../../../shared/interfaces/topicInterface';
 
+import { getTopicListAction } from '../../../actions/topicAction';
 
 const RECORD_PER_PAGE = 5;
 

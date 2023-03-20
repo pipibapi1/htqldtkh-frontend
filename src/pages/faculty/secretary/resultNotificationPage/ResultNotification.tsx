@@ -4,7 +4,7 @@ import {Link, useLocation, useParams} from "react-router-dom";
 import { AppDispatch } from '../../../../store';
 import { useDispatch} from "react-redux";
 import Swal from 'sweetalert2';
-import { sendEmailAction } from '../../../../actions/sendEmailAction';
+import { resultAndFeedbackAction } from '../../../../actions/resultAndFeedbackAction';
 
 const ResultNotification:React.FC = () => {
 
@@ -63,6 +63,7 @@ const ResultNotification:React.FC = () => {
     const sendResult = (e:any) => {
         
         const info = {
+            studentId: topic.student._id,
             email: topic.student.email,
             subject: (type === "xét duyệt" ? "Thông báo kết quả xét duyệt" : "Thông báo kết quả nghiệm thu") + " cho đề tài " + topic.name,
             text: content
@@ -92,7 +93,7 @@ const ResultNotification:React.FC = () => {
             }).then((result) => {
     
                 if(result.isConfirmed){
-                    dispatch(sendEmailAction(formData))
+                    dispatch(resultAndFeedbackAction(formData))
                     .then(() => {
                         Swal.fire({
                             icon: 'success',

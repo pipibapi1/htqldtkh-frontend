@@ -1,10 +1,12 @@
 import React from 'react';
-import {Link} from "react-router-dom";
-import { TopicStatusEnum } from '../../../shared/types/topicStatus';
-import { useDispatch} from "react-redux";
-import {AppDispatch } from '../../../store';
-
+import { Link } from "react-router-dom";
+import { useDispatch } from "react-redux";
 import Swal from 'sweetalert2';
+
+import { AppDispatch } from '../../../store';
+
+import { TopicStatusEnum } from '../../../shared/types/topicStatus';
+
 import { deleteRemoveATopicAction } from '../../../actions/topicAction';
 
 interface Props {

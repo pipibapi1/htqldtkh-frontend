@@ -1,10 +1,13 @@
 import React from 'react';
+import { useLocation } from 'react-router-dom';
+
 import Header from '../../../components/header';
 import SideNav from '../../../components/sideNav';
 import PathHead from '../../../components/pathHead';
-import MyTopicList from './MyTopicList';
-import { useLocation } from 'react-router-dom';
+
 import { RoleType } from '../../../shared/types/role';
+
+import MyTopicList from './MyTopicList';
 
 const MyTopicPage:React.FC = () => {
     const location = useLocation();

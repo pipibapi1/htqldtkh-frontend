@@ -1,6 +1,8 @@
 import React from 'react';
-import BackIcon from '../../../assets/images/🦆 icon _arrow circle left_.png';
+
 import { topicInput } from '../../../shared/interfaces/topicInterface';
+
+import BackIcon from '../../../assets/images/🦆 icon _arrow circle left_.png';
 
 interface Props {
     onSetNextStep: (e: Boolean) => void;

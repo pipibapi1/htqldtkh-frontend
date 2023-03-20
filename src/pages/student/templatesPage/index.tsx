@@ -1,10 +1,13 @@
 import React from 'react';
+import { useLocation } from 'react-router-dom';
+
 import Header from '../../../components/header';
 import SideNav from '../../../components/sideNav';
 import PathHead from '../../../components/pathHead';
-import TemplateList from './TemplateList';
-import { useLocation } from 'react-router-dom';
+
 import { RoleType } from '../../../shared/types/role';
+
+import TemplateList from './TemplateList';
 
 const TemplatesPage:React.FC = () => {
     const location = useLocation();

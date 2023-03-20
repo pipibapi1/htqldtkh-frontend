@@ -18,7 +18,6 @@ const Modal = ({isVisible, onClose, topic}: {isVisible: boolean, onClose: any, t
     const [endTime, setEndTime] = useState(new Date(startTime.getFullYear(), startTime.getMonth() + 2, startTime.getDate()));
 
     if (!isVisible) return null;
-    console.log(topic)
     const handleClose = (e: any) => {
         if (e.target.id === "wrapper") onClose();
     }

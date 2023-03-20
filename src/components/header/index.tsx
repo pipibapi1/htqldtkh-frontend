@@ -1,17 +1,20 @@
 import React, {useEffect, useState} from 'react';
-import BKlogo from "../../assets/images/hcmut.png";
-import Bell from "../../assets/images/bell.png";
 import { useDispatch, useSelector} from "react-redux";
 import { Link, useNavigate  } from "react-router-dom";
+import Swal from 'sweetalert2';
+
+import { RootState, AppDispatch } from '../../store';
 
 import { appRouters } from '../../shared/urlResources';
-import { logoutAction } from "../../actions/authAction";
-import { RootState,AppDispatch } from '../../store';
 import { RoleType } from '../../shared/types/role';
-import Swal from 'sweetalert2';
+import { NotificationIntf } from '../../shared/interfaces/notificationInterface';
+
+import { logoutAction } from "../../actions/authAction";
 import NotificationService from '../../services/notificationService';
 import StudentService from '../../services/studentService';
-import { NotificationIntf } from '../../shared/interfaces/notificationInterface';
+
+import BKlogo from "../../assets/images/hcmut.png";
+import Bell from "../../assets/images/bell.png";
 
 interface Props {
     isLogin: boolean;
@@ -130,7 +133,7 @@ const Header: React.FC<Props> = (props: any) => {
     }
 
     useEffect(() => {
-        if (isLoggedIn && currentUser.role===RoleType.Student) {
+        if (isLoggedIn) {
             NotificationService.getUnreadNotificationService()
                 .then ((data) => {
                     const {notifications} = data;

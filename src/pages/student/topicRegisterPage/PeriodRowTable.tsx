@@ -1,6 +1,5 @@
 import { PeriodStatus } from "../../../shared/types/periodStatus";
 
-
 const PeriodRowTable = (props: any) => {
   const { index, period, choosePeriod, setTopic, topic} = props;
   const displayPeriod = (dateStr: string) => {

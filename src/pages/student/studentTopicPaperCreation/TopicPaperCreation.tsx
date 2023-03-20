@@ -1,17 +1,14 @@
 import React, { useState, useEffect } from 'react';
-import {Link, useParams, useNavigate, useLocation} from "react-router-dom";
-import { useDispatch} from "react-redux";
-import DatePicker from "react-datepicker";
-import "react-datepicker/dist/react-datepicker.css";
+import { Link, useParams, useNavigate, useLocation } from "react-router-dom";
+import { useDispatch } from "react-redux";
 import Docxtemplater from "docxtemplater";
 import * as FileSaver from 'file-saver';
 import PizZip from "pizzip";
 import Swal from 'sweetalert2';
-import * as XLSX from "xlsx";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
 
 import { AppDispatch } from '../../../store';
-
-import OfficeViewer from './OfficeViewer';
 
 import { Form } from '../../../shared/interfaces/formInterface';
 import { DataTypeEnum } from '../../../shared/types/dataType';
@@ -21,6 +18,8 @@ import { getAFormAction } from '../../../actions/formAction';
 import { postAddAPaperAction } from '../../../actions/paperAction';
 
 import BackIcon from '../../../assets/images/🦆 icon _arrow circle left_.png';
+
+const FileViewer = require("react-file-viewer");
 
 let PizZipUtils: any = null;
 if (typeof window !== "undefined") {
@@ -178,55 +177,13 @@ const TopicPaperCreation: React.FC = () => {
         setJsonData(tempJsonData);
     }
 
+    const onError = (e: any) => {
+        console.log(e, "error in file-viewer");
+      };
+
     const createPaper = (e:any) => {
         e.preventDefault();
-
-        if(form.markedTemplateFileName?.endsWith('.xlsx') || form.markedTemplateFileName?.endsWith('.xls')){
-            loadFile(fileUrl, function (
-                error: any,
-                content: any
-                ) {
-                    if (error) {
-                    throw error;
-                    }
-                    const workbook = XLSX.read(content, { type: 'array' });
-                    const sheetName = workbook.SheetNames[0];
-                    const sheet = workbook.Sheets[sheetName];
-
-                    for (const cellAddress in sheet) {
-                        if (sheet.hasOwnProperty(cellAddress)) {
-                          const cell = sheet[cellAddress];
-                  
-                          if (cell.t === 's') {
-                            const placeholders = cell.v.match(/{(.*?)}/g);
-                  
-                            if (placeholders) {
-                              placeholders.forEach((placeholder: any) => {
-                                const placeholderKey = placeholder.slice(1, -1);
-    
-                                const value = jsonData[placeholderKey];
-                  
-                                if (value) {
-                                  cell.v = cell.v.replace(placeholder, value.toString());
-                                }
-                              });
-                            }
-                          }
-                        }
-                    }
-
-                    // Convert the updated worksheet to a buffer
-                    const updatedWorkbook = XLSX.utils.book_new();
-                    XLSX.utils.book_append_sheet(updatedWorkbook, sheet);
-                    const buffer = XLSX.write(updatedWorkbook, { type: 'buffer', bookType: 'xlsx' });
-
-                    const blob = new Blob([buffer], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
-                    // Output the document using Data-URI
-                    FileSaver.saveAs(blob, form.markedTemplateFileName);
-            });
-
-        }
-        else if(form.markedTemplateFileName?.endsWith('.docx') || form.markedTemplateFileName?.endsWith('.doc')){
+        if(form.markedTemplateFileName?.endsWith('.docx') || form.markedTemplateFileName?.endsWith('.doc')){
             
             loadFile(fileUrl, function (
             error: any,
@@ -270,119 +227,7 @@ const TopicPaperCreation: React.FC = () => {
 
     const savePaper = (e:any) => {
         e.preventDefault();
-
-        if(form.markedTemplateFileName?.endsWith('.xlsx') || form.markedTemplateFileName?.endsWith('.xls')){
-            loadFile(fileUrl, function (
-                error: any,
-                content: any
-                ) {
-                    if (error) {
-                    throw error;
-                    }
-                    const workbook = XLSX.read(content, { type: 'array' });
-                    const sheetName = workbook.SheetNames[0];
-                    const sheet = workbook.Sheets[sheetName];
-
-                    for (const cellAddress in sheet) {
-                        if (sheet.hasOwnProperty(cellAddress)) {
-                          const cell = sheet[cellAddress];
-                  
-                          if (cell.t === 's') {
-                            const placeholders = cell.v.match(/{(.*?)}/g);
-                  
-                            if (placeholders) {
-                              placeholders.forEach((placeholder: any) => {
-                                const placeholderKey = placeholder.slice(1, -1);
-                                const value = jsonData[placeholderKey];
-                  
-                                if (value) {
-                                  cell.v = cell.v.replace(placeholder, value.toString());
-                                }
-                              });
-                            }
-                          }
-                        }
-                    }
-
-                    // Convert the updated worksheet to a buffer
-                    const updatedWorkbook = XLSX.utils.book_new();
-                    XLSX.utils.book_append_sheet(updatedWorkbook, sheet);
-                    const buffer = XLSX.write(updatedWorkbook, { type: 'buffer', bookType: 'xlsx' });
-
-                    const blob = new Blob([buffer], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
-                    // Output the document using Data-URI
-                    const paperFile = new File([blob], form.markedTemplateFileName ? form.markedTemplateFileName : "");
-
-                    const info = {
-                        topicId: _id,
-                        templateId: state?.templateId
-                    }
-                    
-                    let formData = new FormData();
-                    formData.append('info', JSON.stringify(info))
-                    formData.append('file', paperFile as File)
-                    Swal.fire({
-                        icon: 'question',
-                        title: 'Bạn có chắc muốn lưu giấy tờ?',
-                        showDenyButton: true,
-                        showCancelButton: false,
-                        confirmButtonText: 'Yes',
-                    }).then((result) => {
-        
-                        if(result.isConfirmed){
-                            dispatch(postAddAPaperAction(formData))
-                            .then(() => {
-                                Swal.fire({
-                                    icon: 'success',
-                                    title: 'Thêm giấy tờ thành công',
-                                    showDenyButton: false,
-                                    showCancelButton: false,
-                                    confirmButtonText: 'OK',
-                                }).then((result) => {
-                                    /* Read more about isConfirmed, isDenied below */
-                                    if (result.isConfirmed) {
-                                        navigate('/myTopic/' + _id + "/topicPapers")
-                                        window.location.reload()
-                                    } 
-                                })
-                
-                            })
-                            .catch((error) => {
-                            
-                                if (error.response) {
-                                    // The request was made and the server responded with a status code
-                                    // that falls out of the range of 2xx
-                                    if(error.response.status === 400){
-                                        Toast.fire({
-                                            icon: 'error',
-                                            title: 'Bad request'
-                                        })
-                                    }
-                                } else if (error.request) {
-                                    // The request was made but no response was received
-                                    // `error.request` is an instance of XMLHttpRequest in the browser and an instance of
-                                    // http.ClientRequest in node.js
-                                    Toast.fire({
-                                        icon: 'error',
-                                        title: error.request
-                                    })
-                                } else {
-                                    // Something happened in setting up the request that triggered an Error
-                                    Toast.fire({
-                                        icon: 'error',
-                                        title: error.message
-                                    })
-                                }
-                            });
-                        }
-        
-                        if(result.isDenied){
-                            
-                        }
-                    })
-                });
-        }
-        else if(form.markedTemplateFileName?.endsWith('.docx') || form.markedTemplateFileName?.endsWith('.doc')){
+        if(form.markedTemplateFileName?.endsWith('.docx') || form.markedTemplateFileName?.endsWith('.doc')){
             
             loadFile(fileUrl, function (
             error: any,
@@ -501,10 +346,7 @@ const TopicPaperCreation: React.FC = () => {
                 setJsonData(tempJsonData)
             })
             setFileUrl(process.env.REACT_APP_API_URL + "/api/form/" + data?.form._id + "/markedTemplateFile")
-            if(data?.form.markedTemplateFileName?.endsWith('.xlsx') || data?.form.markedTemplateFileName?.endsWith('.xls')){
-                setFileType("xlsx")
-            }
-            else if(data?.form.markedTemplateFileName?.endsWith('.docx') || data?.form.markedTemplateFileName?.endsWith('.doc')){
+            if(data?.form.markedTemplateFileName?.endsWith('.docx') || data?.form.markedTemplateFileName?.endsWith('.doc')){
                 setFileType("docx")
             }
         })
@@ -551,10 +393,13 @@ const TopicPaperCreation: React.FC = () => {
             </div>
 
             <div className='w-2/3 h-[calc(100vh-160px)] bg-[#EEEEEE] flex p-5'>
-                <OfficeViewer 
-                    fileUrl={fileUrl}
+                <div className="items-center justify-center h-full w-full p-2 bg-white">
+                <FileViewer
                     fileType={fileType}
+                    filePath={fileUrl}
+                    onError={onError}
                 />
+                </div>
             </div>
         </div>
     )

@@ -1,15 +1,21 @@
-import React, {useState, useRef, useEffect} from 'react';
+import React, { useState, useEffect } from 'react';
+import { useDispatch } from "react-redux";
+
 import RowTable from './RowTable';
 import PaginationTag from './PaginationTag';
 import LeftTag from './LeftTag';
 import RightTag from './RightTag';
-import BackIcon from '../../../../../assets/images/🦆 icon _arrow circle left_.png';
+
+import { AppDispatch } from '../../../../../store';
+
 import { PeriodStatus } from '../../../../../shared/types/periodStatus';
 import { TopicTypeEnum } from '../../../../../shared/types/topicType';
 import { TopicStatusEnum } from '../../../../../shared/types/topicStatus';
-import { useDispatch} from "react-redux";
-import { AppDispatch } from '../../../../../store';
+
 import { getTopicListAction } from '../../../../../actions/topicAction';
+
+import BackIcon from '../../../../../assets/images/🦆 icon _arrow circle left_.png';
+
 const RECORD_PER_PAGE = 8;
 
 interface Period{

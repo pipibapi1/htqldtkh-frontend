@@ -1,8 +1,11 @@
-import React, {useEffect, useState} from 'react';
-import { useDispatch} from "react-redux";
-import {AppDispatch } from '../../../store';
-import { getTemplatesAction } from '../../../actions/templateAction';
+import React, { useEffect, useState } from 'react';
+import { useDispatch } from "react-redux";
+
+import { AppDispatch } from '../../../store';
+
 import { Template } from '../../../shared/interfaces/templateInterface';
+
+import { getTemplatesAction } from '../../../actions/templateAction';
 
 const TemplateList: React.FC = () => {
     const useAppDispatch: () => AppDispatch = useDispatch

@@ -1,18 +1,21 @@
 import React, { useState, useEffect } from 'react';
-import {Link} from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+
+import { RootState,AppDispatch } from '../../../store';
+
+import { RequestType } from '../../../shared/types/requestType';
+import { RequestStatus } from '../../../shared/types/requestStatus';
+import { Request } from '../../../shared/interfaces/requestInterface';
+import { Topic } from '../../../shared/interfaces/topicInterface';
+
+import { getRequestListAction } from '../../../actions/requestAction';
+import { getTopicListAction } from '../../../actions/topicAction';
+
 import RowTable from './RowTable';
 import PaginationTag from './PaginationTag';
 import LeftTag from './LeftTag';
 import RightTag from './RightTag';
 import Modal from "./Modal";
-import { RequestType } from '../../../shared/types/requestType';
-import { RequestStatus } from '../../../shared/types/requestStatus';
-import { useDispatch, useSelector} from "react-redux";
-import { RootState,AppDispatch } from '../../../store';
-import { Request } from '../../../shared/interfaces/requestInterface';
-import { getRequestListAction} from '../../../actions/requestAction';
-import { Topic } from '../../../shared/interfaces/topicInterface';
-import { getTopicListAction } from '../../../actions/topicAction';
 
 const RECORD_PER_PAGE = 7;
 

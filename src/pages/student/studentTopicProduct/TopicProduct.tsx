@@ -1,12 +1,14 @@
-import React, {useState, useEffect} from 'react';
-import {Link, useLocation, useParams} from "react-router-dom";
-import { useDispatch} from "react-redux";
-import {AppDispatch } from '../../../store';
-import BackIcon from '../../../assets/images/🦆 icon _arrow circle left_.png';
-import FileIcon from "../../../assets/images/files.png"
-import { deleteRemoveAProductAction, getAProductAction, getAProductByTopicIdAction, postAddAProductAction, putUpdateAProductAction } from '../../../actions/productAction';
-
+import React, { useState, useEffect } from 'react';
+import { Link, useLocation, useParams } from "react-router-dom";
+import { useDispatch } from "react-redux";
 import Swal from 'sweetalert2';
+
+import { AppDispatch } from '../../../store';
+
+import { deleteRemoveAProductAction, getAProductByTopicIdAction, postAddAProductAction, putUpdateAProductAction } from '../../../actions/productAction';
+
+import BackIcon from '../../../assets/images/🦆 icon _arrow circle left_.png';
+import FileIcon from "../../../assets/images/files.png";
 
 
 const TopicProduct:React.FC = () => {

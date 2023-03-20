@@ -1,9 +1,12 @@
 import React from 'react';
+import { useLocation } from 'react-router-dom';
+
 import Header from '../../../../components/header';
 import PathHead from '../../../../components/pathHead';
 import SideNav from '../../../../components/sideNav';
+
 import { RoleType } from '../../../../shared/types/role';
-import { useLocation } from 'react-router-dom';
+
 import TopicStatistic from '../../statistic/topic/TopicStatistic';
 
 const FVDTopicStatistics: React.FC = () => {

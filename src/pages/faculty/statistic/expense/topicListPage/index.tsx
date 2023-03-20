@@ -1,17 +1,10 @@
-import React, { useState, useRef } from 'react';
 import RowTable from './RowTable';
 import PaginationTag from './PaginationTag';
 import LeftTag from './LeftTag';
 import RightTag from './RightTag';
 
-const RECORD_PER_PAGE = 5;
-
-
-
 const TopicListPage= (props: any) => {
- 
     const {topics, totalPage, onChangePage, currentPage, setCurrentPage} = props;
-
 
     const prevPage = () => {
         if (currentPage <= 1) return;
