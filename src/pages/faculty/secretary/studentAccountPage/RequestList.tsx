@@ -1,12 +1,16 @@
 import React, { useState, useEffect } from 'react';
+import { useDispatch } from "react-redux";
+
+import { AppDispatch } from '../../../../store';
+
+import { StudentAccountStatusEnum } from '../../../../shared/types/studentAccountStatus';
+
+import { getStudentListAction } from '../../../../actions/studentAction';
+
 import RowTable from './RowTable';
 import PaginationTag from './PaginationTag';
 import LeftTag from './LeftTag';
 import RightTag from './RightTag';
-import { StudentAccountStatusEnum } from '../../../../shared/types/studentAccountStatus';
-import { useDispatch} from "react-redux";
-import { AppDispatch } from '../../../../store';
-import { getStudentListAction } from '../../../../actions/studentAction';
 
 const RECORD_PER_PAGE = 10;
 

@@ -1,11 +1,14 @@
 import React from "react";
-import StaticExprElement from "./staticExprElement";
-import EditableExprElement from "./editableExprElement";
 import { useSelector, useDispatch } from "react-redux";
-import { RootState, AppDispatch} from "../../../../../store";
-import { updateLeaderCondition } from "../../../../../actions/topicConditionAction";
+
+import { RootState, AppDispatch } from "../../../../../store";
 
 import { EducationType } from "../../../../../shared/types/educationType";
+
+import { updateLeaderCondition } from "../../../../../actions/topicConditionAction";
+
+import StaticExprElement from "./staticExprElement";
+import EditableExprElement from "./editableExprElement";
 
 interface props {
     isEditing: boolean

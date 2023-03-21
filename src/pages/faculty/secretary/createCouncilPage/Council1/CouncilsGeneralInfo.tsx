@@ -1,17 +1,20 @@
 import React, { useState, Fragment, useEffect } from 'react';
-import AddCouncilModal from "./AddCouncilModal";
-import CouncilList from './CouncilList';
-
 import DatePicker from 'react-datepicker';
-import Calendar from '../../../../../assets/images/calendar.png';
+import { useDispatch } from "react-redux";
+
+import { AppDispatch } from '../../../../../store';
 
 import { CouncilStatisticIntf, CouncilInfoIntf } from '../../../../../shared/interfaces/councilInterface';
 import { Period } from '../../../../../shared/interfaces/periodInterface';
 
-import { getAllPeriodsAction } from '../../../../../actions/periodAction';
-import { useDispatch} from "react-redux";
-import { AppDispatch } from '../../../../../store';
 import CouncilService from '../../../../../services/councilService';
+
+import { getAllPeriodsAction } from '../../../../../actions/periodAction';
+
+import CouncilList from './CouncilList';
+import AddCouncilModal from "./AddCouncilModal";
+
+import Calendar from '../../../../../assets/images/calendar.png';
 
 const RECORD_PER_PAGE = 10;
 const TOTAL_PAGE_DEFAULT = 1;

@@ -1,18 +1,19 @@
 import React from 'react';
+import { useDispatch } from "react-redux";
 import DatePicker from 'react-datepicker';
-import Calendar from "../../../../../assets/images/calendar.png";
-import ExpenseForType from './expenseForType';
 import Swal from 'sweetalert2';
+
+import { AppDispatch } from '../../../../../store';
 
 import { PeriodStatus } from '../../../../../shared/types/periodStatus';
 import { TopicTypeEnum } from '../../../../../shared/types/topicType';
 
-import { useDispatch} from "react-redux";
-import { AppDispatch } from '../../../../../store';
-
 import { getAllPeriodsAction } from '../../../../../actions/periodAction';
-import { getExpenseDetailByPeriodAction, postNewExpenseAction, 
-    updateExpenseAction } from '../../../../../actions/expenseAction';
+import { getExpenseDetailByPeriodAction, postNewExpenseAction, updateExpenseAction } from '../../../../../actions/expenseAction';
+
+import ExpenseForType from './expenseForType';
+
+import Calendar from "../../../../../assets/images/calendar.png";
 
 interface Props {
     isOpen: boolean,

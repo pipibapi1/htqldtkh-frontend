@@ -1,7 +1,9 @@
-import {useState} from 'react';
-import { useDispatch} from "react-redux";
-import { AppDispatch } from '../../../../store';
+import { useState } from 'react';
+import { useDispatch } from "react-redux";
 import Swal from 'sweetalert2';
+
+import { AppDispatch } from '../../../../store';
+
 import { postAddATemplateAction } from '../../../../actions/templateAction';
 
 const Modal = ({isVisible, onClose, topic}: {isVisible: boolean, onClose: any, topic: any}) => {

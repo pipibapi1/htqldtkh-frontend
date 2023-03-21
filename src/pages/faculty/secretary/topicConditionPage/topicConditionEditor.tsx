@@ -1,15 +1,18 @@
-import {FC, useState, MouseEvent, useEffect, ChangeEvent} from 'react';
-import topicConditionService from '../../../../services/topicConditionService';
-import ConditionDisplay from './conditionDisplay';
-import { expression, topicConditionIntf, logicExprIntf } from './conditionDisplay/interface';
-import { useDispatch, useSelector} from "react-redux";
-import { AppDispatch, RootState } from '../../../../store';
-import { setTopicConditionAction } from '../../../../actions/topicConditionAction';
+import { FC, useState, MouseEvent, useEffect, ChangeEvent } from 'react';
+import { useDispatch, useSelector } from "react-redux";
 import Swal from 'sweetalert2';
 
+import { AppDispatch, RootState } from '../../../../store';
+
 import { OperationTypeEnum } from '../../../../shared/types/operationType';
-import { EducationType } from '../../../../shared/types/educationType';
 import { TopicTypeEnum } from '../../../../shared/types/topicType';
+
+import topicConditionService from '../../../../services/topicConditionService';
+
+import { setTopicConditionAction } from '../../../../actions/topicConditionAction';
+
+import ConditionDisplay from './conditionDisplay';
+import { expression, topicConditionIntf, logicExprIntf } from './conditionDisplay/interface';
 
 const FSTopicConditionEditor: FC = () => {
     const [isEditing, setIsEditing] = useState<boolean>(false);

@@ -1,10 +1,11 @@
 import React from "react";
+
+import { CouncilInfoIntf } from "../../../../../../shared/interfaces/councilInterface";
+
 import RowTable from './RowTable';
 import PaginationTag from './PaginationTag';
 import LeftTag from './LeftTag';
 import RightTag from './RightTag';
-
-import { CouncilInfoIntf } from "../../../../../../shared/interfaces/councilInterface";
 
 interface Props {
     councilList: CouncilInfoIntf[],

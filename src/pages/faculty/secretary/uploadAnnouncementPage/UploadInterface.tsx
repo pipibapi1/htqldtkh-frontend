@@ -1,13 +1,16 @@
-import React, {useState, useEffect} from 'react';
-import { AppDispatch } from '../../../../store';
-import { useDispatch} from "react-redux";
-import Swal from 'sweetalert2';
+import React, { useState, useEffect } from 'react';
+import { useDispatch } from "react-redux";
 import DatePicker from "react-datepicker";
-import Calendar from "../../../../assets/images/calendar.png";
+import Swal from 'sweetalert2';
 
-import {getAllPeriodsAction} from "../../../../actions/periodAction"
+import { AppDispatch } from '../../../../store';
+
 import { Period } from '../../../../shared/interfaces/periodInterface';
+
+import { getAllPeriodsAction } from "../../../../actions/periodAction"
 import { postAddAnAnnouncementAction } from '../../../../actions/announcementAction';
+
+import Calendar from "../../../../assets/images/calendar.png";
 
 const UploadInterface: React.FC = (props: any) => {
 

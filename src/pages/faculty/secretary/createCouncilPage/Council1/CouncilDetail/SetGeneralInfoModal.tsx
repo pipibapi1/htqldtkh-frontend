@@ -1,9 +1,12 @@
 import React, { useState } from "react";
-import { useCouncilDetailContext } from "./CouncilDetailContext";
+import Swal from "sweetalert2";
+
 import { UpdateCouncilInfo } from "../../../../../../shared/interfaces/councilInterface";
 import { CouncilStatusEnum } from "../../../../../../shared/types/councilStatus";
+
 import CouncilService from "../../../../../../services/councilService";
-import Swal from "sweetalert2";
+
+import { useCouncilDetailContext } from "./CouncilDetailContext";
 
 interface Props {
     onClose: any

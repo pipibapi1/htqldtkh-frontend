@@ -1,10 +1,13 @@
-import {useState} from 'react';
-import { useDispatch} from "react-redux";
-import { AppDispatch } from '../../../../store';
+import { useState } from 'react';
+import { useDispatch } from "react-redux";
 import Swal from 'sweetalert2';
 import DatePicker from "react-datepicker";
-import Calendar from "../../../../assets/images/calendar.png";
+
+import { AppDispatch } from '../../../../store';
+
 import { postAddAPeriodAction } from '../../../../actions/periodAction';
+
+import Calendar from "../../../../assets/images/calendar.png";
 
 const Modal = ({isVisible, onClose, year}: {isVisible: boolean, onClose: any, year: Date}) => {
     const[monthAndYear, setMonthAndYear] = useState<Date>()

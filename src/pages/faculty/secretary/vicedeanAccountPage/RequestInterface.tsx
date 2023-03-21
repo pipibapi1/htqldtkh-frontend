@@ -1,17 +1,20 @@
-import React, {useState, useEffect} from 'react';
-import EyeOpen from "../../../../assets/images/eyeOpen.png";
-import EyeClose from "../../../../assets/images/eyeClose.png";
-import { useDispatch} from "react-redux";
+import { useState, useEffect } from 'react';
+import { useDispatch } from "react-redux";
+import Swal from 'sweetalert2';
+
 import { AppDispatch } from '../../../../store';
+
 import { getAllStaffsAction } from '../../../../actions/staffAction';
+import { getFvdListAction } from '../../../../actions/fvdAction';
+import { addAFvdAction } from '../../../../actions/fvdAction';
+
 import PaginationTag from './PaginationTag';
 import LeftTag from './LeftTag';
 import RightTag from './RightTag';
-import { getFvdListAction } from '../../../../actions/fvdAction';
 import OtherMemberRow from './OtherMemberRow';
-import Swal from 'sweetalert2';
 
-import { addAFvdAction } from '../../../../actions/fvdAction';
+import EyeOpen from "../../../../assets/images/eyeOpen.png";
+import EyeClose from "../../../../assets/images/eyeClose.png";
 
 const RECORD_PER_PAGE = 5;
 interface Staff{

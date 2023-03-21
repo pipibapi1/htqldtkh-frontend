@@ -1,7 +1,10 @@
-import { PeriodStatus } from "../../../../shared/types/periodStatus";
-import { useDispatch} from "react-redux";
-import { AppDispatch } from '../../../../store';
+import { useDispatch } from "react-redux";
 import Swal from 'sweetalert2';
+
+import { AppDispatch } from '../../../../store';
+
+import { PeriodStatus } from "../../../../shared/types/periodStatus";
+
 import { putUpdateAPeriodAction } from "../../../../actions/periodAction";
 
 const PeriodRowTable = (props: any) => {

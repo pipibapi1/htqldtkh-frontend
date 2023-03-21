@@ -1,11 +1,12 @@
 import React from "react";
-import { useStepperContext } from "./StepperContext";
 
 import { CouncilMemberIntf } from "../../../../../../shared/interfaces/councilInterface";
 import { GenderType } from "../../../../../../shared/types/gender";
 import { AcademyRank } from "../../../../../../shared/types/academyRank";
 import { DegreeEnum } from "../../../../../../shared/types/degree";
 import { CouncilRoleEnum } from "../../../../../../shared/types/councilRole";
+
+import { useStepperContext } from "./StepperContext";
 
 export default function Step2() {
     const { council, setCouncil } = useStepperContext();

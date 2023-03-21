@@ -1,15 +1,16 @@
 import React, { ChangeEvent } from "react";
-import { exprComponent, expression, logicExprIntf} from "../interface";
+import { useSelector, useDispatch } from "react-redux";
+
+import { RootState, AppDispatch } from "../../../../../../store";
+
 import { OperationTypeEnum } from "../../../../../../shared/types/operationType";
 import { TopicMemberTypeEnum } from "../../../../../../shared/types/topicMemberType";
-import { VariableElement } from "./variableElement";
 
-//for topic condition action in redux
-import { useSelector, useDispatch } from "react-redux";
-import { RootState, AppDispatch } from "../../../../../../store";
-import { updateExprTopicCondition, 
-    deleteExprTopicCondition 
-} from "../../../../../../actions/topicConditionAction";
+import { updateExprTopicCondition, deleteExprTopicCondition } from "../../../../../../actions/topicConditionAction";
+
+import { exprComponent, expression, logicExprIntf } from "../interface";
+
+import { VariableElement } from "./variableElement";
 
 interface variableIntf {
     key: string,

@@ -1,8 +1,11 @@
 import React from "react";
-import { exprComponent, expression, logicExprIntf } from "../interface";
 import { useSelector } from "react-redux";
+
 import { RootState } from "../../../../../../store";
+
 import { OperationTypeEnum } from "../../../../../../shared/types/operationType";
+
+import { exprComponent, expression, logicExprIntf } from "../interface";
 
 const RelationExprElement : React.FC<exprComponent> = ({exprId}) => {
     const {expression} = useSelector((state: RootState) => state.topicCondition);

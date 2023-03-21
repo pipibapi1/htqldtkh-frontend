@@ -1,14 +1,17 @@
-import {useState} from 'react';
-import Calendar from "../../../../assets/images/calendar.png";
+import { useState } from 'react';
 import DatePicker from "react-datepicker";
+import { useDispatch } from "react-redux";
+import Swal from 'sweetalert2';
+
+import { AppDispatch } from '../../../../store';
+
 import { GenderType } from '../../../../shared/types/gender';
 import { EducationType } from '../../../../shared/types/educationType';
 import { StudentAccountStatusEnum } from '../../../../shared/types/studentAccountStatus';
-import { updateStudentPersonalInfoAction } from '../../../../actions/studentAction';
-import { useDispatch} from "react-redux";
-import { AppDispatch } from '../../../../store';
-import Swal from 'sweetalert2';
 
+import { updateStudentPersonalInfoAction } from '../../../../actions/studentAction';
+
+import Calendar from "../../../../assets/images/calendar.png";
 
 const Modal = ({isVisible, onClose, student}: {isVisible: boolean, onClose: any, student: any}) => {
     const [birthDate, setBirthDate] = useState(new Date(student.birthDate));

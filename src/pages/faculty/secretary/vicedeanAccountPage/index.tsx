@@ -1,17 +1,16 @@
-import React, {useState} from 'react';
+import React from 'react';
+import { useLocation } from 'react-router-dom';
+
 import Header from '../../../../components/header';
 import PathHead from '../../../../components/pathHead';
 import SideNav from '../../../../components/sideNav';
-import { RoleType } from '../../../../shared/types/role';
-import { useLocation } from 'react-router-dom';
-import RequestInterface from './RequestInterface';
 
+import { RoleType } from '../../../../shared/types/role';
+
+import RequestInterface from './RequestInterface';
 
 const VicedeanAccountManagement: React.FC = () => {
     const location = useLocation();
-
-    const [numOfInstructor, setNumOfInstructor] = useState<number>(1);
-    const [numOfOtherMember, setNumOfOtherMember] = useState<number>(1);
     return (
         <div className=''>
             <Header isLogin={true} isAccountServicePage={false}/>

@@ -1,11 +1,9 @@
-import React from 'react';
+import { Topic } from '../../../../../shared/interfaces/topicInterface';
+
 import RowTable from './RowTable';
 import PaginationTag from './PaginationTag';
 import LeftTag from './LeftTag';
 import RightTag from './RightTag';
-import { Topic } from '../../../../../shared/interfaces/topicInterface';
-
-const RECORD_PER_PAGE = 5;
 
 const TopicListComponent= (props: any) => {
  

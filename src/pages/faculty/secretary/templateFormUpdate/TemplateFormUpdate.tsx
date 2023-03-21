@@ -1,12 +1,16 @@
-import React, {useEffect, useState} from 'react';
-import {Link, useLocation, useParams, useNavigate} from "react-router-dom";
-import BackIcon from '../../../../assets/images/🦆 icon _arrow circle left_.png';
+import React, { useEffect, useState } from 'react';
+import { Link, useLocation, useParams, useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import Swal from 'sweetalert2';
+
+import { AppDispatch } from '../../../../store';
+
 import { Form } from '../../../../shared/interfaces/formInterface';
 import { DataTypeEnum } from '../../../../shared/types/dataType';
-import { AppDispatch } from '../../../../store';
-import { useDispatch} from "react-redux";
-import Swal from 'sweetalert2';
+
 import { getAFormAction, putUpdateAFormAction } from '../../../../actions/formAction';
+
+import BackIcon from '../../../../assets/images/🦆 icon _arrow circle left_.png';
 
 const Toast = Swal.mixin({
   toast: true,

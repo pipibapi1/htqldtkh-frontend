@@ -1,8 +1,11 @@
-import { TopicInCouncilIntf, CouncilDetailIntf } from "../../../../../../shared/interfaces/councilInterface";
-import TopicService from "../../../../../../services/topicService";
+import React from "react";
 import Swal from "sweetalert2";
-import React, { useState } from "react";
+
+import { TopicInCouncilIntf } from "../../../../../../shared/interfaces/councilInterface";
 import { TopicResultEnum } from "../../../../../../shared/types/topicResult";
+
+import TopicService from "../../../../../../services/topicService";
+
 import { useCouncilDetailContext } from "./CouncilDetailContext";
 
 interface Props {

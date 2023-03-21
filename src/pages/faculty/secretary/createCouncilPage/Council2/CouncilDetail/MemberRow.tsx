@@ -1,7 +1,10 @@
+import Swal from "sweetalert2";
+
 import { AcademyRank } from "../../../../../../shared/types/academyRank";
 import { DegreeEnum } from "../../../../../../shared/types/degree";
-import Swal from "sweetalert2";
+
 import councilService from "../../../../../../services/councilService";
+
 import { useCouncilDetailContext } from "./CouncilDetailContext";
 interface Props {
     index: number;

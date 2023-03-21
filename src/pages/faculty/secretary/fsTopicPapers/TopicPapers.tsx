@@ -1,14 +1,17 @@
 import React, { useState, useEffect } from 'react';
+import { useDispatch } from "react-redux";
+import { Link, useParams } from "react-router-dom";
+
+import { AppDispatch } from '../../../../store';
+
+import { TemplateWithPaper } from '../../../../shared/interfaces/templateInterface';
+
+import { getTemplatesWithPapersAction } from '../../../../actions/templateAction';
+
 import BackIcon from '../../../../assets/images/🦆 icon _arrow circle left_.png';
 import DownIcon from '../../../../assets/images/down-arrow.png';
 import RightIcon from '../../../../assets/images/next.png';
 import FileIcon from "../../../../assets/images/files.png";
-import { useDispatch} from "react-redux";
-import {AppDispatch } from '../../../../store';
-import {Link, useParams} from "react-router-dom";
-
-import { getTemplatesWithPapersAction } from '../../../../actions/templateAction';
-import { TemplateWithPaper } from '../../../../shared/interfaces/templateInterface';
 
 const TopicPaperCard = (props: any) => {
     const {templateWithPaper, topicId} = props;

@@ -1,16 +1,16 @@
 import React from "react";
-import { exprComponent, expression, logicExprIntf, relationExprIntf } from "../interface";
+import { useSelector, useDispatch } from "react-redux";
+
+import { RootState, AppDispatch } from "../../../../../../store";
+
 import { OperationTypeEnum } from "../../../../../../shared/types/operationType";
 import { TopicMemberTypeEnum } from "../../../../../../shared/types/topicMemberType";
-import { LogicalExprElement } from "./logicalExprElement";
 
-//for topic condition action in redux
-import { useSelector, useDispatch } from "react-redux";
-import { RootState, AppDispatch } from "../../../../../../store";
-import { updateExprTopicCondition, 
-    deleteExprTopicCondition,
-    addExprTopicCondition
-} from "../../../../../../actions/topicConditionAction";
+import { updateExprTopicCondition, deleteExprTopicCondition, addExprTopicCondition } from "../../../../../../actions/topicConditionAction";
+
+import { exprComponent, expression, logicExprIntf, relationExprIntf } from "../interface";
+
+import { LogicalExprElement } from "./logicalExprElement";
 
 const RelationExprElement : React.FC<exprComponent> = ({exprId}) => {
     const {expression} = useSelector((state: RootState) => state.topicCondition);

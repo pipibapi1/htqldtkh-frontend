@@ -1,11 +1,16 @@
 import React, { useState, useEffect } from "react";
-import { useStepperContext } from "./StepperContext";
-import { getAllPeriodsAction } from "../../../../../../actions/periodAction";
-import { AppDispatch } from "../../../../../../store";
 import { useDispatch } from "react-redux";
 import DatePicker from 'react-datepicker';
-import Calendar from '../../../../../../assets/images/calendar.png';
+
+import { AppDispatch } from "../../../../../../store";
+
 import { Period } from "../../../../../../shared/interfaces/periodInterface";
+
+import { getAllPeriodsAction } from "../../../../../../actions/periodAction";
+
+import { useStepperContext } from "./StepperContext";
+
+import Calendar from '../../../../../../assets/images/calendar.png';
 
 export default function Step1() {
     const { council, setCouncil, year, error, setError } = useStepperContext();

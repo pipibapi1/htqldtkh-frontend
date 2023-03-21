@@ -1,10 +1,14 @@
-import React, {Fragment, useState} from 'react';
-import Modal from "./Modal";
-import { StudentAccountStatusEnum } from '../../../../shared/types/studentAccountStatus';
-import { useDispatch} from "react-redux";
-import { AppDispatch } from '../../../../store';
-import { deleteAStudentAction } from '../../../../actions/studentAction';
+import React, { Fragment, useState } from 'react';
+import { useDispatch } from "react-redux";
 import Swal from 'sweetalert2';
+
+import { AppDispatch } from '../../../../store';
+
+import { StudentAccountStatusEnum } from '../../../../shared/types/studentAccountStatus';
+
+import { deleteAStudentAction } from '../../../../actions/studentAction';
+
+import Modal from "./Modal";
 
 const RECORD_PER_PAGE = 10;
 

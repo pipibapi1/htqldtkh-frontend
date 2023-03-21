@@ -1,13 +1,15 @@
-import React, { useState, Fragment } from 'react';
-import "react-datepicker/dist/react-datepicker.css";
-import Modal from "./Modal";
+import { useState, Fragment } from 'react';
+import { useDispatch } from "react-redux";
 import Swal from 'sweetalert2';
-import { useDispatch} from "react-redux";
+import "react-datepicker/dist/react-datepicker.css";
+
 import { AppDispatch } from '../../../../store';
+
 import { deleteAFvdAction } from '../../../../actions/fvdAction';
 
-const RECORD_PER_PAGE = 5;
+import Modal from "./Modal";
 
+const RECORD_PER_PAGE = 5;
 
 const OtherMemberRow = (props: any) => {
     const {index, currentPage, vicedean} = props;

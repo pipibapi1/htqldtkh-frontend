@@ -1,8 +1,12 @@
-import React, {useEffect, useState} from 'react';
-import { useDispatch} from "react-redux";
+import React, { useEffect, useState } from 'react';
+import { useDispatch } from "react-redux";
+
 import { AppDispatch } from '../../../../store';
-import { getTemplatesAction } from '../../../../actions/templateAction';
+
 import { Template } from '../../../../shared/interfaces/templateInterface';
+
+import { getTemplatesAction } from '../../../../actions/templateAction';
+
 import RowTable from './RowTable';
 import Modal from "./Modal";
 

@@ -1,9 +1,12 @@
 import React, { useState, useEffect, MouseEvent } from "react";
-import { useCouncilDetailContext } from "./CouncilDetailContext";
+import Swal from "sweetalert2";
+
+import { TopicInCouncilIntf } from "../../../../../../shared/interfaces/councilInterface";
+
 import topicService from "../../../../../../services/topicService";
 import councilService from "../../../../../../services/councilService";
-import { TopicInCouncilIntf } from "../../../../../../shared/interfaces/councilInterface";
-import Swal from "sweetalert2";
+
+import { useCouncilDetailContext } from "./CouncilDetailContext";
 
 const AddTopicToCouncilModal = ({onClose} : {onClose: any}) => {
     const {council, setCouncil} = useCouncilDetailContext();

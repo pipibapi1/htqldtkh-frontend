@@ -1,11 +1,14 @@
-import { useDispatch} from "react-redux";
-import { AppDispatch } from '../../../../store';
+import { useDispatch } from "react-redux";
+import { Link } from "react-router-dom";
 import Swal from 'sweetalert2';
-import {Link} from "react-router-dom";
+
+import { AppDispatch } from '../../../../store';
+
 import { deleteRemoveATemplateAction, putUpdateATemplateAction } from "../../../../actions/templateAction";
+import { deleteRemoveAFormAction } from "../../../../actions/formAction";
+
 import InUse from "../../../../assets/images/check.png";
 import NotInUse from "../../../../assets/images/unchecked.png";
-import { deleteRemoveAFormAction } from "../../../../actions/formAction";
 
 const RowTable = (props: any) => {
   const {index, template} = props

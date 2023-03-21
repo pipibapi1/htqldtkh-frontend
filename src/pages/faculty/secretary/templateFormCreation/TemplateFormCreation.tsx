@@ -1,13 +1,18 @@
-import React, {useEffect, useState} from 'react';
+import React, { useEffect, useState } from 'react';
+import { Link, useLocation, useParams, useNavigate } from "react-router-dom";
 import Docxtemplater from 'docxtemplater';
-import {Link, useLocation, useParams, useNavigate} from "react-router-dom";
-import BackIcon from '../../../../assets/images/🦆 icon _arrow circle left_.png';
+import Swal from 'sweetalert2';
+import { useDispatch } from "react-redux";
+
+import { AppDispatch } from '../../../../store';
+
 import { Form } from '../../../../shared/interfaces/formInterface';
 import { DataTypeEnum } from '../../../../shared/types/dataType';
-import { AppDispatch } from '../../../../store';
-import { useDispatch} from "react-redux";
-import Swal from 'sweetalert2';
+
 import { postAddAFormAction } from '../../../../actions/formAction';
+
+import BackIcon from '../../../../assets/images/🦆 icon _arrow circle left_.png';
+
 const PizZip = require("pizzip");
 
 const Toast = Swal.mixin({

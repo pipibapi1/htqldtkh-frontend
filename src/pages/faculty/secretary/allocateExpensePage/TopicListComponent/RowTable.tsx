@@ -1,4 +1,5 @@
 import React from 'react';
+
 import { Topic } from '../../../../../shared/interfaces/topicInterface';
 
 const RECORD_PER_PAGE = 10;

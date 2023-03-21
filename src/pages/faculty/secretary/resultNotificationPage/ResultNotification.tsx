@@ -1,10 +1,13 @@
-import React, { useState, useEffect } from 'react';
-import BackIcon from '../../../../assets/images/🦆 icon _arrow circle left_.png';
-import {Link, useLocation, useParams} from "react-router-dom";
-import { AppDispatch } from '../../../../store';
-import { useDispatch} from "react-redux";
+import React, { useState } from 'react';
+import { Link, useLocation } from "react-router-dom";
+import { useDispatch } from "react-redux";
 import Swal from 'sweetalert2';
+
+import { AppDispatch } from '../../../../store';
+
 import { resultAndFeedbackAction } from '../../../../actions/resultAndFeedbackAction';
+
+import BackIcon from '../../../../assets/images/🦆 icon _arrow circle left_.png';
 
 const ResultNotification:React.FC = () => {
 

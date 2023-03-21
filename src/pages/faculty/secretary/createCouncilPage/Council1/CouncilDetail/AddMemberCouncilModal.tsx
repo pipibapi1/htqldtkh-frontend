@@ -1,6 +1,4 @@
 import React, { useState } from "react";
-import { useCouncilDetailContext } from "./CouncilDetailContext";
-import CouncilService from "../../../../../../services/councilService";
 import Swal from "sweetalert2";
 
 import { CouncilMemberIntf } from "../../../../../../shared/interfaces/councilInterface";
@@ -8,6 +6,10 @@ import { GenderType } from "../../../../../../shared/types/gender";
 import { AcademyRank } from "../../../../../../shared/types/academyRank";
 import { DegreeEnum } from "../../../../../../shared/types/degree";
 import { CouncilRoleEnum } from "../../../../../../shared/types/councilRole";
+
+import CouncilService from "../../../../../../services/councilService";
+
+import { useCouncilDetailContext } from "./CouncilDetailContext";
 
 const INIT_MEMBER: CouncilMemberIntf = {
     name: "",

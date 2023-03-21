@@ -1,9 +1,10 @@
-import React, {useState} from 'react';
-import {Link} from "react-router-dom";
+import React from 'react';
+import { Link } from "react-router-dom";
+import Swal from 'sweetalert2';
 
 import { CouncilInfoIntf } from '../../../../../../shared/interfaces/councilInterface';
+
 import CouncilService from '../../../../../../services/councilService';
-import Swal from 'sweetalert2';
 
 interface Props {
   index: number;

@@ -1,7 +1,8 @@
-import {FC, useState, useEffect} from 'react';
-
+import { FC, useState, useEffect } from 'react';
+import { useDispatch } from "react-redux";
 import DatePicker from 'react-datepicker';
-import Calendar from "../../../../assets/images/calendar.png";
+
+import { AppDispatch } from '../../../../store';
 
 import { PeriodStatus } from '../../../../shared/types/periodStatus';
 import { TopicTypeEnum } from '../../../../shared/types/topicType';
@@ -15,8 +16,7 @@ import AllocatedGeneralExpenseForm from './AllocateGeneralExpenseForm';
 import AllocateTopicExpenseForm from './AllocatedTopicExpenseForm';
 import TopicListComponent from './TopicListComponent';
 
-import { useDispatch} from "react-redux";
-import { AppDispatch } from '../../../../store';
+import Calendar from "../../../../assets/images/calendar.png";
 
 const RECORD_PER_PAGE = 10;
 

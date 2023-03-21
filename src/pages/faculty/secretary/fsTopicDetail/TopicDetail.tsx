@@ -1,15 +1,14 @@
 import React, { useState, useEffect } from 'react';
-import BackIcon from '../../../../assets/images/🦆 icon _arrow circle left_.png';
-import { useDispatch} from "react-redux";
+import { Link, useParams } from "react-router-dom";
+import { useDispatch } from "react-redux";
+
 import { AppDispatch } from '../../../../store';
-import {Link} from "react-router-dom";
+
 import { MyTopic } from '../../../../shared/interfaces/topicInterface';
 
-import {
-    useParams
-  } from "react-router-dom";
 import { getTopicDetailAction } from '../../../../actions/topicAction';
 
+import BackIcon from '../../../../assets/images/🦆 icon _arrow circle left_.png';
 
 const TopicDetail:React.FC = () => {
     let { _id} = useParams();

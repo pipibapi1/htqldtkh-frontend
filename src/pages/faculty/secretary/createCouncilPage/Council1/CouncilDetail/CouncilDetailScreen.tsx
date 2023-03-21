@@ -1,22 +1,23 @@
-import React, {useState, Fragment, useEffect} from 'react';
+import React, { useState, Fragment, useEffect } from 'react';
+import { useParams } from 'react-router';
+import Swal from 'sweetalert2';
+
+import { CouncilDetailIntf, CouncilMemberIntf } from '../../../../../../shared/interfaces/councilInterface';
+import { CouncilTypeEnum } from '../../../../../../shared/types/councilType';
+import { CouncilStatusEnum } from '../../../../../../shared/types/councilStatus';
+import { AcademyRank } from '../../../../../../shared/types/academyRank';
+import { DegreeEnum } from '../../../../../../shared/types/degree';
+
+import CouncilService from '../../../../../../services/councilService';
+import EmailService from '../../../../../../services/sendEmailService';
+
+import { CouncilDetailContext } from './CouncilDetailContext';
 import AddCouncilMemberModal from './AddMemberCouncilModal';
 import AddTopicToCouncilModal from './AddTopicModal';
 import SetGeneralInfModal from './SetGeneralInfoModal';
 import SetCouncilMemberModal from './SetCouncilMemberModal';
 import { MemberRow } from './MemberRow';
 import { TopicRow } from './TopicRow';
-import { useParams } from 'react-router';
-import CouncilService from '../../../../../../services/councilService';
-import EmailService from '../../../../../../services/sendEmailService';
-
-import { CouncilDetailIntf, CouncilMemberIntf, TopicInCouncilIntf } 
-from '../../../../../../shared/interfaces/councilInterface';
-import { CouncilTypeEnum } from '../../../../../../shared/types/councilType';
-import { CouncilStatusEnum } from '../../../../../../shared/types/councilStatus';
-import { AcademyRank } from '../../../../../../shared/types/academyRank';
-import { DegreeEnum } from '../../../../../../shared/types/degree';
-import { CouncilDetailContext } from './CouncilDetailContext';
-import Swal from 'sweetalert2';
 
 const CouncilDetailScreen: React.FC = () => {
     const [showModal, setShowModal] = useState<string>("");

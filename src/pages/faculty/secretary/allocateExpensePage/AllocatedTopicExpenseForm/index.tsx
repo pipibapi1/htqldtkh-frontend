@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
+import { useDispatch } from "react-redux";
 import Swal from 'sweetalert2';
+
+import { AppDispatch } from '../../../../../store';
 
 import { TopicTypeEnum } from '../../../../../shared/types/topicType';
 import { TopicStatusEnum } from '../../../../../shared/types/topicStatus';
-
-import { useDispatch} from "react-redux";
-import { AppDispatch } from '../../../../../store';
 
 import { putUpdateATopicAction } from '../../../../../actions/topicAction';
 

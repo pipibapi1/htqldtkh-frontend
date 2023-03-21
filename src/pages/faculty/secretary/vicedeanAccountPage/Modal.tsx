@@ -1,13 +1,17 @@
-import {useState} from 'react';
-import Calendar from "../../../../assets/images/calendar.png";
+import { useState } from 'react';
 import DatePicker from "react-datepicker";
-import EyeOpen from "../../../../assets/images/eyeOpen.png";
-import EyeClose from "../../../../assets/images/eyeClose.png"
-import { GenderType } from '../../../../shared/types/gender';
-import { useDispatch} from "react-redux";
-import { AppDispatch } from '../../../../store';
+import { useDispatch } from "react-redux";
 import Swal from 'sweetalert2';
+
+import { AppDispatch } from '../../../../store';
+
+import { GenderType } from '../../../../shared/types/gender';
+
 import { updateFvdPersonalInfoAction } from '../../../../actions/fvdAction';
+
+import Calendar from "../../../../assets/images/calendar.png";
+import EyeOpen from "../../../../assets/images/eyeOpen.png";
+import EyeClose from "../../../../assets/images/eyeClose.png";
 
 const Modal = ({isVisible, onClose, vicedean}: {isVisible: boolean, onClose: any, vicedean: any}) => {
     const useAppDispatch: () => AppDispatch = useDispatch

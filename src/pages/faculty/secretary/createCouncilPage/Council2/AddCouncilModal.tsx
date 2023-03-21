@@ -1,17 +1,19 @@
-import {useState} from 'react';
+import { useState } from 'react';
+
+import { CouncilInputIntf, CouncilInfoIntf } from '../../../../../shared/interfaces/councilInterface';
+import { CouncilTypeEnum } from '../../../../../shared/types/councilType';
+import { CouncilStatusEnum } from '../../../../../shared/types/councilStatus';
+
+import councilService from '../../../../../services/councilService';
+
 import Stepper from "./CouncilStepController/Stepper";
 import StepperControl from "./CouncilStepController/StepperControl";
 import { StepperContext } from "./CouncilStepController/StepperContext";
-import councilService from '../../../../../services/councilService';
-
 import Step1 from "./CouncilStepController/Step1";
 import Step2 from "./CouncilStepController/Step2";
 import Step3 from "./CouncilStepController/Step3";
 import Step4 from "./CouncilStepController/Step4";
 
-import { CouncilInputIntf, CouncilInfoIntf } from '../../../../../shared/interfaces/councilInterface';
-import { CouncilTypeEnum } from '../../../../../shared/types/councilType';
-import { CouncilStatusEnum } from '../../../../../shared/types/councilStatus';
 
 interface Props {
 	onClose: any,

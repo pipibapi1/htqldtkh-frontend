@@ -1,10 +1,14 @@
 import React from 'react';
+import { useLocation } from 'react-router-dom';
+
 import Header from '../../../../components/header';
 import SideNav from '../../../../components/sideNav';
 import PathHead from '../../../../components/pathHead';
+
 import { RoleType } from '../../../../shared/types/role';
-import { useLocation } from 'react-router-dom';
+
 import AllocateExpensePage from './allocateExpensePage';
+
 const FSAllocateExpense: React.FC = () => {
     const location = useLocation();
     return (

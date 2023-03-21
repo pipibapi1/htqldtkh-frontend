@@ -1,7 +1,10 @@
 import { useState, useEffect, MouseEvent } from "react";
-import { useStepperContext } from "./StepperContext";
-import topicService from "../../../../../../services/topicService";
+
 import { TopicInCouncilIntf } from "../../../../../../shared/interfaces/councilInterface";
+
+import topicService from "../../../../../../services/topicService";
+
+import { useStepperContext } from "./StepperContext";
 
 export default function Step3() {
     const {council, setCouncil} = useStepperContext();

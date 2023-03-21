@@ -1,18 +1,24 @@
-import React, {useState, useRef, useEffect} from 'react';
+import { useState, useEffect } from 'react';
+import DatePicker from "react-datepicker";
+import { useDispatch } from "react-redux";
+
+import { AppDispatch } from '../../../../../store';
+
+import { PeriodStatus } from '../../../../../shared/types/periodStatus';
+import { TopicTypeEnum } from '../../../../../shared/types/topicType';
+import { TopicStatusEnum } from '../../../../../shared/types/topicStatus';
+import { Topic } from '../../../../../shared/interfaces/topicInterface';
+
+import { getTopicListAction } from '../../../../../actions/topicAction';
+import { getAllPeriodsAction } from '../../../../../actions/periodAction';
+
 import RowTable from './RowTable';
 import PaginationTag from './PaginationTag';
 import LeftTag from './LeftTag';
 import RightTag from './RightTag';
-import DatePicker from "react-datepicker";
+
 import Calendar from "../../../../../assets/images/calendar.png";
-import { PeriodStatus } from '../../../../../shared/types/periodStatus';
-import { TopicTypeEnum } from '../../../../../shared/types/topicType';
-import { TopicStatusEnum } from '../../../../../shared/types/topicStatus';
-import { useDispatch} from "react-redux";
-import { AppDispatch } from '../../../../../store';
-import { getTopicListAction } from '../../../../../actions/topicAction';
-import { getAllPeriodsAction } from '../../../../../actions/periodAction';
-import { Topic } from '../../../../../shared/interfaces/topicInterface';
+
 const RECORD_PER_PAGE = 5;
 
 interface Period{

@@ -1,12 +1,16 @@
 import React from 'react';
+import { Link } from "react-router-dom";
+
 import Header from '../../../../../../components/header';
 import SideNav from '../../../../../../components/sideNav';
 import PathHead from '../../../../../../components/pathHead';
+
 import { RoleType } from '../../../../../../shared/types/role';
-import CouncilDetailScreen from './CouncilDetailScreen';
-import {Link} from "react-router-dom";
-import BackIcon from '../../../../../../assets/images/🦆 icon _arrow circle left_.png';
 import { appRouters } from '../../../../../../shared/urlResources';
+
+import CouncilDetailScreen from './CouncilDetailScreen';
+
+import BackIcon from '../../../../../../assets/images/🦆 icon _arrow circle left_.png';
 
 const FSCouncil1Detail: React.FC = () => {
     return (
