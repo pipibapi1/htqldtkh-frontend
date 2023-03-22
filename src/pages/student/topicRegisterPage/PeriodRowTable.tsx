@@ -1,11 +1,8 @@
 import { PeriodStatus } from "../../../shared/types/periodStatus";
+import { displayPeriod } from "../../../shared/functions";
 
 const PeriodRowTable = (props: any) => {
   const { index, period, choosePeriod, setTopic, topic} = props;
-  const displayPeriod = (dateStr: string) => {
-    const date = new Date(dateStr);
-    return (date.getMonth() + 1) + "/" + date.getFullYear();
-  }
 
   return (
     <tr className={'border-y-2 transition duration-300 ease-in-out'}>

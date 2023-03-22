@@ -4,6 +4,7 @@ import Swal from 'sweetalert2';
 import { AppDispatch } from '../../../../store';
 
 import { PeriodStatus } from "../../../../shared/types/periodStatus";
+import { displayPeriod } from "../../../../shared/functions";
 
 import { putUpdateAPeriodAction } from "../../../../actions/periodAction";
 
@@ -12,10 +13,7 @@ const PeriodRowTable = (props: any) => {
   const dispatch = useAppDispatch()
 
   const { index, period} = props;
-  const displayPeriod = (dateStr: string) => {
-    const date = new Date(dateStr);
-    return (date.getMonth() + 1) + "/" + date.getFullYear();
-  }
+
   const closePeriod = (e: any) => {
     e.preventDefault();
     const newInfo = {

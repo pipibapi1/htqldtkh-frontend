@@ -5,6 +5,8 @@ import DatePicker from "react-datepicker";
 
 import { AppDispatch } from '../../../../store';
 
+import { Toast } from '../../../../shared/toastNotify/Toast';
+
 import { postAddAPeriodAction } from '../../../../actions/periodAction';
 
 import Calendar from "../../../../assets/images/calendar.png";
@@ -17,17 +19,7 @@ const Modal = ({isVisible, onClose, year}: {isVisible: boolean, onClose: any, ye
     const dispatch = useAppDispatch()
 
     if (!isVisible) return null;
-    const Toast = Swal.mixin({
-        toast: true,
-        position: 'top-end',
-        showConfirmButton: false,
-        timer: 4000,
-        timerProgressBar: true,
-        didOpen: (toast: any) => {
-          toast.addEventListener('mouseenter', Swal.stopTimer)
-          toast.addEventListener('mouseleave', Swal.resumeTimer)
-        }
-      })
+
     const handleClose = (e: any) => {
         if (e.target.id === "wrapper") onClose();
     }

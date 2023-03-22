@@ -5,6 +5,8 @@ import "react-datepicker/dist/react-datepicker.css";
 
 import { AppDispatch } from '../../../../store';
 
+import { displayDate } from '../../../../shared/functions';
+
 import { deleteAFvdAction } from '../../../../actions/fvdAction';
 
 import Modal from "./Modal";
@@ -16,11 +18,6 @@ const OtherMemberRow = (props: any) => {
     const [showModal, setShowModal] = useState<boolean>(false);
     const useAppDispatch: () => AppDispatch = useDispatch
     const dispatch = useAppDispatch()
-
-    const displayDate = (dateStr: string) => {
-      const date = new Date(dateStr);
-      return date.getDate() + "/" + (date.getMonth() + 1) + "/" + date.getFullYear();
-    }
 
     const removeAnAccount = (e: any) => {
       e.preventDefault();

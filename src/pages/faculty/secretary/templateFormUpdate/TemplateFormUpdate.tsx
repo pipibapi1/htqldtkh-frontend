@@ -7,22 +7,11 @@ import { AppDispatch } from '../../../../store';
 
 import { Form } from '../../../../shared/interfaces/formInterface';
 import { DataTypeEnum } from '../../../../shared/types/dataType';
+import { Toast } from '../../../../shared/toastNotify/Toast';
 
 import { getAFormAction, putUpdateAFormAction } from '../../../../actions/formAction';
 
 import BackIcon from '../../../../assets/images/🦆 icon _arrow circle left_.png';
-
-const Toast = Swal.mixin({
-  toast: true,
-  position: 'top-end',
-  showConfirmButton: false,
-  timer: 4000,
-  timerProgressBar: true,
-  didOpen: (toast: any) => {
-    toast.addEventListener('mouseenter', Swal.stopTimer)
-    toast.addEventListener('mouseleave', Swal.resumeTimer)
-  }
-})
 
 const FormField = (props: any) => {
   const {indx, form, setForm} = props;
@@ -182,15 +171,14 @@ const TemplateFormUpdate: React.FC = () => {
 
           })
           .catch((error) => {
-              
               if (error.response) {
                   // The request was made and the server responded with a status code
                   // that falls out of the range of 2xx
                   if(error.response.status === 400){
-                      Toast.fire({
-                          icon: 'error',
-                          title: 'Bad request'
-                        })
+                    Toast.fire({
+                      icon: 'error',
+                      title: 'Bad request'
+                    })
                   }
                 } else if (error.request) {
                   // The request was made but no response was received

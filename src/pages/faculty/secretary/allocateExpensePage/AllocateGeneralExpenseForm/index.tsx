@@ -7,6 +7,7 @@ import { AppDispatch } from '../../../../../store';
 
 import { PeriodStatus } from '../../../../../shared/types/periodStatus';
 import { TopicTypeEnum } from '../../../../../shared/types/topicType';
+import { displayPeriod } from '../../../../../shared/functions';
 
 import { getAllPeriodsAction } from '../../../../../actions/periodAction';
 import { getExpenseDetailByPeriodAction, postNewExpenseAction, updateExpenseAction } from '../../../../../actions/expenseAction';
@@ -65,11 +66,6 @@ const AllocatedGeneralExpenseForm: React.FC<Props> = (props: Props) => {
 
     const onCloseForm = (event: React.MouseEvent<HTMLButtonElement>) => {
         setIsOpen(false);
-    }
-
-    const periodDisplay = (period: string) => {
-        const x = new Date(period);
-        return (x.getMonth() + 1) + "/" + x.getFullYear();
     }
   
     const onChangeYear = (date: any) => {
@@ -220,7 +216,7 @@ const AllocatedGeneralExpenseForm: React.FC<Props> = (props: Props) => {
                                 value={currentPeriod}
                             >
                             {periods.map((period, index) => 
-                                <option value={period._id} id={period._id} key={period._id}>{periodDisplay(period.period)}</option>
+                                <option value={period._id} id={period._id} key={period._id}>{displayPeriod(period.period)}</option>
                             )}
                         </select>
                     </div>}

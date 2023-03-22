@@ -1,5 +1,7 @@
 import React from 'react';
 
+import { displayDate } from '../../../../../shared/functions';
+
 const RECORD_PER_PAGE = 10;
 
 interface Props {
@@ -15,11 +17,6 @@ interface Props {
 
 const RowTable: React.FC<Props> = (props) => {
   const { index ,topicId, topicName, topicType, topicRegister, expense, date, currentPage} = props;
-
-  const displayDate = (dateStr: string) => {
-    const date = new Date(dateStr);
-    return date.getDate() + "/" + (date.getMonth() + 1) + "/" + date.getFullYear();
-  }
 
   return (
     <tr className={(index % 2 === 1) ? 'border-t-2 transition duration-300 ease-in-out' : 'border-t-2 bg-[#1488D8]/25 transition duration-300 ease-in-out'}>

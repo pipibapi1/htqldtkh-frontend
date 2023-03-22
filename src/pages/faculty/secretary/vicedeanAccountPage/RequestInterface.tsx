@@ -4,6 +4,8 @@ import Swal from 'sweetalert2';
 
 import { AppDispatch } from '../../../../store';
 
+import { Toast } from '../../../../shared/toastNotify/Toast';
+
 import { getAllStaffsAction } from '../../../../actions/staffAction';
 import { getFvdListAction } from '../../../../actions/fvdAction';
 import { addAFvdAction } from '../../../../actions/fvdAction';
@@ -53,18 +55,6 @@ const RequestInterface = () => {
     const [vicedeanList, setVicedeanList] = useState<Vicedean[]>([]);
     const [staffIndex, setStaffIndex] = useState<number>(-1);
     const [totalPage, setTotalPage] = useState<number>(1);
-
-    const Toast = Swal.mixin({
-        toast: true,
-        position: 'top-end',
-        showConfirmButton: false,
-        timer: 4000,
-        timerProgressBar: true,
-        didOpen: (toast: any) => {
-          toast.addEventListener('mouseenter', Swal.stopTimer)
-          toast.addEventListener('mouseleave', Swal.resumeTimer)
-        }
-      })
 
     const useAppDispatch: () => AppDispatch = useDispatch
     const dispatch = useAppDispatch()

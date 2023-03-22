@@ -81,19 +81,7 @@ const RegisterStep2:React.FC<Props> = (props: Props) => {
         leader: true,
         othersMember: true,
     });
-
-    const Toast = Swal.mixin({
-        toast: true,
-        position: 'top-end',
-        showConfirmButton: false,
-        timer: 4000,
-        timerProgressBar: true,
-        didOpen: (toast: any) => {
-          toast.addEventListener('mouseenter', Swal.stopTimer)
-          toast.addEventListener('mouseleave', Swal.resumeTimer)
-        }
-      })
-
+    
     const short = (s: string) => {
         if(s === AcademyRank.GS) return "GS.";
         if(s === AcademyRank.PGS) return "PGS.";

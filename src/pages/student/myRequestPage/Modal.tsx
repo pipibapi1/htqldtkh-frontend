@@ -7,6 +7,7 @@ import { AppDispatch } from '../../../store';
 import { RequestType } from '../../../shared/types/requestType';
 import { Topic } from '../../../shared/interfaces/topicInterface';
 import { TopicStatusEnum } from '../../../shared/types/topicStatus';
+import { Toast } from '../../../shared/toastNotify/Toast';
 
 import { postAddARequestAction } from '../../../actions/requestAction';
 
@@ -21,17 +22,7 @@ const Modal = ({isVisible, onClose, myTopics}: {isVisible: boolean, onClose: any
     const handleClose = (e: any) => {
         if (e.target.id === "wrapper") onClose();
     }
-    const Toast = Swal.mixin({
-        toast: true,
-        position: 'top-end',
-        showConfirmButton: false,
-        timer: 4000,
-        timerProgressBar: true,
-        didOpen: (toast: any) => {
-          toast.addEventListener('mouseenter', Swal.stopTimer)
-          toast.addEventListener('mouseleave', Swal.resumeTimer)
-        }
-      })
+
     const addNewRequest = (e: any) => {
         e.preventDefault();
         if(chosenTopicId === ""){

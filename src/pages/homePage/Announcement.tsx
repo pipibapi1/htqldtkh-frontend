@@ -9,8 +9,7 @@ import OldAnnouncement from "./OldAnnouncement";
 
 import { Period } from "../../shared/interfaces/periodInterface";
 import { AnnouncementType } from "../../shared/interfaces/announcementInterface";
-
-import { periodDisplay } from "../../shared/functions";
+import { displayPeriod } from "../../shared/functions";
 
 import { getAnnouncementsAction } from "../../actions/announcementAction";
 import { getAllPeriodsAction } from "../../actions/periodAction";
@@ -35,7 +34,7 @@ const Announcement: React.FC = () => {
   const periodDisplayFromId = (periodId: string) => {
     const period = periods.find((period) => period._id === periodId);
     if (period) {
-      return periodDisplay(period.period);
+      return displayPeriod(period.period);
     }
   };
 
@@ -183,7 +182,7 @@ const Announcement: React.FC = () => {
             >
               {periods.map((period, index) => (
                 <option value={period._id} id={period._id}>
-                  {periodDisplay(period.period)}
+                  {displayPeriod(period.period)}
                 </option>
               ))}
               <option value="">- -</option>

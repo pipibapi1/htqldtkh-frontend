@@ -4,10 +4,10 @@ import { Link, Navigate } from 'react-router-dom';
 
 import { RootState} from '../../store';
 
+import { appRouters } from '../../shared/urlResources';
 import { RoleType } from '../../shared/types/role';
 
 import BKlogo from "../../assets/images/hcmut.png";
-import { appRouters } from '../../shared/urlResources';
 
 const ChooseRolePanel: React.FC = () => {
 
