@@ -1,6 +1,7 @@
 import React from 'react';
 
 import { topicInput } from '../../../shared/interfaces/topicInterface';
+import { displayPeriod } from '../../../shared/functions';
 
 import BackIcon from '../../../assets/images/🦆 icon _arrow circle left_.png';
 
@@ -15,11 +16,6 @@ interface Props {
 const RegisterStep1:React.FC<Props> = (props: Props) => {
     
     const {onSetNextStep, period, backToChoosePeriod, topic, setTopic} = props;
-
-    const displayPeriod = (dateStr: string) => {
-        const date = new Date(dateStr);
-        return (date.getMonth() + 1) + "/" + date.getFullYear();
-    }
 
     return(
         <div className='px-5 py-3'>

@@ -6,6 +6,8 @@ import Swal from 'sweetalert2';
 import { AppDispatch } from '../../../../store';
 
 import { Period } from '../../../../shared/interfaces/periodInterface';
+import { Toast } from '../../../../shared/toastNotify/Toast';
+import { displayPeriod } from '../../../../shared/functions';
 
 import { getAllPeriodsAction } from "../../../../actions/periodAction"
 import { postAddAnAnnouncementAction } from '../../../../actions/announcementAction';
@@ -25,23 +27,6 @@ const UploadInterface: React.FC = (props: any) => {
     const [title, setTitle] = useState("");
     const [content, setContent] = useState("");
     const [file, setFile] = useState<File>();
-
-    const Toast = Swal.mixin({
-        toast: true,
-        position: 'top-end',
-        showConfirmButton: false,
-        timer: 4000,
-        timerProgressBar: true,
-        didOpen: (toast: any) => {
-          toast.addEventListener('mouseenter', Swal.stopTimer)
-          toast.addEventListener('mouseleave', Swal.resumeTimer)
-        }
-      })
-
-      const periodDisplay = (period: string) => {
-        const x = new Date(period);
-        return (x.getMonth() + 1) + "/" + x.getFullYear();
-    }
 
       const onChangeYear = (d: Date) => {
         let query: any = {
@@ -224,7 +209,7 @@ const UploadInterface: React.FC = (props: any) => {
                                     value={currentPeriod}
                                 >
                                 {periods.map((period, index) => 
-                                <option value={period._id} id={period._id}>{periodDisplay(period.period)}</option>
+                                <option value={period._id} id={period._id}>{displayPeriod(period.period)}</option>
                                 )}
                                 <option value="">- -</option>
                             </select>

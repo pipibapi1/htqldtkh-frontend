@@ -9,6 +9,7 @@ import { RequestStatus } from '../../../../shared/types/requestStatus';
 import { RequestType } from '../../../../shared/types/requestType';
 import { Period } from '../../../../shared/interfaces/periodInterface';
 import { Request } from '../../../../shared/interfaces/requestInterface';
+import { displayPeriod } from '../../../../shared/functions';
 
 import { getRequestListAction, putApproveARequestAction, putUpdateARequestAction } from '../../../../actions/requestAction';
 import { getAllPeriodsAction } from "../../../../actions/periodAction";
@@ -252,11 +253,6 @@ const RequestList= () => {
         onChangePage(currentPage + 1)
       };
 
-    const periodDisplay = (period: string) => {
-        const x = new Date(period);
-        return (x.getMonth() + 1) + "/" + x.getFullYear();
-    }
-
     return(
         <div className='p-4 overflow-y-auto'>
 
@@ -294,7 +290,7 @@ const RequestList= () => {
                                 }}
                                 defaultValue={periods.length === 0 ? "" : periods[0]._id}
                             >
-                            {periods.map((period, index) => <option value={period._id}>{periodDisplay(period.period)}</option>)}
+                            {periods.map((period, index) => <option value={period._id}>{displayPeriod(period.period)}</option>)}
                         </select>
                     </div>}
             </div>

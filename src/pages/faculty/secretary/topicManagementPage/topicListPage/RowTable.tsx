@@ -2,6 +2,7 @@ import React, { Fragment, useState } from 'react';
 import { Link } from "react-router-dom";
 
 import { TopicStatusEnum } from '../../../../../shared/types/topicStatus';
+import { displayDate, displayPeriod } from '../../../../../shared/functions';
 
 import Modal from "./Modal";
 
@@ -38,14 +39,6 @@ const RowTable: React.FC<Props> = (props) => {
   const { index, _id ,topicGivenId,topicName, topicType, topicStatus, topicExtensionStatus, 
     createdDate, time, period, currentPage, startTime, endTime, productId, student } = props;
     const [showModal, setShowModal] = useState<boolean>(false);
-    const displayDate = (dateStr: string) => {
-      const date = new Date(dateStr);
-      return date.getDate() + "/" + (date.getMonth() + 1) + "/" + date.getFullYear();
-    }
-    const displayPeriod = (dateStr: string) => {
-      const date = new Date(dateStr);
-      return (date.getMonth() + 1) + "/" + date.getFullYear();
-    }
   
   return (
     <Fragment>

@@ -6,6 +6,7 @@ import { AppDispatch } from '../../../../../store';
 
 import { CouncilStatisticIntf, CouncilInfoIntf } from '../../../../../shared/interfaces/councilInterface';
 import { Period } from '../../../../../shared/interfaces/periodInterface';
+import { displayPeriod } from '../../../../../shared/functions';
 
 import CouncilService from '../../../../../services/councilService';
 
@@ -34,11 +35,6 @@ const CouncilsGeneralInfo: React.FC = () => {
 
     const useAppDispatch: () => AppDispatch = useDispatch
     const dispatch = useAppDispatch();
-
-    const periodDisplay = (period: string) => {
-        const x = new Date(period);
-        return (x.getMonth() + 1) + "/" + x.getFullYear();
-    }
 
     const onCloseAddCouncilModel = () => {
         setShowModal(false);
@@ -149,7 +145,7 @@ const CouncilsGeneralInfo: React.FC = () => {
                             defaultValue={periods.length === 0 ? "" : periods[0]._id}
                         >
                         {periods.map((period, index) => 
-                        <option value={period._id} id={period._id} key={period._id}>{periodDisplay(period.period)}</option>
+                        <option value={period._id} id={period._id} key={period._id}>{displayPeriod(period.period)}</option>
                         )}
                     </select>}
             </div>

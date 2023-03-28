@@ -8,24 +8,13 @@ import { AppDispatch } from '../../../../store';
 
 import { Form } from '../../../../shared/interfaces/formInterface';
 import { DataTypeEnum } from '../../../../shared/types/dataType';
+import { Toast } from '../../../../shared/toastNotify/Toast';
 
 import { postAddAFormAction } from '../../../../actions/formAction';
 
 import BackIcon from '../../../../assets/images/🦆 icon _arrow circle left_.png';
 
 const PizZip = require("pizzip");
-
-const Toast = Swal.mixin({
-  toast: true,
-  position: 'top-end',
-  showConfirmButton: false,
-  timer: 4000,
-  timerProgressBar: true,
-  didOpen: (toast: any) => {
-    toast.addEventListener('mouseenter', Swal.stopTimer)
-    toast.addEventListener('mouseleave', Swal.resumeTimer)
-  }
-})
 
 const FormField = (props: any) => {
   const {indx, placeholder, form, setForm} = props;

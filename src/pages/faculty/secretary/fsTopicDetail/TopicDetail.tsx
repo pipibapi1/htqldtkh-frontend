@@ -5,6 +5,7 @@ import { useDispatch } from "react-redux";
 import { AppDispatch } from '../../../../store';
 
 import { MyTopic } from '../../../../shared/interfaces/topicInterface';
+import { displayDate, displayPeriod } from '../../../../shared/functions';
 
 import { getTopicDetailAction } from '../../../../actions/topicAction';
 
@@ -87,15 +88,6 @@ const TopicDetail:React.FC = () => {
 
     const [topic, setTopic] = useState<MyTopic>(topicData);
 
-    const displayDate = (dateStr: string) => {
-        if(dateStr === "") return "";
-        const date = new Date(dateStr);
-        return date.getDate() + "/" + (date.getMonth() + 1) + "/" + date.getFullYear();
-      }
-      const displayPeriod = (dateStr: string) => {
-        const date = new Date(dateStr);
-        return (date.getMonth() + 1) + "/" + date.getFullYear();
-      }
       const capitalizeFirstLetter = (str: string) => {
         const str2 = str.charAt(0).toUpperCase() + str.slice(1);
         return str2;

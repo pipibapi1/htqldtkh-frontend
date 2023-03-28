@@ -3,31 +3,18 @@ import { useDispatch } from "react-redux";
 
 import { AppDispatch } from '../../../store';
 
+import { Toast } from '../../../shared/toastNotify/Toast';
 import { Template } from '../../../shared/interfaces/templateInterface';
 
 import { getTemplatesAction } from '../../../actions/templateAction';
 
 const TemplateList: React.FC = () => {
-    const useAppDispatch: () => AppDispatch = useDispatch
-    const dispatch = useAppDispatch()
+
+    const useAppDispatch: () => AppDispatch = useDispatch;
+    const dispatch = useAppDispatch();
 
     const [templates, setTemplates] = useState<Template[]>();
-
-
-    useEffect(() => {
-        let queryData = {
-            forStudent: true
-        }
-        dispatch(getTemplatesAction(queryData))
-                .then((data) => {
-                    setTemplates(data?.templates)
-                }
-                )
-                .catch((error) => {
-        })
-        }
-    , []);
-
+    
     const downloadTemplateFile = (_id: string, fileName: string) => {
         const url = process.env.REACT_APP_API_URL + "/api/template" + "/" + _id + "/download";
         const aTag = document.createElement('a');
@@ -37,8 +24,22 @@ const TemplateList: React.FC = () => {
         aTag.click();
         aTag.remove();
     }
-    
 
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+              const data = await dispatch(getTemplatesAction({ forStudent: true }));
+              setTemplates(data?.templates);
+            } catch (error) {
+                Toast.fire({
+                    icon: 'error',
+                    title: error ? error : "Something is wrong!"
+                })
+            }
+        };
+        fetchData();
+    }, []);
+      
     return (
         <div className='px-5 py-10'>
             <div className='text-2xl mb-5'>
@@ -46,7 +47,7 @@ const TemplateList: React.FC = () => {
             </div>
             <div className='px-5'>
                 {templates?.map((template) => {
-                    return(
+                    return (
                         <div className="text-[#0079CC] font-semibold no-underline hover:underline hover:cursor-pointer text-xl mb-3"
                             onClick={(e) => {
                                 e.preventDefault();
@@ -59,7 +60,7 @@ const TemplateList: React.FC = () => {
                 })}
             </div>
         </div>
-    )
+    );
 }
 
 export default TemplateList;

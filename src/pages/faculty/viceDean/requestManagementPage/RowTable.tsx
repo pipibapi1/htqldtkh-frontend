@@ -1,6 +1,7 @@
 import React, { Fragment, useState } from 'react';
 
 import { RequestStatus } from '../../../../shared/types/requestStatus';
+import { displayDate } from '../../../../shared/functions';
 
 import TopicDetailModal from './TopicDetailModal';
 
@@ -27,10 +28,6 @@ const RowTable: React.FC<Props> = (props) => {
   const { index ,requestId, requestType, requestStatus, topicName,topicRegister, createdDate, additionalInfor, 
     currentPage, approveARequest, refuseARequest, topicId} = props;
     const [topicDetailModal, setTopicDetailModal] = useState<boolean>(false);
-  const displayDate = (dateStr: string) => {
-    const date = new Date(dateStr);
-    return date.getDate() + "/" + (date.getMonth() + 1) + "/" + date.getFullYear();
-  }
 
   return (
     <Fragment>

@@ -15,7 +15,6 @@ import BKlogo from "../../assets/images/hcmut.png";
 import EyeOpen from "../../assets/images/eyeOpen.png";
 import EyeClose from "../../assets/images/eyeClose.png";
 
-
 const LoginPanel: React.FC = () => {
 
     const location = useLocation();

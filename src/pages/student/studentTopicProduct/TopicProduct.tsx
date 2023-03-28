@@ -5,6 +5,8 @@ import Swal from 'sweetalert2';
 
 import { AppDispatch } from '../../../store';
 
+import { Toast } from '../../../shared/toastNotify/Toast';
+
 import { deleteRemoveAProductAction, getAProductByTopicIdAction, postAddAProductAction, putUpdateAProductAction } from '../../../actions/productAction';
 
 import BackIcon from '../../../assets/images/🦆 icon _arrow circle left_.png';
@@ -24,18 +26,6 @@ const TopicProduct:React.FC = () => {
     const [product, setProduct] = useState<{_id: string, productFileName: string} | undefined>(undefined);
     const [tempProductName, setTempProductName] = useState<string|undefined>(undefined);
     const [file, setFile] = useState<File>();
-
-    const Toast = Swal.mixin({
-        toast: true,
-        position: 'top-end',
-        showConfirmButton: false,
-        timer: 4000,
-        timerProgressBar: true,
-        didOpen: (toast: any) => {
-          toast.addEventListener('mouseenter', Swal.stopTimer)
-          toast.addEventListener('mouseleave', Swal.resumeTimer)
-        }
-      })
 
     const downloadProductFile = (_id: string | undefined, fileName: string | undefined) => {
         if(_id && fileName){

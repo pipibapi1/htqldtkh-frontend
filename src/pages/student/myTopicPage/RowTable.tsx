@@ -6,6 +6,8 @@ import Swal from 'sweetalert2';
 import { AppDispatch } from '../../../store';
 
 import { TopicStatusEnum } from '../../../shared/types/topicStatus';
+import { Toast } from '../../../shared/toastNotify/Toast';
+import { displayDate, displayPeriod } from '../../../shared/functions';
 
 import { deleteRemoveATopicAction } from '../../../actions/topicAction';
 
@@ -34,18 +36,6 @@ const RowTable: React.FC<Props> = (props) => {
 
   const useAppDispatch: () => AppDispatch = useDispatch
   const dispatch = useAppDispatch()
-
-  const Toast = Swal.mixin({
-    toast: true,
-    position: 'top-end',
-    showConfirmButton: false,
-    timer: 4000,
-    timerProgressBar: true,
-    didOpen: (toast: any) => {
-      toast.addEventListener('mouseenter', Swal.stopTimer)
-      toast.addEventListener('mouseleave', Swal.resumeTimer)
-    }
-  })
 
   const handleDeleteATopic = (e: any) => {
     e.preventDefault();
@@ -110,14 +100,6 @@ const RowTable: React.FC<Props> = (props) => {
   })
   }
 
-  const displayDate = (dateStr: string) => {
-    const date = new Date(dateStr);
-    return date.getDate() + "/" + (date.getMonth() + 1) + "/" + date.getFullYear();
-  }
-  const displayPeriod = (dateStr: string) => {
-    const date = new Date(dateStr);
-    return (date.getMonth() + 1) + "/" + date.getFullYear();
-  }
   return (
     <tr className={(index % 2 === 1) ? 'border-t-2 transition duration-300 ease-in-out' : 'border-t-2 bg-[#1488D8]/25 transition duration-300 ease-in-out'}>
       <td className='text-center font-medium px-1 py-1 text-sm text-gray-900 border-l-2'>

@@ -6,6 +6,7 @@ import Swal from 'sweetalert2';
 import { AppDispatch } from '../../../../store';
 
 import { GenderType } from '../../../../shared/types/gender';
+import { Toast } from '../../../../shared/toastNotify/Toast';
 
 import { updateFvdPersonalInfoAction } from '../../../../actions/fvdAction';
 
@@ -29,17 +30,6 @@ const Modal = ({isVisible, onClose, vicedean}: {isVisible: boolean, onClose: any
     const handleClose = (e: any) => {
         if (e.target.id === "wrapper") onClose();
     }
-    const Toast = Swal.mixin({
-        toast: true,
-        position: 'top-end',
-        showConfirmButton: false,
-        timer: 4000,
-        timerProgressBar: true,
-        didOpen: (toast: any) => {
-          toast.addEventListener('mouseenter', Swal.stopTimer)
-          toast.addEventListener('mouseleave', Swal.resumeTimer)
-        }
-      })
 
     const handleUpdate = (e:any) => {
         e.preventDefault();

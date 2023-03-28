@@ -67,6 +67,7 @@ export interface topicInput {
     studentId: string,
     numInstructor: number,
     numMember: number,
+    instructors: Instructor[],
     otherMembers: otherMember[],
     instructorsId: string[],
 }

@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useDispatch } from "react-redux";
 import DatePicker from "react-datepicker";
-import Swal from 'sweetalert2';
 import { BarChart, Bar, XAxis, YAxis, Tooltip, CartesianGrid, Label } from 'recharts';
 
 import { AppDispatch } from '../../../../store';
@@ -9,6 +8,8 @@ import { AppDispatch } from '../../../../store';
 import { TopicTypeEnum } from '../../../../shared/types/topicType';
 import { PeriodStatus } from '../../../../shared/types/periodStatus';
 import { TopicStatusEnum } from '../../../../shared/types/topicStatus';
+import { Toast } from '../../../../shared/toastNotify/Toast';
+import { displayPeriod } from '../../../../shared/functions';
 
 import { getAllPeriodsAction } from "../../../../actions/periodAction"
 import { getTopicListAction } from '../../../../actions/topicAction';
@@ -92,18 +93,6 @@ const ExpenseStatistic: React.FC = () => {
     const [currentType, setCurrentType] = useState<string>("");
     const [currentPage, setCurrentPage] = useState<number>(1);
     const [totalPage, setTotalPage] = useState<number>(1);
-
-    const Toast = Swal.mixin({
-        toast: true,
-        position: 'top-end',
-        showConfirmButton: false,
-        timer: 4000,
-        timerProgressBar: true,
-        didOpen: (toast: any) => {
-          toast.addEventListener('mouseenter', Swal.stopTimer)
-          toast.addEventListener('mouseleave', Swal.resumeTimer)
-        }
-      })
 
     const useAppDispatch: () => AppDispatch = useDispatch
     const dispatch = useAppDispatch()
@@ -250,14 +239,8 @@ const ExpenseStatistic: React.FC = () => {
             })
     }, []);
 
-    const periodDisplay = (period: string) => {
-        if(period === "") return ""
-        const x = new Date(period);
-        return (x.getMonth() + 1) + "/" + x.getFullYear();
-    }
-
     const handlePeriodWithExpenseList = (list: {_id: string, period: string, usedExpense: number}[]) => {
-        return list.map((l) => ({_id: l._id, period: periodDisplay(l.period), usedExpense: l.usedExpense / 1000000}))
+        return list.map((l) => ({_id: l._id, period: displayPeriod(l.period), usedExpense: l.usedExpense / 1000000}))
     }
 
     const onChangeYear = (d: Date) => {
@@ -417,7 +400,7 @@ const ExpenseStatistic: React.FC = () => {
                                     value={currentPeriod}
                                 >
                                 {periods.map((period, index) => 
-                                <option value={period._id} id={period._id}>{periodDisplay(period.period)}</option>
+                                <option value={period._id} id={period._id}>{displayPeriod(period.period)}</option>
                                 )}
                             </select>
                         </div>}
