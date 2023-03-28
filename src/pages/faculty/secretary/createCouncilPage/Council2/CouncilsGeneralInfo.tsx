@@ -68,10 +68,7 @@ const CouncilsGeneralInfo: React.FC = () => {
     }
 
     useEffect(() => {
-        let query: any = {
-            year: year.getFullYear()
-        }
-        dispatch(getAllPeriodsAction(query))
+        dispatch(getAllPeriodsAction({ year: year.getFullYear() }))
             .then((data) => {
                 setPeriods(data?.periods)
                 setCurrentPeriod(data?.periods[0]._id)
@@ -80,11 +77,7 @@ const CouncilsGeneralInfo: React.FC = () => {
 
     useEffect(() => {
         if (currentPeriod) {
-            const queryData = {
-                type: CouncilTypeEnum.NT,
-                period: currentPeriod
-            }
-            CouncilService.getCouncilStatistic(queryData)
+            CouncilService.getCouncilStatistic({ type: CouncilTypeEnum.NT, period: currentPeriod })
                 .then((data) => {
                     setCouncilStatistic(data);
                 })
@@ -93,13 +86,7 @@ const CouncilsGeneralInfo: React.FC = () => {
 
     useEffect(() => {
         if (currentPeriod) {
-            const queryData = {
-                type: CouncilTypeEnum.NT,
-                period: currentPeriod,
-                page: currentPage,
-                limit: RECORD_PER_PAGE
-            }
-            CouncilService.getListCouncil(queryData)
+            CouncilService.getListCouncil({ type: CouncilTypeEnum.NT, period: currentPeriod, page: currentPage, limit: RECORD_PER_PAGE })
                 .then((data) => {
                     if (data) {
                         setCouncilList(data);

@@ -1,10 +1,11 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useDispatch } from "react-redux";
 import DatePicker from 'react-datepicker';
 import Swal from 'sweetalert2';
 
 import { AppDispatch } from '../../../../../store';
 
+import { Toast } from '../../../../../shared/toastNotify/Toast';
 import { PeriodStatus } from '../../../../../shared/types/periodStatus';
 import { TopicTypeEnum } from '../../../../../shared/types/topicType';
 import { displayPeriod } from '../../../../../shared/functions';
@@ -145,41 +146,52 @@ const AllocatedGeneralExpenseForm: React.FC<Props> = (props: Props) => {
         }
     }
 
-    React.useEffect(() => {
-        if (currYear) {
-            let query= {
-                year: currYear.getFullYear()
-            };
-            dispatch(getAllPeriodsAction(query))
-                .then((data) => {
+    useEffect(() => {
+        const fetchPeriods = async () => {
+            try {
+                if(currYear) {
+                    const data = await dispatch(getAllPeriodsAction({ year: currYear.getFullYear() }));
                     setPeriods(data?.periods);
                     if (data && data.periods.length > 0) {
                         setCurrentPeriod(data.periods[0]._id);
                     }
+                }
+            } catch (error) {
+                Toast.fire({
+                    icon: 'error',
+                    title: error ? error : "Something is wrong!"
                 });
+            }
         }
-    }, [currYear, dispatch])
+        fetchPeriods();
+    }, [currYear, dispatch]);
 
-    React.useEffect(() => {
-        if (currentPeriod) {
-            dispatch(getExpenseDetailByPeriodAction(currentPeriod))
-                .then((data) => {
+    useEffect(() => {
+        const fetchExpenseByPeriod = async (period: string) => {
+            try {
+                if(currentPeriod) {
+                    const data = await dispatch(getExpenseDetailByPeriodAction(period));
                     setExpense(data?.expense);
-                })
-                .catch((error) => {
-                    setExpense({
-                        _id: "",
-                        createAt: "",
-                        lastModified: "",
-                        note: "",
-                        generalExpense: 0,
-                        period: "",
-                        totalExpense: 0,
-                        allocated:[]
-                    })
-                })
+                }
+            } catch (error) {
+                setExpense({
+                    _id: "",
+                    createAt: "",
+                    lastModified: "",
+                    note: "",
+                    generalExpense: 0,
+                    period: "",
+                    totalExpense: 0,
+                    allocated: []
+                });
+                Toast.fire({
+                    icon: 'error',
+                    title: error ? error : "Something is wrong!"
+                });
+            }
         }
-    }, [currentPeriod, dispatch])
+        fetchExpenseByPeriod(currentPeriod);
+    }, [currentPeriod, dispatch]);
 
     return (
         <div className={`${isOpen? '' : 'hidden'} fixed inset-0 flex justify-center items-center bg-black bg-opacity-50 backdrop-blur-sm z-50`}>

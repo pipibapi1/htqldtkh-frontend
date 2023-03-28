@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useNavigate } from "react-router-dom";
 import Swal from 'sweetalert2';
@@ -92,7 +92,7 @@ const RegisterStep2:React.FC<Props> = (props: Props) => {
         return "";
     }
 
-    React.useEffect(() => {
+    useEffect(() => {
         topicConditionService.getTopicConditionByType(topic.type)
             .then((condition) => {
                 const newCondition: topicConditionIntf = {
@@ -110,7 +110,7 @@ const RegisterStep2:React.FC<Props> = (props: Props) => {
             .catch((err)=> {console.log(err)})
     }, [topic, dispatch])
 
-    React.useEffect(() => {
+    useEffect(() => {
         topicConditionService.getAvaiableTopicType(user.educationType)
             .then((types) => {
                 setAvailableTypesTopic(types)

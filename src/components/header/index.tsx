@@ -6,6 +6,7 @@ import Swal from 'sweetalert2';
 import { RootState, AppDispatch } from '../../store';
 
 import { appRouters } from '../../shared/urlResources';
+import { Toast } from '../../shared/toastNotify/Toast';
 import { RoleType } from '../../shared/types/role';
 import { NotificationIntf } from '../../shared/interfaces/notificationInterface';
 
@@ -44,7 +45,6 @@ const Header: React.FC<Props> = (props: any) => {
             showCancelButton: true,
             confirmButtonText: 'OK',
           }).then((result) => {
-            /* Read more about isConfirmed, isDenied below */
             if (result.isConfirmed) {
                 dispatch(logoutAction());
                 navigate("/");
@@ -133,14 +133,21 @@ const Header: React.FC<Props> = (props: any) => {
     }
 
     useEffect(() => {
-        if (isLoggedIn) {
-            NotificationService.getUnreadNotificationService()
-                .then ((data) => {
-                    const {notifications} = data;
-                    setNotifications(notifications? notifications: []);
-                })
-        }
-    } , [currentUser])
+        const fetchUnreadNotifications = async () => {
+            if (isLoggedIn) {
+                try {
+                    const data = await NotificationService.getUnreadNotificationService();
+                    setNotifications(data?.notifications ? data?.notifications : [])
+                } catch (error){
+                    Toast.fire({
+                        icon: 'error',
+                        title: error ? error : "Something is wrong!"
+                    })
+                }
+            }
+        };
+        fetchUnreadNotifications();
+    }, [currentUser]);
 
     return (
         <div className='bg-white grid grid-cols-8 gap-4 p-3 mb-1 max-h-17 border-2 sticky top-0 z-40'>

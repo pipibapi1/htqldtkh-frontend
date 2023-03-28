@@ -26,7 +26,7 @@ const TemplateList: React.FC = () => {
     }
 
     useEffect(() => {
-        const fetchData = async () => {
+        const fetchTemplatesForStudent = async () => {
             try {
               const data = await dispatch(getTemplatesAction({ forStudent: true }));
               setTemplates(data?.templates);
@@ -37,8 +37,8 @@ const TemplateList: React.FC = () => {
                 })
             }
         };
-        fetchData();
-    }, []);
+        fetchTemplatesForStudent();
+    }, [dispatch]);
       
     return (
         <div className='px-5 py-10'>
