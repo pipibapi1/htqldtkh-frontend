@@ -1,10 +1,9 @@
 import axios from "axios";
-import authHeader from "./authHeader";
 
-const INSTRUCTOR_API_URL = process.env.REACT_APP_API_URL + "/api/instructor";
+const INSTRUCTOR_EXTERNAL_API_URL = process.env.REACT_APP_EXTERNAL_API_URL + "/api/instructor";
 
 const getAllInstructorsService = () => {
-    return axios.get(INSTRUCTOR_API_URL, { headers: authHeader() })
+    return axios.get(INSTRUCTOR_EXTERNAL_API_URL)
         .then((response) => {
             return response.data
         })

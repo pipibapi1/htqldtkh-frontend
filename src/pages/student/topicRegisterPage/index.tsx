@@ -46,6 +46,16 @@ const RegisterTopicPage:React.FC = () => {
             birthDate: (new Date()).toString()
         }],
         instructorsId: [""],
+        instructors:[{
+            staffId: "",
+            name: "",
+            gender: "Nam",
+            email: "",
+            phoneNumber: "",
+            birthDate: (new Date()).toString(),
+            academyRank: "Giáo sư",
+            degree: "Tiến sỹ",
+        }],
         numInstructor: 1,
         numMember: 1,
     });

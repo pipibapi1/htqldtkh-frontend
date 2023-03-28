@@ -185,6 +185,10 @@ const RegisterStep2:React.FC<Props> = (props: Props) => {
                         className="bg-white h-[40px] w-96 border border-black border-1 rounded-lg focus:ring-blue-500 px-2"
                             onChange={(e) => {
                                 topic.instructorsId[index-1] = e.target.value;
+                                const instructor = instructorsInfo.find((instructor) => instructor._id === e.target.value);
+                                if(instructor !== undefined){
+                                    topic.instructors[index-1] = instructor;
+                                };
                                 setTopic({
                                     ...topic
                                 })

@@ -1,5 +1,5 @@
 export interface Instructor{
-    _id: string,
+    _id?: string,
     name: string,
     staffId: string,
     gender: string,
