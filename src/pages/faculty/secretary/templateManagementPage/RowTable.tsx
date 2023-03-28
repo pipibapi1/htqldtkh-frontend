@@ -4,6 +4,9 @@ import Swal from 'sweetalert2';
 
 import { AppDispatch } from '../../../../store';
 
+import { Toast } from "../../../../shared/toastNotify/Toast";
+import { displayDate } from "../../../../shared/functions";
+
 import { deleteRemoveATemplateAction, putUpdateATemplateAction } from "../../../../actions/templateAction";
 import { deleteRemoveAFormAction } from "../../../../actions/formAction";
 
@@ -15,23 +18,6 @@ const RowTable = (props: any) => {
   const useAppDispatch: () => AppDispatch = useDispatch
   const dispatch = useAppDispatch()
 
-  const Toast = Swal.mixin({
-    toast: true,
-    position: 'top-end',
-    showConfirmButton: false,
-    timer: 4000,
-    timerProgressBar: true,
-    didOpen: (toast: any) => {
-      toast.addEventListener('mouseenter', Swal.stopTimer)
-      toast.addEventListener('mouseleave', Swal.resumeTimer)
-    }
-  })
-
-  const displayDate = (dateStr: string) => {
-    if(dateStr === "") return "";
-    const date = new Date(dateStr);
-    return date.getDate() + "/" + (date.getMonth() + 1) + "/" + date.getFullYear();
-  }
   const onChangeUseStatus = (e:any) => {
     e.preventDefault();
     if(template._id){

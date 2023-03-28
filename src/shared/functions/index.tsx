@@ -5,13 +5,6 @@ export const capitalizeFirstLetter = (str: EducationType | string) => {
     return str2;
 }
 
-export const periodDisplay = (period: string) => {
-    if (period === "") return "";
-
-    const x = new Date(period);
-    return x.getMonth() + 1 + "/" + x.getFullYear();
-}
-
 export const formatDate = (inputDate: Date) => {
     const date = inputDate.getDate();
     const month = inputDate.getMonth() + 1;
@@ -20,3 +13,18 @@ export const formatDate = (inputDate: Date) => {
     return `${date}/${month}/${year}`;
 }
 
+export const displayPeriod = (periodString: string) => {
+
+    if(periodString === "") return "";
+
+    const date = new Date(periodString);
+    return (date.getMonth() + 1) + "/" + date.getFullYear();
+}
+
+export const displayDate = (dateString: string) => {
+
+    if(dateString === "") return ""
+
+    const date = new Date(dateString);
+    return date.getDate() + "/" + (date.getMonth() + 1) + "/" + date.getFullYear();
+}

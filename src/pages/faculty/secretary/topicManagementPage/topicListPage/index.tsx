@@ -8,6 +8,7 @@ import { PeriodStatus } from '../../../../../shared/types/periodStatus';
 import { TopicTypeEnum } from '../../../../../shared/types/topicType';
 import { TopicStatusEnum } from '../../../../../shared/types/topicStatus';
 import { Topic } from '../../../../../shared/interfaces/topicInterface';
+import { displayDate, displayPeriod } from '../../../../../shared/functions';
 
 import { getTopicListAction } from '../../../../../actions/topicAction';
 import { getAllPeriodsAction } from '../../../../../actions/periodAction';
@@ -38,19 +39,6 @@ const TopicListPage = () => {
     const [currentType, setCurrentType] = useState<string>("");
     const [currentStatus, setCurrentStatus] = useState<string>("");
     const [currentExtensionStatus, setCurrentExtensionStatus] = useState<string>("");
-
-    const displayDate = (dateStr: string) => {
-        if(dateStr === "") return "";
-        const date = new Date(dateStr);
-        return date.getDate() + "/" + (date.getMonth() + 1) + "/" + date.getFullYear();
-      }
-
-    const extensionStatus = (topic: Topic) => {
-        if(topic.isExtended){
-            return "Thời gian gia hạn: " + topic.extensionTime + " tháng"
-        }
-        return ""
-    }
 
     const onChangeFilter = (period: string, type: string, status: string, extensionStatus: string) => {
         setCurrentPage(1)
@@ -196,11 +184,6 @@ const TopicListPage = () => {
         onChangePage(currentPage + 1)
       };
 
-      const periodDisplay = (period: string) => {
-        const x = new Date(period);
-        return (x.getMonth() + 1) + "/" + x.getFullYear();
-    }
-
     return(
         <div className='p-4 overflow-y-auto'>
             <div className=''>
@@ -240,7 +223,7 @@ const TopicListPage = () => {
                                     value={currentPeriod}
                                 >
                                 {periods.map((period, index) => 
-                                <option value={period._id} id={period._id}>{periodDisplay(period.period)}</option>
+                                <option value={period._id} id={period._id}>{displayPeriod(period.period)}</option>
                                 )}
                             </select>
                         </div>}

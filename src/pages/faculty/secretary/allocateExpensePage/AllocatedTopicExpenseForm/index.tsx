@@ -6,6 +6,7 @@ import { AppDispatch } from '../../../../../store';
 
 import { TopicTypeEnum } from '../../../../../shared/types/topicType';
 import { TopicStatusEnum } from '../../../../../shared/types/topicStatus';
+import { displayDate, displayPeriod } from '../../../../../shared/functions';
 
 import { putUpdateATopicAction } from '../../../../../actions/topicAction';
 
@@ -71,16 +72,6 @@ const AllocateTopicExpenseForm: React.FC<Props> = (props: Props) => {
 
     const onClickCancelBtn = (event: React.MouseEvent<HTMLButtonElement>) => {
         onCancel();
-    }
-
-    const periodDisplay = (period: string) => {
-        const x = new Date(period);
-        return (x.getMonth() + 1) + "/" + x.getFullYear();
-    }
-
-    const displayDate = (dateStr: string) => {
-        const date = new Date(dateStr);
-        return date.getDate() + "/" + (date.getMonth() + 1) + "/" + date.getFullYear();  
     }
 
     const onClickConfirmBtn = (event: React.MouseEvent<HTMLButtonElement>) => {
@@ -185,7 +176,7 @@ const AllocateTopicExpenseForm: React.FC<Props> = (props: Props) => {
                         Năm: {year}
                     </div>
                     <div className='my-1'>
-                        Đợt: {period? periodDisplay(period) : ""}
+                        Đợt: {period? displayPeriod(period) : ""}
                     </div>
                     <div className='my-1'>
                         Ngày tạo: {displayDate(topic.creationDate)}

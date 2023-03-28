@@ -7,6 +7,7 @@ import Swal from 'sweetalert2';
 import { AppDispatch } from '../../../../../store';
 
 import { TopicStatusEnum } from '../../../../../shared/types/topicStatus';
+import { Toast } from '../../../../../shared/toastNotify/Toast';
 
 import { putUpdateATopicAction } from '../../../../../actions/topicAction';
 
@@ -24,17 +25,6 @@ const Modal = ({isVisible, onClose, topic}: {isVisible: boolean, onClose: any, t
     const handleClose = (e: any) => {
         if (e.target.id === "wrapper") onClose();
     }
-    const Toast = Swal.mixin({
-        toast: true,
-        position: 'top-end',
-        showConfirmButton: false,
-        timer: 4000,
-        timerProgressBar: true,
-        didOpen: (toast: any) => {
-          toast.addEventListener('mouseenter', Swal.stopTimer)
-          toast.addEventListener('mouseleave', Swal.resumeTimer)
-        }
-      })
 
     const startATopic = (e: any) => {
         e.preventDefault();

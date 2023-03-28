@@ -99,26 +99,6 @@ const PeriodList = (props: any) => {
                             <img src={Calendar} alt="calendarIcon" className='h-5 w-5'/>
                         </div>
                     </div>
-                {/* <div className='flex items-center'>
-                        <div className='mr-5'>
-                                Đợt: 
-                        </div>
-                        <div className="">
-                            <select
-                                className="bg-white h-[40px] w-[120px] border border-black border-1 rounded-lg focus:ring-blue-500 px-2"
-                                    onChange={(e) => {
-                                        e.preventDefault();
-                                        setCurrentPeriod(e.target.value);
-                                    }}
-                                    defaultValue={periods.length === 0 ? "" : periods[0]._id}
-                                    value={currentPeriod}
-                                >
-                                {periods.map((period, index) => 
-                                <option value={period._id} id={period._id}>{periodDisplay(period.period)}</option>
-                                )}
-                            </select>
-                        </div>
-                </div> */}
             </div>
 
             <div className='grid justify-items-end px-5'>

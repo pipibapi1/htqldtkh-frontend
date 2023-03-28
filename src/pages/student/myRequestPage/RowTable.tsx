@@ -5,6 +5,7 @@ import Swal from 'sweetalert2';
 import { AppDispatch } from '../../../store';
 
 import { RequestStatus } from '../../../shared/types/requestStatus';
+import { displayDate, displayPeriod } from '../../../shared/functions';
 
 import { deleteRemoveARequestAction } from '../../../actions/requestAction';
 
@@ -30,14 +31,7 @@ interface Props {
 const RowTable: React.FC<Props> = (props) => {
   const { index ,requestId, requestType, requestStatus, topicName, createdDate, additionalInfor, 
     currentPage, periodValue,topicId} = props;
-  const displayDate = (dateStr: string) => {
-    const date = new Date(dateStr);
-    return date.getDate() + "/" + (date.getMonth() + 1) + "/" + date.getFullYear();
-  }
-  const displayPeriod = (dateStr: string) => {
-    const date = new Date(dateStr);
-    return (date.getMonth() + 1) + "/" + date.getFullYear();
-  }
+
   const [topicDetailModal, setTopicDetailModal] = useState<boolean>(false);
   const useAppDispatch: () => AppDispatch = useDispatch
   const dispatch = useAppDispatch()

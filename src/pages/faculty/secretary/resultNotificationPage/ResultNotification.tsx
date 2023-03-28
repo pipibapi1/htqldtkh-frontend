@@ -5,6 +5,9 @@ import Swal from 'sweetalert2';
 
 import { AppDispatch } from '../../../../store';
 
+import { Toast } from '../../../../shared/toastNotify/Toast';
+import { displayDate, displayPeriod } from '../../../../shared/functions';
+
 import { resultAndFeedbackAction } from '../../../../actions/resultAndFeedbackAction';
 
 import BackIcon from '../../../../assets/images/🦆 icon _arrow circle left_.png';
@@ -23,18 +26,6 @@ const ResultNotification:React.FC = () => {
 
     const [loading, setLoading] = useState<boolean>(false);
 
-    const Toast = Swal.mixin({
-        toast: true,
-        position: 'top-end',
-        showConfirmButton: false,
-        timer: 4000,
-        timerProgressBar: true,
-        didOpen: (toast: any) => {
-          toast.addEventListener('mouseenter', Swal.stopTimer)
-          toast.addEventListener('mouseleave', Swal.resumeTimer)
-        }
-      })
-
     const onChangeFile = (e:any) => {
         e.preventDefault();
         if(e.target.files[0]){
@@ -51,17 +42,6 @@ const ResultNotification:React.FC = () => {
                     }   
         }
     }
-
-    const displayDate = (dateStr: string) => {
-        if(dateStr === "") return ""
-        const date = new Date(dateStr);
-        return date.getDate() + "/" + (date.getMonth() + 1) + "/" + date.getFullYear();
-      }
-      const displayPeriod = (dateStr: string) => {
-        if(dateStr === "") return ""
-        const date = new Date(dateStr);
-        return (date.getMonth() + 1) + "/" + date.getFullYear();
-      }
 
     const sendResult = (e:any) => {
         

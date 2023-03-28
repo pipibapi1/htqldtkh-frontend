@@ -11,6 +11,7 @@ import { getAllPeriodsAction } from "../../../../../../actions/periodAction";
 import { useStepperContext } from "./StepperContext";
 
 import Calendar from '../../../../../../assets/images/calendar.png';
+import { displayPeriod } from "../../../../../../shared/functions";
 
 export default function Step1() {
     const { council, setCouncil, year, error, setError } = useStepperContext();
@@ -19,11 +20,6 @@ export default function Step1() {
 
     const useAppDispatch: () => AppDispatch = useDispatch
     const dispatch = useAppDispatch();
-
-    const periodDisplay = (period: string) => {
-        const x = new Date(period);
-        return (x.getMonth() + 1) + "/" + x.getFullYear();
-    }
 
     const onChangePeriodSelect = (event: React.ChangeEvent<HTMLSelectElement>) => {
         const value = event.target.value;
@@ -132,7 +128,7 @@ export default function Step1() {
                                     value={council.period}
                                 >
                                 {periods.map((period, index) => 
-                                    <option value={period._id} id={period._id} key={period._id}>{periodDisplay(period.period)}</option>
+                                    <option value={period._id} id={period._id} key={period._id}>{displayPeriod(period.period)}</option>
                                 )}
                             </select> : "Không có đợt nào. Vui lòng thêm đợt mới"}
                     </div>

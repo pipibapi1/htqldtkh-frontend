@@ -11,6 +11,7 @@ import { AppDispatch } from '../../../../../store';
 import { PeriodStatus } from '../../../../../shared/types/periodStatus';
 import { TopicTypeEnum } from '../../../../../shared/types/topicType';
 import { TopicStatusEnum } from '../../../../../shared/types/topicStatus';
+import { displayPeriod } from '../../../../../shared/functions';
 
 import { getTopicListAction } from '../../../../../actions/topicAction';
 
@@ -182,11 +183,6 @@ const TopicListPage: React.FC<Props> = (props: Props) => {
         onChangePage(currentPage + 1)
       };
 
-      const periodDisplay = (period: string) => {
-        const x = new Date(period);
-        return (x.getMonth() + 1) + "/" + x.getFullYear();
-    }
-
     return(
         <div className='p-4 overflow-y-auto'>
             <div className=''>
@@ -210,7 +206,7 @@ const TopicListPage: React.FC<Props> = (props: Props) => {
                                     value={currentPeriod}
                                 >
                                 {periods.map((period, index) => 
-                                <option value={period._id} id={period._id}>{periodDisplay(period.period)}</option>
+                                <option value={period._id} id={period._id}>{displayPeriod(period.period)}</option>
                                 )}
                             </select>
                         </div>

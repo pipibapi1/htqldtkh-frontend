@@ -12,6 +12,7 @@ import { RootState, AppDispatch } from '../../../store';
 import { TopicTypeEnum } from '../../../shared/types/topicType';
 import { TopicStatusEnum } from '../../../shared/types/topicStatus';
 import { Topic } from '../../../shared/interfaces/topicInterface';
+import { displayDate } from '../../../shared/functions';
 
 import { getTopicListAction } from '../../../actions/topicAction';
 
@@ -29,12 +30,6 @@ const MyTopicList: React.FC = () => {
 
     const useAppDispatch: () => AppDispatch = useDispatch
     const dispatch = useAppDispatch()
-
-    const displayDate = (dateStr: string) => {
-        if(dateStr === "") return "";
-        const date = new Date(dateStr);
-        return date.getDate() + "/" + (date.getMonth() + 1) + "/" + date.getFullYear();
-      }
 
     const prevPage = () => {
         if (currentPage <= 1) return;

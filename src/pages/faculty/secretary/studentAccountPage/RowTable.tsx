@@ -5,6 +5,7 @@ import Swal from 'sweetalert2';
 import { AppDispatch } from '../../../../store';
 
 import { StudentAccountStatusEnum } from '../../../../shared/types/studentAccountStatus';
+import { displayDate } from '../../../../shared/functions';
 
 import { deleteAStudentAction } from '../../../../actions/studentAction';
 
@@ -28,11 +29,6 @@ const RowTable: React.FC<Props> = (props) => {
 
   const useAppDispatch: () => AppDispatch = useDispatch
   const dispatch = useAppDispatch()
-
-  const displayDate = (dateStr: string) => {
-    const date = new Date(dateStr);
-    return date.getDate() + "/" + (date.getMonth() + 1) + "/" + date.getFullYear();
-  }
 
   const removeAnAccount = (e: any) => {
     e.preventDefault();

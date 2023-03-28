@@ -4,6 +4,8 @@ import Swal from 'sweetalert2';
 
 import { AppDispatch } from '../../../../store';
 
+import { Toast } from '../../../../shared/toastNotify/Toast';
+
 import { postAddATemplateAction } from '../../../../actions/templateAction';
 
 const Modal = ({isVisible, onClose, topic}: {isVisible: boolean, onClose: any, topic: any}) => {
@@ -128,17 +130,6 @@ const Modal = ({isVisible, onClose, topic}: {isVisible: boolean, onClose: any, t
         }
 
     }
-    const Toast = Swal.mixin({
-        toast: true,
-        position: 'top-end',
-        showConfirmButton: false,
-        timer: 4000,
-        timerProgressBar: true,
-        didOpen: (toast: any) => {
-          toast.addEventListener('mouseenter', Swal.stopTimer)
-          toast.addEventListener('mouseleave', Swal.resumeTimer)
-        }
-      })
 
     return ( 
         <div className = "fixed inset-0 bg-black bg-opacity-50 backdrop-blur-0 flex justify-center items-center z-50" id= "wrapper" onClick={handleClose}>

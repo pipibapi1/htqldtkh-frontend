@@ -10,7 +10,9 @@ import { RoleType } from '../../../shared/types/role';
 import TemplateList from './TemplateList';
 
 const TemplatesPage:React.FC = () => {
+
     const location = useLocation();
+    
     return (
         <div className=''>
             <Header isLogin={true} isAccountServicePage={false}/>

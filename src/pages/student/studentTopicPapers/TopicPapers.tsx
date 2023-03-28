@@ -6,6 +6,7 @@ import Swal from 'sweetalert2';
 import { AppDispatch } from '../../../store';
 
 import { TemplateWithPaper } from '../../../shared/interfaces/templateInterface';
+import { Toast } from '../../../shared/toastNotify/Toast';
 
 import { getTemplatesWithPapersAction } from '../../../actions/templateAction';
 import { deleteRemoveAPaperAction, postAddAPaperAction, putUpdateAPaperAction } from '../../../actions/paperAction';
@@ -21,17 +22,6 @@ const TopicPaperCard = (props: any) => {
     const useAppDispatch: () => AppDispatch = useDispatch
     const dispatch = useAppDispatch()
 
-    const Toast = Swal.mixin({
-        toast: true,
-        position: 'top-end',
-        showConfirmButton: false,
-        timer: 4000,
-        timerProgressBar: true,
-        didOpen: (toast: any) => {
-          toast.addEventListener('mouseenter', Swal.stopTimer)
-          toast.addEventListener('mouseleave', Swal.resumeTimer)
-        }
-      })
     const [show, setShow] = useState(true);
 
     const [paperFile, setPaperFile] = useState<{_id: string, paperFileName: string}|undefined>(templateWithPaper.paper);
