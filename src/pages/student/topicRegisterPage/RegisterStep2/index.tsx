@@ -61,7 +61,7 @@ const RegisterStep2:React.FC<Props> = (props: Props) => {
     const dispatch = useAppDispatch();
 
     const [availableTypes, setAvailableTypesTopic] = useState<string[]>([]);
-    console.log(availableTypes);
+    const [isTopicTypeChosen, setIsTopicTypeChosen] = useState<boolean>(false);
     
     let otherMemberDataForCondition: {[k:string] : string}[] = [];
     for (let i = 0 ; i < (topic.numMember - 1); i++) {
@@ -359,6 +359,7 @@ const RegisterStep2:React.FC<Props> = (props: Props) => {
     }
 
     const onChangeTopicType = (e: React.ChangeEvent<HTMLSelectElement>) => {
+        setIsTopicTypeChosen(true);
         setTopic({
             ...topic,
             type: e.target.value
@@ -443,6 +444,7 @@ const RegisterStep2:React.FC<Props> = (props: Props) => {
                     Điều kiện để đăng ký loại đề tài trên: 
                 </div>
                 {
+                    isTopicTypeChosen ? 
                     (Object.values(expression).length > 0)? (
                         <div className={`m-2 ${isValid.topicCondition? "" : "border border-1 border-red-500"}`}>
                             <StaticExprElement exprId="root"/>
@@ -452,6 +454,10 @@ const RegisterStep2:React.FC<Props> = (props: Props) => {
                             Loại đề tài này không yêu cầu điều kiện nào
                         </div>
                     )
+                    :
+                    <div>
+                        Vui lòng chọn loại đề tài
+                    </div>
                 }
             </div>
             <div className='mb-5'>
