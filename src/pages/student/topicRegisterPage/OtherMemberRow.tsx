@@ -81,7 +81,6 @@ const OtherMemberRow: React.FC<Props> = (props) => {
                     onChange={(e) => {
 
                     }}
-                    defaultValue={"dfdasf"}
                     >
                     <option value="">Chính quy</option>
                     <option value="">Chất lượng cao</option>

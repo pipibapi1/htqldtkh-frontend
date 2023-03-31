@@ -1,5 +1,4 @@
 import { Instructor } from "./instructorInterface";
-import { OtherMember } from "./othermemberInterface";
 
 export interface Topic{
     _id: string,
@@ -68,7 +67,7 @@ export interface topicInput {
     numInstructor: number,
     numMember: number,
     instructors: Instructor[],
-    otherMembers: otherMember[],
+    otherMembers: OtherMember[],
     instructorsId: string[],
 }
 
@@ -77,7 +76,7 @@ export interface InfoForCheckCondition {
     otherMember: {[k:string] : string}[]
 }
 
-export interface otherMember {
+export interface OtherMember {
     studentId: string,
     fmName?: string,
     name: string,

@@ -35,17 +35,8 @@ const RegisterTopicPage:React.FC = () => {
         type: "Chính quy",
         period: "",
         studentId: "",
-        otherMembers: [{
-            studentId: "",
-            fmName: "",
-            name: "",
-            gender: "Nam",
-            email: "",
-            phoneNumber: "",
-            educationType: "Chính quy",
-            birthDate: (new Date()).toString()
-        }],
-        instructorsId: [""],
+        otherMembers: [],
+        instructorsId: [""], 
         instructors:[{
             staffId: "",
             name: "",
