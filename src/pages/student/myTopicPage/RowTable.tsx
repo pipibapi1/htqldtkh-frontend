@@ -138,7 +138,7 @@ const RowTable: React.FC<Props> = (props) => {
       </td>
       <td className='text-center font-medium text-sm text-gray-900 px-1 py-1 border-l-2'>
         {
-          topicStatus === TopicStatusEnum.NEW?
+          (topicStatus === TopicStatusEnum.NEW || topicStatus === TopicStatusEnum.CANCELED)?
           (<div className="text-[#A3A3A3] font-semibold">
           Sản phẩm
           </div>):
@@ -151,11 +151,16 @@ const RowTable: React.FC<Props> = (props) => {
         }
       </td>
       <td className='text-center font-medium text-sm text-gray-900 px-1 py-1 border-l-2'>
-        <Link to={`/myTopic/${_id}/topicPapers`}>
+      {topicStatus === TopicStatusEnum.CANCELED?
+        (<div className="text-[#A3A3A3] font-semibold">
+          Giấy tờ liên quan
+        </div>):
+        (<Link to={`/myTopic/${_id}/topicPapers`}>
             <div className="text-[#0079CC] font-semibold no-underline hover:underline hover:cursor-pointer">
             Giấy tờ liên quan
             </div>
-        </Link>
+        </Link>)
+      }
       </td>
       <td className='text-center font-medium text-sm text-gray-900 px-1 py-1 border-l-2'>
       {

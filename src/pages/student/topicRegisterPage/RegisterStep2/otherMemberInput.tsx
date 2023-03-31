@@ -205,7 +205,6 @@ const OtherMembersInput: React.FC<Props> = (props: Props) => {
                         >
                             <option value="Chính quy">Chính quy</option>
                             <option value="Chất lượng cao">Chất lượng cao</option>
-                            <option value="Chất lượng cao (LVTN)">Chất lượng cao (LVTN)</option>
                             <option value="Kỹ sư tài năng">Kỹ sư tài năng</option>
                         </select>
                     </div>
