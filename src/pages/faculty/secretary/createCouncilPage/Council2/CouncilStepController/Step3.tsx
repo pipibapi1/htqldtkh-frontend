@@ -1,6 +1,7 @@
 import { useState, useEffect, MouseEvent } from "react";
 
 import { TopicInCouncilIntf } from "../../../../../../shared/interfaces/councilInterface";
+import { TopicStatusEnum } from "../../../../../../shared/types/topicStatus";
 
 import topicService from "../../../../../../services/topicService";
 
@@ -13,6 +14,7 @@ export default function Step3() {
     useEffect(() => {
         const queryData = {
             period: council.period,
+            status: TopicStatusEnum.DUE_TO_ACCEPT,
             acceptanceCouncil: ""
         }
         topicService.getTopicListService(queryData)
