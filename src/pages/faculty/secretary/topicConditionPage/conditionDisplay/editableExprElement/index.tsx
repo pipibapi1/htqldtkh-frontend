@@ -8,7 +8,8 @@ import { TopicMemberTypeEnum } from "../../../../../../shared/types/topicMemberT
 
 import { updateExprTopicCondition, deleteExprTopicCondition, addExprTopicCondition } from "../../../../../../actions/topicConditionAction";
 
-import { exprComponent, expression, logicExprIntf, relationExprIntf } from "../interface";
+import { exprComponent} from "../interface";
+import { expression, logicExprIntf, relationExprIntf } from "../../../../../../shared/interfaces/topicConditionInterface";
 
 import { LogicalExprElement } from "./logicalExprElement";
 
@@ -34,9 +35,9 @@ const RelationExprElement : React.FC<exprComponent> = ({exprId}) => {
     }
 
     return (
-        <div className={`flex flex-row items-center ${isValidExpr? "border-[#d9d9d9]" : "border-red-500"} border-2 rounded p-1 mx-1 my-2`}>
+        <div className={`flex flex-row items-center ${isValidExpr? "border-[#d9d9d9]" : "border-red-500"} border-2 rounded p-2 w-fit`}>
             <button
-                className="ml-1 mr-3 pi pi-trash border border-1 border-[#1488d8] rounded p-2"
+                className="ml-1 mr-3 pi pi-trash border border-1 border-[#1488d8] rounded p-3"
                 onClick={onDeleteSubExpr}
             ></button>
             <div className="flex flex-col mx-1 my-1">
@@ -75,7 +76,6 @@ const NullExprElement : React.FC<exprComponent> = ({exprId}) => {
                 rightValue: "",
                 object: TopicMemberTypeEnum.AllMember
             }
-            console.log(newExpr)
             dispatch(addExprTopicCondition(newExpr, exprId))
         }
         else if (event.target.value === 'relate') {

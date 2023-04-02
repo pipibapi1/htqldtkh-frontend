@@ -1,45 +1,43 @@
 import React, { ChangeEvent } from "react";
 import { useSelector, useDispatch } from "react-redux";
-
 import { RootState, AppDispatch } from "../../../../../../store";
-
 import { OperationTypeEnum } from "../../../../../../shared/types/operationType";
 import { TopicMemberTypeEnum } from "../../../../../../shared/types/topicMemberType";
-
 import { updateExprTopicCondition, deleteExprTopicCondition } from "../../../../../../actions/topicConditionAction";
-
-import { exprComponent, expression, logicExprIntf } from "../interface";
-
+import { exprComponent } from "../interface";
 import { VariableElement } from "./variableElement";
+import { variableInfo, expression, logicExprIntf } from "../../../../../../shared/interfaces/topicConditionInterface";
+import { VariableTypeEnum } from "../../../../../../shared/types/variableType";
 
-interface variableIntf {
-    key: string,
-    variable: string,
-    weight?: number
-}
-
-type variableArrAction = (arr: variableIntf[]) => variableIntf[]
+type variableArrAction = (arr: variableInfo[]) => variableInfo[]
 
 export const LogicalExprElement : React.FC<exprComponent> = ({exprId}) => {
     const {expression} = useSelector((state: RootState) => state.topicCondition);
     const subExpr = (expression as expression)[exprId] as logicExprIntf;
     const variableArr = subExpr.leftExpr;
 
-    let isValidExpr = true;
     const isValidRightValue = subExpr.rightValue? true : false;
-    if (!isValidRightValue) {
-        isValidExpr = false;
-    }
-    else if (variableArr.length === 0) {
-        isValidExpr = false;
-    }
-    else {
-        const indexOfErrVariable = variableArr.findIndex((variable) => {
-            return !(variable.variable)
-        })
-        if (indexOfErrVariable !== -1) {
-            isValidExpr = false;
+    const isValidExpr = () => {
+        if (!isValidRightValue) {
+            return false;
         }
+        else if (variableArr.length === 0) {
+            return false;
+        }
+        else {
+            const indexOfErrVariable = variableArr.findIndex((variable) => {
+                if (variable.variable === VariableTypeEnum.SUBJECT_MARK) {
+                    return !(variable.variable && variable.subjectId && variable.subjectName)
+                }
+                else {
+                    return !(variable.variable)
+                }
+            })
+            if (indexOfErrVariable !== -1) {
+                return false;
+            }
+        }
+        return true;
     }
 
     //for topic condition action in redux
@@ -82,12 +80,12 @@ export const LogicalExprElement : React.FC<exprComponent> = ({exprId}) => {
     const onClickAddVariable = (event: React.MouseEvent<HTMLButtonElement>) => {
         const randomNum = (Math.floor(Math.random() * 999)).toString();
         const timeStamp = (new Date()).getTime().toString();
-        const newVariable = {
+        const newVariable: variableInfo = {
             variable: "",
             weight: 1,
             key: timeStamp.concat(randomNum)
         }
-        const newVariableArr: variableIntf[] = variableArr.concat([newVariable]);
+        const newVariableArr: variableInfo[] = variableArr.concat([newVariable]);
         const newSubExpr: logicExprIntf = {
             ...subExpr,
             leftExpr: newVariableArr
@@ -100,7 +98,7 @@ export const LogicalExprElement : React.FC<exprComponent> = ({exprId}) => {
     }
 
     return (
-        <div className={`flex flex-row items-center ${isValidExpr? "border-[#d9d9d9]" : "border-red-500"} border-2 rounded p-2 mx-1 my-2`}>
+        <div className={`flex flex-row items-center ${isValidExpr()? "border-[#d9d9d9]" : "border-red-500"} border-2 rounded p-2 mx-1 my-2`}>
             <button
                 className="ml-1 mr-3 pi pi-trash border border-1 border-[#1488d8] rounded p-2"
                 onClick={onDeleteSubExpr}
@@ -114,8 +112,7 @@ export const LogicalExprElement : React.FC<exprComponent> = ({exprId}) => {
                         <VariableElement
                             key={variable.key}
                             keyId={variable.key}
-                            variable={variable.variable} 
-                            weight={variable.weight}
+                            variable={variable}
                             onUpdate={onUpdateVariableArr}
                         />
                     )

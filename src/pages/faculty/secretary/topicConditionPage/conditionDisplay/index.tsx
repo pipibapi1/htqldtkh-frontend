@@ -70,7 +70,7 @@ const ConditionDisplay: React.FC<props> = (props) => {
                 <div className='mb-2 font-bold'>
                     Điều kiện khác:
                 </div>
-                <div>
+                <div className="w-[80vw] p-2 overflow-y-auto">
                     <EditableExprElement exprId="root"/>
                 </div>
             </>

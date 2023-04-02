@@ -12,7 +12,8 @@ import topicConditionService from '../../../../services/topicConditionService';
 import { setTopicConditionAction } from '../../../../actions/topicConditionAction';
 
 import ConditionDisplay from './conditionDisplay';
-import { expression, topicConditionIntf, logicExprIntf } from './conditionDisplay/interface';
+import { expression, topicConditionIntf, logicExprIntf} from '../../../../shared/interfaces/topicConditionInterface';
+import { VariableTypeEnum } from '../../../../shared/types/variableType';
 
 const FSTopicConditionEditor: FC = () => {
     const [isEditing, setIsEditing] = useState<boolean>(false);
@@ -67,6 +68,7 @@ const FSTopicConditionEditor: FC = () => {
         let isValidExpr = true;
         for (let key in expression as expression) {
             const subExpr = expression[key];
+            //relational expression is not valid if missing left or right child expression 
             if (subExpr.operator === OperationTypeEnum.AND || subExpr.operator === OperationTypeEnum.OR) {
                 const leftExpr = expression[key + ',l'];
                 const rightExpr = expression[key + ',r'];
@@ -75,19 +77,29 @@ const FSTopicConditionEditor: FC = () => {
                     break;
                 }
             }
+
+            //check whether logical expression is valid or not
             else {
                 const currExpr = subExpr as  logicExprIntf;
+                //missing right value to compare
                 if (!currExpr.rightValue) {
                     isValidExpr = false;
                     break;
                 }
+                //not have any variable
                 else if (currExpr.leftExpr.length === 0) {
                     isValidExpr = false;
                     break;
                 }
+                //has at least 1 variable invalid
                 else {
                     const indexOfErrVariable = currExpr.leftExpr.findIndex((variable) => {
-                        return !(variable.variable)
+                        if (variable.variable === VariableTypeEnum.SUBJECT_MARK) {
+                            return !(variable.variable && variable.subjectId && variable.subjectName)
+                        }
+                        else {
+                            return !(variable.variable)
+                        }
                     })
                     if (indexOfErrVariable !== -1) {
                         isValidExpr = false;

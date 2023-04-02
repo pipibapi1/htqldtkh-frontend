@@ -8,23 +8,21 @@ import { RootState, AppDispatch } from '../../../../store';
 import { topicInput } from '../../../../shared/interfaces/topicInterface';
 import { OperationTypeEnum } from '../../../../shared/types/operationType';
 import { TopicMemberTypeEnum } from '../../../../shared/types/topicMemberType';
-import { Instructor } from '../../../../shared/interfaces/instructorInterface';
-import { AcademyRank } from '../../../../shared/types/academyRank';
-import { DegreeType } from '../../../../shared/types/degreeType';
 
 import topicService from '../../../../services/topicService';
-import instructorService from '../../../../services/instructorService';
 import topicConditionService from '../../../../services/topicConditionService';
 import { setTopicConditionAction } from '../../../../actions/topicConditionAction';
 
-import { topicConditionIntf } from '../../../faculty/secretary/topicConditionPage/conditionDisplay/interface';
-import { logicExprIntf, relationExprIntf } from '../../../faculty/secretary/topicConditionPage/conditionDisplay/interface';
 import StaticExprElement from '../../../faculty/secretary/topicConditionPage/conditionDisplay/staticExprElement';
 
 import { getExprResult } from './getExprResult';
 import OtherMembersInput from './otherMemberInput';
 
 import BackIcon from '../../../../assets/images/🦆 icon _arrow circle left_.png';
+import { variableInfo, topicConditionIntf, logicExprIntf, relationExprIntf } from '../../../../shared/interfaces/topicConditionInterface';
+import { VariableTypeEnum } from '../../../../shared/types/variableType';
+import LeaderInfo from './leaderInfo';
+import InstructorInput from './instructorInfo';
 
 interface Props {
     backToChoosePeriod: any,
@@ -34,12 +32,14 @@ interface Props {
     setIsAtStep1: any
 }
 
-interface InfoField {
-    otherMembers : {[k:string] : number},
-    leader: {[k:string] : number}
+//variable used in topic condition
+interface ConditionVar {
+    otherMembers : {[k:string] : VarName},
+    leader: {[k:string] : VarName}
 }
 
-interface DataForCondition {
+//value of variable used in topic condition
+interface ConditionVarData {
     otherMembers : {[k:string] : string}[],
     leader: {[k:string] : string}
 }
@@ -49,6 +49,12 @@ interface IsValid {
     topicCondition: boolean,
     leader: boolean,
     othersMember: boolean,
+}
+
+interface VarName {
+    variable: string,
+    subjectName?: string,
+    subjectId?: string
 }
 
 const RegisterStep2:React.FC<Props> = (props: Props) => {
@@ -61,19 +67,19 @@ const RegisterStep2:React.FC<Props> = (props: Props) => {
     const dispatch = useAppDispatch();
 
     const [availableTypes, setAvailableTypesTopic] = useState<string[]>([]);
-    console.log(availableTypes);
+    const [conditionVar, setConditionVar] = useState<ConditionVar>({
+        leader: {},
+        otherMembers: {}
+    })
     
     let otherMemberDataForCondition: {[k:string] : string}[] = [];
     for (let i = 0 ; i < (topic.numMember - 1); i++) {
         otherMemberDataForCondition.push({});
     }
-
-    const [dataForCondition, setDataForCondition] = useState<DataForCondition>({
+    const [dataForCondition, setDataForCondition] = useState<ConditionVarData>({
         otherMembers: otherMemberDataForCondition,
         leader: {}
     })
-
-    const [instructorsInfo, setInstructorsInfo] = useState<Instructor[]>([])
 
     const [isValid, setIsValid] = useState<IsValid>({
         topicName: true,
@@ -81,35 +87,26 @@ const RegisterStep2:React.FC<Props> = (props: Props) => {
         leader: true,
         othersMember: true,
     });
-    
-    const short = (s: string) => {
-        if(s === AcademyRank.GS) return "GS.";
-        if(s === AcademyRank.PGS) return "PGS.";
-        if(s === DegreeType.CN) return "CN.";
-        if(s === DegreeType.ThS) return "ThS.";
-        if(s === DegreeType.TS) return "TS.";
 
-        return "";
-    }
-
+    //update register condition when topic type change
     React.useEffect(() => {
-        topicConditionService.getTopicConditionByType(topic.type)
-            .then((condition) => {
-                const newCondition: topicConditionIntf = {
-                    ...condition,
-                    isLoading: false
-                }
-                dispatch(setTopicConditionAction(newCondition.expression))
-            })
-            .catch((err)=> {console.log(err)})
+        if (topic.type !== "") {
+            topicConditionService.getTopicConditionByType(topic.type)
+                .then((condition) => {
+                    const newCondition: topicConditionIntf = {
+                        ...condition,
+                        isLoading: false
+                    }
+                    dispatch(setTopicConditionAction(newCondition.expression))
+                })
+                .catch((err)=> {console.log(err)})
+        }
+        else {
+            dispatch(setTopicConditionAction({}, []))
+        }
+    }, [topic.type, dispatch])
 
-        instructorService.getAllInstructorsService()
-            .then((data) => {
-                setInstructorsInfo(data?.instructors)
-            })
-            .catch((err)=> {console.log(err)})
-    }, [topic, dispatch])
-
+    //update available topic type for user
     React.useEffect(() => {
         topicConditionService.getAvaiableTopicType(user.educationType)
             .then((types) => {
@@ -117,151 +114,130 @@ const RegisterStep2:React.FC<Props> = (props: Props) => {
             })
     }, [user.educationType])
 
-    let memberInfoField: InfoField = {
-        otherMembers: {},
-        leader: {}
-    };
-
-    Object.values(expression).forEach((ele) => {
-        const subExpr = ele as (logicExprIntf | relationExprIntf);
-        if ((subExpr.operator !== OperationTypeEnum.AND) && (subExpr.operator !== OperationTypeEnum.OR)) {
-            const logicExpr = subExpr as logicExprIntf;
-            const variableArr = logicExpr.leftExpr;
-            if (logicExpr.object === TopicMemberTypeEnum.Leader) {
-                variableArr.forEach((variable) => {
-                    memberInfoField.leader[variable.variable] = 1;
-                })
+    //update condition variable
+    React.useEffect(() => {
+        let memberInfoField: ConditionVar = {
+            otherMembers: {},
+            leader: {}
+        };
+        Object.values(expression).forEach((ele) => {
+            const subExpr = ele as (logicExprIntf | relationExprIntf);
+            // only find in logical expression
+            if ((subExpr.operator !== OperationTypeEnum.AND) && (subExpr.operator !== OperationTypeEnum.OR)) {
+                const logicExpr = subExpr as logicExprIntf;
+                const variableArr: variableInfo[] = logicExpr.leftExpr;
+                if (logicExpr.object === TopicMemberTypeEnum.Leader) {
+                    variableArr.forEach((variable) => {
+                        if (variable.variable === VariableTypeEnum.SUBJECT_MARK) {
+                            memberInfoField.leader[variable.subjectId as string] = variable;
+                        }
+                        else {
+                            memberInfoField.leader[variable.variable] = variable;
+                        }
+                    })
+                }
+                else if (logicExpr.object === TopicMemberTypeEnum.OthersMember) {
+                    variableArr.forEach((variable) => {
+                        if (variable.variable === VariableTypeEnum.SUBJECT_MARK) {
+                            memberInfoField.otherMembers[variable.subjectId as string] = variable;
+                        }
+                        else {
+                            memberInfoField.otherMembers[variable.variable] = variable;
+                        }
+                    })
+                }
+                else if (logicExpr.object === TopicMemberTypeEnum.AllMember) {
+                    variableArr.forEach((variable) => {
+                        if (variable.variable === VariableTypeEnum.SUBJECT_MARK) {
+                            memberInfoField.leader[variable.subjectId as string] = variable;
+                            memberInfoField.otherMembers[variable.subjectId as string] = variable;
+                        }
+                        else {
+                            memberInfoField.otherMembers[variable.variable] = variable;
+                            memberInfoField.leader[variable.variable] = variable;
+                        }
+                    })
+                }
             }
-            else if (logicExpr.object === TopicMemberTypeEnum.OthersMember) {
-                variableArr.forEach((variable) => {
-                    memberInfoField.otherMembers[variable.variable] = 1;
-                })
-            }
-            else if (logicExpr.object === TopicMemberTypeEnum.AllMember) {
-                variableArr.forEach((variable) => {
-                    memberInfoField.otherMembers[variable.variable] = 1;
-                    memberInfoField.leader[variable.variable] = 1;
-                })
-            }
-        }
-    })
-
-    const leaderFieldForCheckCondition = Object.keys(memberInfoField.leader).map((field) => {
-        const onChangeLeaderFieldForCondition = (event : React.ChangeEvent<HTMLInputElement>) => {
-            dataForCondition.leader[field] = event.target.value;
-            setDataForCondition({
-                ...dataForCondition
-            })
-        }
-
-        return (
-            <div 
-                className='flex flex-col justify-between my-1'
-                key={field}
-            >
-                <div>
-                    {field}:
-                </div>
-                <input
-                    type="text"
-                    name={field}
-                    className="w-full border border-black border-1 rounded-md p-1 w-96"
-                    onChange={onChangeLeaderFieldForCondition}
-                ></input>
-            </div>
-        )
-    })
+        })
+        setConditionVar(memberInfoField)
+    }, [expression])
 
     let instructors = [];
     for (let index = 1; index <= topic.numInstructor; ++index){
-        
         instructors.push(
             <div className='px-2 mb-1'>
                 <div>
                     Giáo viên {index}:
                 </div>
-                <div className="">
-                    <select
-                        className="bg-white h-[40px] w-96 border border-black border-1 rounded-lg focus:ring-blue-500 px-2"
-                            onChange={(e) => {
-                                topic.instructorsId[index-1] = e.target.value;
-                                const instructor = instructorsInfo.find((instructor) => instructor._id === e.target.value);
-                                if(instructor !== undefined){
-                                    topic.instructors[index-1] = instructor;
-                                };
-                                setTopic({
-                                    ...topic
-                                })
-                                    
-                            }}
-                            defaultValue={""}
-                        >
-                            <option disabled value={""}>Chọn GVHD</option>
-                        {
-                            instructorsInfo.map((instructor) => {
-                                return(
-                                    <option value={instructor._id}>
-                                        {short(instructor.academyRank)} {short(instructor.degree)} {instructor.name} - MSCB: {instructor.staffId}
-                                    </option>
-                                )
-                            })
-                        }
-                    </select>
-                </div>
+                <InstructorInput
+                    index={index-1}
+                    topic={topic}
+                    setTopic={setTopic}
+                ></InstructorInput>
             </div>
         )
     }
 
     let otherMembers = [];
-    for (let index = 1; index <= (topic.numMember - 1); ++index){
+    for (let index = 0; index < (topic.numMember - 1); ++index){
         otherMembers.push(
             <OtherMembersInput
                 key={index}
                 index={index}
                 topic={topic}
                 setTopic={setTopic}
-                conditionField={Object.keys(memberInfoField.otherMembers)}
+                conditionField={conditionVar.otherMembers}
                 dataForCondition={dataForCondition}
                 setDataForCondition={setDataForCondition}
             ></OtherMembersInput>
         )
     }
 
+    const displayRegisterCondition = () => {
+        if (Object.values(expression).length > 0) {
+            return (
+                <div className={`m-2 ${isValid.topicCondition? "" : "border border-1 border-red-500 rounded"}`}>
+                    <StaticExprElement exprId="root"/>
+                </div>
+            )
+        }
+        else if (topic.type !== "") {
+            return (
+                <div className='m-2'>
+                    Loại đề tài này không yêu cầu điều kiện nào
+                </div>
+            )
+        }
+        else {
+            return null;
+        }
+    }
+
     const onClickBackBtn = (event: React.MouseEvent<HTMLDivElement>) => {
         backToStep1();
     }
 
-    const onClickConfirmBtn = (e: React.MouseEvent<HTMLButtonElement>) => {
-        let checkTopicName = topic.name? true : false;
-
-        let checkTopicCondition = getExprResult(dataForCondition, expression, "root", topic.numMember);
-
-        let checkLeader = true;
-        const leaderArrValue = Object.values(dataForCondition.leader);
-        if (leaderArrValue.length !== Object.keys(memberInfoField.leader).length) {
-            checkLeader = false
-        }
-        else {
-            checkLeader = leaderArrValue.findIndex((value) => value === "") === -1;
-        }
-
+    const checkOtherMembers = () => {        
         let checkOtherMember = true;
         const otherMembersInfo = dataForCondition.otherMembers
         for (let i = 0; i < otherMembersInfo.length; i++) {
             const arrValue = Object.values(otherMembersInfo[i]);
-            if ((arrValue.length !== Object.keys(memberInfoField.otherMembers).length) || 
+            if ((arrValue.length !== Object.keys(conditionVar.otherMembers).length) || 
                 (arrValue.findIndex((value) => value === "") !== -1)) {
                 checkOtherMember = false;
                 break;
             }
-            const registerInfo: string[] = Object.values(topic.otherMembers[i]);
-            const hasNullValue = registerInfo.findIndex((value) => value === "") !== -1
+            const hasNullValue = topic.otherMembers[i].studentId === "";
             if (hasNullValue) {
                 checkOtherMember = false;
                 break;
             }
         }
+        return checkOtherMember;
+    }
 
+    const checkDuplicatedInstructor = () => {
         let checkDuplicateInstructor = true;
         for(let i = 0; i < topic.instructorsId.length; i++){
             const instructorId = topic.instructorsId[i];
@@ -273,7 +249,22 @@ const RegisterStep2:React.FC<Props> = (props: Props) => {
             }
             if(checkDuplicateInstructor) break
         }
+        return checkDuplicateInstructor;
+    }
 
+    const onClickConfirmBtn = (e: React.MouseEvent<HTMLButtonElement>) => {
+        let checkTopicName = topic.name? true : false;
+        let checkTopicCondition = getExprResult(dataForCondition, expression, "root", topic.numMember);
+        let checkLeader = true;
+        const leaderArrValue = Object.values(dataForCondition.leader);
+        if (leaderArrValue.length !== Object.keys(conditionVar.leader).length) {
+            checkLeader = false
+        }
+        else {
+            checkLeader = leaderArrValue.findIndex((value) => value === "") === -1;
+        }
+        let checkOtherMember = checkOtherMembers();
+        let checkDuplicateInstructor = checkDuplicatedInstructor();
         let checkUnchosenInstructor = true;
         for(let i = 0; i < topic.instructorsId.length; i++){
             if(topic.instructorsId[i] === ""){
@@ -281,7 +272,6 @@ const RegisterStep2:React.FC<Props> = (props: Props) => {
                 break
             }
         }
-        
         setIsValid({
             topicName: checkTopicName,
             topicCondition: checkTopicCondition,
@@ -359,9 +349,21 @@ const RegisterStep2:React.FC<Props> = (props: Props) => {
     }
 
     const onChangeTopicType = (e: React.ChangeEvent<HTMLSelectElement>) => {
+        const newOtherMembers = topic.otherMembers.map((member) => {
+            return {
+                studentId: "",
+                name: "",
+                gender: "",
+                email: "",
+                phoneNumber: "",
+                educationType: "",
+                birthDate: ""
+            }
+        })
         setTopic({
             ...topic,
-            type: e.target.value
+            type: e.target.value,
+            otherMembers: newOtherMembers
         });
         setDataForCondition({
             otherMembers: otherMemberDataForCondition,
@@ -386,7 +388,7 @@ const RegisterStep2:React.FC<Props> = (props: Props) => {
             </div>
             <div className='flex justify-between mb-2 mt-3'>
                 <div className='flex flex-col w-2/3'>
-                    <div className='font-bold'>
+                    <div className='font-bold text-lg'>
                         Tên đề tài: 
                     </div>
                     <input
@@ -396,6 +398,11 @@ const RegisterStep2:React.FC<Props> = (props: Props) => {
                         onChange={onChangeTopicName}
                         defaultValue={topic.name}
                     />
+                    {!(isValid.topicName) && (
+                        <div className='text-[#e1000e] ml-2 mt-1'>
+                            <i>Tên đề tài không được bỏ trống </i>
+                        </div>
+                    )}
                 </div>
                 <div className=''>
                     <div>
@@ -417,7 +424,7 @@ const RegisterStep2:React.FC<Props> = (props: Props) => {
                 </div>
             </div>
             <div className='mb-3'>
-                <div className='font-bold'>
+                <div className='font-bold text-lg'>
                     Loại đề tài: 
                 </div>
                 <div className="ml-2">
@@ -426,7 +433,7 @@ const RegisterStep2:React.FC<Props> = (props: Props) => {
                         <select
                             className="bg-white h-[40px] w-[300px] border border-black border-1 rounded-lg focus:ring-blue-500 px-2"
                             onChange={onChangeTopicType}
-                            defaultValue=""
+                            defaultValue={topic.type}
                         >
                             <option value="" disabled hidden>Chọn loại đề tài</option>
                             {availableTypes.map((type) => {
@@ -439,47 +446,51 @@ const RegisterStep2:React.FC<Props> = (props: Props) => {
                 </div>
             </div>
             <div className='mb-3'>
-                <div className='font-bold '>
+                <div className='font-bold text-lg'>
                     Điều kiện để đăng ký loại đề tài trên: 
                 </div>
-                {
-                    (Object.values(expression).length > 0)? (
-                        <div className={`m-2 ${isValid.topicCondition? "" : "border border-1 border-red-500"}`}>
-                            <StaticExprElement exprId="root"/>
-                        </div>
-                    ) : (
-                        <div className='m-2'>
-                            Loại đề tài này không yêu cầu điều kiện nào
-                        </div>
-                    )
-                }
+                {!(isValid.topicCondition) && (
+                    <div className="m-2 text-[#e1000e]">
+                        <i>
+                            Thông tin chủ nhiệm đề tài và thành viên không thỏa mãn điều kiện đăng ký loại đề tài này
+                        </i>
+                    </div>
+                )}
+                {displayRegisterCondition()}
             </div>
             <div className='mb-5'>
-                <div className='font-bold mb-2'>
+                <div className='font-bold mb-2 text-lg'>
                     Thông tin GVHD:
                 </div>
                 {instructors}
             </div>          
-            <div className='mb-5'>
-                <div className={`font-bold mb-2 ${isValid.leader? "" : "text-red-500"}`}>
+            <div className='mb-4'>
+                <div className={`font-bold text-lg ${isValid.leader? "" : "text-red-500"}`}>
                     Thông tin chủ nhiệm đề tài:
                 </div>
                 <div className='flex flex-col w-full ml-2'>
-                    <div className='inline-block w-full pr-5'>
-                        {(leaderFieldForCheckCondition.length > 0)? (
-                            <>
-                                {leaderFieldForCheckCondition}
-                            </>
-                        ) : (
-                            "Loại đề tài này không cần thêm thông tin về chủ nhiệm đề tài"
-                        )}
-                    </div>
+                    <LeaderInfo
+                        topic={topic}
+                        setTopic={setTopic}
+                        conditionField={conditionVar.leader}
+                        dataForCondition={dataForCondition}
+                        setDataForCondition={setDataForCondition}
+                    ></LeaderInfo>
                 </div>
             </div>
 
             <div className=''>
-                <div className={`font-bold mb-2 ${isValid.othersMember?  "" : "text-red-500"}`}>
+                <div className={`font-bold text-lg ${isValid.othersMember?  "" : "text-red-500"}`}>
                     Thông tin thành viên khác:
+                </div>
+                {!isValid.othersMember && (
+                    <div className='px-4 mb-2 text-red-500'>
+                        <i>Thông tin của thành viên khác không thỏa mãn điều kiện đăng ký đề tài</i>
+                    </div>
+                )}
+                <div className='px-4 mb-2'>
+                    <i>Để nhập thông tin thành viên, chủ nhiệm đề tài cần nhập cả mã số sinh viên 
+                        và email trường của thành viên, sau đó nhấn nút "Tìm thông tin" </i>
                 </div>
                 <div className='flex flex-col w-full'>
                     <div className='inline-block w-full pr-5'>

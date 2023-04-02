@@ -13,9 +13,63 @@ interface Props {
     setTopic: any
 }
 
+//form to choose number member and number instructors
 const RegisterStep1:React.FC<Props> = (props: Props) => {
     
     const {onSetNextStep, period, backToChoosePeriod, topic, setTopic} = props;
+
+    const onChangeNumMember = (event: React.ChangeEvent<HTMLSelectElement>) => {
+        if(event){
+            const numMember = Number(event.target.value);
+            let otherMemberList = [];
+            //initial for other member. Quantity of other member = all member - 1
+            for (let i = 1; i < numMember; i++) {
+                otherMemberList.push({
+                    studentId: "",
+                    fmName: "",
+                    name: "",
+                    gender: "",
+                    email: "",
+                    phoneNumber: "",
+                    educationType: "",
+                    birthDate: (new Date()).toString()
+                })
+            }
+            setTopic({
+                ...topic,
+                numMember: numMember,
+                otherMembers: otherMemberList
+            })
+        }
+    }
+
+    const onChangeNumInstructor = (event: React.ChangeEvent<HTMLSelectElement>) => {
+        if(event){
+            const numInstructor = parseInt(event.target.value);
+            let instructorIdList = [];
+            let instructorList = [];
+            for (let i = 0; i < numInstructor; i++) {
+                instructorIdList.push("");
+                instructorList.push({
+                    staffId: "",
+                    name: "",
+                    gender: "",
+                    email: "",
+                    phoneNumber: "",
+                    birthDate: (new Date()).toString(),
+                    academyRank: "",
+                    degree: "",
+                })
+            }
+
+            setTopic({
+                ...topic,
+                numInstructor: numInstructor,
+                instructorsId: instructorIdList,
+                instructors: instructorList
+            })
+        }
+    }
 
     return(
         <div className='px-5 py-3'>
@@ -42,29 +96,7 @@ const RegisterStep1:React.FC<Props> = (props: Props) => {
                     <div className="">
                         <select
                             className="bg-white h-[40px] w-[270px] border border-black border-1 rounded-lg focus:ring-blue-500 px-2"
-                            onChange={event => {
-                                if(event){
-                                    const numMember = Number(event.target.value);
-                                    let otherMemberList = [];
-                                    for (let i = 1; i < numMember; i++) {
-                                        otherMemberList.push({
-                                            studentId: "",
-                                            fmName: "",
-                                            name: "",
-                                            gender: "Nam",
-                                            email: "",
-                                            phoneNumber: "",
-                                            educationType: "Chính quy",
-                                            birthDate: (new Date()).toString()
-                                        })
-                                    }
-                                    setTopic({
-                                        ...topic,
-                                        numMember: numMember,
-                                        otherMembers: otherMemberList
-                                    })
-                                }
-                            }}
+                            onChange={onChangeNumMember}
                             defaultValue={topic.numMember}
                         >
                             <option value={1}>1</option>
@@ -72,6 +104,11 @@ const RegisterStep1:React.FC<Props> = (props: Props) => {
                             <option value={3}>3</option>
                             <option value={4}>4</option>
                             <option value={5}>5</option>
+                            <option value={1}>6</option>
+                            <option value={2}>7</option>
+                            <option value={3}>8</option>
+                            <option value={4}>9</option>
+                            <option value={5}>10</option>
                         </select>
                     </div>
                 </div>
@@ -83,20 +120,7 @@ const RegisterStep1:React.FC<Props> = (props: Props) => {
                     <div className="">
                         <select
                             className="bg-white h-[40px] w-[270px] border border-black border-1 rounded-lg focus:ring-blue-500 px-2"
-                            onChange={event => {
-                                if(event){
-                                    const numInstructor = parseInt(event.target.value);
-                                    let instructorIdList = [];
-                                    for (let i = 0; i < numInstructor; i++) {
-                                        instructorIdList.push("")
-                                    }
-                                    setTopic({
-                                        ...topic,
-                                        numInstructor: numInstructor,
-                                        instructorsId: instructorIdList
-                                    })
-                                }
-                            }}
+                            onChange={onChangeNumInstructor}
                             defaultValue={topic.numInstructor}
                         >
                             <option value={1}>1</option>

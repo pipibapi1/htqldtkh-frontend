@@ -14,8 +14,16 @@ export interface relationExprIntf {
 export interface logicExprIntf{
     operator: string,
     object: string,
-    leftExpr: {variable: string, weight?: string}[],
+    leftExpr: variableInfo[],
     rightValue: string
+}
+
+export interface variableInfo {
+    variable: string,
+    weight?: number,
+    subjectName?: string, 
+    subjectId?: string,
+    key: string
 }
 
 export interface expression {
