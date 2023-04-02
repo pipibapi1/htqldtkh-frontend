@@ -3,6 +3,7 @@ import Swal from "sweetalert2";
 
 import { TopicInCouncilIntf } from "../../../../../../shared/interfaces/councilInterface";
 import { TopicResultEnum } from "../../../../../../shared/types/topicResult";
+import { TopicStatusEnum } from "../../../../../../shared/types/topicStatus";
 
 import TopicService from "../../../../../../services/topicService";
 
@@ -54,19 +55,55 @@ export const TopicRow: React.FC<Props> = (props) => {
         (council.topicGeneralInfos as TopicInCouncilIntf[])[index].acceptanceResult = "loading...";
         setCouncil({...council})
         if (value !== beforeValue) {
-            TopicService.putUpdateATopicService({
-                _id: topic._id,
-                topic: {
-                    acceptanceResult: value
-                }
-            }).then((data) => {
-                (council.topicGeneralInfos as TopicInCouncilIntf[])[index].acceptanceResult = value;
-                setCouncil({...council})
-            })
-            .catch((data) => {
-                (council.topicGeneralInfos as TopicInCouncilIntf[])[index].acceptanceResult = beforeValue;
-                setCouncil({...council})
-            })
+            if(value === TopicResultEnum.QUALIFIED){
+                TopicService.putUpdateATopicService({
+                    _id: topic._id,
+                    topic: {
+                        acceptanceResult: value,
+                        status: TopicStatusEnum.FINISHED
+                    }
+                }).then((data) => {
+                    (council.topicGeneralInfos as TopicInCouncilIntf[])[index].acceptanceResult = value;
+                    setCouncil({...council})
+                })
+                .catch((data) => {
+                    (council.topicGeneralInfos as TopicInCouncilIntf[])[index].acceptanceResult = beforeValue;
+                    setCouncil({...council})
+                })
+            }
+            else if(value === TopicResultEnum.NON_QUAFILIED){
+                TopicService.putUpdateATopicService({
+                    _id: topic._id,
+                    topic: {
+                        acceptanceResult: value,
+                        status: TopicStatusEnum.FAIL_ACCEPT
+                    }
+                }).then((data) => {
+                    (council.topicGeneralInfos as TopicInCouncilIntf[])[index].acceptanceResult = value;
+                    setCouncil({...council})
+                })
+                .catch((data) => {
+                    (council.topicGeneralInfos as TopicInCouncilIntf[])[index].acceptanceResult = beforeValue;
+                    setCouncil({...council})
+                })
+            }
+            else{
+                TopicService.putUpdateATopicService({
+                    _id: topic._id,
+                    topic: {
+                        acceptanceResult: value,
+                        status: TopicStatusEnum.DUE_TO_ACCEPT
+                    }
+                }).then((data) => {
+                    (council.topicGeneralInfos as TopicInCouncilIntf[])[index].acceptanceResult = value;
+                    setCouncil({...council})
+                })
+                .catch((data) => {
+                    (council.topicGeneralInfos as TopicInCouncilIntf[])[index].acceptanceResult = beforeValue;
+                    setCouncil({...council})
+                })
+            }
+            
         }
         else {
             (council.topicGeneralInfos as TopicInCouncilIntf[])[index].acceptanceResult = beforeValue;

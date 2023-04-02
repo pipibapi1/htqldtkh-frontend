@@ -1,28 +1,29 @@
 import { useState } from 'react';
 import { useDispatch } from "react-redux";
-import { Link } from "react-router-dom";
 import DatePicker from "react-datepicker";
 import Swal from 'sweetalert2';
 
-import { AppDispatch } from '../../../../../store';
+import { AppDispatch } from '../../../../../../store';
 
-import { TopicStatusEnum } from '../../../../../shared/types/topicStatus';
-import { Toast } from '../../../../../shared/toastNotify/Toast';
+import { TopicStatusEnum } from '../../../../../../shared/types/topicStatus';
+import { TopicResultEnum } from '../../../../../../shared/types/topicResult';
+import { Toast } from '../../../../../../shared/toastNotify/Toast';
 
-import { putUpdateATopicAction } from '../../../../../actions/topicAction';
+import { putUpdateATopicAction } from '../../../../../../actions/topicAction';
 
-import Calendar from "../../../../../assets/images/calendar.png";
+import Calendar from "../../../../../../assets/images/calendar.png";
 
-const Modal = ({isVisible, onClose, topic}: {isVisible: boolean, onClose: any, topic: any}) => {
+const StartATopicModal = ({isVisible, onClose, topic, updateTopicResult, topicReviewResult}: 
+    {isVisible: boolean, onClose: any, topic: any, updateTopicResult:any, topicReviewResult: any}) => {
     const useAppDispatch: () => AppDispatch = useDispatch
     const dispatch = useAppDispatch()
-    const [showTopicStartPopup, setShowTopicStartPopup] = useState(false);
     const [topicGivenId, setTopicGivenId] = useState("");
     const [startTime, setStartTime] = useState(new Date());
     const [endTime, setEndTime] = useState(new Date(startTime.getFullYear(), startTime.getMonth() + 2, startTime.getDate()));
 
     if (!isVisible) return null;
     const handleClose = (e: any) => {
+        e.preventDefault();
         if (e.target.id === "wrapper") onClose();
     }
 
@@ -64,6 +65,7 @@ const Modal = ({isVisible, onClose, topic}: {isVisible: boolean, onClose: any, t
                       confirmButtonText: 'OK',
                     }).then((result) => {
                       /* Read more about isConfirmed, isDenied below */
+                      updateTopicResult(TopicResultEnum.QUALIFIED, topicReviewResult);
                       if (result.isConfirmed) {
                         window.location.reload();
                       } 
@@ -88,111 +90,12 @@ const Modal = ({isVisible, onClose, topic}: {isVisible: boolean, onClose: any, t
         }
     }
 
-    const changeATopicToReady = (e: any) => {
-        e.preventDefault();
-        const updateInfo = {
-            _id: topic._id,
-            topic: {
-                status: TopicStatusEnum.READY
-            }
-        }
-        Swal.fire({
-            icon: 'question',
-            title: 'Bạn có chắc chuyển đề tài sang sẵn sàng xét duyệt?',
-            showDenyButton: true,
-            showCancelButton: false,
-            confirmButtonText: 'Yes',
-        }).then((result) => {
-      
-            if(result.isConfirmed){
-            dispatch(putUpdateATopicAction(updateInfo))
-              .then((data) => {
-                Swal.fire({
-                  icon: 'success',
-                  title: 'Chuyển trạng thái thành công',
-                  showDenyButton: false,
-                  showCancelButton: false,
-                  confirmButtonText: 'OK',
-                }).then((result) => {
-                  /* Read more about isConfirmed, isDenied below */
-                  if (result.isConfirmed) {
-                    window.location.reload();
-                  } 
-                })
-                }
-              )
-              .catch((error) => {
-                Swal.fire({
-                  icon: 'error',
-                  title: 'Có lỗi gì đó đã xảy ra, thử lại sau!',
-                  showDenyButton: false,
-                  showCancelButton: false,
-                  confirmButtonText: 'OK',
-                })
-              })
-            }
-      
-            if(result.isDenied){
-            }
-        })
-    }
 
     return ( 
         <div className = "fixed inset-0 bg-black bg-opacity-50 backdrop-blur-0 flex justify-center items-center z-50" id= "wrapper" onClick={handleClose}>
             <div className = "md:w-[600px] w-[90%] mx-auto">
 
-                {!showTopicStartPopup && <div className = 'bg-white rounded px-5 py-7'>
-                    <div className = 'mb-2 pb-4 text-xl font-medium text-gray-900 text-center border-b-2 border-black'>
-                        Chức năng khác cho đề tài "{topic.name}"
-                    </div>
-                    <div className = "space-y-5 px-5 py-2 flex flex-col items-center justify-center">
-                        <Link to={`/topicManagement/${topic._id}/resultNotification`}
-                        state={{topic: topic}}
-                        className='bg-[#0079CC] text-white text-lg font-semibold w-2/3 flex items-center justify-center py-5 hover:bg-[#06609E] hover:cursor-pointer'
-                        >
-                            <div >
-                                Thông báo kết quả
-                            </div>
-                        </Link>
-                        <Link to={`/topicManagement/${topic._id}/feedback`}
-                        state={{topic: topic}}
-                        className='bg-[#0079CC] text-white text-lg font-semibold w-2/3 flex items-center justify-center py-5 hover:bg-[#06609E] hover:cursor-pointer'
-                        >
-                            <div>
-                                Góp ý
-                            </div>
-                        </Link>
-                        <div className='bg-[#0079CC] text-white text-lg font-semibold w-2/3 flex items-center justify-center py-5 hover:bg-[#06609E] hover:cursor-pointer'
-                        onClick={(e) => {
-                            e.preventDefault();
-                            if(topic.status !== TopicStatusEnum.NEW){
-                                Toast.fire({
-                                    icon: 'warning',
-                                    title: 'Đề tài này đã bắt đầu rồi'
-                                  })
-                            }
-                            else{
-                                setShowTopicStartPopup(true);
-                            }
-                        }}
-                        >
-                            Bắt đầu đề tài
-                        </div>
-                        <div className='bg-[#0079CC] text-white text-lg font-semibold w-2/3 flex items-center justify-center py-5 hover:bg-[#06609E] hover:cursor-pointer'
-                        onClick={changeATopicToReady}
-                        >
-                            Chuyển sang sẵn sàng xét duyệt
-                        </div>
-                        <div className='bg-[#E1000E] text-white text-lg font-semibold w-2/3 flex items-center justify-center py-5 hover:bg-[#980B14] hover:cursor-pointer'
-                        onClick={onClose}
-                        >
-                            Hủy
-                        </div>
-                    </div>
-                </div>}
-
-                {
-                showTopicStartPopup && <div className = 'bg-white rounded px-5 py-7'>
+                <div className = 'bg-white rounded px-5 py-7'>
                     <div className = 'mb-2 pb-4 text-xl font-medium text-gray-900 text-center border-b-2 border-black'>
                         Bắt đầu đề tài "{topic.name}"
                     </div>
@@ -297,9 +200,9 @@ const Modal = ({isVisible, onClose, topic}: {isVisible: boolean, onClose: any, t
                                 
                             </button>
                             <button className="w-[100px] bg-[#E1000E] flex justify-center items-center transition text-white font-semibold py-3 border border-white-500 rounded-[15px] hover:bg-[#980B14] hover:cursor-pointer"
-                            onClick={(e) => {
+                            onClick={(e:any) => {
                                 e.preventDefault();
-                                setShowTopicStartPopup(false)
+                                onClose();
                             }}
                             >
                                 <div>
@@ -311,10 +214,10 @@ const Modal = ({isVisible, onClose, topic}: {isVisible: boolean, onClose: any, t
 
                     </div>
                 </div>
-                }
+                
             </div>
         </div>
     )
 }
 
-export default Modal
+export default StartATopicModal;

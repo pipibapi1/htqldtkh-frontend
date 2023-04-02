@@ -1,12 +1,14 @@
-import React from "react";
+import React, { Fragment, useState } from "react";
 import Swal from "sweetalert2";
 
 import { TopicInCouncilIntf } from "../../../../../../shared/interfaces/councilInterface";
+import { TopicStatusEnum } from "../../../../../../shared/types/topicStatus";
 import { TopicResultEnum } from "../../../../../../shared/types/topicResult";
 
 import TopicService from "../../../../../../services/topicService";
 
 import { useCouncilDetailContext } from "./CouncilDetailContext";
+import StartATopicModal from "./StartATopicModal";
 
 interface Props {
     index: number
@@ -17,6 +19,23 @@ export const TopicRow: React.FC<Props> = (props) => {
     const {council, setCouncil} = useCouncilDetailContext();
     const topic = (council.topicGeneralInfos as TopicInCouncilIntf[])[index];
     const instructorList = topic.instructorsName? topic.instructorsName : [];
+    const [showModal, setShowModal] = useState<boolean>(false);
+
+    const updateTopicResult = (value: any, beforeValue: any) => {
+        TopicService.putUpdateATopicService({
+            _id: topic._id,
+            topic: {
+                reviewResult: value
+            }
+        }).then((data) => {
+            (council.topicGeneralInfos as TopicInCouncilIntf[])[index].reviewResult = value;
+            setCouncil({...council})
+        })
+        .catch((data) => {
+            (council.topicGeneralInfos as TopicInCouncilIntf[])[index].reviewResult = beforeValue;
+            setCouncil({...council})
+        })
+    }
 
     const onClickDeleteBtn = () => {
         Swal.fire({
@@ -53,19 +72,47 @@ export const TopicRow: React.FC<Props> = (props) => {
         (council.topicGeneralInfos as TopicInCouncilIntf[])[index].reviewResult = "loading...";
         setCouncil({...council})
         if (value !== beforeValue) {
-            TopicService.putUpdateATopicService({
-                _id: topic._id,
-                topic: {
-                    reviewResult: value
-                }
-            }).then((data) => {
-                (council.topicGeneralInfos as TopicInCouncilIntf[])[index].reviewResult = value;
-                setCouncil({...council})
-            })
-            .catch((data) => {
-                (council.topicGeneralInfos as TopicInCouncilIntf[])[index].reviewResult = beforeValue;
-                setCouncil({...council})
-            })
+            if(value === TopicResultEnum.QUALIFIED){
+                setShowModal(true);
+            }
+            else if(value === TopicResultEnum.NON_QUAFILIED){
+                TopicService.putUpdateATopicService({
+                    _id: topic._id,
+                    topic: {
+                        reviewResult: value,
+                        topicGivenId: "",
+                        startTime: "",
+                        endTime: "",
+                        status: TopicStatusEnum.FAIL_REVIEW
+                    }
+                }).then((data) => {
+                    (council.topicGeneralInfos as TopicInCouncilIntf[])[index].reviewResult = value;
+                    setCouncil({...council})
+                })
+                .catch((data) => {
+                    (council.topicGeneralInfos as TopicInCouncilIntf[])[index].reviewResult = beforeValue;
+                    setCouncil({...council})
+                })
+            }
+            else{
+                TopicService.putUpdateATopicService({
+                    _id: topic._id,
+                    topic: {
+                        reviewResult: value,
+                        topicGivenId: "",
+                        startTime: "",
+                        endTime: "",
+                        status: TopicStatusEnum.READY
+                    }
+                }).then((data) => {
+                    (council.topicGeneralInfos as TopicInCouncilIntf[])[index].reviewResult = value;
+                    setCouncil({...council})
+                })
+                .catch((data) => {
+                    (council.topicGeneralInfos as TopicInCouncilIntf[])[index].reviewResult = beforeValue;
+                    setCouncil({...council})
+                })
+            }
         }
         else {
             (council.topicGeneralInfos as TopicInCouncilIntf[])[index].reviewResult = beforeValue;
@@ -74,6 +121,7 @@ export const TopicRow: React.FC<Props> = (props) => {
     }
 
     return (
+    <Fragment>
         <tr className={(index % 2 === 1) ? 'border-t-2 transition duration-300 ease-in-out' : 'border-t-2 bg-[#1488D8]/25 transition duration-300 ease-in-out'}>
             <td className='text-center font-medium px-1 py-1 text-sm text-gray-900 border-l-2'>
                 {index + 1}
@@ -112,7 +160,18 @@ export const TopicRow: React.FC<Props> = (props) => {
                     Xóa
                 </div>
             </td>
-            
         </tr>
+
+        <StartATopicModal isVisible = {showModal} onClose = {() => setShowModal(false)} 
+        topic = {
+        {
+            _id: topic._id,
+            name: topic.name,
+        }
+        }
+        updateTopicResult = {updateTopicResult}
+        topicReviewResult = {topic.reviewResult}
+        />
+    </Fragment>
     );
 }; 
