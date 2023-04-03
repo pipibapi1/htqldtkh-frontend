@@ -321,8 +321,9 @@ const RegisterPanel: React.FC = () => {
                                     onChange={onChangeGender}
                                     defaultValue={GenderType.MALE}
                                 >
-                                    <option value={GenderType.MALE}>{GenderType.MALE}</option>
-                                    <option value={GenderType.FEMALE}>{GenderType.FEMALE}</option>
+                                    {Object.values(GenderType).map((value) => {
+                                        return <option value={value} key={value}>{value}</option>
+                                    })}
                                 </select>
                             </div>
 
@@ -440,9 +441,9 @@ const RegisterPanel: React.FC = () => {
                                     onChange={onChangeEducationType}
                                     defaultValue={EducationType.CQ}
                                 >
-                                    <option value={EducationType.CQ}>{capitalizeFirstLetter(EducationType.CQ)}</option>
-                                    <option value={EducationType.CLC}>{capitalizeFirstLetter(EducationType.CLC)}</option>
-                                    <option value={EducationType.KSTN}>{capitalizeFirstLetter(EducationType.KSTN)}</option>
+                                    {Object.values(EducationType).map((value) => {
+                                        return <option value={value} key={value}>{value}</option>
+                                    })}
                                 </select>
                             </div>
 

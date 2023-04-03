@@ -148,10 +148,9 @@ const Modal = ({isVisible, onClose, myTopics}: {isVisible: boolean, onClose: any
                                 }}
                                 value={requestType}
                                 >
-                                    <option value={RequestType.GET_CERTIFICATE}>Xin giấy chứng nhận</option>
-                                    <option value={RequestType.CANCEL_PROJECT}>Hủy đề tài</option>
-                                    <option value={RequestType.EXTEND_PROJECT}>Gia hạn đề tài</option>
-                                    <option value={RequestType.OTHER}>Yêu cầu khác</option>
+                                    {Object.values(RequestType).map((value) => {
+                                        return <option value={value} key={value}>{value}</option>
+                                    })}
                                 </select>
                             </div>
 

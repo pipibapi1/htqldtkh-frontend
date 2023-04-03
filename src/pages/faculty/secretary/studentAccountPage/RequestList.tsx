@@ -137,8 +137,9 @@ const RequestList: React.FC = () => {
                                     defaultValue={""}
                                 >
                                 <option value="">Toàn bộ</option>
-                                <option value={StudentAccountStatusEnum.waiting}>Chờ duyệt</option>
-                                <option value={StudentAccountStatusEnum.approved}>Đã duyệt</option>
+                                {Object.values(StudentAccountStatusEnum).map((value) => {
+                                    return <option value={value} key={value}>{value}</option>
+                                })}
                             </select>
                         </div>
                     </div>

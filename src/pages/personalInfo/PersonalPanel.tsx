@@ -448,8 +448,9 @@ const PersonalPanel:React.FC = () => {
                             }}
                             defaultValue={user.gender}
                         >
-                            <option value={GenderType.MALE}>{GenderType.MALE}</option>
-                            <option value={GenderType.FEMALE}>{GenderType.FEMALE}</option>
+                            {Object.values(GenderType).map((value) => {
+                                    return <option value={value} key={value}>{value}</option>
+                            })}
                         </select>
                     </div>}
 
@@ -514,9 +515,9 @@ const PersonalPanel:React.FC = () => {
                                 }}
                                 defaultValue={user.educationType}
                             >
-                                <option value={EducationType.CQ}>{capitalizeFirstLetter(EducationType.CQ)}</option>
-                                <option value={EducationType.CLC}>{capitalizeFirstLetter(EducationType.CLC)}</option>
-                                <option value={EducationType.KSTN}>{capitalizeFirstLetter(EducationType.KSTN)}</option>
+                                {Object.values(EducationType).map((value) => {
+                                    return <option value={value} key={value}>{value}</option>
+                                })}
                             </select>
                         </div>}
 

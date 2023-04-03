@@ -116,8 +116,9 @@ const ChoosePeriod = (props: any) => {
                                     defaultValue={""}
                                 >
                                 <option value="">Toàn bộ</option>
-                                <option value={PeriodStatus.OPEN}>mở</option>
-                                <option value={PeriodStatus.CLOSE}>đóng</option>
+                                {Object.values(PeriodStatus).map((value) => {
+                                    return <option value={value} key={value}>{value}</option>
+                                })}
                             </select>
                         </div>
                     </div>
