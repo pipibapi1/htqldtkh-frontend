@@ -82,5 +82,7 @@ export interface OtherMember {
     name: string,
     gender: string,
     email: string,
-    phoneNumber: string
+    phoneNumber: string,
+    educationType: string,
+    birthDate: string
 }

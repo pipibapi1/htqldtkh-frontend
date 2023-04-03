@@ -230,10 +230,9 @@ const TopicListPage: React.FC<Props> = (props: Props) => {
                                     defaultValue={""}
                                 >
                                 <option value="">Toàn bộ</option>
-                                <option value={TopicTypeEnum.CQ}>Chính quy</option>
-                                <option value={TopicTypeEnum.KSTN}>Kĩ sư tài năng</option>
-                                <option value={TopicTypeEnum.CLC}>Chất lượng cao</option>
-                                <option value={TopicTypeEnum.CLC_LVTN}>Chất lượng cao(LVTN)</option>
+                                {Object.values(TopicTypeEnum).map((value) => {
+                                    return <option value={value} key={value}>{value}</option>
+                                })}
                             </select>
                         </div>
                     </div>
@@ -274,12 +273,9 @@ const TopicListPage: React.FC<Props> = (props: Props) => {
                                     defaultValue={""}
                                 >
                                 <option value="">Toàn bộ</option>
-                                <option value={TopicStatusEnum.NEW}>Tạo mới</option>
-                                <option value={TopicStatusEnum.CARRY_OUT}>Đang thực hiện</option>
-                                <option value={TopicStatusEnum.DUE_TO_ACCEPT}>Đến hạn nghiệm thu</option>
-                                <option value={TopicStatusEnum.FINISHED}>Đã hoàn thành</option>
-                                <option value={TopicStatusEnum.OUT_OF_DATE}>Trễ hạn</option>
-                                <option value={TopicStatusEnum.CANCELED}>Bị hủy</option>
+                                {Object.values(TopicStatusEnum).map((value) => {
+                                    return <option value={value} key={value}>{value}</option>
+                                })}
                             </select>
                         </div>
                     </div>

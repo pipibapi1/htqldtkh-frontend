@@ -41,7 +41,9 @@ const RegisterTopicPage:React.FC = () => {
             name: "",
             gender: "Nam",
             email: "",
-            phoneNumber: ""
+            phoneNumber: "",
+            educationType: "",
+            birthDate: ""
         }],
         instructorsId: [""],
         instructors:[{

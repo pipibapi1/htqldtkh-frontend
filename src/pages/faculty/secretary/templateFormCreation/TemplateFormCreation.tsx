@@ -81,12 +81,9 @@ const FormField = (props: any) => {
           }}
           value={dataType}
           >
-          <option value={DataTypeEnum.Text}>{DataTypeEnum.Text}</option>
-          <option value={DataTypeEnum.Number}>{DataTypeEnum.Number}</option>
-          <option value={DataTypeEnum.Email}>{DataTypeEnum.Email}</option>
-          <option value={DataTypeEnum.phoneNum}>{DataTypeEnum.phoneNum}</option>
-          <option value={DataTypeEnum.Date}>{DataTypeEnum.Date}</option>
-          <option value={DataTypeEnum.Other}>{DataTypeEnum.Other}</option>
+          {Object.values(DataTypeEnum).map((value) => {
+            return <option value={value} key={value}>{value}</option>
+          })}
         </select>
       </div>
     </div>
