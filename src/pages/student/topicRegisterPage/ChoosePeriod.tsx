@@ -34,7 +34,7 @@ const ChoosePeriod = (props: any) => {
             .catch((error) => {
                 
             })
-    }, []);
+    }, [dispatch]);
 
     const onChangeYear = (d: Date) => {
         let query: any = {
@@ -42,7 +42,7 @@ const ChoosePeriod = (props: any) => {
         }
         if(status !== ""){
             query = {
-                ... query,
+                ...query,
                 status: status
             }
         }
@@ -59,9 +59,9 @@ const ChoosePeriod = (props: any) => {
         let query: any = {
             year: year.getFullYear(),
         }
-        if(s != ""){
+        if(s !== ""){
             query = {
-                ... query,
+                ...query,
                 status: s
             }
         }

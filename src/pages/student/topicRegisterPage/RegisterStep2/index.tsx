@@ -102,7 +102,7 @@ const RegisterStep2:React.FC<Props> = (props: Props) => {
                 .catch((err)=> {console.log(err)})
         }
         else {
-            dispatch(setTopicConditionAction({}, []))
+            dispatch(setTopicConditionAction({}, {}, []))
         }
     }, [topic.type, dispatch])
 
