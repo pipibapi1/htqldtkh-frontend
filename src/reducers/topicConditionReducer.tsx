@@ -2,8 +2,10 @@ import { SET_TOPIC_CONDITION,
     ADD_EXPR_TOPIC_CONDITION,
     UPDATE_EXPR_TOPIC_CONDITION,
     DELETE_EXPR_TOPIC_CONDITION,
-    UPDATE_LEADER_CONDITION
+    UPDATE_LEADER_CONDITION,
+    UPDATE_INSTRUCTOR_CONDITION
 } from "../shared/authStateType";
+import { instructorConditionIntf } from "../shared/interfaces/topicConditionInterface";
 
 interface expression {
     [k: string]: (relationExprIntf | logicExprIntf)
@@ -22,12 +24,18 @@ interface logicExprIntf{
 
 interface condition {
     expression: expression,
-    leaderCondition: string[]
+    leaderCondition: string[],
+    instructorCondition: instructorConditionIntf
 }
 
 const initialState: condition = {
     expression: {},
-    leaderCondition: []
+    leaderCondition: [],
+    instructorCondition: {
+        degree: [],
+        academyRank: [],
+        approveWay: ""
+    }
 };
 
 
@@ -41,7 +49,8 @@ export default function (state = initialState, action: any) {
     case SET_TOPIC_CONDITION:
         return {
             leaderCondition: payload.leaderCondition? payload.leaderCondition: [],
-            expression: payload.expression
+            expression: payload.expression,
+            instructorCondition: payload.instructorCondition
         }
     
     case ADD_EXPR_TOPIC_CONDITION:
@@ -73,6 +82,12 @@ export default function (state = initialState, action: any) {
         return {
             ...state,
             leaderCondition: payload.leaderCondition
+        }
+        
+    case UPDATE_INSTRUCTOR_CONDITION:
+        return {
+            ...state,
+            instructorCondition: payload.instructorCondition
         }
     
     default:

@@ -98,7 +98,7 @@ export const LogicalExprElement : React.FC<exprComponent> = ({exprId}) => {
     }
 
     return (
-        <div className={`flex flex-row items-center ${isValidExpr()? "border-[#d9d9d9]" : "border-red-500"} border-2 rounded p-2 mx-1 my-2`}>
+        <div className={`flex flex-row items-center ${isValidExpr()? "border-[#d9d9d9]" : "border-red-500"} w-fit border-2 rounded p-2 mx-1 my-2`}>
             <button
                 className="ml-1 mr-3 pi pi-trash border border-1 border-[#1488d8] rounded p-2"
                 onClick={onDeleteSubExpr}
