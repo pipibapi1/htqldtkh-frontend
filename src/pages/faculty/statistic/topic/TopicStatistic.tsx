@@ -232,7 +232,7 @@ const TopicStatistic: React.FC = () => {
         setFirstState(true);
     }
 
-    const periodDisplatFromId = (periodId: string) => {
+    const periodDisplayFromId = (periodId: string) => {
         const period = periods.find((period) => period._id === periodId);
         if(period){
             return displayPeriod(period.period);
@@ -418,7 +418,7 @@ const TopicStatistic: React.FC = () => {
                     </div>
                     <div className='w-full flex justify-center items-center'>
                         <div className='font-bold w-2/3 text-center'>
-                            THỐNG KÊ CÁC TRẠNG THÁI CỦA TOÀN BỘ CÁC ĐỀ TÀI TRONG ĐỢT {periodDisplatFromId(currentPeriod)}
+                            THỐNG KÊ CÁC TRẠNG THÁI CỦA TOÀN BỘ CÁC ĐỀ TÀI TRONG ĐỢT {periodDisplayFromId(currentPeriod)}
                         </div>
                     </div>
                     
