@@ -284,7 +284,7 @@ const RegisterPanel: React.FC = () => {
 
                             <input
                                 type="text"
-                                name="lastAndMiddleName"
+                                name="username"
                                 className="h-[25px] w-[250px] border border-black border-1 rounded-md p-2"
                                 onChange={onChangeUsername}
                             />
@@ -337,7 +337,7 @@ const RegisterPanel: React.FC = () => {
 
                                 <input
                                     type={showPassword? "text":"password"}
-                                    name="name"
+                                    name="password"
                                     className="h-[25px] w-[250px] border border-black border-1 rounded-md p-2"
                                     onChange={onChangePassword}
                                 />
@@ -370,7 +370,7 @@ const RegisterPanel: React.FC = () => {
 
                             <input
                                 type="text"
-                                name="lastAndMiddleName"
+                                name="email"
                                 className={!validEmail ? "h-[25px] w-[250px] border border-red-500 focus:outline-0 border-1 rounded-md p-2" :"h-[25px] w-[250px] border border-black border-1 rounded-md p-2"}
                                 onChange={onChangeEmail}
                             />
@@ -422,7 +422,7 @@ const RegisterPanel: React.FC = () => {
 
                             <input
                                 type="text"
-                                name="lastAndMiddleName"
+                                name="phoneNumber"
                                 className={!validPhoneNumber ? "h-[25px] w-[250px] border border-red-500 focus:outline-0 border-1 rounded-md p-2" :"h-[25px] w-[250px] border border-black border-1 rounded-md p-2"}
                                 onChange={onChangePhoneNumber}
                             />
