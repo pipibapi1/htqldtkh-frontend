@@ -14,7 +14,6 @@ export const formatDate = (inputDate: Date) => {
 }
 
 export const displayPeriod = (periodString: string) => {
-
     if(periodString === "") return "";
 
     const date = new Date(periodString);
@@ -22,9 +21,15 @@ export const displayPeriod = (periodString: string) => {
 }
 
 export const displayDate = (dateString: string) => {
-
     if(dateString === "") return ""
 
     const date = new Date(dateString);
     return date.getDate() + "/" + (date.getMonth() + 1) + "/" + date.getFullYear();
+}
+
+export const displayDate2 = (dateString: string) => {
+    if(dateString === "") return "";
+
+    const date = new Date(dateString);
+    return "Ngày " + date.getDate() + " Tháng " + (date.getMonth() + 1) + " Năm " + date.getFullYear();
 }

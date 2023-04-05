@@ -4,6 +4,8 @@ import { useDispatch } from "react-redux";
 
 import { AppDispatch } from '../../../../store';
 
+import { displayDate2 } from '../../../../shared/functions';
+
 import { getAProductByTopicIdAction } from '../../../../actions/productAction';
 
 import BackIcon from '../../../../assets/images/🦆 icon _arrow circle left_.png';
@@ -34,12 +36,6 @@ const TopicProduct:React.FC = () => {
         }
     }
 
-    const displayForDate = (date: string) => {
-        if(date === "") return "";
-        const d = new Date(date);
-        return "Ngày " + d.getDate() + " Tháng " + (d.getMonth() + 1) + " Năm " + d.getFullYear();
-    }
-
     useEffect(() => {
             dispatch(getAProductByTopicIdAction(_id?_id:""))
                     .then((data) => {
@@ -65,7 +61,7 @@ const TopicProduct:React.FC = () => {
                             Bắt đầu: 
                         </div>
                         <div className='text-sm font-medium'>
-                            {displayForDate(state?.startTime)}
+                            {displayDate2(state?.startTime)}
                         </div>
                     </div>
                     <div className='flex mt-1'>
@@ -73,7 +69,7 @@ const TopicProduct:React.FC = () => {
                             Kết thúc: 
                         </div>
                         <div className='text-sm font-medium'>
-                            {displayForDate(state?.endTime)}
+                            {displayDate2(state?.endTime)}
                         </div>
                     </div>
                 </div>

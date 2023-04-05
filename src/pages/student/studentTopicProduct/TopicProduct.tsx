@@ -6,6 +6,7 @@ import Swal from 'sweetalert2';
 import { AppDispatch } from '../../../store';
 
 import { Toast } from '../../../shared/toastNotify/Toast';
+import { displayDate2 } from '../../../shared/functions';
 
 import { deleteRemoveAProductAction, getAProductByTopicIdAction, postAddAProductAction, putUpdateAProductAction } from '../../../actions/productAction';
 
@@ -59,23 +60,23 @@ const TopicProduct:React.FC = () => {
         else{
             console.log("SOMETHING WRONG!!!!")
         }
-    }
+    };
     
     const handleUploadFile = (e: any) => {
         e.preventDefault();
         setAddMode(true);
-    }
+    };
 
     const handleUpdateFile = (e: any) => {
         e.preventDefault();
         setAddMode(true);
-    }
+    };
 
     const handleCancleFile = (e: any) => {
         e.preventDefault();
         setAddMode(false);
         setFile(undefined);
-    }
+    };
 
     const handleSaveFile = (e: any) => {
         e.preventDefault();
@@ -224,7 +225,7 @@ const TopicProduct:React.FC = () => {
             }
         }
 
-    }
+    };
 
     const handleDeleteFile = (e:any) => {
         e.preventDefault();
@@ -287,22 +288,23 @@ const TopicProduct:React.FC = () => {
                 
             }
         })
-    }
-
-    const displayForDate = (date: string) => {
-        if(date === "") return "";
-        const d = new Date(date);
-        return "Ngày " + d.getDate() + " Tháng " + (d.getMonth() + 1) + " Năm " + d.getFullYear();
-    }
+    };
 
     useEffect(() => {
-        dispatch(getAProductByTopicIdAction(_id?_id:""))
-            .then((data) => {
+        const fetchAProductById = async (productId: string) => {
+            try {
+                const data = await dispatch(getAProductByTopicIdAction(productId));
                 setProduct(data?.product);
                 setTempProductName(data?.product.productFileName);
-            })
-        }
-    , []);
+            } catch (error) {
+                Toast.fire({
+                    icon: 'error',
+                    title: error ? error : "Something is wrong!"
+                })
+            }
+        };
+        fetchAProductById(_id ? _id : "");
+    }, [dispatch]);
 
     return (
         <div className='p-3'>
@@ -317,7 +319,7 @@ const TopicProduct:React.FC = () => {
                             Bắt đầu: 
                         </div>
                         <div className='text-sm font-medium'>
-                            {displayForDate(state?.startTime)}
+                            {displayDate2(state?.startTime)}
                         </div>
                     </div>
                     <div className='flex mt-1'>
@@ -325,7 +327,7 @@ const TopicProduct:React.FC = () => {
                             Kết thúc: 
                         </div>
                         <div className='text-sm font-medium'>
-                            {displayForDate(state?.endTime)}
+                            {displayDate2(state?.endTime)}
                         </div>
                     </div>
                 </div>

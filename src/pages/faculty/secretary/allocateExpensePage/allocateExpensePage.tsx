@@ -4,6 +4,7 @@ import DatePicker from 'react-datepicker';
 
 import { AppDispatch } from '../../../../store';
 
+import { Toast } from '../../../../shared/toastNotify/Toast';
 import { PeriodStatus } from '../../../../shared/types/periodStatus';
 import { TopicTypeEnum } from '../../../../shared/types/topicType';
 import { TopicStatusEnum } from '../../../../shared/types/topicStatus';
@@ -164,71 +165,88 @@ const AllocateExpensePage: FC = () => {
     }
 
     useEffect(() => {
-        if (currYear) {
-            let query= {
-                year: currYear.getFullYear()
-            };
-            dispatch(getAllPeriodsAction(query))
-                .then((data) => {
+        const fetchPeriods = async () => {
+            try {
+                if (currYear) {
+                    const data = await dispatch(getAllPeriodsAction({ year: currYear.getFullYear() }));
                     setPeriods(data?.periods);
                     if (data && data.periods.length > 0) {
                         setCurrentPeriod(data.periods[0]._id);
                     }
+                }
+            } catch (error) {
+                Toast.fire({
+                    icon: 'error',
+                    title: error ? error : "Something is wrong!"
                 });
-        }
-    }, [currYear, dispatch])
+            }
+        };
+        fetchPeriods();
+    }, [currYear, dispatch]);
 
     useEffect(() => {
-        if (currentPeriod) {
-            dispatch(getExpenseDetailByPeriodAction(currentPeriod))
-                .then((data) => {
+        const fetchExpenseByPeriod =  async (period: string) => {
+            try {
+                if (currentPeriod) {
+                    const data = await dispatch(getExpenseDetailByPeriodAction(period));
                     setExpense(data?.expense);
-                })
-                .catch((error) => {
-                    setExpense({
-                        _id: "",
-                        createAt: "",
-                        lastModified: "",
-                        note: "",
-                        generalExpense: 0,
-                        period: "",
+                }
+            } catch (error) {
+                setExpense({
+                    _id: "",
+                    createAt: "",
+                    lastModified: "",
+                    note: "",
+                    generalExpense: 0,
+                    period: "",
+                    totalExpense: 0,
+                    allocated:[{
+                        type: "",
                         totalExpense: 0,
-                        allocated:[{
-                            type: "",
-                            totalExpense: 0,
-                            maxExpensePerTopic: 0}
-                        ],
-                        usedExpense:0,
-                        used: {}
-                    })
-                })
-            setCurrentPage(1);
-            setCurrentType("")
+                        maxExpensePerTopic: 0}
+                    ],
+                    usedExpense:0,
+                    used: {}
+                });
+                Toast.fire({
+                    icon: 'error',
+                    title: error ? error : "Something is wrong!"
+                });
+            }
         }
-    }, [currentPeriod, dispatch])
+        fetchExpenseByPeriod(currentPeriod);
+        setCurrentPage(1);
+        setCurrentType("");
+    }, [currentPeriod, dispatch]);
 
     useEffect(() => {
-        let query: any = {
-            period: currentPeriod,
-            page: currentPage,
-            limit: RECORD_PER_PAGE,
-        }
-        if (currentType !== "") {
-            query = {
-                ...query,
-                type: currentType
+        const fetchTopics = async () => {
+            try {
+                let query: any = {
+                    period: currentPeriod,
+                    page: currentPage,
+                    limit: RECORD_PER_PAGE,
+                }
+                if (currentType !== "") {
+                    query = {
+                        ...query,
+                        type: currentType
+                    }
+                }
+                const data = await dispatch(getTopicListAction(query));
+                setTopics(data?.topics)
+                if(data?.metadata.totalPage > 0){
+                    setTotalPage(data?.metadata.totalPage);
+                }
+            } catch (error) {
+                Toast.fire({
+                    icon: 'error',
+                    title: error ? error : "Something is wrong!"
+                });
             }
         }
-        dispatch(getTopicListAction(query))
-        .then((data) => {
-            setTopics(data?.topics)
-            if(data?.metadata.totalPage > 0){
-                setTotalPage(data?.metadata.totalPage)
-            }
-        })
-        .catch((error) => {
-        })
-    }, [currentPage, currentPeriod, currentType, dispatch])
+        fetchTopics();
+    }, [currentPage, currentPeriod, currentType, dispatch]);
     
     const leftExpense = (type: string) => {
         if(expense?.allocated.find((x) => x.type === type)?.totalExpense){
