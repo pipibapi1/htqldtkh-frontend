@@ -19,10 +19,12 @@ import { getExprResult } from './getExprResult';
 import OtherMembersInput from './otherMemberInput';
 
 import BackIcon from '../../../../assets/images/🦆 icon _arrow circle left_.png';
-import { variableInfo, topicConditionIntf, logicExprIntf, relationExprIntf } from '../../../../shared/interfaces/topicConditionInterface';
+import { variableInfo, topicConditionIntf, logicExprIntf, relationExprIntf, instructorConditionIntf } from '../../../../shared/interfaces/topicConditionInterface';
 import { VariableTypeEnum } from '../../../../shared/types/variableType';
 import LeaderInfo from './leaderInfo';
 import InstructorInput from './instructorInfo';
+import { InstructorConditionApproveWayEnum } from '../../../../shared/types/instructorConditionApproveWay';
+import { Instructor } from '../../../../shared/interfaces/instructorInterface';
 
 interface Props {
     backToChoosePeriod: any,
@@ -61,7 +63,8 @@ const RegisterStep2:React.FC<Props> = (props: Props) => {
     const navigate = useNavigate();
     const {backToChoosePeriod, backToStep1, topic, setTopic, setIsAtStep1} = props;
 
-    const {expression} = useSelector((state: RootState) => state.topicCondition);
+    const {expression, instructorCondition} = useSelector((state: RootState) => state.topicCondition);
+    const condition = instructorCondition as instructorConditionIntf;
     const {user} = useSelector((state: RootState) => state.auth);
     const useAppDispatch: () => AppDispatch = useDispatch
     const dispatch = useAppDispatch();
@@ -89,7 +92,7 @@ const RegisterStep2:React.FC<Props> = (props: Props) => {
     });
 
     //update register condition when topic type change
-    React.useEffect(() => {
+    useEffect(() => {
         if (topic.type !== "") {
             topicConditionService.getTopicConditionByType(topic.type)
                 .then((condition) => {
@@ -97,7 +100,7 @@ const RegisterStep2:React.FC<Props> = (props: Props) => {
                         ...condition,
                         isLoading: false
                     }
-                    dispatch(setTopicConditionAction(newCondition.expression))
+                    dispatch(setTopicConditionAction(newCondition.expression, newCondition.instructorCondition))
                 })
                 .catch((err)=> {console.log(err)})
         }
@@ -107,7 +110,7 @@ const RegisterStep2:React.FC<Props> = (props: Props) => {
     }, [topic.type, dispatch])
 
     //update available topic type for user
-    React.useEffect(() => {
+    useEffect(() => {
         topicConditionService.getAvaiableTopicType(user.educationType)
             .then((types) => {
                 setAvailableTypesTopic(types)
@@ -115,7 +118,7 @@ const RegisterStep2:React.FC<Props> = (props: Props) => {
     }, [user.educationType])
 
     //update condition variable
-    React.useEffect(() => {
+    useEffect(() => {
         let memberInfoField: ConditionVar = {
             otherMembers: {},
             leader: {}
@@ -252,6 +255,43 @@ const RegisterStep2:React.FC<Props> = (props: Props) => {
         return checkDuplicateInstructor;
     }
 
+    // check whether instructor satisfied instructor condition (except approve way)
+    const isInstructorSatified = (instructor : Instructor) => {
+        const validAcademyRank = condition.academyRank;
+        const validDegree = condition.degree;
+        if (!validAcademyRank || !validDegree) {
+            return false
+        }
+        else {
+            const isValidAcademyRank = validAcademyRank.findIndex(ele => ele === instructor.academyRank) > -1;
+            const isValidDegree = validDegree.findIndex(ele => ele === instructor.degree) > -1;
+            return isValidAcademyRank && isValidDegree;
+        }
+    }
+    // check whether instructors list satisfied instructor condition
+    const isSatisfiedInstructorCondition = () => {
+        if (instructorCondition.approveWay === InstructorConditionApproveWayEnum.AT_LEAST_1) {
+            for (let index in topic.instructors) {
+                const currInstructor = topic.instructors[index];
+                if (isInstructorSatified(currInstructor)) {
+                    return true;
+                }
+            }
+            return false;
+        }
+        //in case approve way is all instructor
+        else if (instructorCondition.approveWay === InstructorConditionApproveWayEnum.ALL) {
+            for (let index in topic.instructors) {
+                const currInstructor = topic.instructors[index];
+                if (!isInstructorSatified(currInstructor)) {
+                    return false;
+                }
+            }
+            return true;
+        }
+        return false
+    }
+
     const onClickConfirmBtn = (e: React.MouseEvent<HTMLButtonElement>) => {
         let checkTopicName = topic.name? true : false;
         let checkTopicCondition = getExprResult(dataForCondition, expression, "root", topic.numMember);
@@ -278,8 +318,11 @@ const RegisterStep2:React.FC<Props> = (props: Props) => {
             leader: checkLeader,
             othersMember: checkOtherMember
         })
-
-        if (checkUnchosenInstructor && checkDuplicateInstructor && checkLeader && checkOtherMember && checkTopicCondition && checkTopicName) {
+        let checkSastifiedInstructor = isSatisfiedInstructorCondition()
+        const valid = checkUnchosenInstructor && checkDuplicateInstructor 
+                        && checkLeader && checkOtherMember && checkTopicCondition 
+                        && checkTopicName && checkSastifiedInstructor;
+        if (valid) {
             Swal.fire({
                 icon: 'question',
                 title: 'Bạn chắc chắn muốn đăng ký đề tài chứ?',
@@ -317,6 +360,15 @@ const RegisterStep2:React.FC<Props> = (props: Props) => {
             Swal.fire({
                 icon: 'error',
                 title: 'Các GVHD bị trùng lặp, vui lòng chọn lại!',
+                showDenyButton: false,
+                showCancelButton: false,
+                confirmButtonText: 'OK',
+            })
+        }
+        else if (!checkSastifiedInstructor) {
+            Swal.fire({
+                icon: 'error',
+                title: 'Danh sách GVHD không đáp ứng yêu cầu về học hàm, học vị!',
                 showDenyButton: false,
                 showCancelButton: false,
                 confirmButtonText: 'OK',
@@ -444,6 +496,32 @@ const RegisterStep2:React.FC<Props> = (props: Props) => {
                         </select>
                     )}
                 </div>
+            </div>
+            <div className='mb-3'>
+                <div className='flex font-bold text-lg'>
+                    Điều kiện về học hàm, học vị của giáo viên hướng dẫn:
+                </div>
+                {condition?.approveWay && (
+                    <div className="flex flex-col mx-4 items-start">
+                        <div className="mx-4 my-1">
+                            Số lượng giáo viên hướng dẫn phải đáp ứng điều kiện: {condition?.approveWay}
+                        </div>
+                        <div className="mx-4 my-1">
+                            {condition?.academyRank?.length? (
+                                `Học hàm: ${condition?.academyRank?.join(' hoặc ')}`
+                            ) : (
+                                `Không có học hàm nào thỏa mãn`
+                            )}
+                        </div>
+                        <div className="mx-4 my-1">
+                            {condition?.degree?.length? (
+                                `Học vị: ${condition?.degree?.join(' hoặc ')}`
+                            ) : (
+                                `Không có học vị nào thỏa mãn`
+                            )}
+                        </div>
+                    </div>
+                )}
             </div>
             <div className='mb-3'>
                 <div className='font-bold text-lg'>
