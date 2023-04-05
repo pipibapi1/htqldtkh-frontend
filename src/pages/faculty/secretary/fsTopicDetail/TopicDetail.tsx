@@ -65,6 +65,7 @@ const TopicDetail:React.FC = () => {
         instructorsId:["1", "2"],
         otherMembers: [{
             studentId: "1",
+            fmName: "1",
             name: "1",
             gender: "1",
             email: "1",
@@ -74,6 +75,7 @@ const TopicDetail:React.FC = () => {
         },
         {
             studentId: "1",
+            fmName: "1",
             name: "1",
             gender: "1",
             email: "1",
@@ -398,12 +400,8 @@ const TopicDetail:React.FC = () => {
                                         <label htmlFor='text' className = "text-md w-[120px] mr-1">
                                             Họ và tên: 
                                         </label>
-                                        {/* <input type = 'text' name = 'name' id ='name'
-                                            className = "w-1/2 border border-gray-500 text-md rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5"
-                                            defaultValue={otherMember.name}
-                                        /> */}
                                         <div className = "w-1/2 text-gray-900 text-md">
-                                            {otherMember.name}
+                                            {otherMember.fmName + " " + otherMember.name}
                                         </div>
                                     </div>
 
@@ -431,13 +429,6 @@ const TopicDetail:React.FC = () => {
                                         <label htmlFor='text' className = "text-md w-[200px] mr-1">
                                             Giới tính: 
                                         </label>
-                                        {/* <select
-                                        className="bg-white h-[45px] w-1/2 border border-black border-1 rounded-md focus:ring-blue-500 px-2"
-                                        defaultValue={otherMember.gender}
-                                        >
-                                            <option value={GenderType.MALE}>{GenderType.MALE}</option>
-                                            <option value={GenderType.FEMALE}>{GenderType.FEMALE}</option>
-                                        </select> */}
                                         <div className = "w-1/2 text-gray-900 text-md">
                                             {otherMember.gender}
                                         </div>

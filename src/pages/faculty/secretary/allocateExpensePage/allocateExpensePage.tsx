@@ -421,10 +421,9 @@ const AllocateExpensePage: FC = () => {
                             onChange={onChangeTopicType}
                         >
                             <option value="">Toàn bộ</option>
-                            <option value={TopicTypeEnum.CQ}>Chính quy</option>
-                            <option value={TopicTypeEnum.KSTN}>Kĩ sư tài năng</option>
-                            <option value={TopicTypeEnum.CLC}>Chất lượng cao</option>
-                            <option value={TopicTypeEnum.CLC_LVTN}>Chất lượng cao(LVTN)</option>
+                            {Object.values(TopicTypeEnum).map((value) => {
+                                    return <option value={value} key={value}>{value}</option>
+                            })}
                         </select>
                     </div>
                 </div>

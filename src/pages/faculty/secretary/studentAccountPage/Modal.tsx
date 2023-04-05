@@ -117,8 +117,9 @@ const Modal = ({isVisible, onClose, student}: {isVisible: boolean, onClose: any,
                                 value={student.gender}
                                 disabled
                                 >
-                                    <option value={GenderType.MALE}>Nam</option>
-                                    <option value={GenderType.FEMALE}>Nữ</option>
+                                    {Object.values(GenderType).map((value) => {
+                                        return <option value={value} key={value}>{value}</option>
+                                    })}
                                 </select>
                                 </div>
 
@@ -191,9 +192,9 @@ const Modal = ({isVisible, onClose, student}: {isVisible: boolean, onClose: any,
                                 value={student.educationType}
                                 disabled
                                 >
-                                    <option value={EducationType.CQ}>Chính quy</option>
-                                    <option value={EducationType.KSTN}>Kỹ sư tài năng</option>
-                                    <option value={EducationType.CLC}>Chất lượng cao</option>
+                                    {Object.values(EducationType).map((value) => {
+                                        return <option value={value} key={value}>{value}</option>
+                                    })}
                                 </select>
                                 </div>
 

@@ -2,16 +2,18 @@ import { SET_TOPIC_CONDITION,
     ADD_EXPR_TOPIC_CONDITION,
     UPDATE_EXPR_TOPIC_CONDITION,
     DELETE_EXPR_TOPIC_CONDITION,
-    UPDATE_LEADER_CONDITION
+    UPDATE_LEADER_CONDITION,
+    UPDATE_INSTRUCTOR_CONDITION
 } from "../shared/authStateType";
-import { expression, logicExprIntf, relationExprIntf } from "../shared/interfaces/topicConditionInterface";
+import { expression, instructorConditionIntf, logicExprIntf, relationExprIntf } from "../shared/interfaces/topicConditionInterface";
 
-const setTopicConditionAction = (expression?: expression, leaderCondition?: string[]) => (dispatch: any) => {
+const setTopicConditionAction = (expression?: expression, instructorCondition?: instructorConditionIntf, leaderCondition?: string[]) => (dispatch: any) => {
     return dispatch({
         type: SET_TOPIC_CONDITION,
         payload: {
             expression: expression? expression : {},
-            leaderCondition: leaderCondition
+            leaderCondition: leaderCondition,
+            instructorCondition: instructorCondition
         }
     })
 }
@@ -54,10 +56,21 @@ const updateLeaderCondition = (eduTypes: string[]) => (dispatch: any) => {
     })
 }
 
+
+const updateInstructorCondition = (instructorCondition: instructorConditionIntf) => (dispatch: any) => {
+    return dispatch({
+        type: UPDATE_INSTRUCTOR_CONDITION,
+        payload: {
+            instructorCondition: instructorCondition
+        }
+    })
+}
+
 export {
     setTopicConditionAction,
     updateExprTopicCondition,
     deleteExprTopicCondition,
     addExprTopicCondition,
-    updateLeaderCondition
+    updateLeaderCondition,
+    updateInstructorCondition
 }

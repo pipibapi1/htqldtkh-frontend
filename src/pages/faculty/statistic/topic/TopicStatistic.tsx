@@ -17,9 +17,12 @@ import TopicListPage from './topicListPage';
 
 import Calendar from "../../../../assets/images/calendar.png";
 import NewIcon from '../../../../assets/images/new.png';
+import ReadyIcon from "../../../../assets/images/ready.png";
 import CarryOutIcon from '../../../../assets/images/carryOut.png';
+import FailReviewIcon from "../../../../assets/images/failReview.png";
 import DueToAcceptIcon from '../../../../assets/images/dueToAccept.png';
 import FinishedIcon from '../../../../assets/images/finished.png';
+import FailAcceptIcon from '../../../../assets/images/failAccept.png';
 import OutOfDateIcon from '../../../../assets/images/outOfDate.png';
 import CanceledIcon from '../../../../assets/images/canceled.png';
 interface CardProps{
@@ -61,52 +64,70 @@ const TopicStatusCard: React.FC<CardProps> = (props: CardProps) => {
     let type: string = "";
 
     if(status === TopicStatusEnum.NEW){
-        color = "13B049";
+        color = "4169E1";
         icon = NewIcon;
         type = "tạo mới";
     }
 
+    if(status === TopicStatusEnum.READY){
+        color = "32CD32";
+        icon = ReadyIcon;
+        type = "sẵn sàng xét duyệt";
+    }
+
     if(status === TopicStatusEnum.CARRY_OUT){
-        color = "1C2ED1";
+        color = "FF8C00";
         icon = CarryOutIcon;
         type = "đang thực hiện";
     }
 
+    if(status === TopicStatusEnum.FAIL_REVIEW){
+        color = "FF6347";
+        icon = FailReviewIcon;
+        type = "rớt xét duyệt";
+    }
+
     if(status === TopicStatusEnum.DUE_TO_ACCEPT){
-        color = "A516D8";
+        color = "008080";
         icon = DueToAcceptIcon;
         type = "đến hạn nghiệm thu";
     }
 
     if(status === TopicStatusEnum.FINISHED){
-        color = "0F7438";
+        color = "1E90FF";
         icon = FinishedIcon;
         type = "đã hoàn thành";
     }
 
+    if(status === TopicStatusEnum.FAIL_ACCEPT){
+        color = "FF4500";
+        icon = FailAcceptIcon;
+        type = "rớt nghiệm thu";
+    }
+
     if(status === TopicStatusEnum.OUT_OF_DATE){
-        color = "C2C61C";
+        color = "B22222";
         icon = OutOfDateIcon;
         type = "trễ hạn"
     }
 
     if(status === TopicStatusEnum.CANCELED){
-        color = "CC2929";
+        color = "A9A9A9";
         icon = CanceledIcon;
         type = "bị hủy"
     }
     return(
         <div className='rounded-lg px-2 py-2' style={{ backgroundColor: `#${color}`, opacity: 0.6}}>
             <div className='flex justify-end'>
-                <img src={icon} alt="" />
+                <img className='h-10' src={icon} alt="" />
             </div>
-            <div className='text-white font-bold text-3xl ml-5'>
+            <div className='text-white font-bold text-3xl ml-2'>
                 {quantity}
             </div>
-            <div className='text-white font-medium text-base ml-5'>
-                Tổng số đề tài
+            <div className='text-white font-medium text-sm ml-2'>
+                Số đề tài
             </div>
-            <div className='text-white font-medium text-base ml-5'>
+            <div className='text-white font-medium text-sm ml-2'>
                 {type}
             </div>
         </div>
@@ -123,9 +144,12 @@ const TopicStatistic: React.FC = () => {
     const [numOfTotal, setNumOfTotal] = useState(0);
 
     const [numOfNew, setNumOfNew] = useState(0);
+    const [numOfReady, setNumOfReady] = useState(0);
     const [numOfCarryOut, setNumOfCarryOut] = useState(0);
+    const [numOfFailReview, setNumOfFailReview] = useState(0);
     const [numOfDueToAccept, setNumOfDueToAccept] = useState(0);
     const [numOfFinished, setNumOfFinished] = useState(0);
+    const [numOfFailAccept, setNumOfFailAccept] = useState(0);
     const [numOfOutOfDated, setNumOfOutOfDated] = useState(0);
     const [numOfCanceled, setNumOfCanceled] = useState(0);
 
@@ -144,9 +168,12 @@ const TopicStatistic: React.FC = () => {
                     setTopics(data?.topics)
                     setNumOfTotal(data?.topics.length)
                     setNumOfNew(data?.topics.filter((topic:any) => topic.status === TopicStatusEnum.NEW).length)
+                    setNumOfReady(data?.topics.filter((topic:any) => topic.status === TopicStatusEnum.READY).length)
                     setNumOfCarryOut(data?.topics.filter((topic:any) => topic.status === TopicStatusEnum.CARRY_OUT).length)
+                    setNumOfFailReview(data?.topics.filter((topic:any) => topic.status === TopicStatusEnum.FAIL_REVIEW).length)
                     setNumOfDueToAccept(data?.topics.filter((topic:any) => topic.status === TopicStatusEnum.DUE_TO_ACCEPT).length)
                     setNumOfFinished(data?.topics.filter((topic:any) => topic.status === TopicStatusEnum.FINISHED).length)
+                    setNumOfFailAccept(data?.topics.filter((topic:any) => topic.status === TopicStatusEnum.FAIL_ACCEPT).length)
                     setNumOfOutOfDated(data?.topics.filter((topic:any) => topic.status === TopicStatusEnum.OUT_OF_DATE).length)
                     setNumOfCanceled(data?.topics.filter((topic:any) => topic.status === TopicStatusEnum.CANCELED).length)
                     setNumOfExtended(data?.topics.filter((topic:any) => topic.isExtended === true).length)
@@ -174,9 +201,12 @@ const TopicStatistic: React.FC = () => {
                         setTopics(data?.topics)
                         setNumOfTotal(data?.topics.length)
                         setNumOfNew(data?.topics.filter((topic:any) => topic.status === TopicStatusEnum.NEW).length)
+                        setNumOfReady(data?.topics.filter((topic:any) => topic.status === TopicStatusEnum.READY).length)
                         setNumOfCarryOut(data?.topics.filter((topic:any) => topic.status === TopicStatusEnum.CARRY_OUT).length)
+                        setNumOfFailReview(data?.topics.filter((topic:any) => topic.status === TopicStatusEnum.FAIL_REVIEW).length)
                         setNumOfDueToAccept(data?.topics.filter((topic:any) => topic.status === TopicStatusEnum.DUE_TO_ACCEPT).length)
                         setNumOfFinished(data?.topics.filter((topic:any) => topic.status === TopicStatusEnum.FINISHED).length)
+                        setNumOfFailAccept(data?.topics.filter((topic:any) => topic.status === TopicStatusEnum.FAIL_ACCEPT).length)
                         setNumOfOutOfDated(data?.topics.filter((topic:any) => topic.status === TopicStatusEnum.OUT_OF_DATE).length)
                         setNumOfCanceled(data?.topics.filter((topic:any) => topic.status === TopicStatusEnum.CANCELED).length)
                         setNumOfExtended(data?.topics.filter((topic:any) => topic.isExtended === true).length)
@@ -226,9 +256,12 @@ const TopicStatistic: React.FC = () => {
                         setTopics(data?.topics)
                         setNumOfTotal(data?.topics.length)
                         setNumOfNew(data?.topics.filter((topic:any) => topic.status === TopicStatusEnum.NEW).length)
+                        setNumOfReady(data?.topics.filter((topic:any) => topic.status === TopicStatusEnum.READY).length)
                         setNumOfCarryOut(data?.topics.filter((topic:any) => topic.status === TopicStatusEnum.CARRY_OUT).length)
+                        setNumOfFailReview(data?.topics.filter((topic:any) => topic.status === TopicStatusEnum.FAIL_REVIEW).length)
                         setNumOfDueToAccept(data?.topics.filter((topic:any) => topic.status === TopicStatusEnum.DUE_TO_ACCEPT).length)
                         setNumOfFinished(data?.topics.filter((topic:any) => topic.status === TopicStatusEnum.FINISHED).length)
+                        setNumOfFailAccept(data?.topics.filter((topic:any) => topic.status === TopicStatusEnum.FAIL_ACCEPT).length)
                         setNumOfOutOfDated(data?.topics.filter((topic:any) => topic.status === TopicStatusEnum.OUT_OF_DATE).length)
                         setNumOfCanceled(data?.topics.filter((topic:any) => topic.status === TopicStatusEnum.CANCELED).length)
                         setNumOfExtended(data?.topics.filter((topic:any) => topic.isExtended === true).length)
@@ -292,7 +325,7 @@ const TopicStatistic: React.FC = () => {
                     </div>
     
                     {(periods.length > 0 ? <div className='w-full flex mt-10 px-10'>
-                        <div className='w-1/2'>
+                        <div className='w-1/3'>
                             <div className='mb-5'>
                                 <TopicStatusCard
                                     status={TopicStatusEnum.NEW}
@@ -301,29 +334,50 @@ const TopicStatistic: React.FC = () => {
                             </div>
                             <div className='mb-5'>
                                 <TopicStatusCard
+                                    status={TopicStatusEnum.CARRY_OUT}
+                                    quantity={numOfCarryOut}
+                                />
+                            </div>
+                            <div>
+                                <TopicStatusCard
+                                    status={TopicStatusEnum.FINISHED}
+                                    quantity={numOfFinished}
+                                />
+                            </div>
+                        </div>
+    
+                        <div className='w-1/3 ml-5'>
+                            <div className='mb-5'>
+                                <TopicStatusCard
+                                    status={TopicStatusEnum.READY}
+                                    quantity={numOfReady}
+                                />
+                            </div>
+                            <div className='mb-5'>                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  
+                                <TopicStatusCard
                                     status={TopicStatusEnum.DUE_TO_ACCEPT}
                                     quantity={numOfDueToAccept}
                                 />
                             </div>
                             <div>
                                 <TopicStatusCard
+                                    status={TopicStatusEnum.FAIL_ACCEPT}
+                                    quantity={numOfFailAccept}
+                                />
+                            </div>                  
+                        </div>                      
+
+                        <div className='w-1/3 ml-5'>
+                            <div className='mb-5'>
+                                <TopicStatusCard
+                                    status={TopicStatusEnum.FAIL_REVIEW}
+                                    quantity={numOfFailReview}
+                                />
+                            </div>
+                            <div className='mb-5'>
+                                <TopicStatusCard
                                     status={TopicStatusEnum.OUT_OF_DATE}
                                     quantity={numOfOutOfDated}
-                                />
-                            </div>
-                        </div>
-    
-                        <div className='w-1/2 ml-20'>
-                            <div className='mb-5'>
-                                <TopicStatusCard
-                                    status={TopicStatusEnum.CARRY_OUT}
-                                    quantity={numOfCarryOut}
-                                />
-                            </div>
-                            <div className='mb-5'>
-                                <TopicStatusCard
-                                    status={TopicStatusEnum.FINISHED}
-                                    quantity={numOfFinished}
                                 />
                             </div>
                             <div>
@@ -350,12 +404,15 @@ const TopicStatistic: React.FC = () => {
                     <PieChart className='w-1/2 text-[6px]'
                     label={({ dataEntry }) => { return dataEntry.percentage > 0 ? `${Math.round(dataEntry.percentage)} %` : ''}}
                     data={[
-                        { title: 'Tạo mới', value: numOfNew, color: '#13B04999' },
-                        { title: 'Đang thực hiện', value: numOfCarryOut, color: '#1C2ED199' },
-                        { title: 'Đến hạn nghiệm thu', value: numOfDueToAccept, color: '#A516D899' },
-                        { title: 'Đã hoàn thành', value: numOfFinished, color: '#0F743899' },
-                        { title: 'Trễ hạn', value: numOfOutOfDated, color: '#C2C61C99' },
-                        { title: 'Bị hủy', value: numOfCanceled, color: '#CC292999' },
+                        { title: 'Tạo mới', value: numOfNew, color: '#4169E1' },
+                        { title: 'Sẵn sàng xét duyệt', value: numOfNew, color: '#32CD32' },
+                        { title: 'Đang thực hiện', value: numOfCarryOut, color: '#FF8C00' },
+                        { title: 'Rớt xét duyệt', value: numOfNew, color: '#FF6347' },
+                        { title: 'Đến hạn nghiệm thu', value: numOfDueToAccept, color: '#008080' },
+                        { title: 'Đã hoàn thành', value: numOfFinished, color: '#1E90FF' },
+                        { title: 'Rớt nghiệm thu', value: numOfNew, color: '#FF4500' },
+                        { title: 'Trễ hạn', value: numOfOutOfDated, color: '#B22222' },
+                        { title: 'Bị hủy', value: numOfCanceled, color: '#A9A9A9' },
                     ]}
                     />
                     </div>

@@ -32,7 +32,7 @@ const RegisterTopicPage:React.FC = () => {
     const [period, setPeriod] = useState<Period>()
     const [topic, setTopic] = useState<topicInput>({
         name: "",
-        type: "Chính quy",
+        type: "",
         period: "",
         studentId: "",
         otherMembers: [{
@@ -42,19 +42,19 @@ const RegisterTopicPage:React.FC = () => {
             gender: "Nam",
             email: "",
             phoneNumber: "",
-            educationType: "Chính quy",
-            birthDate: (new Date()).toString()
+            educationType: "",
+            birthDate: ""
         }],
         instructorsId: [""],
         instructors:[{
             staffId: "",
             name: "",
-            gender: "Nam",
+            gender: "",
             email: "",
             phoneNumber: "",
             birthDate: (new Date()).toString(),
-            academyRank: "Giáo sư",
-            degree: "Tiến sỹ",
+            academyRank: "",
+            degree: "",
         }],
         numInstructor: 1,
         numMember: 1,

@@ -312,9 +312,9 @@ const RequestList= () => {
                                     defaultValue={""}
                                 >
                                 <option value="">Toàn bộ</option>
-                                <option value={RequestType.GET_CERTIFICATE}>Xin giấy chứng nhận</option>
-                                <option value={RequestType.EXTEND_PROJECT}>Gia hạn đề tài</option>
-                                <option value={RequestType.CANCEL_PROJECT}>Hủy đề tài</option>
+                                {Object.values(RequestType).map((value) => {
+                                    return <option value={value} key={value}>{value}</option>
+                                })}
                             </select>
                         </div>
                     </div>
@@ -334,9 +334,9 @@ const RequestList= () => {
                                     defaultValue={""}
                                 >
                                 <option value="">Toàn bộ</option>
-                                <option value={RequestStatus.WAIT_APPROVAL}>Chờ xét duyệt</option>
-                                <option value={RequestStatus.APPROVED}>Đã duyệt</option>
-                                <option value={RequestStatus.REFUSED}>Bị từ chối</option>
+                                {Object.values(RequestStatus).map((value) => {
+                                    return <option value={value} key={value}>{value}</option>
+                                })}
                             </select>
                         </div>
                     </div>

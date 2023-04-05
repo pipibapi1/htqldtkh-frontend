@@ -13,17 +13,39 @@ import { deleteRemoveAProductAction, getAProductByTopicIdAction, postAddAProduct
 import BackIcon from '../../../assets/images/🦆 icon _arrow circle left_.png';
 import FileIcon from "../../../assets/images/files.png";
 
+enum SubmitStatusEnum {
+    OVER='hết',
+    IN='trong',
+    EARLY='chưa tới'
+}
+
 const TopicProduct:React.FC = () => {
 
     let { _id } = useParams();
-    const useAppDispatch: () => AppDispatch = useDispatch;
-    const dispatch = useAppDispatch();
+
+    const useAppDispatch: () => AppDispatch = useDispatch
+    const dispatch = useAppDispatch()
+
     const { state } = useLocation();
 
     const [addMode, setAddMode] = useState(false);
     const [product, setProduct] = useState<{_id: string, productFileName: string} | undefined>(undefined);
     const [tempProductName, setTempProductName] = useState<string|undefined>(undefined);
     const [file, setFile] = useState<File>();
+
+    const currentTime: Date = new Date();
+    const startTime: Date = new Date(state?.startTime);
+    const endTime: Date = new Date(state?.endTime);
+
+    let submitStatus: SubmitStatusEnum = SubmitStatusEnum.IN;
+
+    if(currentTime < startTime){
+        submitStatus = SubmitStatusEnum.EARLY;
+    }
+    else if (currentTime > endTime){
+        submitStatus = SubmitStatusEnum.OVER;
+    }
+    
 
     const downloadProductFile = (_id: string | undefined, fileName: string | undefined) => {
         if(_id && fileName){
@@ -315,14 +337,112 @@ const TopicProduct:React.FC = () => {
                 </div>
             </div>
 
-            {!addMode && !product && (
+            {submitStatus === SubmitStatusEnum.EARLY && !addMode && (
+            <div className="w-40 mt-5 bg-[#D9D9D9] flex justify-center items-center transition text-white font-semibold py-4 border border-white-500 rounded-[15px]" 
+            >
+                Thêm sản phẩm
+            </div>)}
+
+            {submitStatus === SubmitStatusEnum.EARLY && !addMode && (<div className='mt-5 w-full'>
+                <div className='text-xl font-bold'>
+                    Tình trạng sản phẩm
+                </div>
+                <div className='mt-2 px-10 w-4/5'>
+                    <div className='flex'>
+                        <div className='w-1/3 border-t-2 py-3 border-l-2 text-lg flex items-center justify-center'>
+                            Tình trạng nộp
+                        </div>
+                        <div className='w-2/3 border-t-2 bg-[#DFD09C] py-3 border-l-2 border-r-2 text-lg flex items-center justify-center'>
+                            Chưa tới hạn nộp sản phẩm
+                        </div>
+                    </div>
+
+                    <div className='flex'>
+                        <div className='w-1/3 border-t-2 py-20 border-l-2 border-b-2 text-lg flex items-center justify-center'>
+                            Tập tin sản phẩm
+                        </div>
+                        <div className='w-2/3 border-t-2 py-20 border-l-2 border-r-2 border-b-2 text-lg flex items-center justify-center'>
+                            Chưa có tập tin nào được thêm
+                        </div>
+                    </div>
+
+                    <div className='flex'>
+
+                    </div>
+                </div>
+            </div>)}
+
+            {submitStatus === SubmitStatusEnum.OVER && !addMode && !product && (
+            <div className="w-40 mt-5 bg-[#D9D9D9] flex justify-center items-center transition text-white font-semibold py-4 border border-white-500 rounded-[15px]" 
+            >
+                Thêm sản phẩm
+            </div>)}
+
+            {submitStatus === SubmitStatusEnum.OVER && !addMode && product && (
+            <div className='flex'>
+                <div className="w-40 mt-5 mr-2 bg-[#D9D9D9] flex justify-center items-center transition text-white font-semibold py-4 border border-white-500 rounded-[15px]"
+                >
+                    Chỉnh sửa
+                </div>
+
+                <div className="w-40 mt-5 bg-[#D9D9D9] flex justify-center items-center transition text-white font-semibold py-4 border border-white-500 rounded-[15px]"
+                >
+                    Xóa
+                </div>
+            </div>
+            )}
+
+            {submitStatus === SubmitStatusEnum.OVER && !addMode && (<div className='mt-5 w-full'>
+                <div className='text-xl font-bold'>
+                    Tình trạng sản phẩm
+                </div>
+                <div className='mt-2 px-10 w-4/5'>
+                    <div className='flex'>
+                        <div className='w-1/3 border-t-2 py-3 border-l-2 text-lg flex items-center justify-center'>
+                            Tình trạng nộp
+                        </div>
+                        {product && (<div className='w-2/3 bg-[#7CEEA3] border-t-2 py-3 border-l-2 border-r-2 text-lg flex items-center justify-center'>
+                            Đã nộp
+                        </div>)}
+                        {!product && <div className='w-2/3 border-t-2 bg-[#C5836E] py-3 border-l-2 border-r-2 text-lg flex items-center justify-center'>
+                            Trễ hạn
+                        </div>}
+                    </div>
+
+                    <div className='flex'>
+                        <div className='w-1/3 border-t-2 py-20 border-l-2 border-b-2 text-lg flex items-center justify-center'>
+                            Tập tin sản phẩm
+                        </div>
+                        {!product && (<div className='w-2/3 border-t-2 py-20 border-l-2 border-r-2 border-b-2 text-lg flex items-center justify-center'>
+                            Chưa có tập tin nào được thêm
+                        </div>)}
+                        {product && tempProductName && (<div className='w-2/3 border-t-2 py-20 border-l-2 border-r-2 border-b-2 text-lg flex items-center justify-center'>
+                            <img src={FileIcon} className='h-7' alt="" />
+                            <div className='text-lg ml-3 text-[#1488D8] text-lg no-underline hover:underline hover:cursor-pointer'
+                                onClick={(e: any) => {
+                                    e.preventDefault();
+                                    downloadProductFile(product?._id, product?.productFileName);
+                                }}
+                            >
+                                {product.productFileName}
+                            </div>
+                        </div>)}
+                    </div>
+
+                    <div className='flex'>
+
+                    </div>
+                </div>
+            </div>)}
+
+            {submitStatus === SubmitStatusEnum.IN && !addMode && !product && (
             <div className="w-40 mt-5 bg-[#0079CC] flex justify-center items-center transition text-white font-semibold py-4 border border-white-500 rounded-[15px] hover:bg-[#025A97] hover:cursor-pointer"
                 onClick = {handleUploadFile}
             >
                 Thêm sản phẩm
             </div>)}
 
-            {!addMode && product && (
+            {submitStatus === SubmitStatusEnum.IN && !addMode && product && (
             <div className='flex'>
                 <div className="w-40 mt-5 mr-2 bg-[#0079CC] flex justify-center items-center transition text-white font-semibold py-4 border border-white-500 rounded-[15px] hover:bg-[#025A97] hover:cursor-pointer"
                     onClick={handleUpdateFile}
@@ -338,7 +458,7 @@ const TopicProduct:React.FC = () => {
             </div>
             )}
 
-            {!addMode && (<div className='mt-5 w-full'>
+            {submitStatus === SubmitStatusEnum.IN && !addMode && (<div className='mt-5 w-full'>
                 <div className='text-xl font-bold'>
                     Tình trạng sản phẩm
                 </div>
@@ -382,10 +502,11 @@ const TopicProduct:React.FC = () => {
                 </div>
             </div>)}
 
-            {addMode && (<div className='text-xl font-bold mt-5'>
+            {submitStatus === SubmitStatusEnum.IN && addMode && (<div className='text-xl font-bold mt-5'>
                 Thêm sản phẩm
             </div>)}
-            {addMode && (
+
+            {submitStatus === SubmitStatusEnum.IN && addMode && (
             <div className='w-full mt-5 flex items-center justify-center'>
                 <div className="w-4/5">
                     <label
@@ -423,7 +544,8 @@ const TopicProduct:React.FC = () => {
                     </label>
                 </div>
             </div>)}
-            {addMode && (
+
+            {submitStatus === SubmitStatusEnum.IN && addMode && (
             <div className='flex items-center justify-center w-full'>
                 <div className="w-40 mt-5 bg-[#0079CC] flex justify-center items-center transition text-white font-semibold py-4 border border-white-500 rounded-[15px] hover:bg-[#025A97] hover:cursor-pointer"
                     onClick={handleSaveFile}

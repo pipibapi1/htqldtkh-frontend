@@ -12,14 +12,15 @@ import topicConditionService from '../../../../services/topicConditionService';
 import { setTopicConditionAction } from '../../../../actions/topicConditionAction';
 
 import ConditionDisplay from './conditionDisplay';
-import { expression, topicConditionIntf, logicExprIntf } from './conditionDisplay/interface';
+import { expression, topicConditionIntf, logicExprIntf, relationExprIntf} from '../../../../shared/interfaces/topicConditionInterface';
+import { VariableTypeEnum } from '../../../../shared/types/variableType';
 
 const FSTopicConditionEditor: FC = () => {
     const [isEditing, setIsEditing] = useState<boolean>(false);
     const [type, setType] = useState<string>(Object.values(TopicTypeEnum)[0]);
     const [topicCondition, setTopicCondition] = useState<topicConditionIntf>({isLoading: true});
 
-    const {expression, leaderCondition} = useSelector((state: RootState) => state.topicCondition);
+    const {expression, leaderCondition, instructorCondition} = useSelector((state: RootState) => state.topicCondition);
     const useAppDispatch: () => AppDispatch = useDispatch
     const dispatch = useAppDispatch();
 
@@ -57,49 +58,65 @@ const FSTopicConditionEditor: FC = () => {
                         isLoading: false
                     }
                     setTopicCondition(newCondition);
-                    dispatch(setTopicConditionAction(newCondition.expression, newCondition.leaderCondition))
+                    dispatch(setTopicConditionAction(newCondition.expression, newCondition.instructorCondition, newCondition.leaderCondition))
                 })
                 .catch((err)=> {console.log(err)})
         }
     }, [type, dispatch, isEditing])
 
-    const onClickConfirmBtn = (event : MouseEvent<HTMLButtonElement>) => {
-        let isValidExpr = true;
+    const checkValidTopicCondition = () => {
+        let isValid = true;
         for (let key in expression as expression) {
-            const subExpr = expression[key];
+            const subExpr = expression[key] as (logicExprIntf | relationExprIntf);
+            //relational expression is not valid if missing left or right child expression 
             if (subExpr.operator === OperationTypeEnum.AND || subExpr.operator === OperationTypeEnum.OR) {
                 const leftExpr = expression[key + ',l'];
                 const rightExpr = expression[key + ',r'];
                 if (!leftExpr || !rightExpr) {
-                    isValidExpr = false;
+                    isValid = false;
                     break;
                 }
             }
+
+            //check whether logical expression is valid or not
             else {
                 const currExpr = subExpr as  logicExprIntf;
+                //missing right value to compare
                 if (!currExpr.rightValue) {
-                    isValidExpr = false;
+                    isValid = false;
                     break;
                 }
+                //not have any variable
                 else if (currExpr.leftExpr.length === 0) {
-                    isValidExpr = false;
+                    isValid = false;
                     break;
                 }
+                //has at least 1 variable invalid
                 else {
                     const indexOfErrVariable = currExpr.leftExpr.findIndex((variable) => {
-                        return !(variable.variable)
+                        if (variable.variable === VariableTypeEnum.SUBJECT_MARK) {
+                            return !(variable.variable && variable.subjectId && variable.subjectName)
+                        }
+                        else {
+                            return !(variable.variable)
+                        }
                     })
                     if (indexOfErrVariable !== -1) {
-                        isValidExpr = false;
+                        isValid = false;
                     }
                 }
             }
         }
-        if (isValidExpr) {
+        return isValid;
+    }
+
+    const onClickConfirmBtn = (event : MouseEvent<HTMLButtonElement>) => {
+        if (checkValidTopicCondition()) {
             topicConditionService.postTopicCondition({
                 expression: expression as expression,
                 type: type,
-                leaderCondition: leaderCondition
+                leaderCondition: leaderCondition,
+                instructorCondition: instructorCondition
             }).then((data) => {
                 Swal.fire({
                     icon: 'success',

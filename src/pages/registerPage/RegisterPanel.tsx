@@ -284,7 +284,7 @@ const RegisterPanel: React.FC = () => {
 
                             <input
                                 type="text"
-                                name="lastAndMiddleName"
+                                name="username"
                                 className="h-[25px] w-[250px] border border-black border-1 rounded-md p-2"
                                 onChange={onChangeUsername}
                             />
@@ -321,8 +321,9 @@ const RegisterPanel: React.FC = () => {
                                     onChange={onChangeGender}
                                     defaultValue={GenderType.MALE}
                                 >
-                                    <option value={GenderType.MALE}>{GenderType.MALE}</option>
-                                    <option value={GenderType.FEMALE}>{GenderType.FEMALE}</option>
+                                    {Object.values(GenderType).map((value) => {
+                                        return <option value={value} key={value}>{value}</option>
+                                    })}
                                 </select>
                             </div>
 
@@ -336,7 +337,7 @@ const RegisterPanel: React.FC = () => {
 
                                 <input
                                     type={showPassword? "text":"password"}
-                                    name="name"
+                                    name="password"
                                     className="h-[25px] w-[250px] border border-black border-1 rounded-md p-2"
                                     onChange={onChangePassword}
                                 />
@@ -369,7 +370,7 @@ const RegisterPanel: React.FC = () => {
 
                             <input
                                 type="text"
-                                name="lastAndMiddleName"
+                                name="email"
                                 className={!validEmail ? "h-[25px] w-[250px] border border-red-500 focus:outline-0 border-1 rounded-md p-2" :"h-[25px] w-[250px] border border-black border-1 rounded-md p-2"}
                                 onChange={onChangeEmail}
                             />
@@ -421,7 +422,7 @@ const RegisterPanel: React.FC = () => {
 
                             <input
                                 type="text"
-                                name="lastAndMiddleName"
+                                name="phoneNumber"
                                 className={!validPhoneNumber ? "h-[25px] w-[250px] border border-red-500 focus:outline-0 border-1 rounded-md p-2" :"h-[25px] w-[250px] border border-black border-1 rounded-md p-2"}
                                 onChange={onChangePhoneNumber}
                             />
@@ -440,9 +441,9 @@ const RegisterPanel: React.FC = () => {
                                     onChange={onChangeEducationType}
                                     defaultValue={EducationType.CQ}
                                 >
-                                    <option value={EducationType.CQ}>{capitalizeFirstLetter(EducationType.CQ)}</option>
-                                    <option value={EducationType.CLC}>{capitalizeFirstLetter(EducationType.CLC)}</option>
-                                    <option value={EducationType.KSTN}>{capitalizeFirstLetter(EducationType.KSTN)}</option>
+                                    {Object.values(EducationType).map((value) => {
+                                        return <option value={value} key={value}>{value}</option>
+                                    })}
                                 </select>
                             </div>
 

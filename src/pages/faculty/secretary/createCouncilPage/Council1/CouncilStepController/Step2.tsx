@@ -187,8 +187,9 @@ const MemberForm = (props: {index: number}) => {
                         value={currMember.gender}
                         onChange={onChangeMemberGender}
                     >
-                        <option value="Nam">Nam</option>
-                        <option value="Nữ">Nữ</option>
+                        {Object.values(GenderType).map((value) => {
+                            return <option value={value} key={value}>{value}</option>
+                        })}
                     </select>
                 </div>
                 <div className = 'w-1/2 pl-2'>

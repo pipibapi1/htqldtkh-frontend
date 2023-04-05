@@ -141,9 +141,9 @@ const Modal = ({isVisible, onClose, vicedean}: {isVisible: boolean, onClose: any
                                 value={vicedean.gender}
                                 disabled
                                 >
-                                    <option value={GenderType.MALE}>Nam</option>
-                                    <option value={GenderType.FEMALE}>Nữ</option>
-                                    
+                                    {Object.values(GenderType).map((value) => {
+                                        return <option value={value} key={value}>{value}</option>
+                                    })} 
                                 </select>
                                 </div>
                             <div className = 'ml-6 w-[230px] '>

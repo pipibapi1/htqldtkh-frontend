@@ -4,7 +4,14 @@ export interface topicConditionIntf {
     createAt?: string,
     expression?: {[k: string]: (relationExprIntf | logicExprIntf)},
     isLoading?: boolean,
-    leaderCondition?: string[]
+    leaderCondition?: string[],
+    instructorCondition?: instructorConditionIntf
+}
+
+export interface instructorConditionIntf {
+    degree?: string[],
+    academyRank?: string[],
+    approveWay?: string
 }
 
 export interface relationExprIntf {
@@ -14,8 +21,16 @@ export interface relationExprIntf {
 export interface logicExprIntf{
     operator: string,
     object: string,
-    leftExpr: {variable: string, weight?: string}[],
+    leftExpr: variableInfo[],
     rightValue: string
+}
+
+export interface variableInfo {
+    variable: string,
+    weight?: number,
+    subjectName?: string, 
+    subjectId?: string,
+    key: string
 }
 
 export interface expression {
