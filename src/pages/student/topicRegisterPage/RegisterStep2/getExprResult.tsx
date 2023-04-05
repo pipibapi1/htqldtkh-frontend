@@ -13,6 +13,9 @@ type exprFunction = (dataForCondition: DataForCondition, expression: any, exprId
 
 export const getExprResult: exprFunction = (dataForCondition: DataForCondition, expression: any, exprId: string, numMember: number) => {
     const subExpr = expression[exprId];
+    if (!subExpr) {
+        return true;
+    }
     if (subExpr.operator === OperationTypeEnum.AND) {
         const leftId = exprId + ",l";
         const rightId = exprId + ",r";
