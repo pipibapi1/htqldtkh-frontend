@@ -46,7 +46,6 @@ const TopicDetail:React.FC = () => {
             gender: "1",
             email: "1",
             phoneNumber: "1",
-            birthDate: "",
             academyRank: "",
             degree: "1",
             },
@@ -57,7 +56,6 @@ const TopicDetail:React.FC = () => {
                 gender: "1",
                 email: "1",
                 phoneNumber: "1",
-                birthDate: "",
                 academyRank: "",
                 degree: "1",
             }],
@@ -324,15 +322,6 @@ const TopicDetail:React.FC = () => {
                                             {instructor.gender}
                                         </div>
                                     </div>
-
-                                    <div className = 'flex flex-row items-center w-1/2'>
-                                        <label htmlFor='text' className = "text-md w-[200px] mr-1">
-                                            Ngày sinh: 
-                                        </label>
-                                        <div className = "w-1/2 text-gray-900 text-md">
-                                            {displayDate(instructor.birthDate)}
-                                        </div>
-                                    </div>
                                 </div>
 
                                 <div className = 'flex flex-row'>
@@ -401,7 +390,8 @@ const TopicDetail:React.FC = () => {
                                             Họ và tên: 
                                         </label>
                                         <div className = "w-1/2 text-gray-900 text-md">
-                                            {otherMember.fmName + " " + otherMember.name}
+                                            {otherMember.fmName? (otherMember.fmName + " " + otherMember.name) 
+                                            : (otherMember.name)}
                                         </div>
                                     </div>
 

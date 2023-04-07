@@ -170,8 +170,8 @@ const RegisterStep2:React.FC<Props> = (props: Props) => {
     for (let index = 1; index <= topic.numInstructor; ++index){
         instructors.push(
             <div className='px-2 mb-1'>
-                <div>
-                    Giáo viên {index}:
+                <div className='font-semibold'>
+                    Giáo viên hướng dẫn {index}:
                 </div>
                 <InstructorInput
                     index={index-1}
@@ -523,9 +523,15 @@ const RegisterStep2:React.FC<Props> = (props: Props) => {
                     </div>
                 )}
             </div>
+            <div className='mb-5'>
+                <div className='font-bold mb-2 text-lg'>
+                    Thông tin GVHD:
+                </div>
+                {instructors}
+            </div>
             <div className='mb-3'>
                 <div className='font-bold text-lg'>
-                    Điều kiện để đăng ký loại đề tài trên: 
+                    Điều kiện của chủ nhiệm đề tài và các thành viên: 
                 </div>
                 {!(isValid.topicCondition) && (
                     <div className="m-2 text-[#e1000e]">
@@ -535,13 +541,7 @@ const RegisterStep2:React.FC<Props> = (props: Props) => {
                     </div>
                 )}
                 {displayRegisterCondition()}
-            </div>
-            <div className='mb-5'>
-                <div className='font-bold mb-2 text-lg'>
-                    Thông tin GVHD:
-                </div>
-                {instructors}
-            </div>          
+            </div>        
             <div className='mb-4'>
                 <div className={`font-bold text-lg ${isValid.leader? "" : "text-red-500"}`}>
                     Thông tin chủ nhiệm đề tài:
@@ -566,10 +566,6 @@ const RegisterStep2:React.FC<Props> = (props: Props) => {
                         <i>Thông tin của thành viên khác không thỏa mãn điều kiện đăng ký đề tài</i>
                     </div>
                 )}
-                <div className='px-4 mb-2'>
-                    <i>Để nhập thông tin thành viên, chủ nhiệm đề tài cần nhập cả mã số sinh viên 
-                        và email trường của thành viên, sau đó nhấn nút "Tìm thông tin" </i>
-                </div>
                 <div className='flex flex-col w-full'>
                     <div className='inline-block w-full pr-5'>
                         {otherMembers}
