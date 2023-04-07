@@ -131,6 +131,7 @@ const OtherMembersInput: React.FC<Props> = (props: Props) => {
         currMember.phoneNumber = "";
         currMember.email = "";
         currMember.studentId = "";
+        currMember.birthDate = "";
         setTopic({...topic});
     }
 
@@ -140,6 +141,7 @@ const OtherMembersInput: React.FC<Props> = (props: Props) => {
         currMember.phoneNumber = student.phoneNumber as string;
         currMember.email = student.email;
         currMember.studentId = student.studentId;
+        currMember.birthDate = student.birthDate;
         setTopic({...topic});
     }
 

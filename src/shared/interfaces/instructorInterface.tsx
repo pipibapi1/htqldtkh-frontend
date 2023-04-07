@@ -5,7 +5,6 @@ export interface Instructor{
     gender: string,
     email: string,
     phoneNumber: string,
-    birthDate: string,
     academyRank: string,
     degree: string,
 }

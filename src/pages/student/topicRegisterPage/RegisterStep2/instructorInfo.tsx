@@ -101,7 +101,6 @@ const InstructorInput: React.FC<Props> = (props: Props) => {
         instructor.staffId = "";
         instructor.academyRank = "";
         instructor.degree = "";
-        instructor.birthDate = "";
         setTopic({...topic});
     }
 
@@ -114,7 +113,6 @@ const InstructorInput: React.FC<Props> = (props: Props) => {
         instructor.staffId = data.staffId;
         instructor.academyRank = data.academyRank;
         instructor.degree = data.degree;
-        instructor.birthDate = data.birthdate;
         setTopic({...topic});
     }
 

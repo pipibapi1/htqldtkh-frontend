@@ -52,7 +52,6 @@ const RegisterTopicPage:React.FC = () => {
             gender: "",
             email: "",
             phoneNumber: "",
-            birthDate: (new Date()).toString(),
             academyRank: "",
             degree: "",
         }],

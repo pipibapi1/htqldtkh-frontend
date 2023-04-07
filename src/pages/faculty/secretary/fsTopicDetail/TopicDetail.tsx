@@ -46,7 +46,6 @@ const TopicDetail:React.FC = () => {
             gender: "1",
             email: "1",
             phoneNumber: "1",
-            birthDate: "",
             academyRank: "",
             degree: "1",
             },
@@ -57,7 +56,6 @@ const TopicDetail:React.FC = () => {
                 gender: "1",
                 email: "1",
                 phoneNumber: "1",
-                birthDate: "",
                 academyRank: "",
                 degree: "1",
             }],
@@ -264,7 +262,8 @@ const TopicDetail:React.FC = () => {
                                 Số điện thoại: 
                             </label>
                             <div className = "w-1/2 text-gray-900 text-md">
-                                {topic.student.phoneNumber}
+                                {topic.student.phoneNumber? topic.student.phoneNumber
+                                : (<i>Không có</i>)}
                             </div>
                         </div>
                     </div>
@@ -322,15 +321,6 @@ const TopicDetail:React.FC = () => {
                                         </label>
                                         <div className = "w-1/2 text-gray-900 text-md">
                                             {instructor.gender}
-                                        </div>
-                                    </div>
-
-                                    <div className = 'flex flex-row items-center w-1/2'>
-                                        <label htmlFor='text' className = "text-md w-[200px] mr-1">
-                                            Ngày sinh: 
-                                        </label>
-                                        <div className = "w-1/2 text-gray-900 text-md">
-                                            {displayDate(instructor.birthDate)}
                                         </div>
                                     </div>
                                 </div>
