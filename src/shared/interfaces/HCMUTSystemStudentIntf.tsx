@@ -3,6 +3,7 @@ export interface HCMUTSystemStudentIntf {
     name: string,
     email: string,
     gender: string,
+    birthDate: string,
     phoneNumber?: string,
     studentId: string,
     educationType: string,
