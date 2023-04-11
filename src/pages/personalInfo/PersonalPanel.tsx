@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import { useDispatch } from "react-redux";
 import DatePicker from "react-datepicker";
 import Swal from 'sweetalert2';
+import "react-datepicker/dist/react-datepicker.css";
+import vi from 'date-fns/locale/vi';
 
 import { AppDispatch } from '../../store';
 
@@ -482,7 +484,7 @@ const PersonalPanel:React.FC = () => {
                             showMonthDropdown
                             showYearDropdown
                             dropdownMode="select"
-                            locale="vi"
+                            locale={vi}
                             className="h-[40px] w-[270px] border border-black border-1 rounded-md px-2"
                         />
                         <div className='absolute mr-2'>

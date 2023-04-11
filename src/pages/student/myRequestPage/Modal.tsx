@@ -195,7 +195,7 @@ const Modal = ({isVisible, onClose, myTopics}: {isVisible: boolean, onClose: any
                                 defaultValue={""}
                                 >
                                     <option value={""}>Chọn đề tài</option>
-                                    {myTopics.map((topic, index) => {
+                                    {myTopics.map((topic) => {
                                         return(
                                             <option value={topic._id}>{topic.name}</option>
                                         )

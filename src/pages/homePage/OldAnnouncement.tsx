@@ -56,10 +56,14 @@ const OldAnnouncement = ({oldAnnouncements, currentPeriodValue, year}: {oldAnnou
           <div className = 'grid gap-10 mb-12'> 
             {displayMode ? 
             announcements.map((SmallAnnouncement, index) => (
+              <div key={index} data-testid="announcement-banner">
                 <AnnouncementBanner key={index} SmallAnnouncement={SmallAnnouncement} />
+              </div>
               )) :
               oldAnnouncements.map((SmallAnnouncement, index) => (
-                <AnnouncementBanner key={index} SmallAnnouncement={SmallAnnouncement} />
+                <div key={index} data-testid="announcement-banner">
+                  <AnnouncementBanner key={index} SmallAnnouncement={SmallAnnouncement} />
+                </div>
               ))
             }
           </div>

@@ -153,6 +153,7 @@ const Header: React.FC<Props> = (props: any) => {
         <div className='bg-white grid grid-cols-8 gap-4 p-3 mb-1 max-h-17 border-2 sticky top-0 z-40'>
             {/* The BK icon and the HCMUT name */}
             <Link
+                data-testid="link-to-home-page"
                 className='col-start-1 col-span-5 flex items-center hover:cursor-pointer'
                 to={`/${appRouters.LINK_TO_HOME_PAGE}`}
             >
@@ -177,12 +178,18 @@ const Header: React.FC<Props> = (props: any) => {
             */}
             {!isLogin && !isAccountServicePage && (
             <div className='col-start-11 col-span-5 flex items-center'>
-                <Link to={`/${appRouters.LINK_TO_REGISTER_PAGE}`}>
+                <Link 
+                data-testid="link-to-register-page"
+                to={`/${appRouters.LINK_TO_REGISTER_PAGE}`
+                }>
                     <div className="text-[#0079CC] text-xs font-semibold py-2 px-5 no-underline hover:underline hover:cursor-pointer">
                     Đăng ký tài khoản?
                     </div>
                 </Link>
-                <Link to={`/${appRouters.LINK_TO_LOGIN_PAGE}`}>
+                <Link
+                data-testid="link-to-login-page"
+                to={`/${appRouters.LINK_TO_LOGIN_PAGE}`
+                }>
                     <div className="bg-[#0079CC] text-xs transition text-white font-semibold py-4 px-5 border border-white-500 rounded-[15px] hover:bg-[#025A97] hover:cursor-pointer">
                     ĐĂNG NHẬP
                     </div>

@@ -4,6 +4,7 @@ import { Navigate, useNavigate  } from 'react-router-dom';
 import Swal from 'sweetalert2';
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
+import vi from 'date-fns/locale/vi';
 
 import { RootState, AppDispatch } from '../../store';
 
@@ -11,7 +12,6 @@ import { RoleType } from '../../shared/types/role';
 import { GenderType } from '../../shared/types/gender';
 import { EducationType } from '../../shared/types/educationType';
 import { Toast } from '../../shared/toastNotify/Toast';
-import { capitalizeFirstLetter } from '../../shared/functions';
 import { appRouters } from '../../shared/urlResources';
 
 import { registerAction } from '../../actions/authAction';
@@ -371,6 +371,7 @@ const RegisterPanel: React.FC = () => {
                             <input
                                 type="text"
                                 name="email"
+                                data-testid="email-input"
                                 className={!validEmail ? "h-[25px] w-[250px] border border-red-500 focus:outline-0 border-1 rounded-md p-2" :"h-[25px] w-[250px] border border-black border-1 rounded-md p-2"}
                                 onChange={onChangeEmail}
                             />
@@ -396,7 +397,7 @@ const RegisterPanel: React.FC = () => {
                                     showMonthDropdown
                                     showYearDropdown
                                     dropdownMode="select"
-                                    locale="vi"
+                                    locale={vi}
                                     className="h-[25px] w-[250px] border border-black border-1 rounded-md px-2"
                                     />
                                     <div className='absolute mr-2'>

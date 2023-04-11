@@ -9,6 +9,7 @@
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
+    "@types/axios": "^0.14.0",
     "@types/jest": "^27.5.2",
     "@types/node": "^16.18.3",
     "@types/react": "^18.0.25",
@@ -57,7 +58,8 @@
   "scripts": {
     "start": "react-app-rewired start",
     "build": "react-scripts build",
-    "test": "react-scripts test",
+    "test": "react-scripts test --env=jsdom --verbose",
+    "coverage": "react-scripts test --coverage --watchAll --collectCoverageFrom='src/{components,pages}/**/*.{ts,tsx}' --collectCoverageFrom='src/shared/functions/*.{ts,tsx}' --env=jsdom --verbose",
     "eject": "react-scripts eject",
     "predeploy": "react-scripts build",
     "deploy": "gh-pages -d build"
@@ -81,15 +83,44 @@
     ]
   },
   "devDependencies": {
+    "@babel/core": "^7.21.4",
+    "@babel/preset-env": "^7.21.4",
+    "@babel/preset-typescript": "^7.21.4",
+    "@jest/globals": "^29.5.0",
     "@types/file-saver": "^2.0.5",
     "@types/react-datepicker": "^4.8.0",
     "@types/react-pdf": "^6.2.0",
     "autoprefixer": "^10.4.13",
+    "babel-jest": "^29.5.0",
     "gh-pages": "^4.0.0",
     "html-loader": "^4.2.0",
+    "jest-css-modules-transform": "^4.4.2",
     "node-polyfill-webpack-plugin": "^2.0.1",
     "postcss": "^8.4.19",
     "react-app-rewired": "^2.2.1",
-    "tailwindcss": "^3.2.4"
+    "tailwindcss": "^3.2.4",
+    "ts-jest": "^29.1.0"
+  },
+  "jest": {
+    "coverageThreshold": {
+      "global": {
+        "branches": 80,
+        "functions": 80,
+        "lines": 80,
+        "statements": -10
+      }
+    },
+    "transform": {
+      "^.+\\.tsx?$": "babel-jest",
+      "^.+\\.m?ts$": "babel-jest",
+      "^.+\\.css$": "<rootDir>/node_modules/jest-css-modules-transform"
+    },
+    "moduleNameMapper": {
+      "axios": "axios/dist/node/axios.cjs",
+      "react-datepicker/dist/react-datepicker.css": "jest-transform-stub"
+    },
+    "transformIgnorePatterns": [
+      "node_modules/(?!(react-native|my-ecmascript-lib)/)"
+    ]
   }
 }

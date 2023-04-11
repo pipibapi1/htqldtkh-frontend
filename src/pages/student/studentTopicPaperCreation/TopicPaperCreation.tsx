@@ -7,6 +7,7 @@ import PizZip from "pizzip";
 import Swal from 'sweetalert2';
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
+import vi from 'date-fns/locale/vi';
 
 import { AppDispatch } from '../../../store';
 
@@ -92,7 +93,7 @@ const FormField = (props: any) => {
                 showMonthDropdown
                 showYearDropdown
                 dropdownMode="select"
-                locale="vi"
+                locale={vi}
                 className="h-10 w-full border border-black border-1 rounded-md p-2"
                 />
             </div>

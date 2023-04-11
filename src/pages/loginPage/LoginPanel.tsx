@@ -184,6 +184,7 @@ const LoginPanel: React.FC = () => {
                         <input className='w-full h-[40px] border border-black large rounded-lg text-base flex justify-center items-center py-4 mb-3 p-2'
                                 name="username"
                                 type="text"
+                                placeholder='Tên đăng nhập'
                                 onChange={onChangeUsername}
                         />
                         
@@ -195,6 +196,7 @@ const LoginPanel: React.FC = () => {
                                 type={showPassword? "text":"password"}
                                 name="password"
                                 onChange={onChangePassword}
+                                placeholder='Mật khẩu'
                                 className="w-full h-[40px] border border-black large rounded-lg text-base flex justify-center items-center py-4 mb-3 p-2"
                             />
                             <div className=' absolute mr-2'>
@@ -210,7 +212,9 @@ const LoginPanel: React.FC = () => {
 
                     <div className='w-full grid grid-cols-2 space-x-3 content-center   '>
   
-                        <button className="bg-[#0079CC] flex items-center justify-center w-full transition text-white text-center font-semibold py-4 px-4  border border-white-500  hover:bg-[#025A97] hover:cursor-pointer"
+                        <button 
+                            data-testid="login-button"
+                            className="bg-[#0079CC] flex items-center justify-center w-full transition text-white text-center font-semibold py-4 px-4  border border-white-500  hover:bg-[#025A97] hover:cursor-pointer"
                             onClick={handleLogin}
                             disabled={loading? true: false}
                         >

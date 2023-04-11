@@ -9,7 +9,7 @@ import { RootState} from '../../store';
 import Footer from '../../components/footer';
 import Header from '../../components/header';
 
-const Home: React.FC = () => {
+const OldAnnouncementFull: React.FC = () => {
 
   const { announcementId} = useParams();
   const { isLoggedIn } = useSelector((state: RootState) => state.auth);
@@ -93,4 +93,4 @@ const Home: React.FC = () => {
     );
 }
 
-export default Home;
+export default OldAnnouncementFull;
