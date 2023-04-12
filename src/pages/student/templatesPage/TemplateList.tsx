@@ -46,9 +46,9 @@ const TemplateList: React.FC = () => {
                 Biểu mẫu đề tài cấp Sinh viên
             </div>
             <div className='px-5'>
-                {templates?.map((template) => {
+                {templates?.map((template, index) => {
                     return (
-                        <div className="text-[#0079CC] font-semibold no-underline hover:underline hover:cursor-pointer text-xl mb-3"
+                        <div key={index} className="text-[#0079CC] font-semibold no-underline hover:underline hover:cursor-pointer text-xl mb-3"
                             onClick={(e) => {
                                 e.preventDefault();
                                 downloadTemplateFile(template._id, template.name);

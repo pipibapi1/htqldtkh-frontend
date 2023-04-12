@@ -23,7 +23,6 @@ describe('Register Panel renders correctly', () => {
     render(
       <Provider store={store}>
         <HashRouter>
-            
           <RegisterPanel />
         </HashRouter>
     </Provider>
