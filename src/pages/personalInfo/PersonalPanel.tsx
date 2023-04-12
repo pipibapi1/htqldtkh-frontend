@@ -374,7 +374,8 @@ const PersonalPanel:React.FC = () => {
 
                     {editMode && 
                     <div className="ml-6">
-                        <input type="text" defaultValue={user.name} 
+                        <input type="text" defaultValue={user.name}
+                            data-testid="input-name"
                             onChange={
                             (e) => {setNewInfo({...newInfo, name: e.target.value})}
                             }
@@ -399,7 +400,8 @@ const PersonalPanel:React.FC = () => {
 
                         {editMode && 
                             <div className="ml-6">
-                                <input type="text" defaultValue={user.studentId} onChange={
+                                <input type="text" data-testid="input-studentId"
+                                defaultValue={user.studentId} onChange={
                                     (e) => {setNewInfo({...newInfo, studentId: e.target.value})}
                                     }
                                     className = 'bg-white h-[40px] w-[270px] border border-black border-1 rounded-lg focus:ring-blue-500 px-2'
@@ -444,6 +446,7 @@ const PersonalPanel:React.FC = () => {
                     {editMode && 
                     <div className="ml-6">
                         <select
+                            data-testid="select-gender"
                             className="bg-white h-[40px] w-[270px] border border-black border-1 rounded-md focus:ring-blue-500 px-2"
                             onChange={(e) => {
                                 setNewInfo({...newInfo, gender: e.target.value})
@@ -470,7 +473,7 @@ const PersonalPanel:React.FC = () => {
                     </div>}
 
                     {editMode && 
-                    <div className="ml-6 grid justify-items-end items-center">
+                    <div className="ml-6 grid justify-items-end items-center" data-testid="datepicker-birthDate">
                         <DatePicker
                             onChange={date => {
                                 if(date){
@@ -603,6 +606,7 @@ const PersonalPanel:React.FC = () => {
                     setNewInfo(user)}
                     } 
                     className="w-40 bg-[#0079CC] flex justify-center items-center transition text-white font-semibold py-4 border border-white-500 rounded-[15px] hover:bg-[#025A97] hover:cursor-pointer"
+                    data-testid='edit-button'
                 >
                     Chỉnh sửa
                 </div>}

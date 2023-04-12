@@ -166,6 +166,7 @@ const PasswordResetPanel: React.FC = () => {
                                     } 
                         name="email"
                         type="email"
+                        placeholder='Email'
                         onChange={onChangeEmail}
                     />
                 </div>
@@ -174,6 +175,7 @@ const PasswordResetPanel: React.FC = () => {
                     <button className="w-full bg-[#0079CC] transition text-white text-center font-semibold py-5 px-8  border border-white-500  hover:bg-[#025A97] hover:cursor-pointer"
                         onClick={handleResetPassword}
                         disabled={loading? true: false}
+                        data-testid="reset-button-id"
                     >
                         {loading ? (<div> Processing... </div>) : (<div> RESET MẬT KHẨU</div>)}
                     </button>
