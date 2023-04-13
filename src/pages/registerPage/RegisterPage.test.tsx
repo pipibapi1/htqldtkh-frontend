@@ -1,11 +1,13 @@
 import { render, fireEvent, screen } from '@testing-library/react';
-import RegisterPanel from './RegisterPanel';
-import { Provider } from "react-redux"
-import { store } from "../../store";
+import { Provider } from "react-redux";
 import { HashRouter } from 'react-router-dom';
 
-describe('Register Panel renders correctly', () => {
-  it('should display an error message when an invalid email is entered', () => {
+import { store } from "../../store";
+
+import RegisterPanel from './RegisterPanel';
+
+describe('test register page', () => {
+  test('should display an error message when an invalid email is entered', () => {
     render(
       <Provider store={store}>
         <HashRouter>
@@ -19,7 +21,7 @@ describe('Register Panel renders correctly', () => {
     expect(errorMessage).toBeInTheDocument();
   });
 
-  it('should not display an error message when a valid email is entered', () => {
+  test('should not display an error message when a valid email is entered', () => {
     render(
       <Provider store={store}>
         <HashRouter>

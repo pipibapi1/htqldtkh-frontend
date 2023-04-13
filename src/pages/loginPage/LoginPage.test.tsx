@@ -1,13 +1,11 @@
 import { render, fireEvent, waitFor} from '@testing-library/react';
-import { Provider } from "react-redux"
+import { Provider } from "react-redux";
+import { HashRouter, useLocation } from 'react-router-dom';
+
 import { store } from "../../store";
 
 import LoginPanel from './LoginPanel';
 
-// Import the module that exports the useLocation hook
-import { HashRouter, useLocation } from 'react-router-dom';
-
-// Mock the useLocation hook
 jest.mock('react-router-dom', () => ({
     ...jest.requireActual('react-router-dom'),
     useLocation: jest.fn().mockReturnValue({

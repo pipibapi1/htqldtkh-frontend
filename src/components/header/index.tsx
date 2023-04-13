@@ -10,9 +10,10 @@ import { Toast } from '../../shared/toastNotify/Toast';
 import { RoleType } from '../../shared/types/role';
 import { NotificationIntf } from '../../shared/interfaces/notificationInterface';
 
-import { logoutAction } from "../../actions/authAction";
 import NotificationService from '../../services/notificationService';
 import StudentService from '../../services/studentService';
+
+import { logoutAction } from "../../actions/authAction";
 
 import BKlogo from "../../assets/images/hcmut.png";
 import Bell from "../../assets/images/bell.png";
@@ -203,6 +204,7 @@ const Header: React.FC<Props> = (props: any) => {
                     className='relative flex flex-row items-center justify-end hover:cursor-pointer pr-5'
                     id="notificationBtn"
                     onClick={() => setOpen(!open)}
+                    data-testid="notification-bell"
                 >
                     <img
                         className="p-1 w-9 h-9 rounded-full ring-2 ring-gray-300 dark:ring-gray-500 inline-block "
@@ -218,7 +220,7 @@ const Header: React.FC<Props> = (props: any) => {
 
                 {open && (
                     <div className="dropdown-fullname ml-20 mt-20 w-[450px] max-h-[80vh] text-gray-700 block px-2 py-2 border-2 drop-shadow-lg bg-white overflow-y-auto"
-                        id="notificationList"
+                        id="notification-content"
                     >
                         <div>
                             {notifications.length>0? (
@@ -276,12 +278,12 @@ const Header: React.FC<Props> = (props: any) => {
                         Trang chủ
                         </div>
                     </div>
-                    <div className="py-1" onClick={handleMyPage}>
+                    <div data-testid="link-to-my-page" className="py-1" onClick={handleMyPage}>
                         <div className="text-gray-700 block px-4 py-2 text-sm hover:bg-slate-100 rounded-md">
                         Trang của tôi
                         </div>
                     </div>
-                    <div className="py-1" onClick={handleLogout}>
+                    <div data-testid="logout-button" className="py-1" onClick={handleLogout}>
                         <div className="text-gray-700 block px-4 py-2 text-sm hover:bg-slate-100 rounded-md">
                         Đăng xuất
                         </div>

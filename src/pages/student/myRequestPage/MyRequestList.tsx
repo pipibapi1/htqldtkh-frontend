@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from "react-redux";
 
-import { RootState,AppDispatch } from '../../../store';
+import { RootState, AppDispatch } from '../../../store';
 
 import { RequestType } from '../../../shared/types/requestType';
 import { RequestStatus } from '../../../shared/types/requestStatus';
@@ -47,7 +47,7 @@ const MyRequestList: React.FC = () => {
         let query = {
             page: 1,
             limit: RECORD_PER_PAGE,
-            studentId: currentUser._id
+            studentId: currentUser ? currentUser._id: ""
         }
         dispatch(getRequestListAction(query))
                 .then((data) => {
@@ -61,7 +61,7 @@ const MyRequestList: React.FC = () => {
 
                 })
         let queryForMyTopic = {
-            student: currentUser._id
+            student: currentUser ? currentUser._id: ""
         }
         dispatch(getTopicListAction(queryForMyTopic))
             .then((data) => {

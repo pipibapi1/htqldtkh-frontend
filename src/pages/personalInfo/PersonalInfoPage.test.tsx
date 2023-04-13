@@ -1,14 +1,15 @@
 import { render, fireEvent } from "@testing-library/react";
-import UserProfile from "./UserProfile";
 import { HashRouter } from 'react-router-dom';
-
 import { Provider } from 'react-redux';
+
 import { store } from "../../store";
 
+import UserProfile from "./UserProfile";
+
 describe("test personal information page", () => {
-      afterAll(() => {
-        localStorage.removeItem("user");
-      });
+  afterAll(() => {
+    localStorage.removeItem("user");
+  });
 
   test("should render user's information", () => {
     const user = {
@@ -25,7 +26,6 @@ describe("test personal information page", () => {
     const { getByText, getByAltText } = render(
                                         <Provider store={store}>
                                             <HashRouter>
-                
                                                 <UserProfile />
                                             </HashRouter>
                                         </Provider>

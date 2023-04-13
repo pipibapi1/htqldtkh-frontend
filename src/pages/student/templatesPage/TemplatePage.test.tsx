@@ -1,14 +1,17 @@
+import React from 'react';
 import { render, screen } from '@testing-library/react';
 import { Provider } from 'react-redux';
-import TemplateList from './TemplateList';
+
 import { store } from '../../../store';
-import React from 'react';
+
 import { Template } from '../../../shared/interfaces/templateInterface';
+
+import TemplateList from './TemplateList';
 
 jest.mock('react', () => ({
 	...jest.requireActual('react'),
 	useState: jest.fn()
-}))
+}));
 
 describe('test Template List Page', () => {
   test('should render template list', () => {
@@ -31,13 +34,13 @@ describe('test Template List Page', () => {
         createAt: "",
         formId: ""
       }
-    ]
+    ];
     const useStateMock = jest.spyOn(React, 'useState').mockReturnValue([templates, jest.fn()]);
     render(
-        <Provider store={store}>
-            <TemplateList />
-        </Provider>
-      );
+      <Provider store={store}>
+        <TemplateList />
+      </Provider>
+    );
     const templateList = screen.getByText('Biểu mẫu đề tài cấp Sinh viên');
     expect(templateList).toBeInTheDocument();
 

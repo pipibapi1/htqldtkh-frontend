@@ -1,7 +1,7 @@
-import { render, fireEvent, waitFor, screen } from '@testing-library/react';
+import { render, fireEvent, screen } from '@testing-library/react';
 import { HashRouter, useLocation } from 'react-router-dom';
-
 import { Provider } from 'react-redux';
+
 import { store } from "../../store";
 
 import PasswordResetPanel from './PasswordResetPanel';
@@ -18,19 +18,17 @@ jest.mock('react-router-dom', () => ({
 }));
 
 
-
 describe('PasswordResetPanel', () => {
-    beforeEach(() => {
-        const mockLocation = {
-            pathname: '/loginPanel', 
-            search: '', 
-            hash: '', 
-            state: {role: 'sinh viên'}, 
-            key: '23ey2va1'
-        };
-        (useLocation as jest.Mock)
-            .mockReturnValue(mockLocation)
-      });
+  beforeEach(() => {
+    const mockLocation = {
+      pathname: '/loginPanel', 
+      search: '', 
+      hash: '', 
+      state: {role: 'sinh viên'}, 
+      key: '23ey2va1'
+    };
+    (useLocation as jest.Mock).mockReturnValue(mockLocation)
+  });
 
   test('renders without crashing', () => {
     render(

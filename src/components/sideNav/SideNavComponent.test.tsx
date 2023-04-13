@@ -1,10 +1,13 @@
-import { render, screen } from "@testing-library/react"
-import SideNav from "."
-import { RoleType } from "../../shared/types/role"
-import { appRouters } from "../../shared/urlResources"
-import { HashRouter } from "react-router-dom"
-import { Provider } from "react-redux"
-import { store } from "../../store"
+import { render, screen } from "@testing-library/react";
+import { HashRouter } from "react-router-dom";
+import { Provider } from "react-redux";
+
+import { store } from "../../store";
+
+import { RoleType } from "../../shared/types/role";
+import { appRouters } from "../../shared/urlResources";
+
+import SideNav from ".";
 
 describe("test Side Navigation Component", () => {
     test("falcuty secretary side navigation renders correctly", () => {
@@ -13,12 +16,10 @@ describe("test Side Navigation Component", () => {
             <HashRouter>
                 <SideNav role={RoleType.FS} pathName={"/" + appRouters.LINK_TO_FS_TOPIC_STATISTIC}/>
             </HashRouter>
-        </Provider>
-        
-        )
+        </Provider>);
         const textElement1 = screen.getByText("TẠO HỘI ĐỒNG");
         const textElement2 = screen.getByText("HĐ xét duyệt");
         expect(textElement1).toBeInTheDocument();
         expect(textElement2).toBeInTheDocument();
-    })
-})
+    });
+});
