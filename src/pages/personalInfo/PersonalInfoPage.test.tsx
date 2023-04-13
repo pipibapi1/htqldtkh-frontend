@@ -1,6 +1,6 @@
 import { render, fireEvent } from "@testing-library/react";
 import UserProfile from "./UserProfile";
-import { HashRouter, useLocation } from 'react-router-dom';
+import { HashRouter } from 'react-router-dom';
 
 import { Provider } from 'react-redux';
 import { store } from "../../store";
