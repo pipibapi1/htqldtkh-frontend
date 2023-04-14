@@ -17,6 +17,7 @@ import { logoutAction } from "../../actions/authAction";
 
 import BKlogo from "../../assets/images/hcmut.png";
 import Bell from "../../assets/images/bell.png";
+import EmptyUser from "../../assets/images/empty_user.png";
 
 interface Props {
     isLogin: boolean;
@@ -246,7 +247,7 @@ const Header: React.FC<Props> = (props: any) => {
                 >
                     <img
                         className="p-1 w-9 h-9 rounded-full ring-2 ring-gray-300 dark:ring-gray-500 inline-block mr-5"
-                        src={currentUser?.image}
+                        src={currentUser?.image !== "" ? currentUser?.image : EmptyUser}
                         alt="Bordered avatar"
                     ></img>
 
