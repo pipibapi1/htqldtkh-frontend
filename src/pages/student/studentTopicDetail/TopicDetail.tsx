@@ -5,14 +5,14 @@ import { useDispatch } from "react-redux";
 import { AppDispatch } from '../../../store';
 
 import { MyTopic } from '../../../shared/interfaces/topicInterface';
-import { displayDate, displayPeriod } from '../../../shared/functions';
+import { capitalizeFirstLetter, displayDate, displayPeriod } from '../../../shared/functions';
 
 import { getTopicDetailAction } from '../../../actions/topicAction';
 
 import BackIcon from '../../../assets/images/🦆 icon _arrow circle left_.png';
 
 const TopicDetail:React.FC = () => {
-    let { _id} = useParams();
+    let { _id } = useParams();
     const topicData: MyTopic = {
         _id: "1",
         name: "1",
@@ -88,10 +88,6 @@ const TopicDetail:React.FC = () => {
 
     const [topic, setTopic] = useState<MyTopic>(topicData);
 
-      const capitalizeFirstLetter = (str: string) => {
-        const str2 = str.charAt(0).toUpperCase() + str.slice(1);
-        return str2;
-    }
     useEffect(() => {
         if(_id){
             dispatch(getTopicDetailAction(_id))
@@ -285,7 +281,7 @@ const TopicDetail:React.FC = () => {
 
                 {topic.instructors.map((instructor, index) => {
                     return(
-                        <div className='mt-3'>
+                        <div key={index} className='mt-3'>
                             <div className='text-md px-1 flex items-center'>
                                 <div className='text-md font-semibold mr-3'>
                                     Giáo viên {index + 1}:
@@ -377,7 +373,7 @@ const TopicDetail:React.FC = () => {
 
                 {topic.otherMembers.map((otherMember, index) => {
                     return(
-                        <div className='mt-3'>
+                        <div key={index} className='mt-3'>
                             <div className='text-md px-1 flex items-center'>
                                 <div className='text-md font-semibold mr-3'>
                                     Thành viên {index+1}:
@@ -463,28 +459,6 @@ const TopicDetail:React.FC = () => {
                                         <label htmlFor='text' className = "text-md w-[120px] mr-1">
                                             Ngày sinh: 
                                         </label>
-                                        {/* <div className = "w-1/2 text-gray-900 text-md">
-                                            <div className='grid justify-items-end items-center'>
-                                                <DatePicker
-                                                onChange={date => {
-                                                    if(date){
-                                                        setBirthDate(date);
-                                                    }
-                                                }}
-                                                selected={birthDate}
-                                                dateFormat="dd/MM/yyyy"
-                                                peekNextMonth
-                                                showMonthDropdown
-                                                showYearDropdown
-                                                dropdownMode="select"
-                                                locale="vi"
-                                                className="h-[45px] w-full border border-black border-1 rounded-md px-2"
-                                                />
-                                                <div className='absolute mr-2'>
-                                                    <img src={Calendar} alt="calendarIcon" className='h-5 w-5'/>
-                                                </div>
-                                            </div>
-                                        </div> */}
                                         <div className = "w-1/2 text-gray-900 text-md">
                                             {displayDate(otherMember.birthDate)}
                                         </div>

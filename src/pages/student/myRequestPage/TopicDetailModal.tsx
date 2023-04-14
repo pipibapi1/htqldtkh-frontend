@@ -11,9 +11,9 @@ import { getTopicDetailAction } from '../../../actions/topicAction';
 const TopicDetailModal = ({isVisible, onClose, topicId}: {isVisible: boolean, onClose: any, topicId: string}) => {
     const topicData: MyTopic = {
         _id: "1",
-        name: "1",
+        name: "Example Topic",
         topicGivenId: "",
-        type: "1",
+        type: "Example Type",
         startTime: "",
         endTime: "",
         creationDate: "",
@@ -111,10 +111,6 @@ const TopicDetailModal = ({isVisible, onClose, topicId}: {isVisible: boolean, on
                     <label htmlFor='text' className = "w-[80px] text-sm font-semibold mr-1">
                         Tên đề tài: 
                     </label>
-                    {/* <input type = 'text' name = 'name' id ='name'
-                        className = "w-1/2 border border-gray-500 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5"
-                        defaultValue={topic.name}
-                    /> */}
                     <div className = "w-1/2 text-gray-900 text-sm">
                             {topic.name}
                     </div>

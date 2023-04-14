@@ -2,6 +2,8 @@ import { useState } from 'react';
 import { useDispatch } from "react-redux";
 import DatePicker from "react-datepicker";
 import Swal from 'sweetalert2';
+import "react-datepicker/dist/react-datepicker.css";
+import vi from 'date-fns/locale/vi';
 
 import { AppDispatch } from '../../../../../../store';
 
@@ -145,7 +147,7 @@ const StartATopicModal = ({isVisible, onClose, topic, updateTopicResult, topicRe
                                             showMonthDropdown
                                             showYearDropdown
                                             dropdownMode="select"
-                                            locale="vi"
+                                            locale={vi}
                                             className="h-[40px] text-sm w-full border border-black border-1 rounded-md px-2"
                                                     />
                                         <div className='absolute mr-2'>
@@ -179,7 +181,7 @@ const StartATopicModal = ({isVisible, onClose, topic, updateTopicResult, topicRe
                                             showMonthDropdown
                                             showYearDropdown
                                             dropdownMode="select"
-                                            locale="vi"
+                                            locale={vi}
                                             className="h-[40px] text-sm w-full border border-black border-1 rounded-md px-2"
                                                     />
                                         <div className='absolute mr-2'>

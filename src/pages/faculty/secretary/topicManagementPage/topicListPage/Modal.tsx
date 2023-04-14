@@ -3,6 +3,8 @@ import { useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
 import DatePicker from "react-datepicker";
 import Swal from 'sweetalert2';
+import "react-datepicker/dist/react-datepicker.css";
+import vi from 'date-fns/locale/vi';
 
 import { AppDispatch } from '../../../../../store';
 
@@ -242,7 +244,7 @@ const Modal = ({isVisible, onClose, topic}: {isVisible: boolean, onClose: any, t
                                             showMonthDropdown
                                             showYearDropdown
                                             dropdownMode="select"
-                                            locale="vi"
+                                            locale={vi}
                                             className="h-[40px] text-sm w-full border border-black border-1 rounded-md px-2"
                                                     />
                                         <div className='absolute mr-2'>
@@ -276,7 +278,7 @@ const Modal = ({isVisible, onClose, topic}: {isVisible: boolean, onClose: any, t
                                             showMonthDropdown
                                             showYearDropdown
                                             dropdownMode="select"
-                                            locale="vi"
+                                            locale={vi}
                                             className="h-[40px] text-sm w-full border border-black border-1 rounded-md px-2"
                                                     />
                                         <div className='absolute mr-2'>

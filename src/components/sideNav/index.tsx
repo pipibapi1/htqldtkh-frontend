@@ -17,7 +17,8 @@ interface ItemProps{
 const SideNavItem:React.FC<ItemProps> = (props: ItemProps) => {
     return(
         <div className='px-0 py-0'>
-            <div className={props?.active?
+            <div 
+                className={props?.active?
                  'bg-[#0D619A] hover:cursor-pointer'
                 :'bg-transparent hover:bg-[#1273B6] hover:cursor-pointer active:bg-[#0D619A]'
                 }>
@@ -40,6 +41,7 @@ const SideNavItem:React.FC<ItemProps> = (props: ItemProps) => {
                 >
                     {props?.children?.map((child, i) => (
                         <div className='border'
+                        key={i}
                         >
                             <Link
                             to={child?.link}
@@ -112,6 +114,7 @@ const SideNav:React.FC<Props> = (props: Props) => {
             {(role === RoleType.Student) && (<div className='bg-[#1488D8] w-[15vw] min-h-[calc(100vh-112px)] h-[100%] flex flex-col'>
                 {studentSideBarOptions?.map((option, i) => (
                     <SideNavItem
+                    key={i}
                         keyz={i}
                         name={option?.name}
                         icon={option?.icon}
@@ -126,6 +129,7 @@ const SideNav:React.FC<Props> = (props: Props) => {
             {(role === RoleType.FVD) && (<div className='bg-[#1488D8] w-[15vw] min-h-[calc(100vh-112px)] h-[100%] flex flex-col'>
                 {fvdSideBarOptions?.map((option, i) => (
                     <SideNavItem
+                        key={i}
                         keyz={i}
                         name={option?.name}
                         icon={option?.icon}
@@ -140,6 +144,7 @@ const SideNav:React.FC<Props> = (props: Props) => {
             {(role === RoleType.FS) && (<div className='bg-[#1488D8] w-[15vw] min-h-[calc(100vh-112px)] h-[100%] flex flex-col'>
                 {fsSideBarOptions?.map((option, i) => (
                     <SideNavItem
+                        key={i}
                         keyz={i}
                         name={option?.name}
                         icon={option?.icon}

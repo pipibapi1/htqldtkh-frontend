@@ -7,7 +7,7 @@ import LoginIndex from './pages/loginPage/LoginIndex';
 import PasswordResetIndex from './pages/passwordResetPage';
 import Register from './pages/registerPage';
 import PersonalInfo from './pages/personalInfo';
-import OldAnnouncement from './pages/homePage/OldAnnouncementFull';
+import OldAnnouncementFull from './pages/homePage/OldAnnouncementFull';
 import MyTopicPage from './pages/student/myTopicPage';
 import { appRouters } from "./shared/urlResources";
 import RegisterTopicPage from './pages/student/topicRegisterPage';
@@ -45,7 +45,7 @@ function App() {
   return (
     <Routes>
       <Route path={appRouters.LINK_TO_HOME_PAGE} element={<Home/>} />
-      <Route path={appRouters.LINK_TO_OLD_ANNOUNCEMENT_PAGE + '/:announcementId'} element={<OldAnnouncement/>} />
+      <Route path={appRouters.LINK_TO_OLD_ANNOUNCEMENT_PAGE + '/:announcementId'} element={<OldAnnouncementFull/>} />
       <Route path={appRouters.LINK_TO_LOGIN_PAGE} element={<Login/>} />
       <Route path={appRouters.LINK_TO_LOGIN_INDEX_PAGE} element={<LoginIndex/>} />
       <Route path={appRouters.LINK_TO_LOGIN_PASSWORD_RESET_PAGE} element={<PasswordResetIndex/>} />

@@ -180,7 +180,7 @@ const Announcement: React.FC = () => {
               defaultValue={periods.length === 0 ? "" : periods[0]._id}
               value={currentPeriod}
             >
-              {periods.map((period, index) => (
+              {periods.map((period) => (
                 <option value={period._id} id={period._id}>
                   {displayPeriod(period.period)}
                 </option>
