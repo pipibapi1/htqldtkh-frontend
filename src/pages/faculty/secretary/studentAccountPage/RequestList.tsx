@@ -108,7 +108,7 @@ const RequestList: React.FC = () => {
         .then((data) => {
             setStudents(data?.students)
             if(data?.metadata.totalPage > 0){
-                setTotalPage(totalPage)
+                setTotalPage(data?.metadata.totalPage)
             }
             }
         )

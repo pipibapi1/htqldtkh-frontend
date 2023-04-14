@@ -17,7 +17,7 @@ import { getTopicListAction } from '../../../../../actions/topicAction';
 
 import BackIcon from '../../../../../assets/images/🦆 icon _arrow circle left_.png';
 
-const RECORD_PER_PAGE = 8;
+const RECORD_PER_PAGE = 5;
 
 interface Period{
     _id: string;

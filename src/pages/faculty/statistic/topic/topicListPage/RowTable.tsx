@@ -2,7 +2,7 @@ import React from 'react';
 
 import { displayDate } from '../../../../../shared/functions';
 
-const RECORD_PER_PAGE = 8;
+const RECORD_PER_PAGE = 5;
 
 interface Props {
   index: number

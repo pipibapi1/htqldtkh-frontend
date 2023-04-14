@@ -406,15 +406,15 @@ const TopicStatistic: React.FC = () => {
                     <PieChart className='w-1/2 text-[6px]'
                     label={({ dataEntry }) => { return dataEntry.percentage > 0 ? `${Math.round(dataEntry.percentage)} %` : ''}}
                     data={[
-                        { title: 'Tạo mới', value: numOfNew, color: '#4169E1' },
-                        { title: 'Sẵn sàng xét duyệt', value: numOfNew, color: '#32CD32' },
-                        { title: 'Đang thực hiện', value: numOfCarryOut, color: '#FF8C00' },
-                        { title: 'Rớt xét duyệt', value: numOfNew, color: '#FF6347' },
-                        { title: 'Đến hạn nghiệm thu', value: numOfDueToAccept, color: '#008080' },
-                        { title: 'Đã hoàn thành', value: numOfFinished, color: '#1E90FF' },
-                        { title: 'Rớt nghiệm thu', value: numOfNew, color: '#FF4500' },
-                        { title: 'Trễ hạn', value: numOfOutOfDated, color: '#B22222' },
-                        { title: 'Bị hủy', value: numOfCanceled, color: '#A9A9A9' },
+                        { title: 'Tạo mới', value: numOfNew, color: 'rgba(65, 105, 225, 0.6)'},
+                        { title: 'Sẵn sàng xét duyệt', value: numOfReady, color: 'rgba(50, 205, 50, 0.6)' },
+                        { title: 'Đang thực hiện', value: numOfCarryOut, color: 'rgba(255, 140, 0, 0.6)' },
+                        { title: 'Rớt xét duyệt', value: numOfFailReview, color: 'rgba(255, 99, 71, 0.6)' },
+                        { title: 'Đến hạn nghiệm thu', value: numOfDueToAccept, color: 'rgba(0, 128, 128, 0.6)' },
+                        { title: 'Đã hoàn thành', value: numOfFinished, color: 'rgba(30, 144, 255, 0.6)' },
+                        { title: 'Rớt nghiệm thu', value: numOfFailAccept, color: 'rgba(255, 69, 0, 0.6)' },
+                        { title: 'Trễ hạn', value: numOfOutOfDated, color: 'rgba(178, 34, 34, 0.6)' },
+                        { title: 'Bị hủy', value: numOfCanceled, color: 'rgba(169, 169, 169, 0.6)' },
                     ]}
                     />
                     </div>
