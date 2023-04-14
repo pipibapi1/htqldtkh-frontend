@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { useDispatch } from "react-redux";
 import Swal from 'sweetalert2';
 import DatePicker from "react-datepicker";
+import vi from 'date-fns/locale/vi';
 
 import { AppDispatch } from '../../../../store';
 
@@ -110,6 +111,7 @@ const Modal = ({isVisible, onClose, year}: {isVisible: boolean, onClose: any, ye
                                         selected={monthAndYear}
                                         dateFormat="MM/yyyy"
                                         showMonthYearPicker
+                                        locale={vi}
                                         className="h-[40px] w-full border border-black border-1 rounded-md px-2"
                                                 />
                                     <div className='absolute mr-2'>

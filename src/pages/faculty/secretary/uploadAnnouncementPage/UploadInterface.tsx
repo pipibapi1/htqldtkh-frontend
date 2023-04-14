@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useDispatch } from "react-redux";
 import DatePicker from "react-datepicker";
 import Swal from 'sweetalert2';
+import vi from 'date-fns/locale/vi';
 
 import { AppDispatch } from '../../../../store';
 
@@ -188,6 +189,7 @@ const UploadInterface: React.FC = (props: any) => {
                             selected={year}
                             dateFormat="yyyy"
                             showYearPicker
+                            locale={vi}
                             className="h-[40px] w-[90px] border border-black border-1 rounded-md px-2"
                                     />
                         <div className='absolute mr-2'>

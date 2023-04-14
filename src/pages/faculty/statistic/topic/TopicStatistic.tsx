@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import DatePicker from "react-datepicker";
 import { PieChart } from 'react-minimal-pie-chart';
 import { useDispatch} from "react-redux";
+import vi from 'date-fns/locale/vi';
 
 import { AppDispatch } from '../../../../store';
 
@@ -297,6 +298,7 @@ const TopicStatistic: React.FC = () => {
                             selected={year}
                             dateFormat="yyyy"
                             showYearPicker
+                            locale={vi}
                             className="h-[40px] w-[90px] border border-black border-1 rounded-md px-2"
                                     />
                         <div className='absolute mr-2'>

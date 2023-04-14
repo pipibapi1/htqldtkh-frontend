@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { Document, Page } from "react-pdf/dist/esm/entry.webpack5";
 import { useDispatch } from "react-redux";
+import vi from 'date-fns/locale/vi';
 
 import { AppDispatch } from "../../store";
 import { appRouters } from "../../shared/urlResources";
@@ -160,6 +161,7 @@ const Announcement: React.FC = () => {
             selected={year}
             dateFormat="yyyy"
             showYearPicker
+            locale={vi}
             className="h-[40px] w-[90px] border border-black border-1 rounded-md px-2"
           />
           <div className="absolute mr-2">

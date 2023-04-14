@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useDispatch } from "react-redux";
 import DatePicker from "react-datepicker";
 import { BarChart, Bar, XAxis, YAxis, Tooltip, CartesianGrid, Label } from 'recharts';
+import vi from 'date-fns/locale/vi';
 
 import { AppDispatch } from '../../../../store';
 
@@ -300,6 +301,7 @@ const ExpenseStatistic: React.FC = () => {
                             selected={startYear}
                             dateFormat="yyyy"
                             showYearPicker
+                            locale={vi}
                             className="h-[40px] w-[90px] border border-black border-1 rounded-md px-2"
                                     />
                         <div className='absolute mr-2'>
@@ -338,6 +340,7 @@ const ExpenseStatistic: React.FC = () => {
                             selected={endYear}
                             dateFormat="yyyy"
                             showYearPicker
+                            locale={vi}
                             className="h-[40px] w-[90px] border border-black border-1 rounded-md px-2"
                                     />
                         <div className='absolute mr-2'>
@@ -379,6 +382,7 @@ const ExpenseStatistic: React.FC = () => {
                             selected={year}
                             dateFormat="yyyy"
                             showYearPicker
+                            locale={vi}
                             className="h-[40px] w-[90px] border border-black border-1 rounded-md px-2"
                                     />
                         <div className='absolute mr-2'>
