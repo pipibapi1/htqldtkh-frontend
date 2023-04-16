@@ -2,5 +2,5 @@ export enum TopicMemberTypeEnum {
     Leader = 'Chủ nhiệm đề tài',
     OthersMember = 'Thành viên khác',
     AllMember = 'Tất cả thành viên',
-    Instructor = 'Giáo viên hướng dẫn'
+    NumMember = 'trong tổng số thành viên'
 }

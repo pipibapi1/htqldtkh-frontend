@@ -5,9 +5,11 @@ import { OperationTypeEnum } from "../../../../../../shared/types/operationType"
 import { TopicMemberTypeEnum } from "../../../../../../shared/types/topicMemberType";
 import { updateExprTopicCondition, deleteExprTopicCondition } from "../../../../../../actions/topicConditionAction";
 import { exprComponent } from "../interface";
+import { TopicMemberSelect } from "./topicMemberSelect";
 import { VariableElement } from "./variableElement";
 import { variableInfo, expression, logicExprIntf } from "../../../../../../shared/interfaces/topicConditionInterface";
 import { VariableTypeEnum } from "../../../../../../shared/types/variableType";
+import { EducationType } from "../../../../../../shared/types/educationType";
 
 type variableArrAction = (arr: variableInfo[]) => variableInfo[]
 
@@ -44,6 +46,37 @@ export const LogicalExprElement : React.FC<exprComponent> = ({exprId}) => {
     const useAppDispatch: () => AppDispatch = useDispatch;
     const dispatch = useAppDispatch();
 
+    const valueForCompareInput = () => {
+        if (variableArr[0].variable === VariableTypeEnum.EDUCATION_TYPE) {
+            return (
+                <select
+                    className={`bg-white h-[40px] border ${subExpr.rightValue? 'border-[#1488d8]':'border-[#e1000e]'} border-1 rounded-lg px-1 mx-1`}
+                    defaultValue={subExpr.rightValue}
+                    onChange={onChangeRightValueInput}
+                >
+                    {Object.values(EducationType).map((type) => {
+                        return (
+                            <option key={type} value={type}>
+                                {type}
+                            </option>
+                        )
+                    })}
+                    <option value="" hidden>Chọn</option>
+                </select>
+            )
+        }
+        else {
+            return (
+                <input
+                    className={`bg-white h-[40px] w-[160px] border ${isValidRightValue? "border-[#1488d8]" : "border-red-500"} border-1 rounded-lg focus:ring-blue-500 px-1`}
+                    defaultValue={subExpr.rightValue}
+                    placeholder="Giá trị so sánh"
+                    onChange={onChangeRightValueInput}
+                ></input>
+            )
+        }
+    }
+
     const onChangeOperatorType = (event: ChangeEvent<HTMLSelectElement>) => {
         const newSubExpr: logicExprIntf = {
             ...subExpr,
@@ -52,15 +85,7 @@ export const LogicalExprElement : React.FC<exprComponent> = ({exprId}) => {
         dispatch(updateExprTopicCondition(newSubExpr, exprId));
     }
 
-    const onChangeTopicMemberType = (event: ChangeEvent<HTMLSelectElement>) => {
-        const newSubExpr: logicExprIntf = {
-            ...subExpr,
-            object: event.target.value
-        };
-        dispatch(updateExprTopicCondition(newSubExpr, exprId));
-    }
-
-    const onChangeRightValueInput = (event: ChangeEvent<HTMLInputElement>) => {
+    const onChangeRightValueInput = (event: ChangeEvent<HTMLInputElement> | ChangeEvent<HTMLSelectElement>) => {
         const newSubExpr: logicExprIntf = {
             ...subExpr,
             rightValue: event.target.value
@@ -103,9 +128,18 @@ export const LogicalExprElement : React.FC<exprComponent> = ({exprId}) => {
                 className="ml-1 mr-3 pi pi-trash border border-1 border-[#1488d8] rounded p-2"
                 onClick={onDeleteSubExpr}
             ></button>
+            <div className="mx-1 flex flex-row">
+                <TopicMemberSelect
+                    exprId={exprId}
+                    subExpr={subExpr}
+                ></TopicMemberSelect>
+            </div>
+            <div className="mx-1">
+                có
+            </div>
             <div className="mx-1 flex flex-col items-center">
-                <div className="mb-1">
-                    Tổng của:
+                <div className={`mb-1 ${variableArr.length>1? '': 'hidden'}`}>
+                    Tổng:
                 </div>
                 {variableArr.map((variable) => {
                     return (
@@ -118,34 +152,16 @@ export const LogicalExprElement : React.FC<exprComponent> = ({exprId}) => {
                     )
                 })}
                 <div className="mt-1">
-                    <button
-                        className="bg-white h-[40px] w-[80px] border border-[#1488d8] border-1 rounded-lg focus:ring-blue-500 px-1"
-                        onClick={onClickAddVariable}
-                    >
-                        Thêm
-                    </button>
+                    { (variableArr.length===0 || variableArr[0].variable !== VariableTypeEnum.EDUCATION_TYPE)
+                     && (
+                        <button
+                            className="bg-white h-[40px] w-[80px] border border-[#1488d8] border-1 rounded-lg focus:ring-blue-500 px-1"
+                            onClick={onClickAddVariable}
+                        >
+                            Thêm
+                        </button>
+                    )}
                 </div>
-            </div>
-            <div className="mx-1">
-                của
-            </div>
-            <div className="mx-1">
-                <select
-                    className="bg-white h-[40px] w-[180px] border border-[#1488d8] border-1 rounded-lg focus:ring-blue-500 px-1"
-                    value={subExpr.object}
-                    onChange={onChangeTopicMemberType}
-                >
-                    {Object.values(TopicMemberTypeEnum).map((type) => {
-                        return (
-                            <option 
-                                value={type}
-                                key={type}
-                            >
-                                {type}
-                            </option>
-                        )
-                    })}
-                </select>
             </div>
             <div className="mx-1">
                 <select
@@ -162,12 +178,7 @@ export const LogicalExprElement : React.FC<exprComponent> = ({exprId}) => {
                 </select>
             </div>
             <div className="mx-1">
-                <input
-                    className={`bg-white h-[40px] w-[160px] border ${isValidRightValue? "border-[#1488d8]" : "border-red-500"} border-1 rounded-lg focus:ring-blue-500 px-1`}
-                    defaultValue={subExpr.rightValue}
-                    placeholder="Giá trị dùng để so sánh"
-                    onChange={onChangeRightValueInput}
-                ></input>
+                {valueForCompareInput()}
             </div>
         </div>
     )

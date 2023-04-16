@@ -20,7 +20,7 @@ export interface relationExprIntf {
 
 export interface logicExprIntf{
     operator: string,
-    object: string,
+    object: topicMemberObject,
     leftExpr: variableInfo[],
     rightValue: string
 }
@@ -35,4 +35,10 @@ export interface variableInfo {
 
 export interface expression {
     [k: string]: (relationExprIntf | logicExprIntf)
+}
+
+interface topicMemberObject {
+    name: string,
+    quantity?: string,
+    compare?: string
 }

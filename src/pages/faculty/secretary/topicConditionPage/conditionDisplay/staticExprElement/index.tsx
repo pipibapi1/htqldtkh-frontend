@@ -30,6 +30,13 @@ const LogicalExprElement : React.FC<exprComponent> = ({exprId}) => {
     return (
         <div className="flex flex-row items-center border-[#d9d9d9] border-2 rounded pl-3 pr-2 py-4 w-full overflow-y-auto">
             <div className="bg-[#d9d9d9] rounded mx-1 p-1">
+                {subExpr.object.quantity? `${subExpr.object.compare} ${subExpr.object.quantity} ${subExpr.object.name}`
+                : subExpr.object.name}
+            </div>
+            <div className="mx-1 p-1">
+                có
+            </div>
+            <div className="bg-[#d9d9d9] rounded mx-1 p-1">
                 <p>
                     {variableArr.map((variable) => {
                         let variableStr;
@@ -47,12 +54,6 @@ const LogicalExprElement : React.FC<exprComponent> = ({exprId}) => {
                         return strVar1 + ' + ' + strVar2
                     })}
                 </p>
-            </div>
-            <div className="mx-1 p-1">
-                của
-            </div>
-            <div className="bg-[#d9d9d9] rounded mx-1 p-1">
-                {subExpr.object}
             </div>
             <div className="bg-[#d9d9d9] rounded mx-1 p-1">
                 {subExpr.operator}

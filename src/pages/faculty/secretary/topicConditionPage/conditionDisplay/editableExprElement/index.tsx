@@ -74,7 +74,9 @@ const NullExprElement : React.FC<exprComponent> = ({exprId}) => {
                     key: timeStamp.concat(randomNum),
                 }],
                 rightValue: "",
-                object: TopicMemberTypeEnum.AllMember
+                object: {
+                    name: TopicMemberTypeEnum.AllMember
+                }
             }
             dispatch(addExprTopicCondition(newExpr, exprId))
         }
