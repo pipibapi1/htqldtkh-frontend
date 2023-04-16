@@ -129,7 +129,7 @@ const RegisterStep2:React.FC<Props> = (props: Props) => {
             if ((subExpr.operator !== OperationTypeEnum.AND) && (subExpr.operator !== OperationTypeEnum.OR)) {
                 const logicExpr = subExpr as logicExprIntf;
                 const variableArr: variableInfo[] = logicExpr.leftExpr;
-                if (logicExpr.object === TopicMemberTypeEnum.Leader) {
+                if (logicExpr.object.name === TopicMemberTypeEnum.Leader) {
                     variableArr.forEach((variable) => {
                         if (variable.variable === VariableTypeEnum.SUBJECT_MARK) {
                             memberInfoField.leader[variable.subjectId as string] = variable;
@@ -139,7 +139,7 @@ const RegisterStep2:React.FC<Props> = (props: Props) => {
                         }
                     })
                 }
-                else if (logicExpr.object === TopicMemberTypeEnum.OthersMember) {
+                else if (logicExpr.object.name === TopicMemberTypeEnum.OthersMember) {
                     variableArr.forEach((variable) => {
                         if (variable.variable === VariableTypeEnum.SUBJECT_MARK) {
                             memberInfoField.otherMembers[variable.subjectId as string] = variable;
@@ -149,7 +149,8 @@ const RegisterStep2:React.FC<Props> = (props: Props) => {
                         }
                     })
                 }
-                else if (logicExpr.object === TopicMemberTypeEnum.AllMember) {
+                else if (logicExpr.object.name === TopicMemberTypeEnum.AllMember 
+                    || logicExpr.object.name === TopicMemberTypeEnum.NumMember) {
                     variableArr.forEach((variable) => {
                         if (variable.variable === VariableTypeEnum.SUBJECT_MARK) {
                             memberInfoField.leader[variable.subjectId as string] = variable;
@@ -163,7 +164,8 @@ const RegisterStep2:React.FC<Props> = (props: Props) => {
                 }
             }
         })
-        setConditionVar(memberInfoField)
+        setConditionVar(memberInfoField);
+        console.log(memberInfoField)
     }, [expression])
 
     let instructors = [];

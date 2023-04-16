@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { variableInfo } from "../../../../../../shared/interfaces/topicConditionInterface";
 import { VariableTypeEnum } from "../../../../../../shared/types/variableType";
 
@@ -146,16 +146,20 @@ export const VariableElement: React.FC<variableElement> = ({variable, onUpdate, 
                     </input>
                 </>
             )}
-            <div>
-                X
-            </div>
-            <input
-                className="bg-white h-[40px] w-[80px] border border-[#1488d8] border-1 rounded-lg px-1 mx-1"
-                defaultValue={variable.weight}
-                onChange={onChangeWeight}
-                placeholder="Trọng số"
-            >
-            </input>
+            {variable.variable !== VariableTypeEnum.EDUCATION_TYPE && (
+                <>
+                    <div>
+                        X
+                    </div>
+                    <input
+                        className="bg-white h-[40px] w-[80px] border border-[#1488d8] border-1 rounded-lg px-1 mx-1"
+                        defaultValue={variable.weight}
+                        onChange={onChangeWeight}
+                        placeholder="Trọng số"
+                    >
+                    </input>
+                </>
+            )}
         </div>
     )
 }

@@ -90,7 +90,7 @@ const InstructorCondition: React.FC<props> = (props) => {
         return (Object.values(AcademyRank).filter((type) => type !== AcademyRank.None))
                 .map((type) => {
                     return (
-                        <div className="flex flex-row">
+                        <div className="flex flex-row" key={type}>
                             <input
                                 type='checkbox'
                                 id={`${type}_checkbox`}
@@ -151,7 +151,7 @@ const InstructorCondition: React.FC<props> = (props) => {
     const displayDegreeCheckbox = () => {
         return Object.values(DegreeType).map((type) => {
             return (
-                <div className="flex flex-row">
+                <div className="flex flex-row" key={type}>
                     <input
                         type='checkbox'
                         id={`${type}_checkbox`}
