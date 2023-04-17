@@ -165,7 +165,6 @@ const RegisterStep2:React.FC<Props> = (props: Props) => {
             }
         })
         setConditionVar(memberInfoField);
-        console.log(memberInfoField)
     }, [expression])
 
     let instructors = [];
@@ -550,8 +549,6 @@ const RegisterStep2:React.FC<Props> = (props: Props) => {
                 </div>
                 <div className='flex flex-col w-full ml-2'>
                     <LeaderInfo
-                        topic={topic}
-                        setTopic={setTopic}
                         conditionField={conditionVar.leader}
                         dataForCondition={dataForCondition}
                         setDataForCondition={setDataForCondition}

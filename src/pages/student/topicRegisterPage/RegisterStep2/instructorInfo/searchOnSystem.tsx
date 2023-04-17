@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import Swal from 'sweetalert2';
 
-import { topicInput } from '../../../../shared/interfaces/topicInterface';
-import { HCMUTSystemInstructorIntf } from '../../../../shared/interfaces/HCMUTSystemInstructorIntf';
-import { HCMUTInstructorService } from '../../../../externalService/HCMUTService/instructorService';
+import { topicInput } from '../../../../../shared/interfaces/topicInterface';
+import { HCMUTSystemInstructorIntf } from '../../../../../shared/interfaces/HCMUTSystemInstructorIntf';
+import { HCMUTInstructorService } from '../../../../../externalService/HCMUTService/instructorService';
 interface Props {
     index: number,
     setTopic: any,
@@ -16,7 +16,7 @@ interface InstructorData {
     isNotFound: boolean
 }
 
-const InstructorInput: React.FC<Props> = (props: Props) => {
+const SearchInstructorOnSystem: React.FC<Props> = (props: Props) => {
     const {index, topic, setTopic} = props;
     const instructor = topic.instructors[index];
     const [instructorInput, setInstructorInput] = useState<InstructorData>({
@@ -172,44 +172,32 @@ const InstructorInput: React.FC<Props> = (props: Props) => {
     }, [instructor, topic.instructors])
 
     return (
-        <div className='flex flex-col w-full mb-6'>
-            <div className='border-b-2 border-t-2 border-black text-lg font-semibold'>
-                Thành viên {index + 1}:
-            </div>
-            <div className="text-[#e1000e]">
-                {isDuplicated? (
-                    <i>
-                        Thành viên bị trùng lặp
-                    </i>
-                ): null}
-            </div>
-            <div className='flex flex-col ml-2 mt-3 w-full'>
-                <div className='flex w-full items-center justify-start'>
-                    <div className='flex w-1/2 flex-row justify-between my-1 mr-4'>
-                        <div className=''>
-                            Mã số cán bộ:
-                        </div>
-                        <input
-                            type="text"
-                            name="fmName"
-                            className="w-2/3 border border-black border-1 rounded-md p-1"
-                            onChange={onChangeStaffId}
-                            value={instructorInput.staffId}
-                        ></input>
+        <div className='flex flex-col ml-2 mt-3 w-full'>
+            <div className='flex w-full items-center justify-start'>
+                <div className='flex w-1/2 flex-row justify-between my-1 mr-4'>
+                    <div className=''>
+                        Mã số cán bộ:
                     </div>
-                    <div className='flex w-1/4 flex-col items-start justify-between my-1'>
-                        <button
-                            className='px-2 py-1 rounded border border-2 border-[#1488d8] text-[#1488d8]'
-                            onClick={onClickFindInfoBtn}
-                        >
-                            Tìm thông tin
-                        </button>
-                    </div>
+                    <input
+                        type="text"
+                        name="fmName"
+                        className="w-2/3 border border-black border-1 rounded-md p-1"
+                        onChange={onChangeStaffId}
+                        value={instructorInput.staffId}
+                    ></input>
                 </div>
-                {displayInstructorInfo()}
+                <div className='flex w-1/4 flex-col items-start justify-between my-1'>
+                    <button
+                        className='px-2 py-1 rounded border border-2 border-[#1488d8] text-[#1488d8]'
+                        onClick={onClickFindInfoBtn}
+                    >
+                        Tìm thông tin
+                    </button>
+                </div>
             </div>
+            {displayInstructorInfo()}
         </div>
     )
 }
 
-export default InstructorInput
+export default SearchInstructorOnSystem;

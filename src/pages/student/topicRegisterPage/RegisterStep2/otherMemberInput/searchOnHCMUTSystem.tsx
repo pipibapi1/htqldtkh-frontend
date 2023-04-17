@@ -1,14 +1,14 @@
 import React, { useState } from 'react';
 import Swal from 'sweetalert2';
 
-import { topicInput } from '../../../../shared/interfaces/topicInterface';
-import { VariableTypeEnum } from '../../../../shared/types/variableType';
+import { topicInput } from '../../../../../shared/interfaces/topicInterface';
+import { VariableTypeEnum } from '../../../../../shared/types/variableType';
 
-import { HCMUTStudentService } from '../../../../externalService/HCMUTService/studentService';
-import { HCMUTSystemStudentIntf } from '../../../../shared/interfaces/HCMUTSystemStudentIntf';
+import { HCMUTStudentService } from '../../../../../externalService/HCMUTService/studentService';
+import { HCMUTSystemStudentIntf } from '../../../../../shared/interfaces/HCMUTSystemStudentIntf';
 
 import { useSelector} from 'react-redux';
-import { RootState} from '../../../../store';
+import { RootState} from '../../../../../store';
 
 interface Props {
     index: number,
@@ -37,7 +37,7 @@ interface VarName {
     subjectId?: string
 }
 
-const OtherMembersInput: React.FC<Props> = (props: Props) => {
+const SearchOtherMemberOnHCMUTSystem: React.FC<Props> = (props: Props) => {
     const {index, topic, setTopic, conditionField, dataForCondition, setDataForCondition} = props;
     const currMember = topic.otherMembers[index];
     const [memberInput, setMemberInput] = useState<otherMemberInput>({
@@ -46,13 +46,6 @@ const OtherMembersInput: React.FC<Props> = (props: Props) => {
         isLoadding: false,
         isConflict: false
     })
-    const {user} = useSelector((state: RootState) => state.auth);
-
-    //check whether current member is duplicated or not
-    const otherMembers = topic.otherMembers;
-    const listMemberSameId = otherMembers.filter((member) => member.studentId === currMember.studentId)
-    const isDuplicated = currMember.studentId && 
-                        ((listMemberSameId.length > 1) || (currMember.studentId === user.studentId));
 
     const displayMemberInfo = () => {
         //display when getting student info
@@ -221,7 +214,7 @@ const OtherMembersInput: React.FC<Props> = (props: Props) => {
                         isConflict: false
                     })
                     Swal.fire({
-                        text: "Đã có lỗi xảy ra. Vui lòng thử lại sau",
+                        text: "Đã có lỗi xảy ra. Vui lòng thử lại sau hoặc nhập dữ liệu thủ công.",
                         icon: "error"
                     })
                 }
@@ -264,56 +257,44 @@ const OtherMembersInput: React.FC<Props> = (props: Props) => {
     }
 
     return (
-        <div className='flex flex-col w-full mb-6'>
-            <div className='border-b-2 border-t-2 border-black text-lg font-semibold'>
-                Thành viên {index + 1}:
-            </div>
-            <div className="text-[#e1000e]">
-                {isDuplicated? (
-                    <i>
-                        Thành viên bị trùng lặp
-                    </i>
-                ): null}
-            </div>
-            <div className='flex flex-col ml-2 mt-3 w-full'>
-                <div className='flex w-full items-center'>
-                    <div className='flex w-1/4 flex-col justify-between my-1'>
-                        <div className=''>
-                            Mã số sinh viên:
-                        </div>
-                        <input
-                            type="text"
-                            name="fmName"
-                            className="w-2/3 border border-black border-1 rounded-md p-1"
-                            onChange={onChangeStudentId}
-                            value={memberInput.studentId}
-                        ></input>
+        <div className='flex flex-col ml-2 mt-3 w-full'>
+            <div className='flex w-full items-center'>
+                <div className='flex w-1/4 flex-col justify-between my-1'>
+                    <div className=''>
+                        Mã số sinh viên:
                     </div>
-                    <div className='flex w-1/2 flex-col justify-between my-1'>
-                        <div>
-                            Email (Cần sử dụng mail trường):
-                        </div>
-                        <input
-                            type="text"
-                            name="name"
-                            className="w-5/6 border border-black border-1 rounded-md p-1"
-                            onChange={onChangeEmail}
-                            value={memberInput.email}
-                        ></input>
-                    </div>
-                    <div className='flex w-1/4 flex-col items-start justify-between my-1'>
-                        <button
-                            className='px-2 py-1 rounded border border-2 border-[#1488d8] text-[#1488d8]'
-                            onClick={onClickFindInfoBtn}
-                        >
-                            Tìm thông tin
-                        </button>
-                    </div>
+                    <input
+                        type="text"
+                        name="fmName"
+                        className="w-2/3 border border-black border-1 rounded-md p-1"
+                        onChange={onChangeStudentId}
+                        value={memberInput.studentId}
+                    ></input>
                 </div>
-                {displayMemberInfo()}
+                <div className='flex w-1/2 flex-col justify-between my-1'>
+                    <div>
+                        Email (Cần sử dụng mail trường):
+                    </div>
+                    <input
+                        type="text"
+                        name="name"
+                        className="w-5/6 border border-black border-1 rounded-md p-1"
+                        onChange={onChangeEmail}
+                        value={memberInput.email}
+                    ></input>
+                </div>
+                <div className='flex w-1/4 flex-col items-start justify-between my-1'>
+                    <button
+                        className='px-2 py-1 rounded border border-2 border-[#1488d8] text-[#1488d8]'
+                        onClick={onClickFindInfoBtn}
+                    >
+                        Tìm thông tin
+                    </button>
+                </div>
             </div>
+            {displayMemberInfo()}
         </div>
     )
 }
 
-export default OtherMembersInput
+export default SearchOtherMemberOnHCMUTSystem;
