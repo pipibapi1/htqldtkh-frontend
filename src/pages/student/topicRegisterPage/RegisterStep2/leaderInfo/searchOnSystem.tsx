@@ -1,18 +1,16 @@
 import React, { useCallback, useState } from 'react';
 import Swal from 'sweetalert2';
 
-import { topicInput } from '../../../../shared/interfaces/topicInterface';
-import { VariableTypeEnum } from '../../../../shared/types/variableType';
+import { topicInput } from '../../../../../shared/interfaces/topicInterface';
+import { VariableTypeEnum } from '../../../../../shared/types/variableType';
 
-import { HCMUTStudentService } from '../../../../externalService/HCMUTService/studentService';
-import { HCMUTSystemStudentIntf } from '../../../../shared/interfaces/HCMUTSystemStudentIntf';
+import { HCMUTStudentService } from '../../../../../externalService/HCMUTService/studentService';
+import { HCMUTSystemStudentIntf } from '../../../../../shared/interfaces/HCMUTSystemStudentIntf';
 
 import { useSelector } from 'react-redux';
-import { RootState } from '../../../../store';
+import { RootState } from '../../../../../store';
 
 interface Props {
-    setTopic: any,
-    topic: topicInput,
     conditionField: {[k: string] : VarName},
     dataForCondition: DataForCondition,
     setDataForCondition: any
@@ -44,8 +42,8 @@ interface LeaderConditionVar{
     [k:string] : string | number | undefined
 }
 
-const LeaderInfo: React.FC<Props> = (props: Props) => {
-    const {topic, conditionField, dataForCondition, setDataForCondition} = props;
+const SearchLeaderOnSystem: React.FC<Props> = (props: Props) => {
+    const {conditionField, dataForCondition, setDataForCondition} = props;
     const {user} = useSelector((state: RootState) => state.auth);
     const [leaderInfo, setLeaderInfo] = useState<LeaderDataForcondition>({
         isLoadding: false,
@@ -226,4 +224,4 @@ const LeaderInfo: React.FC<Props> = (props: Props) => {
     )
 }
 
-export default LeaderInfo;
+export default SearchLeaderOnSystem;
