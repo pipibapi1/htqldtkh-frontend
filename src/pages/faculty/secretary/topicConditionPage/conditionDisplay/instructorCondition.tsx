@@ -87,7 +87,7 @@ const InstructorCondition: React.FC<props> = (props) => {
     }
 
     const displayAcademyRankCheckBox = () => {
-        return (Object.values(AcademyRank).filter((type) => type !== AcademyRank.None))
+        return Object.values(AcademyRank)
                 .map((type) => {
                     return (
                         <div className="flex flex-row" key={type}>
@@ -106,7 +106,6 @@ const InstructorCondition: React.FC<props> = (props) => {
                     )
                 })
     }
-
     
     const onChangeDegreeCheckbox = (event: React.ChangeEvent<HTMLInputElement>) => {
         const value = event.target.value;
@@ -168,6 +167,29 @@ const InstructorCondition: React.FC<props> = (props) => {
         })
     }
 
+    const displayAcademyRank = () => {
+        if (condition?.academyRank?.length) {
+            const lastEle = condition.academyRank[condition.academyRank.length - 1];
+            return `Học hàm: ${condition.academyRank.slice(0, condition.academyRank.length - 1).join(', ')}`
+                + ` hoặc ${lastEle}`
+        }
+        else {
+            return `Không có học hàm nào thỏa mãn`
+        }
+    }
+
+    
+    const displayDegree = () => {
+        if (condition?.degree?.length) {
+            const lastEle = condition.degree[condition.degree.length - 1];
+            return `Học hàm: ${condition.degree.slice(0, condition.degree.length - 1).join(', ')}`
+                + ` hoặc ${lastEle}`
+        }
+        else {
+            return `Không có học vị nào thỏa mãn`
+        }
+    }
+
     if (props.isEditing) {
         return (
             <>
@@ -214,18 +236,10 @@ const InstructorCondition: React.FC<props> = (props) => {
                         Số lượng giáo viên hướng dẫn phải đáp ứng điều kiện: {condition?.approveWay}
                     </div>
                     <div className="mx-4 my-1">
-                        {condition?.academyRank?.length? (
-                            `Học hàm: ${condition?.academyRank?.join(' hoặc ')}`
-                        ) : (
-                            `Không có học hàm nào thỏa mãn`
-                        )}
+                        {displayAcademyRank()}
                     </div>
                     <div className="mx-4 my-1">
-                        {condition?.degree?.length? (
-                            `Học vị: ${condition?.degree?.join(' hoặc ')}`
-                        ) : (
-                            `Không có học vị nào thỏa mãn`
-                        )}
+                        {displayDegree()}
                     </div>
                 </div>
             </>
