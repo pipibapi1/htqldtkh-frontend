@@ -291,16 +291,18 @@ const TopicProduct:React.FC = () => {
     };
 
     useEffect(() => {
-        const fetchAProductById = async (productId: string) => {
+        const fetchAProductById = async (topicId: string) => {
             try {
-                const data = await dispatch(getAProductByTopicIdAction(productId));
-                setProduct(data?.product);
-                setTempProductName(data?.product.productFileName);
+                if(topicId !== ""){
+                    const data = await dispatch(getAProductByTopicIdAction(topicId));
+                    setProduct(data?.product);
+                    setTempProductName(data?.product.productFileName);
+                }
             } catch (error) {
-                Toast.fire({
-                    icon: 'error',
-                    title: error ? error : "Something is wrong!"
-                })
+                // Toast.fire({
+                //     icon: 'error',
+                //     title: error ? error : "Something is wrong!"
+                // })
             }
         };
         fetchAProductById(_id ? _id : "");

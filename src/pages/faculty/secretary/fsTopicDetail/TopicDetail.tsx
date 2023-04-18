@@ -391,7 +391,7 @@ const TopicDetail:React.FC = () => {
                                             Họ và tên: 
                                         </label>
                                         <div className = "w-1/2 text-gray-900 text-md">
-                                            {otherMember.fmName + " " + otherMember.name}
+                                            {otherMember.name}
                                         </div>
                                     </div>
 
@@ -430,10 +430,6 @@ const TopicDetail:React.FC = () => {
                                         <label htmlFor='text' className = "text-md w-[120px] mr-1">
                                             Email: 
                                         </label>
-                                        {/* <input type = 'text' name = 'name' id ='name'
-                                            className = "w-1/2 border border-gray-500 text-md rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5"
-                                            defaultValue={otherMember.email}
-                                        /> */}
                                         <div className = "w-1/2 text-gray-900 text-md">
                                             {otherMember.email}
                                         </div>
@@ -443,10 +439,6 @@ const TopicDetail:React.FC = () => {
                                         <label htmlFor='text' className = "text-md w-[200px] mr-1">
                                             Số điện thoại: 
                                         </label>
-                                        {/* <input type = 'text' name = 'name' id ='name'
-                                            className = "w-1/2 border border-gray-500 text-md rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5"
-                                            defaultValue={otherMember.phoneNumber}
-                                        /> */}
                                         <div className = "w-1/2 text-gray-900 text-md">
                                             {otherMember.phoneNumber}
                                         </div>

@@ -2,6 +2,7 @@ import React, { useState, useEffect, MouseEvent } from "react";
 import Swal from "sweetalert2";
 
 import { TopicInCouncilIntf } from "../../../../../../shared/interfaces/councilInterface";
+import { TopicStatusEnum } from "../../../../../../shared/types/topicStatus";
 
 import topicService from "../../../../../../services/topicService";
 import councilService from "../../../../../../services/councilService";
@@ -16,6 +17,7 @@ const AddTopicToCouncilModal = ({onClose} : {onClose: any}) => {
     useEffect(() => {
         const queryData = {
             period: council.period,
+            status: TopicStatusEnum.DUE_TO_ACCEPT,
             acceptanceCouncil: ""
         }
         topicService.getTopicListService(queryData)

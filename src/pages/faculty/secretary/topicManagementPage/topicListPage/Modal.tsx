@@ -92,51 +92,59 @@ const Modal = ({isVisible, onClose, topic}: {isVisible: boolean, onClose: any, t
 
     const changeATopicToReady = (e: any) => {
         e.preventDefault();
-        const updateInfo = {
-            _id: topic._id,
-            topic: {
-                status: TopicStatusEnum.READY
-            }
-        }
-        Swal.fire({
-            icon: 'question',
-            title: 'Bạn có chắc chuyển đề tài sang sẵn sàng xét duyệt?',
-            showDenyButton: true,
-            showCancelButton: false,
-            confirmButtonText: 'Yes',
-        }).then((result) => {
-      
-            if(result.isConfirmed){
-            dispatch(putUpdateATopicAction(updateInfo))
-              .then((data) => {
-                Swal.fire({
-                  icon: 'success',
-                  title: 'Chuyển trạng thái thành công',
-                  showDenyButton: false,
-                  showCancelButton: false,
-                  confirmButtonText: 'OK',
-                }).then((result) => {
-                  /* Read more about isConfirmed, isDenied below */
-                  if (result.isConfirmed) {
-                    window.location.reload();
-                  } 
-                })
+        if(topic.status === TopicStatusEnum.NEW){
+            const updateInfo = {
+                _id: topic._id,
+                topic: {
+                    status: TopicStatusEnum.READY
                 }
-              )
-              .catch((error) => {
-                Swal.fire({
-                  icon: 'error',
-                  title: 'Có lỗi gì đó đã xảy ra, thử lại sau!',
-                  showDenyButton: false,
-                  showCancelButton: false,
-                  confirmButtonText: 'OK',
-                })
+            }
+            Swal.fire({
+                icon: 'question',
+                title: 'Bạn có chắc chuyển đề tài sang sẵn sàng xét duyệt?',
+                showDenyButton: true,
+                showCancelButton: false,
+                confirmButtonText: 'Yes',
+            }).then((result) => {
+          
+                if(result.isConfirmed){
+                dispatch(putUpdateATopicAction(updateInfo))
+                  .then((data) => {
+                    Swal.fire({
+                      icon: 'success',
+                      title: 'Chuyển trạng thái thành công',
+                      showDenyButton: false,
+                      showCancelButton: false,
+                      confirmButtonText: 'OK',
+                    }).then((result) => {
+                      /* Read more about isConfirmed, isDenied below */
+                      if (result.isConfirmed) {
+                        window.location.reload();
+                      } 
+                    })
+                    }
+                  )
+                  .catch((error) => {
+                    Swal.fire({
+                      icon: 'error',
+                      title: 'Có lỗi gì đó đã xảy ra, thử lại sau!',
+                      showDenyButton: false,
+                      showCancelButton: false,
+                      confirmButtonText: 'OK',
+                    })
+                  })
+                }
+          
+                if(result.isDenied){
+                }
+            })
+        }
+        else{
+            Toast.fire({
+                icon: 'error',
+                title: 'Trạng thái đề tài không phù hợp!'
               })
-            }
-      
-            if(result.isDenied){
-            }
-        })
+        }
     }
 
     return ( 
@@ -164,7 +172,7 @@ const Modal = ({isVisible, onClose, topic}: {isVisible: boolean, onClose: any, t
                                 Góp ý
                             </div>
                         </Link>
-                        <div className='bg-[#0079CC] text-white text-lg font-semibold w-2/3 flex items-center justify-center py-5 hover:bg-[#06609E] hover:cursor-pointer'
+                        {/* <div className='bg-[#0079CC] text-white text-lg font-semibold w-2/3 flex items-center justify-center py-5 hover:bg-[#06609E] hover:cursor-pointer'
                         onClick={(e) => {
                             e.preventDefault();
                             if(topic.status !== TopicStatusEnum.NEW){
@@ -179,7 +187,7 @@ const Modal = ({isVisible, onClose, topic}: {isVisible: boolean, onClose: any, t
                         }}
                         >
                             Bắt đầu đề tài
-                        </div>
+                        </div> */}
                         <div className='bg-[#0079CC] text-white text-lg font-semibold w-2/3 flex items-center justify-center py-5 hover:bg-[#06609E] hover:cursor-pointer'
                         onClick={changeATopicToReady}
                         >
