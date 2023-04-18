@@ -9,6 +9,7 @@ import { HCMUTSystemStudentIntf } from '../../../../../shared/interfaces/HCMUTSy
 
 import { useSelector} from 'react-redux';
 import { RootState} from '../../../../../store';
+import { capitalizeFirstLetter } from '../../../../../shared/functions';
 
 interface Props {
     index: number,
@@ -90,6 +91,9 @@ const SearchOtherMemberOnHCMUTSystem: React.FC<Props> = (props: Props) => {
                         Giới tính: {currMember.gender}
                     </div>
                     <div className='px-3 py-1'>
+                        Chương trình đào tạo: {capitalizeFirstLetter(currMember.educationType)}
+                    </div>
+                    <div className='px-3 py-1'>
                         Email: {currMember.email}
                     </div>
                     <div className='px-3 py-1'>
@@ -125,6 +129,7 @@ const SearchOtherMemberOnHCMUTSystem: React.FC<Props> = (props: Props) => {
         currMember.email = "";
         currMember.studentId = "";
         currMember.birthDate = "";
+        currMember.educationType = "";
         setTopic({...topic});
     }
 
@@ -135,6 +140,7 @@ const SearchOtherMemberOnHCMUTSystem: React.FC<Props> = (props: Props) => {
         currMember.email = student.email;
         currMember.studentId = student.studentId;
         currMember.birthDate = student.birthDate;
+        currMember.educationType = student.educationType;
         setTopic({...topic});
     }
 
@@ -175,6 +181,7 @@ const SearchOtherMemberOnHCMUTSystem: React.FC<Props> = (props: Props) => {
         })
         HCMUTStudentService.getHCMUTStudentById(memberInput.studentId)
             .then((student: HCMUTSystemStudentIntf) => {
+                console.log(student);
                 //check whether student's email is same with email input or not 
                 if ((student.email === memberInput.email)
                     || (`${student.email}.vn` === memberInput.email)
@@ -239,7 +246,7 @@ const SearchOtherMemberOnHCMUTSystem: React.FC<Props> = (props: Props) => {
                     </div>
                 )
             }
-            else {
+            else if (field.variable !== VariableTypeEnum.EDUCATION_TYPE) {
                 const value = currMemberVar[field.variable]
                 return (
                     <div 
@@ -252,6 +259,9 @@ const SearchOtherMemberOnHCMUTSystem: React.FC<Props> = (props: Props) => {
                         }
                     </div>
                 )
+            }
+            else {
+                return null;
             }
         })
     }
