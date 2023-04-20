@@ -35,12 +35,12 @@ const InstructorInput: React.FC<Props> = (props: Props) => {
     return (
         <div className='flex flex-col w-full mb-6'>
             <div className='border-b-2 border-t-2 border-black text-lg font-semibold'>
-                Thành viên {index + 1}:
+                Giảng viên {index + 1}:
             </div>
             <div className="text-[#e1000e]">
                 {isDuplicated? (
                     <i>
-                        Thành viên bị trùng lặp
+                        Giảng viên bị trùng lặp
                     </i>
                 ): null}
             </div>
@@ -49,7 +49,7 @@ const InstructorInput: React.FC<Props> = (props: Props) => {
                     Phương thức nhập dữ liệu: 
                 </div>
                 <select
-                    className='w-fit border border-black border-1 rounded-md p-1'
+                    className='bg-white h-[40px] w-fit border border-black border-1 rounded-lg focus:ring-blue-500 px-2'
                     value={inputMethod}
                     onChange={onChangeInputMethod}
                 >

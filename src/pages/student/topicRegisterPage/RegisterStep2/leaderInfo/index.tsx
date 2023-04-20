@@ -55,7 +55,7 @@ const LeaderInput: React.FC<Props> = (props: Props) => {
                     Phương thức nhập dữ liệu: 
                 </div>
                 <select
-                    className='w-fit border border-black border-1 rounded-md p-1'
+                    className='bg-white h-[40px] w-fit border border-black border-1 rounded-lg focus:ring-blue-500 px-2'
                     value={inputMethod}
                     onChange={onChangeInputMethod}
                 >
