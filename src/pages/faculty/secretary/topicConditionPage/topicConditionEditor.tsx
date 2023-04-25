@@ -156,6 +156,7 @@ const FSTopicConditionEditor: FC = () => {
                                 onChange={onChangeTopicType}
                                 value={type}
                                 disabled={isEditing}
+                                data-testid="topic-type-select"
                             >
                                 {Object.values(TopicTypeEnum).map((type) => {
                                     return (
@@ -177,6 +178,7 @@ const FSTopicConditionEditor: FC = () => {
                         <button 
                             className='button bg-[#1488d8] w-32 py-2 rounded-lg text-white'
                             onClick={onClickBtnEdit}
+                            data-testid="edit-btn"
                         >
                             Chỉnh sửa
                         </button>

@@ -88,7 +88,7 @@ export const getExprResult: exprFunction = (dataForCondition: DataForCondition, 
 }
 
 
-const checkInequality = (leftValue: number, rightValue: number, operator: string) => {
+export const checkInequality = (leftValue: number, rightValue: number, operator: string) => {
     if (isNaN(leftValue)) return false;
     if (operator === OperationTypeEnum.EQUAL) {
         if (leftValue !== rightValue) return false
@@ -111,7 +111,7 @@ const checkInequality = (leftValue: number, rightValue: number, operator: string
     return true;
 }
 
-const calcLeaderNumericLogicalExpr = (logicExpr: logicExprIntf, dataForCondition: DataForCondition, rightValue: number) => {
+export const calcLeaderNumericLogicalExpr = (logicExpr: logicExprIntf, dataForCondition: DataForCondition, rightValue: number) => {
     let leftValue = 0;
     const leftExpr = logicExpr.leftExpr;
     for (let i = 0; i < leftExpr.length; i++) {
@@ -124,7 +124,7 @@ const calcLeaderNumericLogicalExpr = (logicExpr: logicExprIntf, dataForCondition
     return checkInequality(leftValue, rightValue, logicExpr.operator)
 }
 
-const calcOtherMembersNumericLogicalExpr = (logicExpr: logicExprIntf, dataForCondition: DataForCondition, rightValue: number, numMember: number) => {
+export const calcOtherMembersNumericLogicalExpr = (logicExpr: logicExprIntf, dataForCondition: DataForCondition, rightValue: number, numMember: number) => {
     for (let i=0; i < (numMember - 1); i++) {
         let leftValue = 0;
         const currMember = dataForCondition.otherMembers[i];
@@ -142,7 +142,7 @@ const calcOtherMembersNumericLogicalExpr = (logicExpr: logicExprIntf, dataForCon
     return true;
 }
 
-const calcAllMemberStringLogicalExpr = (logicExpr: logicExprIntf, dataForCondition: DataForCondition, rightValue: string, numMember: number) => {
+export const calcAllMemberStringLogicalExpr = (logicExpr: logicExprIntf, dataForCondition: DataForCondition, rightValue: string, numMember: number) => {
     if (logicExpr.operator === OperationTypeEnum.EQUAL) {
         if (dataForCondition.leader[logicExpr.leftExpr[0].variable] !== rightValue) {
             return false;
@@ -167,7 +167,7 @@ const calcAllMemberStringLogicalExpr = (logicExpr: logicExprIntf, dataForConditi
     }
 }
 
-const calcOtherMemberStringLogicalExpr = (logicExpr: logicExprIntf, dataForCondition: DataForCondition, rightValue: string, numMember: number) => {
+export const calcOtherMemberStringLogicalExpr = (logicExpr: logicExprIntf, dataForCondition: DataForCondition, rightValue: string, numMember: number) => {
     if (logicExpr.operator === OperationTypeEnum.EQUAL) {
         for (let i=0; i < (numMember - 1); i++) {
             if (dataForCondition.otherMembers[i][logicExpr.leftExpr[0].variable] !== rightValue) {
@@ -186,7 +186,7 @@ const calcOtherMemberStringLogicalExpr = (logicExpr: logicExprIntf, dataForCondi
     }
 }
 
-const getNumNecessarySatisfiedMember = (quantity: string, numMember: number) => {
+export const getNumNecessarySatisfiedMember = (quantity: string, numMember: number) => {
     const percentPattern = /[1-9][0-9]*([,.][0-9]*)?%/;
     const fractionPattern = /[0-9]*[/][1-9][0-9]*/;
     //calculate percentage
@@ -204,7 +204,7 @@ const getNumNecessarySatisfiedMember = (quantity: string, numMember: number) => 
     }
 }
 
-const calcQuantityCompareExpr = (leftValue: number, rightValue: number, operator: string) => {
+export const calcQuantityCompareExpr = (leftValue: number, rightValue: number, operator: string) => {
     if (isNaN(leftValue)) return false;
     if (operator === QuantityMemberCompareEnum.EQUAL) {
         if (leftValue !== rightValue) return false
@@ -224,7 +224,7 @@ const calcQuantityCompareExpr = (leftValue: number, rightValue: number, operator
     return true;
 }
 
-const calcAQuantityMemberStringLogicalExr = (logicExpr: logicExprIntf, dataForCondition: DataForCondition, rightValue: string, numMember: number) => {
+export const calcAQuantityMemberStringLogicalExr = (logicExpr: logicExprIntf, dataForCondition: DataForCondition, rightValue: string, numMember: number) => {
     const numNecessaryMember = getNumNecessarySatisfiedMember(logicExpr.object.quantity as string, numMember);
     let numSatisfiedMember = 0;
     if (logicExpr.operator === OperationTypeEnum.EQUAL) {
@@ -253,7 +253,7 @@ const calcAQuantityMemberStringLogicalExr = (logicExpr: logicExprIntf, dataForCo
     }
 }
 
-const calcAQuantityMemberNumericLogicalExr = (logicExpr: logicExprIntf, dataForCondition: DataForCondition, rightValue: number, numMember: number) => {
+export const calcAQuantityMemberNumericLogicalExr = (logicExpr: logicExprIntf, dataForCondition: DataForCondition, rightValue: number, numMember: number) => {
     const numNecessaryMember = getNumNecessarySatisfiedMember(logicExpr.object.quantity as string, numMember);
     let numSatisfiedMember = 0;
     let leftValue = 0;

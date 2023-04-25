@@ -4,13 +4,13 @@ import Swal from 'sweetalert2';
 import { topicInput } from '../../../../../shared/interfaces/topicInterface';
 import { HCMUTSystemInstructorIntf } from '../../../../../shared/interfaces/HCMUTSystemInstructorIntf';
 import { HCMUTInstructorService } from '../../../../../externalService/HCMUTService/instructorService';
-interface Props {
+export interface Props {
     index: number,
     setTopic: any,
     topic: topicInput
 }
 
-interface InstructorData {
+export interface InstructorData {
     staffId: string,
     isLoadding: boolean,
     isNotFound: boolean
@@ -172,13 +172,14 @@ const SearchInstructorOnSystem: React.FC<Props> = (props: Props) => {
     }, [instructor, topic.instructors])
 
     return (
-        <div className='flex flex-col ml-2 mt-3 w-full'>
+        <div data-testid="search-instructor" className='flex flex-col ml-2 mt-3 w-full'>
             <div className='flex w-full items-center justify-start'>
                 <div className='flex w-1/2 flex-row justify-between my-1 mr-4'>
                     <div className=''>
                         Mã số cán bộ:
                     </div>
                     <input
+                        data-testid="instructor-input"
                         type="text"
                         name="fmName"
                         className="w-2/3 border border-black border-1 rounded-md p-1"
@@ -188,6 +189,7 @@ const SearchInstructorOnSystem: React.FC<Props> = (props: Props) => {
                 </div>
                 <div className='flex w-1/4 flex-col items-start justify-between my-1'>
                     <button
+                        data-testid="find-button"
                         className='px-2 py-1 rounded border border-2 border-[#1488d8] text-[#1488d8]'
                         onClick={onClickFindInfoBtn}
                     >

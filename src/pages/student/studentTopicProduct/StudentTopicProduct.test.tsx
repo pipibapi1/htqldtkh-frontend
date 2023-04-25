@@ -35,7 +35,7 @@ describe('student topic product', () => {
             expression: "",
             instructorCondition: "",
         }
-      };
+    };
     const store = mockStore(initialState); 
     const dispatchSpy = jest.spyOn(store, 'dispatch');
     (useParams as jest.Mock).mockReturnValue({ _id: '123' });

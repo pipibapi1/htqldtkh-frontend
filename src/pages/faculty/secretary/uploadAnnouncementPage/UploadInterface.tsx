@@ -273,6 +273,7 @@ const UploadInterface: React.FC = (props: any) => {
                         <button className="w-40 bg-[#0079CC] flex justify-center items-center transition text-white font-semibold py-4 border border-white-500 rounded-[15px] hover:bg-[#025A97] hover:cursor-pointer"
                             onClick={onAddAnAnnouncement}
                             disabled={loading? true: false}
+                            data-testid='upload-button'
                         >
                             {loading?
                             (<div>

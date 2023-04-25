@@ -76,6 +76,7 @@ const RegisterStep1:React.FC<Props> = (props: Props) => {
             <div 
                 className='hover:cursor-pointer w-fit' 
                 onClick={backToChoosePeriod}
+                data-testid='back-button'
             >
                 <img src={BackIcon} className='h-5' alt="" />
             </div>
@@ -98,6 +99,7 @@ const RegisterStep1:React.FC<Props> = (props: Props) => {
                             className="bg-white h-[40px] w-[270px] border border-black border-1 rounded-lg focus:ring-blue-500 px-2"
                             onChange={onChangeNumMember}
                             defaultValue={topic.numMember}
+                            data-testid='num-of-member-select'
                         >
                             <option value={1}>1</option>
                             <option value={2}>2</option>
@@ -122,6 +124,7 @@ const RegisterStep1:React.FC<Props> = (props: Props) => {
                             className="bg-white h-[40px] w-[270px] border border-black border-1 rounded-lg focus:ring-blue-500 px-2"
                             onChange={onChangeNumInstructor}
                             defaultValue={topic.numInstructor}
+                            data-testid='num-of-instructor-select'
                         >
                             <option value={1}>1</option>
                             <option value={2}>2</option>

@@ -94,7 +94,7 @@ const ChoosePeriod = (props: any) => {
                             showYearPicker
                             locale={vi}
                             className="h-[40px] w-[90px] border border-black border-1 rounded-md px-2"
-                                    />
+                        />
                         <div className='absolute mr-2'>
                             <img src={Calendar} alt="calendarIcon" className='h-5 w-5'/>
                         </div>
@@ -109,6 +109,7 @@ const ChoosePeriod = (props: any) => {
                         </div>
                         <div className="">
                             <select
+                                data-testid='status-select'
                                 className="bg-white h-[40px] w-[250px] border border-black border-1 rounded-lg focus:ring-blue-500 px-2"
                                     onChange={(e) => {
                                         e.preventDefault();
