@@ -171,9 +171,6 @@ const RegisterStep2:React.FC<Props> = (props: Props) => {
     for (let index = 1; index <= topic.numInstructor; ++index){
         instructors.push(
             <div className='px-2 mb-1'>
-                <div>
-                    Giáo viên {index}:
-                </div>
                 <InstructorInput
                     index={index-1}
                     topic={topic}

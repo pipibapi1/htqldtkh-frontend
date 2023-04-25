@@ -52,103 +52,106 @@ const ManualInstructorInput: React.FC<Props> = (props: Props) => {
 
     return (
         <div className='flex flex-col ml-4 mt-3 w-full'>
-            <div className='flex w-1/2 flex-col justify-between my-1'>
-                <div className=''>
-                    Họ và tên:
+            <div className='flex w-3/4'>
+                <div className='flex w-1/2 flex-col justify-between my-1'>
+                    <div className=''>
+                        Họ và tên:
+                    </div>
+                    <input
+                        type="text"
+                        name="name"
+                        className="h-[40px] w-[400px] border border-black border-1 rounded-md p-1"
+                        defaultValue={instructor.name}
+                        onChange={onChangeCurrInstructorName}
+                    ></input>
                 </div>
-                <input
-                    data-testid="name-input"
-                    type="text"
-                    name="name"
-                    className="w-[400px] border border-black border-1 rounded-md p-1"
-                    defaultValue={instructor.name}
-                    onChange={onChangeCurrInstructorName}
-                ></input>
+                <div className='flex w-1/2 flex-col justify-between my-1'>
+                    <div>
+                        Giới tính:
+                    </div>
+                    <select
+                        className="bg-white h-[40px] w-[400px] border border-black border-1 rounded-lg focus:ring-blue-500 p-1"
+                        defaultValue={instructor.gender}
+                        onChange={onChangeCurrInstructorGender}
+                    >
+                        <option value="" disabled hidden>Chọn giới tính</option>
+                        {Object.values(GenderType).map((type) => {
+                            return (
+                                <option 
+                                    value={type}
+                                    key={type}
+                                >{capitalizeFirstLetter(type)}</option>
+                            )
+                        })}
+                    </select>
+                </div>
             </div>
-            <div className='flex w-1/2 flex-col justify-between my-1'>
-                <div>
-                    Giới tính:
+            <div className='flex w-3/4'>
+                <div className='flex w-1/2 flex-col justify-between my-1'>
+                    <div>
+                        Mã số cán bộ:
+                    </div>
+                    <input
+                        type="text"
+                        name="studentId"
+                        className="h-[40px] w-[400px] border border-black border-1 rounded-md p-1"
+                        defaultValue={instructor.staffId}
+                        onChange={onChangeCurrInstructorStaffId}
+                    ></input>
                 </div>
-                <select
-                    data-testid='gender-select'
-                    className="w-fit border border-black border-1 rounded-md p-1"
-                    defaultValue={instructor.gender}
-                    onChange={onChangeCurrInstructorGender}
-                >
-                    <option value="" disabled hidden>Chọn giới tính</option>
-                    {Object.values(GenderType).map((type) => {
-                        return (
-                            <option 
-                                value={type}
-                                key={type}
-                            >{capitalizeFirstLetter(type)}</option>
-                        )
-                    })}
-                </select>
+                <div className='flex w-1/2 flex-col justify-between my-1'>
+                    <div className=''>
+                        Số điện thoại:
+                    </div>
+                    <input
+                        type="text"
+                        name="phoneNumber"
+                        className="h-[40px] w-[400px] border border-black border-1 rounded-md p-1"
+                        defaultValue={instructor.phoneNumber}
+                        onChange={onChangeCurrInstructorPhoneNum}
+                    ></input>
+                </div>
             </div>
-            <div className='flex w-1/2 flex-col justify-between my-1'>
-                <div>
-                    Mã số cán bộ:
+            <div className='flex w-3/4'>
+                <div className='flex w-1/2 flex-col justify-between my-1'>
+                    <div>
+                        Email:
+                    </div>
+                    <input
+                        type="text"
+                        name="email"
+                        className="h-[40px] w-[400px] border border-black border-1 rounded-md p-1"
+                        defaultValue={instructor.email}
+                        onChange={onChangeCurrInstructorEmail}
+                    ></input>
                 </div>
-                <input
-                    data-testid="staffid-input"
-                    type="text"
-                    name="studentId"
-                    className="w-[400px] border border-black border-1 rounded-md p-1"
-                    defaultValue={instructor.staffId}
-                    onChange={onChangeCurrInstructorStaffId}
-                ></input>
-            </div>
-            <div className='flex w-1/2 flex-col justify-between my-1'>
-                <div className=''>
-                    Số điện thoại:
+                <div className='flex w-1/2 flex-col justify-between my-1'>
+                    <div className=''>
+                        Học hàm:
+                    </div>
+                    <select
+                        className="bg-white h-[40px] w-[400px] border border-black border-1 rounded-lg focus:ring-blue-500 p-1"
+                        defaultValue={instructor.academyRank}
+                        onChange={onChangeCurrInstructorAcademyRank}
+                    >
+                        <option value="" hidden>Chọn học hàm</option>
+                        {Object.values(AcademyRank).map((type) => {
+                            return (
+                                <option 
+                                    value={type}
+                                    key={type}
+                                >{capitalizeFirstLetter(type)}</option>
+                            )
+                        })}
+                    </select>
                 </div>
-                <input
-                    type="text"
-                    name="phoneNumber"
-                    className="w-[400px] border border-black border-1 rounded-md p-1"
-                    defaultValue={instructor.phoneNumber}
-                    onChange={onChangeCurrInstructorPhoneNum}
-                ></input>
-            </div>
-            <div className='flex w-1/2 flex-col justify-between my-1'>
-                <div>
-                    Email:
-                </div>
-                <input
-                    type="text"
-                    name="email"
-                    className="w-[400px] border border-black border-1 rounded-md p-1"
-                    defaultValue={instructor.email}
-                    onChange={onChangeCurrInstructorEmail}
-                ></input>
-            </div>
-            <div className='flex w-1/2 flex-col justify-between my-1'>
-                <div className=''>
-                    Học hàm:
-                </div>
-                <select
-                    className="w-fit border border-black border-1 rounded-md p-1"
-                    defaultValue={instructor.academyRank}
-                    onChange={onChangeCurrInstructorAcademyRank}
-                >
-                    <option value="" hidden>Chọn học hàm</option>
-                    {Object.values(AcademyRank).map((type) => {
-                        return (
-                            <option 
-                                value={type}
-                                key={type}
-                            >{capitalizeFirstLetter(type)}</option>
-                        )
-                    })}
-                </select>
             </div>
             <div className='flex w-1/2 flex-col justify-between my-1'>
                 <div>
                     Học vị:
                 </div>
                 <select
-                    className="w-fit border border-black border-1 rounded-md p-1"
+                    className="bg-white h-[40px] w-[400px] border border-black border-1 rounded-lg focus:ring-blue-500 p-1"
                     defaultValue={instructor.degree}
                     onChange={onChangeCurrInstructorDegree}
                 >
