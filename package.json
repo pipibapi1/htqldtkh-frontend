@@ -61,11 +61,11 @@
   },
   "scripts": {
     "start": "react-app-rewired start",
-    "build": "react-scripts build",
+    "build": "react-app-rewired build",
     "test": "react-scripts test --env=jsdom --verbose --silent",
     "coverage": "react-scripts test --coverage --watchAll --collectCoverageFrom='src/{components,pages}/**/*.{ts,tsx}' --collectCoverageFrom='src/shared/functions/*.{ts,tsx}' --collectCoverageFrom='!src/pages/**/{index,RightTag,LeftTag,PaginationTag}.{ts,tsx}' --env=jsdom --verbose --silent",
     "eject": "react-scripts eject",
-    "predeploy": "react-scripts build",
+    "predeploy": "react-app-rewired build",
     "deploy": "gh-pages -d build"
   },
   "eslintConfig": {
