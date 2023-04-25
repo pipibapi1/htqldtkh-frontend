@@ -10,10 +10,10 @@ import { getTopicDetailAction } from '../../../../actions/topicAction';
 
 const TopicDetailModal = ({isVisible, onClose, topicId}: {isVisible: boolean, onClose: any, topicId: string}) => {
     const topicData: MyTopic = {
-        _id: "1",
-        name: "1",
+        _id: "initialId",
+        name: "initialName",
         topicGivenId: "",
-        type: "1",
+        type: "initialType",
         startTime: "",
         endTime: "",
         creationDate: "",
@@ -27,23 +27,23 @@ const TopicDetailModal = ({isVisible, onClose, topicId}: {isVisible: boolean, on
         expense: 1,
         student:{
             _id: "", 
-            name: "",
+            name: "initialStudentName",
             studentId: "",
             educationType: "",
             gender: "",
             email: "",
             phoneNumber: "",
-            birthDate: ""
+            birthDate: "2001-01-01T16:00:00.000Z"
         },
         instructors:[{
-            _id: "1",
+            _id: "initialInstructorName1",
             name: "1",
             staffId: "1",
             gender: "1",
             email: "1",
             phoneNumber: "1",
             academyRank: "",
-            degree: "1",
+            degree: "initialInstructorDegree1",
             },
             {
                 _id: "1",
@@ -58,13 +58,13 @@ const TopicDetailModal = ({isVisible, onClose, topicId}: {isVisible: boolean, on
 
         instructorsId:["1", "2"],
         otherMembers: [{
-            studentId: "1",
+            studentId: "initialMemberName1",
             name: "1",
             gender: "1",
             email: "1",
             phoneNumber: "1",
-            educationType: "1",
-            birthDate: "2001-09-06T16:00:00.000Z"
+            educationType: "initialMemberEducationType1",
+            birthDate: "2001-01-02T16:00:00.000Z"
         },
         {
             studentId: "1",
@@ -111,12 +111,8 @@ const TopicDetailModal = ({isVisible, onClose, topicId}: {isVisible: boolean, on
                     <label htmlFor='text' className = "w-[80px] text-sm font-semibold mr-1">
                         Tên đề tài: 
                     </label>
-                    {/* <input type = 'text' name = 'name' id ='name'
-                        className = "w-1/2 border border-gray-500 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5"
-                        defaultValue={topic.name}
-                    /> */}
                     <div className = "w-1/2 text-gray-900 text-sm">
-                            {topic.name}
+                        {topic.name}
                     </div>
                 </div>
 

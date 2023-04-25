@@ -33,7 +33,7 @@ function loadFile(url: string, callback: any) {
   PizZipUtils.getBinaryContent(url, callback);
 }
 
-const FormField = (props: any) => {
+export const FormField = (props: any) => {
     const {indx, field, updateJsonData} = props;
 
     const [fieldValue, setFieldValue] = useState<any>("");
@@ -59,7 +59,7 @@ const FormField = (props: any) => {
         </div>
         <div>
             {(field?.dataType === DataTypeEnum.Text || field?.dataType === DataTypeEnum.Other) &&
-            <input type="text" value={fieldValue} className='border text-sm border-black border-1 rounded-md w-full h-10 p-2'
+            <input data-testid="text-field-input" type="text" value={fieldValue} className='border text-sm border-black border-1 rounded-md w-full h-10 p-2'
                 onChange={(e:any) => {
                     e.preventDefault()
                     setFieldValue(e.target.value)

@@ -114,7 +114,7 @@ const TemplateFormCreation: React.FC = () => {
   const dispatch = useAppDispatch()
 
   const { state } = useLocation();
-  const {_id} = useParams();
+  const {_id } = useParams();
   
   const [file, setFile] = useState<File | null>(null);
   const [myPlaceholders, setMyPlaceholders] = useState<string[]>([]);
@@ -271,7 +271,7 @@ const TemplateFormCreation: React.FC = () => {
         <div className='text-md font-medium'>
           Tải biểu mẫu đã được đánh dấu lên đây:
         </div>
-        <input type="file" onChange={handleFileChange} className='mt-1 ml-3 w-1/2'/>
+        <input data-testid="file-input" type="file" onChange={handleFileChange} className='mt-1 ml-3 w-1/2'/>
       </div>
       
       {myPlaceholders.map((placeholder, index) => {

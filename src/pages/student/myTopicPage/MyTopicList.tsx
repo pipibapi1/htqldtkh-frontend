@@ -139,6 +139,7 @@ const MyTopicList: React.FC = () => {
                         </div>
                         <div className="">
                             <select
+                                data-testid='topic-type-select'
                                 className="bg-white h-[40px] w-[250px] border border-black border-1 rounded-lg focus:ring-blue-500 px-2"
                                     onChange={(e) => {
                                         e.preventDefault();
@@ -161,6 +162,7 @@ const MyTopicList: React.FC = () => {
                         </div>
                         <div className="">
                             <select
+                                data-testid='topic-status-select'
                                 className="bg-white h-[40px] w-[250px] border border-black border-1 rounded-lg focus:ring-blue-500 px-2"
                                     onChange={(e) => {
                                         e.preventDefault();

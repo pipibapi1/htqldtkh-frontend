@@ -6,9 +6,6 @@ import { VariableTypeEnum } from '../../../../../shared/types/variableType';
 
 import { HCMUTStudentService } from '../../../../../externalService/HCMUTService/studentService';
 import { HCMUTSystemStudentIntf } from '../../../../../shared/interfaces/HCMUTSystemStudentIntf';
-
-import { useSelector} from 'react-redux';
-import { RootState} from '../../../../../store';
 import { capitalizeFirstLetter } from '../../../../../shared/functions';
 
 interface Props {
@@ -52,7 +49,7 @@ const SearchOtherMemberOnHCMUTSystem: React.FC<Props> = (props: Props) => {
         //display when getting student info
         if (memberInput.isLoadding) {
             return (
-                <div className='px-4'>
+                <div data-testid='loading' className='px-4'>
                     <svg 
                         viewBox="0 0 32 32" 
                         xmlns="http://www.w3.org/2000/svg"
@@ -274,6 +271,7 @@ const SearchOtherMemberOnHCMUTSystem: React.FC<Props> = (props: Props) => {
                         Mã số sinh viên:
                     </div>
                     <input
+                        data-testid="studentid-input"
                         type="text"
                         name="fmName"
                         className="w-2/3 border border-black border-1 rounded-md p-1"
@@ -286,6 +284,7 @@ const SearchOtherMemberOnHCMUTSystem: React.FC<Props> = (props: Props) => {
                         Email (Cần sử dụng mail trường):
                     </div>
                     <input
+                        data-testid="email-input"
                         type="text"
                         name="name"
                         className="w-5/6 border border-black border-1 rounded-md p-1"
@@ -295,6 +294,7 @@ const SearchOtherMemberOnHCMUTSystem: React.FC<Props> = (props: Props) => {
                 </div>
                 <div className='flex w-1/4 flex-col items-start justify-between my-1'>
                     <button
+                        data-testid="search-button"
                         className='px-2 py-1 rounded border border-2 border-[#1488d8] text-[#1488d8]'
                         onClick={onClickFindInfoBtn}
                     >

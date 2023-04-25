@@ -38,7 +38,7 @@ export interface expression {
 }
 
 interface topicMemberObject {
-    name: string,
+    name?: string,
     quantity?: string,
     compare?: string
 }

@@ -13,7 +13,7 @@ import DownIcon from '../../../../assets/images/down-arrow.png';
 import RightIcon from '../../../../assets/images/next.png';
 import FileIcon from "../../../../assets/images/files.png";
 
-const TopicPaperCard = (props: any) => {
+export const TopicPaperCard = (props: any) => {
     const {templateWithPaper, topicId} = props;
     const [show, setShow] = useState(true);
 

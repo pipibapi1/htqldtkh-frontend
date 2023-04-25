@@ -45,7 +45,7 @@ const RowTable: React.FC<Props> = (props) => {
           {requestStatus}
         </td>
         <td className='flex justify-center items-center text-center font-medium text-sm text-gray-900 px-1 py-1 border-l-2'>
-          {topicName} <div onClick={(e) => {
+          {topicName} <div data-testid='icon-button' onClick={(e) => {
             e.preventDefault();
             setTopicDetailModal(true);
           }} className='hover:cursor-pointer'><img src={DetaiIcon} className='h-5'/></div>
@@ -61,7 +61,8 @@ const RowTable: React.FC<Props> = (props) => {
         </td>
         <td className='text-center font-medium text-sm text-gray-900 px-1 py-1 border-l-2'>
           {(requestStatus === RequestStatus.WAIT_APPROVAL ? (<button>
-              <div className="text-[#0079CC] font-semibold no-underline hover:underline hover:cursor-pointer"
+
+              <div  data-testid='approve-button' className="text-[#0079CC] font-semibold no-underline hover:underline hover:cursor-pointer"
                 onClick = {(e) => {
                   e.preventDefault();
                   approveARequest(requestId)
@@ -79,8 +80,8 @@ const RowTable: React.FC<Props> = (props) => {
           }
         </td>
         <td className='text-center font-medium text-sm text-gray-900 px-1 py-1 border-l-2'>
-          {(requestStatus === RequestStatus.WAIT_APPROVAL ? (<button>
-              <div className="text-[#E1000E] font-semibold no-underline hover:underline hover:cursor-pointer"
+          {(requestStatus === RequestStatus.WAIT_APPROVAL ? (<button >
+              <div data-testid='decline-button' className="text-[#E1000E] font-semibold no-underline hover:underline hover:cursor-pointer"
                 onClick = {(e) => {
                   e.preventDefault();
                   refuseARequest(requestId)

@@ -146,6 +146,7 @@ const Modal = ({isVisible, onClose, topic}: {isVisible: boolean, onClose: any, t
                             </div>
                             <div className='w-2/3'>
                                     <input
+                                    data-testid='id-input'
                                     type="text"
                                     name="title"
                                     className="border w-2/3 text-sm border-black border-1 rounded-md h-7 p-2"
@@ -162,6 +163,7 @@ const Modal = ({isVisible, onClose, topic}: {isVisible: boolean, onClose: any, t
                             </div>
                             <div className='w-2/3'>
                                     <input
+                                    data-testid='name-input'
                                     type="text"
                                     name="title"
                                     className="border w-2/3 text-sm border-black border-1 rounded-md h-7 p-2"

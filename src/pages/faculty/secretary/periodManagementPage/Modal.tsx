@@ -125,6 +125,7 @@ const Modal = ({isVisible, onClose, year}: {isVisible: boolean, onClose: any, ye
                                     Tên đợt
                                 </label>
                                 <textarea
+                                data-testid='name-input'
                                 onChange={(e:any) => {
                                     e.preventDefault();
                                     setTitle(e.target.value)

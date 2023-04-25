@@ -13,7 +13,7 @@ const TemplateList: React.FC = () => {
     const useAppDispatch: () => AppDispatch = useDispatch;
     const dispatch = useAppDispatch();
 
-    const [templates, setTemplates] = useState<Template[]>();
+    const [templates, setTemplates] = useState<Template[]>([]);
     
     const downloadTemplateFile = (_id: string, fileName: string) => {
         const url = process.env.REACT_APP_API_URL + "/api/template" + "/" + _id + "/download";
@@ -29,7 +29,7 @@ const TemplateList: React.FC = () => {
         const fetchTemplatesForStudent = async () => {
             try {
               const data = await dispatch(getTemplatesAction({ forStudent: true }));
-              setTemplates(data?.templates);
+              setTemplates(data?.templates !== undefined ? data?.templates : []);
             } catch (error) {
                 Toast.fire({
                     icon: 'error',

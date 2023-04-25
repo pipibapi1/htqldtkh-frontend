@@ -143,6 +143,7 @@ const ManualOtherMembersInput: React.FC<Props> = (props: Props) => {
                         Họ và tên:
                     </div>
                     <input
+                        data-testid='name-input'
                         type="text"
                         name="name"
                         className="h-[40px] w-[400px] border border-black border-1 rounded-md p-1"
@@ -155,6 +156,7 @@ const ManualOtherMembersInput: React.FC<Props> = (props: Props) => {
                         Giới tính:
                     </div>
                     <select
+                        data-testid='gender-select'
                         className="bg-white h-[40px] w-[400px] border border-black border-1 rounded-lg focus:ring-blue-500 p-1"
                         defaultValue={currMember.gender}
                         onChange={onChangeCurrMemberGender}
