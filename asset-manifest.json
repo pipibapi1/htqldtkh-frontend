@@ -1,10 +1,10 @@
 {
   "files": {
     "main.css": "https://pipibapi1.github.io/htqldtkh-frontend/static/css/main.9756dac5.css",
-    "main.js": "https://pipibapi1.github.io/htqldtkh-frontend/static/js/main.ef1080bd.js",
+    "main.js": "https://pipibapi1.github.io/htqldtkh-frontend/static/js/main.f2a7b875.js",
     "static/js/760.b1dde1c7.chunk.js": "https://pipibapi1.github.io/htqldtkh-frontend/static/js/760.b1dde1c7.chunk.js",
     "static/media/BK_2.jpg": "https://pipibapi1.github.io/htqldtkh-frontend/static/media/BK_2.851754eef426150f54a2.jpg",
-    "static/media/pdf.worker.js": "https://pipibapi1.github.io/htqldtkh-frontend/static/media/pdf.worker.7f900d44486ae76c72b7.js",
+    "static/media/pdf.worker.js": "https://pipibapi1.github.io/htqldtkh-frontend/static/media/pdf.worker.fe0d9f65ea1db90c63ef.js",
     "static/media/footerBG.png": "https://pipibapi1.github.io/htqldtkh-frontend/static/media/footerBG.fc295e1112944f5d36e2.png",
     "static/media/primeicons.svg": "https://pipibapi1.github.io/htqldtkh-frontend/static/media/primeicons.e1441b135b3ca9ad643c.svg",
     "static/media/ThongBao.png": "https://pipibapi1.github.io/htqldtkh-frontend/static/media/ThongBao.b9552d11065ed95fdbca.png",
@@ -19,11 +19,11 @@
     "static/media/bell.png": "https://pipibapi1.github.io/htqldtkh-frontend/static/media/bell.4e269b70665cd464d93d.png",
     "index.html": "https://pipibapi1.github.io/htqldtkh-frontend/index.html",
     "main.9756dac5.css.map": "https://pipibapi1.github.io/htqldtkh-frontend/static/css/main.9756dac5.css.map",
-    "main.ef1080bd.js.map": "https://pipibapi1.github.io/htqldtkh-frontend/static/js/main.ef1080bd.js.map",
+    "main.f2a7b875.js.map": "https://pipibapi1.github.io/htqldtkh-frontend/static/js/main.f2a7b875.js.map",
     "760.b1dde1c7.chunk.js.map": "https://pipibapi1.github.io/htqldtkh-frontend/static/js/760.b1dde1c7.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.9756dac5.css",
-    "static/js/main.ef1080bd.js"
+    "static/js/main.f2a7b875.js"
   ]
 }
