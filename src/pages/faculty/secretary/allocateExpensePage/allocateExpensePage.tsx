@@ -23,14 +23,14 @@ import Calendar from "../../../../assets/images/calendar.png";
 
 const RECORD_PER_PAGE = 10;
 
-interface Period{
+interface Period {
     _id: string;
     period: string;
     status: PeriodStatus;
     createAt: Date;
 }
 
-interface Expense{
+interface Expense {
     _id: string;
     createAt: string;
     lastModified: string;
@@ -38,16 +38,16 @@ interface Expense{
     generalExpense: number;
     period: string;
     totalExpense: number;
-    allocated:{
+    allocated: {
         type: string;
         totalExpense: number;
         maxExpensePerTopic: number;
     }[],
     usedExpense: number,
-    used: {[k: string]: number}
+    used: { [k: string]: number }
 }
 
-interface Topic{
+interface Topic {
     _id: string;
     name: string;
     type: TopicTypeEnum;
@@ -55,7 +55,7 @@ interface Topic{
     endTime: string;
     isExtended: boolean;
     extensionTime: number;
-    status: TopicStatusEnum; 
+    status: TopicStatusEnum;
     period: string;
     productPath: string;
     studentId: string;
@@ -81,12 +81,13 @@ const initExpense = {
     generalExpense: 0,
     period: "",
     totalExpense: 0,
-    allocated:[{
+    allocated: [{
         type: "",
         totalExpense: 0,
-        maxExpensePerTopic: 0}
+        maxExpensePerTopic: 0
+    }
     ],
-    usedExpense:0,
+    usedExpense: 0,
     used: {}
 }
 
@@ -98,7 +99,7 @@ const initTopic = {
     endTime: "",
     isExtended: false,
     extensionTime: 0,
-    status: TopicStatusEnum.NEW, 
+    status: TopicStatusEnum.NEW,
     period: "",
     productPath: "",
     studentId: "",
@@ -140,7 +141,7 @@ const AllocateExpensePage: FC = () => {
 
     const onChangePeriod = (event: React.ChangeEvent<HTMLSelectElement>) => {
         const period = event.target.value;
-        setCurrentPeriod(period); 
+        setCurrentPeriod(period);
         dispatch(getExpenseDetailByPeriodAction(period))
             .then((data) => {
                 setExpense(data?.expense)
@@ -148,7 +149,7 @@ const AllocateExpensePage: FC = () => {
     }
 
     const onChangeYear = (date: any) => {
-        if(date){
+        if (date) {
             setCurrYear(date);
         }
         else {
@@ -186,7 +187,7 @@ const AllocateExpensePage: FC = () => {
     }, [currYear, dispatch]);
 
     useEffect(() => {
-        const fetchExpenseByPeriod =  async (period: string) => {
+        const fetchExpenseByPeriod = async (period: string) => {
             try {
                 if (currentPeriod) {
                     const data = await dispatch(getExpenseDetailByPeriodAction(period));
@@ -201,12 +202,13 @@ const AllocateExpensePage: FC = () => {
                     generalExpense: 0,
                     period: "",
                     totalExpense: 0,
-                    allocated:[{
+                    allocated: [{
                         type: "",
                         totalExpense: 0,
-                        maxExpensePerTopic: 0}
+                        maxExpensePerTopic: 0
+                    }
                     ],
-                    usedExpense:0,
+                    usedExpense: 0,
                     used: {}
                 });
                 Toast.fire({
@@ -215,6 +217,7 @@ const AllocateExpensePage: FC = () => {
                 });
             }
         }
+
         fetchExpenseByPeriod(currentPeriod);
         setCurrentPage(1);
         setCurrentType("");
@@ -223,21 +226,23 @@ const AllocateExpensePage: FC = () => {
     useEffect(() => {
         const fetchTopics = async () => {
             try {
-                let query: any = {
-                    period: currentPeriod,
-                    page: currentPage,
-                    limit: RECORD_PER_PAGE,
-                }
-                if (currentType !== "") {
-                    query = {
-                        ...query,
-                        type: currentType
+                if (currentPeriod !== "") {
+                    let query: any = {
+                        period: currentPeriod,
+                        page: currentPage,
+                        limit: RECORD_PER_PAGE,
                     }
-                }
-                const data = await dispatch(getTopicListAction(query));
-                setTopics(data?.topics)
-                if(data?.metadata.totalPage > 0){
-                    setTotalPage(data?.metadata.totalPage);
+                    if (currentType !== "") {
+                        query = {
+                            ...query,
+                            type: currentType
+                        }
+                    }
+                    const data = await dispatch(getTopicListAction(query));
+                    setTopics(data?.topics)
+                    if (data?.metadata.totalPage > 0) {
+                        setTotalPage(data?.metadata.totalPage);
+                    }
                 }
             } catch (error) {
                 Toast.fire({
@@ -248,9 +253,9 @@ const AllocateExpensePage: FC = () => {
         }
         fetchTopics();
     }, [currentPage, currentPeriod, currentType, dispatch]);
-    
+
     const leftExpense = (type: string) => {
-        if(expense?.allocated.find((x) => x.type === type)?.totalExpense){
+        if (expense?.allocated.find((x) => x.type === type)?.totalExpense) {
             return ((expense?.allocated.find((x) => x.type === type)?.totalExpense as number) - (expense?.used[type] === undefined ? 0 : expense?.used[type])).toLocaleString() + ' VNĐ'
         }
         return (
@@ -269,7 +274,7 @@ const AllocateExpensePage: FC = () => {
             )
         }
     }
-    
+
     const getMaxExpensePerTopicByType = (type: string) => {
         const maxExpensePer = expense?.allocated.find((x) => x.type === type)?.maxExpensePerTopic;
         if (maxExpensePer) {
@@ -317,12 +322,12 @@ const AllocateExpensePage: FC = () => {
         })
     }
 
-    return(
+    return (
         <div className='px-5 py-2'>
             <div className='flex flex-row justify-between items-center mb-5 mt-2 w-4/5'>
                 <div className='flex flex-row items-center'>
                     <div className='mr-5'>
-                        Năm: 
+                        Năm:
                     </div>
                     <div className='grid justify-items-end items-center mr-10'>
                         <DatePicker
@@ -334,19 +339,19 @@ const AllocateExpensePage: FC = () => {
                             className="h-[40px] w-[90px] border border-black border-1 rounded-md px-2"
                         />
                         <div className='absolute mr-2'>
-                            <img src={Calendar} alt="calendarIcon" className='h-5 w-5'/>
+                            <img src={Calendar} alt="calendarIcon" className='h-5 w-5' />
                         </div>
                     </div>
                     {periods.length > 0 && <div className='mr-5'>
-                        Đợt: 
+                        Đợt:
                     </div>}
                     {periods.length > 0 && <div className="">
                         <select
                             className="bg-white h-[40px] w-[270px] border border-black border-1 rounded-lg focus:ring-blue-500 px-2"
-                                onChange={onChangePeriod}
-                                value={currentPeriod}
-                            >
-                            {periods.map((period, index) => 
+                            onChange={onChangePeriod}
+                            value={currentPeriod}
+                        >
+                            {periods.map((period, index) =>
                                 <option value={period._id} id={period._id} key={period._id}>{displayPeriod(period.period)}</option>
                             )}
                         </select>
@@ -359,7 +364,7 @@ const AllocateExpensePage: FC = () => {
                     Chỉnh sửa
                 </button>}
             </div>
-            
+
             {periods.length > 0 ? (<div className='mb-5'>
                 <div>
                     Tổng kinh phí: <span className='text-[#030391]'>{expense?.totalExpense.toLocaleString()}</span> VNĐ
@@ -387,7 +392,7 @@ const AllocateExpensePage: FC = () => {
                                     </div>
                                     <div className='flex flex-row mb-1 mx-4'>
                                         <div className='w-1/2'>
-                                            Đã dùng: <span className='text-[#030391]'>{expense?.used[type] === undefined ? 0 : expense?.used[type].toLocaleString()}</span> VNĐ 
+                                            Đã dùng: <span className='text-[#030391]'>{expense?.used[type] === undefined ? 0 : expense?.used[type].toLocaleString()}</span> VNĐ
                                         </div>
                                         <div className='w-1/2'>
                                             Dư: <span className='text-[#030391]'>{leftExpense(type)}</span>
@@ -406,15 +411,15 @@ const AllocateExpensePage: FC = () => {
                     Dư: <span className='text-[#030391]'>{(expense?.totalExpense - expense?.usedExpense - expense?.generalExpense).toLocaleString()}</span> VNĐ
                 </div>
             </div>) :
-            (<div>
-                Không có đợt đăng ký
-            </div>)
+                (<div>
+                    Không có đợt đăng ký
+                </div>)
             }
 
             {periods.length > 0 && <div>
                 <div className='flex items-center mb-1'>
                     <div className='mr-5'>
-                        Loại đề tài: 
+                        Loại đề tài:
                     </div>
                     <div className="">
                         <select
@@ -424,15 +429,15 @@ const AllocateExpensePage: FC = () => {
                         >
                             <option value="">Toàn bộ</option>
                             {Object.values(TopicTypeEnum).map((value) => {
-                                    return <option value={value} key={value}>{value}</option>
+                                return <option value={value} key={value}>{value}</option>
                             })}
                         </select>
                     </div>
                 </div>
             </div>}
-                        
-            {periods.length > 0 && <TopicListComponent 
-                topics={topics} 
+
+            {periods.length > 0 && <TopicListComponent
+                topics={topics}
                 totalPage={totalPage}
                 onChangePage={onChangePage}
                 currentPage={currentPage}
@@ -446,7 +451,7 @@ const AllocateExpensePage: FC = () => {
                 setDisplayedPeriod={setDisplayedPeriod}
             />
             {topicExpenseFormData.isOpen && topicExpenseFormData.topic.expense !== undefined && (
-                <AllocateTopicExpenseForm 
+                <AllocateTopicExpenseForm
                     data={topicExpenseFormData}
                     year={currYear.getFullYear()}
                     period={periods.find(period => period._id === currentPeriod)?.period}
