@@ -1,5 +1,5 @@
-export enum RoleType  {
-    Student= "sinh viên",
-    FS= "thư ký khoa",
-    FVD= "phó chủ nhiệm khoa"
+export enum RoleType {
+    Student = "sinh viên",
+    FS = "giáo vụ",
+    FVD = "cán bộ quản lý"
 }

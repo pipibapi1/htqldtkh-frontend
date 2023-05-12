@@ -13,14 +13,14 @@ const VicedeanAccountManagement: React.FC = () => {
     const location = useLocation();
     return (
         <div className=''>
-            <Header isLogin={true} isAccountServicePage={false}/>
+            <Header isLogin={true} isAccountServicePage={false} />
             <div className='flex'>
-                <SideNav role={RoleType.FS} pathName={location.pathname}/>
+                <SideNav role={RoleType.FS} pathName={location.pathname} />
                 <div className=''>
-                    <PathHead path={"QUẢN LÝ TÀI KHOẢN / Phó chủ nhiệm"}/>
+                    <PathHead path={"QUẢN LÝ TÀI KHOẢN / Cán bộ quản lý"} />
                     <div>
-                    <RequestInterface 
-                    />
+                        <RequestInterface
+                        />
                     </div>
                 </div>
             </div>
