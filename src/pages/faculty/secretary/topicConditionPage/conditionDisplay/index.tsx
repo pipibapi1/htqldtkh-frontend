@@ -10,6 +10,7 @@ import { updateLeaderCondition } from "../../../../../actions/topicConditionActi
 import StaticExprElement from "./staticExprElement";
 import EditableExprElement from "./editableExprElement";
 import InstructorCondition from "./instructorCondition";
+import ConditionRequireLevelDisplay from "./conditionRequireLevel";
 
 interface props {
     isEditing: boolean
@@ -75,6 +76,12 @@ const ConditionDisplay: React.FC<props> = (props) => {
                 <div className='mb-2 font-bold mt-2'>
                     Điều kiện khác:
                 </div>
+                <ConditionRequireLevelDisplay
+                    isEditing={true}
+                ></ConditionRequireLevelDisplay>
+                <div className='mx-2 my-2'>
+                    Chi tiết điều kiện khác:
+                </div>
                 <div className="w-[80vw] p-2 overflow-y-auto">
                     <EditableExprElement exprId="root"/>
                 </div>
@@ -96,6 +103,12 @@ const ConditionDisplay: React.FC<props> = (props) => {
                 ></InstructorCondition>
                 <div className='mb-2 font-bold mt-2'>
                     Điều kiện khác:
+                </div>
+                <ConditionRequireLevelDisplay
+                    isEditing={false}
+                ></ConditionRequireLevelDisplay>
+                <div className='mx-2 my-2'>
+                    Chi tiết điều kiện khác:
                 </div>
                 <div>
                     {Object.values(expression).length > 0? (

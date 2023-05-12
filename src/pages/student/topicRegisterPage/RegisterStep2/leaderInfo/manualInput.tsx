@@ -80,6 +80,7 @@ const ManualLeaderInput: React.FC<Props> = (props: Props) => {
                             name={field.subjectId}
                             className="w-[400px] border border-black border-1 rounded-md p-1"
                             defaultValue={leaderVar[field.variable]}
+                            onChange={onChangeConditionVar}
                         ></input>
                     </div>
                 )

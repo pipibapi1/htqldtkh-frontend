@@ -64,7 +64,7 @@ const ManualOtherMembersInput: React.FC<Props> = (props: Props) => {
                         <input
                             type="text"
                             name={field.subjectId}
-                            className="w-[400px] border border-black border-1 rounded-md p-1"
+                            className="w-[350px] border border-black border-1 rounded-md p-1"
                             defaultValue={currMemberVar[field.subjectId as string]}
                             onChange={onChangeConditionVar}
                         ></input>
@@ -83,8 +83,9 @@ const ManualOtherMembersInput: React.FC<Props> = (props: Props) => {
                         <input
                             type="text"
                             name={field.subjectId}
-                            className="w-[400px] border border-black border-1 rounded-md p-1"
+                            className="w-[350px] border border-black border-1 rounded-md p-1"
                             defaultValue={currMemberVar[field.variable]}
+                            onChange={onChangeConditionVar}
                         ></input>
                     </div>
                 )
@@ -137,25 +138,25 @@ const ManualOtherMembersInput: React.FC<Props> = (props: Props) => {
 
     return (
         <div className='flex flex-col ml-4 mt-3 w-full'>
-            <div className='flex w-3/4'>
-                <div className='flex w-1/2 flex-col justify-between my-1'>
+            <div className='flex w-3/4 flex-wrap'>
+                <div className='flex w-[350px] flex-col justify-between my-1 mr-4'>
                     <div className=''>
                         Họ và tên:
                     </div>
                     <input
                         type="text"
                         name="name"
-                        className="h-[40px] w-[400px] border border-black border-1 rounded-md p-1"
+                        className="h-[40px] w-[350px] border border-black border-1 rounded-md p-1"
                         defaultValue={currMember.name}
                         onChange={onChangeCurMemberName}
                     ></input>
                 </div>
-                <div className='flex w-1/2 flex-col justify-between my-1'>
+                <div className='flex w-[350px] flex-col justify-between my-1'>
                     <div>
                         Giới tính:
                     </div>
                     <select
-                        className="bg-white h-[40px] w-[400px] border border-black border-1 rounded-lg focus:ring-blue-500 p-1"
+                        className="bg-white h-[40px] w-[350px] border border-black border-1 rounded-lg focus:ring-blue-500 p-1"
                         defaultValue={currMember.gender}
                         onChange={onChangeCurrMemberGender}
                     >
@@ -171,51 +172,51 @@ const ManualOtherMembersInput: React.FC<Props> = (props: Props) => {
                     </select>
                 </div>
             </div>
-            <div className='flex w-3/4'>
-                <div className='flex w-1/2 flex-col justify-between my-1'>
+            <div className='flex w-3/4 flex-wrap'>
+                <div className='flex w-[350px] flex-col justify-between my-1 mr-4'>
                     <div>
                         Mã số sinh viên:
                     </div>
                     <input
                         type="text"
                         name="studentId"
-                        className="h-[40px] w-[400px] border border-black border-1 rounded-md p-1"
+                        className="h-[40px] w-[350px] border border-black border-1 rounded-md p-1"
                         defaultValue={currMember.studentId}
                         onChange={onChangeCurMemberStudentId}
                     ></input>
                 </div>
-                <div className='flex w-1/2 flex-col justify-between my-1'>
+                <div className='flex w-[350px] flex-col justify-between my-1'>
                     <div className=''>
                         Số điện thoại:
                     </div>
                     <input
                         type="text"
                         name="phoneNumber"
-                        className="h-[40px] w-[400px] border border-black border-1 rounded-md p-1"
+                        className="h-[40px] w-[350px] border border-black border-1 rounded-md p-1"
                         defaultValue={currMember.phoneNumber}
                         onChange={onChangeCurMemberPhoneNumber}
                     ></input>
                 </div>
             </div>
-            <div className='flex w-3/4'>
-                <div className='flex w-1/2 flex-col justify-between my-1'>
+            <div className='flex w-3/4 flex-wrap'>
+                <div className='flex w-[350px] flex-col justify-between my-1 mr-4'>
                     <div>
                         Email:
                     </div>
                     <input
                         type="text"
                         name="email"
-                        className="h-[40px] w-[400px] border border-black border-1 rounded-md p-1"
+                        className="h-[40px] w-[350px] border border-black border-1 rounded-md p-1"
                         defaultValue={currMember.email}
                         onChange={onChangeCurMemberEmail}
                     ></input>
                 </div>
-                <div className='flex w-1/2 flex-col justify-between my-1'>
+                <div className='flex w-[350px] flex-col justify-between my-1'>
                     <div className=''>
                         Chương trình đào tạo:
                     </div>
                     <select
-                        className="bg-white h-[40px] w-[400px] border border-black border-1 rounded-lg focus:ring-blue-500 p-1"
+                        className="bg-white h-[40px] w-[350px] border border-black border-1 rounded-lg focus:ring-blue-500 p-1"
                         defaultValue={currMember.educationType}
                         onChange={onChangeCurMemberEducationType}
                     >
@@ -231,14 +232,14 @@ const ManualOtherMembersInput: React.FC<Props> = (props: Props) => {
                     </select>
                 </div>
             </div>
-            <div className='flex w-1/2 flex-col justify-between my-1'>
+            <div className='flex w-2/3 flex-col justify-between my-1'>
                 <div>
                     Ngày sinh:
                 </div>
                 <input
                     type="date"
                     name="birthDate"
-                    className="h-[40px] w-[400px] border border-black border-1 rounded-md p-1"
+                    className="h-[40px] w-[350px] border border-black border-1 rounded-md p-1"
                     defaultValue={currMember.birthDate}
                     onChange={onChangeCurMemberBirthdate}
                 ></input>

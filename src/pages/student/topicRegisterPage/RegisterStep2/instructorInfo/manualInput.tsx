@@ -52,25 +52,25 @@ const ManualInstructorInput: React.FC<Props> = (props: Props) => {
 
     return (
         <div className='flex flex-col ml-4 mt-3 w-full'>
-            <div className='flex w-3/4'>
-                <div className='flex w-1/2 flex-col justify-between my-1'>
+            <div className='flex w-3/4 flex-wrap'>
+                <div className='flex flex-col justify-between my-1 mr-4'>
                     <div className=''>
                         Họ và tên:
                     </div>
                     <input
                         type="text"
                         name="name"
-                        className="h-[40px] w-[400px] border border-black border-1 rounded-md p-1"
+                        className="h-[40px] w-[350px] border border-black border-1 rounded-md p-1"
                         defaultValue={instructor.name}
                         onChange={onChangeCurrInstructorName}
                     ></input>
                 </div>
-                <div className='flex w-1/2 flex-col justify-between my-1'>
+                <div className='flex flex-col justify-between my-1'>
                     <div>
                         Giới tính:
                     </div>
                     <select
-                        className="bg-white h-[40px] w-[400px] border border-black border-1 rounded-lg focus:ring-blue-500 p-1"
+                        className="bg-white h-[40px] w-[350px] border border-black border-1 rounded-lg focus:ring-blue-500 p-1"
                         defaultValue={instructor.gender}
                         onChange={onChangeCurrInstructorGender}
                     >
@@ -86,51 +86,51 @@ const ManualInstructorInput: React.FC<Props> = (props: Props) => {
                     </select>
                 </div>
             </div>
-            <div className='flex w-3/4'>
-                <div className='flex w-1/2 flex-col justify-between my-1'>
+            <div className='flex w-3/4 flex-wrap'>
+                <div className='flex flex-col justify-between my-1 mr-4'>
                     <div>
                         Mã số cán bộ:
                     </div>
                     <input
                         type="text"
                         name="studentId"
-                        className="h-[40px] w-[400px] border border-black border-1 rounded-md p-1"
+                        className="h-[40px] w-[350px] border border-black border-1 rounded-md p-1"
                         defaultValue={instructor.staffId}
                         onChange={onChangeCurrInstructorStaffId}
                     ></input>
                 </div>
-                <div className='flex w-1/2 flex-col justify-between my-1'>
+                <div className='flex flex-col justify-between my-1'>
                     <div className=''>
                         Số điện thoại:
                     </div>
                     <input
                         type="text"
                         name="phoneNumber"
-                        className="h-[40px] w-[400px] border border-black border-1 rounded-md p-1"
+                        className="h-[40px] w-[350px] border border-black border-1 rounded-md p-1"
                         defaultValue={instructor.phoneNumber}
                         onChange={onChangeCurrInstructorPhoneNum}
                     ></input>
                 </div>
             </div>
-            <div className='flex w-3/4'>
-                <div className='flex w-1/2 flex-col justify-between my-1'>
+            <div className='flex w-3/4 flex-wrap'>
+                <div className='flex flex-col justify-between my-1 mr-4'>
                     <div>
                         Email:
                     </div>
                     <input
                         type="text"
                         name="email"
-                        className="h-[40px] w-[400px] border border-black border-1 rounded-md p-1"
+                        className="h-[40px] w-[350px] border border-black border-1 rounded-md p-1"
                         defaultValue={instructor.email}
                         onChange={onChangeCurrInstructorEmail}
                     ></input>
                 </div>
-                <div className='flex w-1/2 flex-col justify-between my-1'>
+                <div className='flex flex-col justify-between my-1'>
                     <div className=''>
                         Học hàm:
                     </div>
                     <select
-                        className="bg-white h-[40px] w-[400px] border border-black border-1 rounded-lg focus:ring-blue-500 p-1"
+                        className="bg-white h-[40px] w-[350px] border border-black border-1 rounded-lg focus:ring-blue-500 p-1"
                         defaultValue={instructor.academyRank}
                         onChange={onChangeCurrInstructorAcademyRank}
                     >
@@ -146,12 +146,12 @@ const ManualInstructorInput: React.FC<Props> = (props: Props) => {
                     </select>
                 </div>
             </div>
-            <div className='flex w-1/2 flex-col justify-between my-1'>
+            <div className='flex w-full flex-col justify-between items-start my-1'>
                 <div>
                     Học vị:
                 </div>
                 <select
-                    className="bg-white h-[40px] w-[400px] border border-black border-1 rounded-lg focus:ring-blue-500 p-1"
+                    className="bg-white h-[40px] w-[350px] border border-black border-1 rounded-lg focus:ring-blue-500 p-1"
                     defaultValue={instructor.degree}
                     onChange={onChangeCurrInstructorDegree}
                 >
