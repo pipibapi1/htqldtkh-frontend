@@ -21,7 +21,9 @@ const PeriodRowTable = (props: any) => {
       <td className='text-center font-medium text-sm text-gray-900 px-1 py-1 border-l-2'>
         {period.status === PeriodStatus.OPEN ? (
 
-          <button onClick={(e:any) => {
+          <button 
+          data-testid='choose-button'
+          onClick={(e:any) => {
             e.preventDefault();
             choosePeriod(period);
             setTopic({

@@ -258,7 +258,7 @@ const RequestList= () => {
         <div className='p-4 overflow-y-auto'>
 
             <div className='flex items-center mb-5'>
-            <div className='mr-5'>
+                <div className='mr-5'>
                         Năm: 
                     </div>
                     <div className='grid justify-items-end items-center mr-10'>
@@ -305,6 +305,7 @@ const RequestList= () => {
                         </div>
                         <div className="">
                             <select
+                                data-testid='type-select'
                                 className="bg-white h-[40px] w-[270px] border border-black border-1 rounded-lg focus:ring-blue-500 px-2"
                                     onChange={(e) => {
                                         e.preventDefault();

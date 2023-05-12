@@ -226,6 +226,7 @@ const Modal = ({isVisible, onClose, student}: {isVisible: boolean, onClose: any,
                                 className = 'w-full ml-2 text-white font-medium text-sm px-5 py-2.5 text-center rounded-lg bg-red-700 hover:bg-red-700 focus:ring-4 focus:outline-none focus:ring-red-300'
                                 onClick={handleClose}
                                 id = "wrapper"
+                                data-testid="wrapper"
                             >
                                 Hủy
                             </button>

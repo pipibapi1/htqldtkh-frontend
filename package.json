@@ -19,6 +19,7 @@
     "buffer": "^6.0.3",
     "docxtemplater": "^3.34.2",
     "dotenv": "^16.0.3",
+    "enzyme": "^3.11.0",
     "file-saver": "^2.0.5",
     "history": "^5.3.0",
     "i": "^0.3.7",
@@ -39,7 +40,7 @@
     "react-file-viewer": "^0.5.0",
     "react-icons": "^4.7.1",
     "react-minimal-pie-chart": "^8.4.0",
-    "react-pdf": "^6.2.2",
+    "react-pdf": "6.2.2",
     "react-redux": "^8.0.5",
     "react-router-dom": "^6.4.3",
     "react-scripts": "5.0.1",
@@ -60,11 +61,11 @@
   },
   "scripts": {
     "start": "react-app-rewired start",
-    "build": "react-scripts build",
+    "build": "react-app-rewired build",
     "test": "react-scripts test --env=jsdom --verbose --silent",
-    "coverage": "react-scripts test --coverage --watchAll --collectCoverageFrom='src/{components,pages}/**/*.{ts,tsx}' --collectCoverageFrom='src/shared/functions/*.{ts,tsx}' --env=jsdom --verbose --silent",
+    "coverage": "react-scripts test --coverage --watchAll --collectCoverageFrom='src/{components,pages}/**/*.{ts,tsx}' --collectCoverageFrom='src/shared/functions/*.{ts,tsx}' --collectCoverageFrom='!src/pages/**/{index,RightTag,LeftTag,PaginationTag}.{ts,tsx}' --env=jsdom --verbose --silent",
     "eject": "react-scripts eject",
-    "predeploy": "react-scripts build",
+    "predeploy": "react-app-rewired build",
     "deploy": "gh-pages -d build"
   },
   "eslintConfig": {
@@ -92,7 +93,7 @@
     "@jest/globals": "^29.5.0",
     "@types/file-saver": "^2.0.5",
     "@types/react-datepicker": "^4.8.0",
-    "@types/react-pdf": "^6.2.0",
+    "@types/react-pdf": "6.2.0",
     "autoprefixer": "^10.4.13",
     "babel-jest": "^29.5.0",
     "gh-pages": "^4.0.0",
@@ -118,7 +119,8 @@
     },
     "moduleNameMapper": {
       "axios": "axios/dist/node/axios.cjs",
-      "react-datepicker/dist/react-datepicker.css": "jest-transform-stub"
+      "react-datepicker/dist/react-datepicker.css": "jest-transform-stub",
+      "react-step-progress-bar/styles.css": "jest-transform-stub"
     },
     "transformIgnorePatterns": [
       "node_modules/(?!(react-native|my-ecmascript-lib)/)"

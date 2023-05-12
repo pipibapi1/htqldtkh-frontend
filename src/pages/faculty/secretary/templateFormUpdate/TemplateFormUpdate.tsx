@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Link, useLocation, useParams, useNavigate } from "react-router-dom";
+import { Link, useLocation, useParams } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import Swal from 'sweetalert2';
 
@@ -13,7 +13,7 @@ import { getAFormAction, putUpdateAFormAction } from '../../../../actions/formAc
 
 import BackIcon from '../../../../assets/images/🦆 icon _arrow circle left_.png';
 
-const FormField = (props: any) => {
+export const FormField = (props: any) => {
   const {indx, form, setForm} = props;
 
   let field = form.fields[indx];
@@ -28,7 +28,7 @@ const FormField = (props: any) => {
     <div className='flex w-full space-x-3'>
       <div className='w-2/3'>
         <div>Tên</div>
-        <input type="text" value={name} className='border border-black border-1 rounded-md w-full h-10 p-2'
+        <input data-testid='name-input' type="text" value={name} className='border border-black border-1 rounded-md w-full h-10 p-2'
           onChange={(e:any) => {
             e.preventDefault();
             if(e.target.value !== ""){
@@ -92,8 +92,6 @@ const FormField = (props: any) => {
 }
 
 const TemplateFormUpdate: React.FC = () => {
-
-  const navigate = useNavigate();
 
   const useAppDispatch: () => AppDispatch = useDispatch
   const dispatch = useAppDispatch()

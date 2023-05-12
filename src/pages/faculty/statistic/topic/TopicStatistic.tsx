@@ -57,7 +57,7 @@ interface Topic{
 }
 
 
-const TopicStatusCard: React.FC<CardProps> = (props: CardProps) => {
+export const TopicStatusCard: React.FC<CardProps> = (props: CardProps) => {
 
     const {status, quantity} = props;
     let color: string = '0';
@@ -118,9 +118,9 @@ const TopicStatusCard: React.FC<CardProps> = (props: CardProps) => {
         type = "bị hủy"
     }
     return(
-        <div className='rounded-lg px-2 py-2' style={{ backgroundColor: `#${color}`, opacity: 0.6}}>
+        <div data-testid='card' className='rounded-lg px-2 py-2' style={{ backgroundColor: `#${color}`, opacity: 0.6}}>
             <div className='flex justify-end'>
-                <img className='h-10' src={icon} alt="" />
+                <img data-testid='new-icon' className='h-10' src={icon} alt="" />
             </div>
             <div className='text-white font-bold text-3xl ml-2'>
                 {quantity}
