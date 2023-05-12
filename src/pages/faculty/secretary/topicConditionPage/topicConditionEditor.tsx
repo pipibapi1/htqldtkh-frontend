@@ -20,7 +20,7 @@ const FSTopicConditionEditor: FC = () => {
     const [type, setType] = useState<string>(Object.values(TopicTypeEnum)[0]);
     const [topicCondition, setTopicCondition] = useState<topicConditionIntf>({isLoading: true});
 
-    const {expression, leaderCondition, instructorCondition} = useSelector((state: RootState) => state.topicCondition);
+    const {expression, leaderCondition, instructorCondition, requireLevel} = useSelector((state: RootState) => state.topicCondition);
     const useAppDispatch: () => AppDispatch = useDispatch
     const dispatch = useAppDispatch();
 
@@ -58,7 +58,7 @@ const FSTopicConditionEditor: FC = () => {
                         isLoading: false
                     }
                     setTopicCondition(newCondition);
-                    dispatch(setTopicConditionAction(newCondition.expression, newCondition.instructorCondition, newCondition.leaderCondition))
+                    dispatch(setTopicConditionAction(newCondition.expression, newCondition.instructorCondition, newCondition.leaderCondition, newCondition.requireLevel))
                 })
                 .catch((err)=> {console.log(err)})
         }
@@ -116,7 +116,8 @@ const FSTopicConditionEditor: FC = () => {
                 expression: expression as expression,
                 type: type,
                 leaderCondition: leaderCondition,
-                instructorCondition: instructorCondition
+                instructorCondition: instructorCondition,
+                requireLevel: requireLevel
             }).then((data) => {
                 Swal.fire({
                     icon: 'success',

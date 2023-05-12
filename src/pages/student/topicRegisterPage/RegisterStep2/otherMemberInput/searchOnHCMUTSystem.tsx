@@ -178,7 +178,6 @@ const SearchOtherMemberOnHCMUTSystem: React.FC<Props> = (props: Props) => {
         })
         HCMUTStudentService.getHCMUTStudentById(memberInput.studentId)
             .then((student: HCMUTSystemStudentIntf) => {
-                console.log(student);
                 //check whether student's email is same with email input or not 
                 if ((student.email === memberInput.email)
                     || (`${student.email}.vn` === memberInput.email)

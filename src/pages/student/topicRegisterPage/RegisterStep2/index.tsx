@@ -25,6 +25,7 @@ import LeaderInfo from './leaderInfo';
 import InstructorInput from './instructorInfo';
 import { InstructorConditionApproveWayEnum } from '../../../../shared/types/instructorConditionApproveWay';
 import { Instructor } from '../../../../shared/interfaces/instructorInterface';
+import { ConditionRequireLevelEnum } from '../../../../shared/types/conditionRequireDegree';
 
 interface Props {
     backToChoosePeriod: any,
@@ -63,7 +64,7 @@ const RegisterStep2:React.FC<Props> = (props: Props) => {
     const navigate = useNavigate();
     const {backToChoosePeriod, backToStep1, topic, setTopic, setIsAtStep1} = props;
 
-    const {expression, instructorCondition} = useSelector((state: RootState) => state.topicCondition);
+    const {expression, instructorCondition, requireLevel} = useSelector((state: RootState) => state.topicCondition);
     const condition = instructorCondition as instructorConditionIntf;
     const {user} = useSelector((state: RootState) => state.auth);
     const useAppDispatch: () => AppDispatch = useDispatch
@@ -100,7 +101,7 @@ const RegisterStep2:React.FC<Props> = (props: Props) => {
                         ...condition,
                         isLoading: false
                     }
-                    dispatch(setTopicConditionAction(newCondition.expression, newCondition.instructorCondition))
+                    dispatch(setTopicConditionAction(newCondition.expression, newCondition.instructorCondition, newCondition.leaderCondition, newCondition.requireLevel))
                 })
                 .catch((err)=> {console.log(err)})
         }
@@ -196,22 +197,62 @@ const RegisterStep2:React.FC<Props> = (props: Props) => {
     }
 
     const displayRegisterCondition = () => {
-        if (Object.values(expression).length > 0) {
-            return (
-                <div className={`m-2 ${isValid.topicCondition? "" : "border border-1 border-red-500 rounded"}`}>
-                    <StaticExprElement exprId="root"/>
-                </div>
-            )
+        // when choose topic type
+        if (topic.type === "") {
+            return null;
         }
-        else if (topic.type !== "") {
+
+        //when require level is none
+        if (!requireLevel || requireLevel === ConditionRequireLevelEnum.NONE) {
             return (
                 <div className='m-2'>
                     Loại đề tài này không yêu cầu điều kiện nào
                 </div>
             )
         }
+
+        //when require level is different from none
+        if (Object.values(expression).length > 0) {
+            if (requireLevel === ConditionRequireLevelEnum.NEED_APPROVED) {
+                return (
+                    <>
+                        <div className='m-2 italic'>
+                            {
+                                `Ghi chú: Các trường hợp không thỏa mãn điều kiện dưới đây `
+                                + `vẫn có thể đăng ký đề tài. Tuy nhiên các đề tài này cần `
+                                + `được thư ký khoa chấp thuận`
+                            }
+                        </div>
+                        <div className={`m-2 ${isValid.topicCondition? "" : "border border-1 border-red-500 rounded"}`}>
+                            <StaticExprElement exprId="root"/>
+                        </div>
+                    </>
+                )
+            }
+            else {
+                return (
+                    <>
+                        <div className='m-2 italic'>
+                            {
+                                "Ghi chú: Các đề tài cần thỏa mãn điều kiện dưới đây. Các "
+                                + "trường hợp không thỏa mãn sẽ không được chấp nhận."
+                            }
+                        </div>
+                        <div className={`m-2 ${isValid.topicCondition? "" : "border border-1 border-red-500 rounded"}`}>
+                            <StaticExprElement exprId="root"/>
+                        </div>
+                    </>
+                )
+            }
+        }
+
+        //when has no expression
         else {
-            return null;
+            return (
+                <div className='m-2'>
+                    Loại đề tài này không yêu cầu điều kiện nào
+                </div>
+            )
         }
     }
 
@@ -292,7 +333,16 @@ const RegisterStep2:React.FC<Props> = (props: Props) => {
 
     const onClickConfirmBtn = (e: React.MouseEvent<HTMLButtonElement>) => {
         let checkTopicName = topic.name? true : false;
-        let checkTopicCondition = getExprResult(dataForCondition, expression, "root", topic.numMember);
+
+        let checkTopicCondition;
+        if (requireLevel && (requireLevel !== ConditionRequireLevelEnum.NONE)) {
+            checkTopicCondition = getExprResult(dataForCondition, expression, "root", topic.numMember);
+        }
+        // when require level is none
+        else {
+            checkTopicCondition = true
+        }                    
+
         let checkLeader = true;
         const leaderArrValue = Object.values(dataForCondition.leader);
         if (leaderArrValue.length !== Object.keys(conditionVar.leader).length) {
@@ -320,13 +370,42 @@ const RegisterStep2:React.FC<Props> = (props: Props) => {
         const valid = checkUnchosenInstructor && checkDuplicateInstructor 
                         && checkLeader && checkOtherMember && checkTopicCondition 
                         && checkTopicName && checkSastifiedInstructor;
-        if (valid) {
+        if (requireLevel === ConditionRequireLevelEnum.NEED_APPROVED  && !checkTopicCondition) {
+            Swal.fire({
+                icon: 'warning',
+                title: 'Đề tài của bạn không thỏa mãn các điều kiện khác. '
+                    + 'Bạn vẫn có thể đăng ký, tuy nhiên đề tài này cần chờ '
+                    + 'sự cho phép của thư ký khoa',
+                showDenyButton: false,
+                showCancelButton: true,
+                confirmButtonText: 'OK',
+                cancelButtonText: 'Hủy'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    topicService.postNewTopic(topic)
+                        .then((data) => {
+                            Swal.fire({
+                                icon: 'success',
+                                title: 'Đăng ký thành công',
+                                showDenyButton: false,
+                                showCancelButton: false,
+                                confirmButtonText: 'OK',
+                            })
+                            .then((result) => {
+                                navigate("/myTopic");
+                            })
+                        })
+                }
+            })
+        }
+        else if (valid) {
             Swal.fire({
                 icon: 'question',
                 title: 'Bạn chắc chắn muốn đăng ký đề tài chứ?',
                 showDenyButton: false,
                 showCancelButton: true,
                 confirmButtonText: 'OK',
+                cancelButtonText: 'Hủy'
             }).then((result) => {
                 if (result.isConfirmed) {
                     topicService.postNewTopic(topic)
@@ -523,7 +602,7 @@ const RegisterStep2:React.FC<Props> = (props: Props) => {
             </div>
             <div className='mb-3'>
                 <div className='font-bold text-lg'>
-                    Điều kiện để đăng ký loại đề tài trên: 
+                    Điều kiện khác để đăng ký loại đề tài trên: 
                 </div>
                 {!(isValid.topicCondition) && (
                     <div className="m-2 text-[#e1000e]">

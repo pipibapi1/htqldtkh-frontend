@@ -5,7 +5,8 @@ export interface topicConditionIntf {
     expression?: {[k: string]: (relationExprIntf | logicExprIntf)},
     isLoading?: boolean,
     leaderCondition?: string[],
-    instructorCondition?: instructorConditionIntf
+    instructorCondition?: instructorConditionIntf,
+    requireLevel?: string
 }
 
 export interface instructorConditionIntf {

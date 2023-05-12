@@ -43,6 +43,7 @@ describe("test Header Components", () => {
                 leaderCondition: "",
                 expression: "",
                 instructorCondition: "",
+                requireLevel: ""
             }
         };
         const store = mockStore(initialState);  
@@ -75,6 +76,7 @@ describe("test Header Components", () => {
                 leaderCondition: "",
                 expression: "",
                 instructorCondition: "",
+                requireLevel: ""
             }
         };
         const store = mockStore(initialState); 
@@ -104,6 +106,7 @@ describe("test Header Components", () => {
                 leaderCondition: "",
                 expression: "",
                 instructorCondition: "",
+                requireLevel: ""
             }
         };
         const store = mockStore(initialState); 
@@ -147,6 +150,7 @@ describe("test Header Components", () => {
                 leaderCondition: "",
                 expression: "",
                 instructorCondition: "",
+                requireLevel: ""
             }
         };
         const store = mockStore(initialState); 
@@ -184,6 +188,7 @@ describe("test Header Components", () => {
                 leaderCondition: "",
                 expression: "",
                 instructorCondition: "",
+                requireLevel: ""
             }
         };
         const store = mockStore(initialState); 
@@ -225,6 +230,7 @@ describe("test Header Components", () => {
                 leaderCondition: "",
                 expression: "",
                 instructorCondition: "",
+                requireLevel: ""
             }
         };
         const store = mockStore(initialState); 
@@ -250,6 +256,7 @@ describe("test Header Components", () => {
                 leaderCondition: "",
                 expression: "",
                 instructorCondition: "",
+                requireLevel: ""
             }
         };
         const store = mockStore(initialState); 
@@ -278,6 +285,7 @@ describe("test Header Components", () => {
                 leaderCondition: "",
                 expression: "",
                 instructorCondition: "",
+                requireLevel: ""
             }
         };
         const store = mockStore(initialState); 
@@ -306,6 +314,7 @@ describe("test Header Components", () => {
                 leaderCondition: "",
                 expression: "",
                 instructorCondition: "",
+                requireLevel: ""
             }
         };
         const store = mockStore(initialState); 
