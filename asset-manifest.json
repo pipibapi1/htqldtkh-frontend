@@ -1,7 +1,7 @@
 {
   "files": {
     "main.css": "https://pipibapi1.github.io/htqldtkh-frontend/static/css/main.62088dc3.css",
-    "main.js": "https://pipibapi1.github.io/htqldtkh-frontend/static/js/main.67bc9e59.js",
+    "main.js": "https://pipibapi1.github.io/htqldtkh-frontend/static/js/main.42457ebf.js",
     "static/js/760.b1dde1c7.chunk.js": "https://pipibapi1.github.io/htqldtkh-frontend/static/js/760.b1dde1c7.chunk.js",
     "static/media/BK_2.jpg": "https://pipibapi1.github.io/htqldtkh-frontend/static/media/BK_2.851754eef426150f54a2.jpg",
     "static/media/pdf.worker.js": "https://pipibapi1.github.io/htqldtkh-frontend/static/media/pdf.worker.fe0d9f65ea1db90c63ef.js",
@@ -19,11 +19,11 @@
     "static/media/bell.png": "https://pipibapi1.github.io/htqldtkh-frontend/static/media/bell.4e269b70665cd464d93d.png",
     "index.html": "https://pipibapi1.github.io/htqldtkh-frontend/index.html",
     "main.62088dc3.css.map": "https://pipibapi1.github.io/htqldtkh-frontend/static/css/main.62088dc3.css.map",
-    "main.67bc9e59.js.map": "https://pipibapi1.github.io/htqldtkh-frontend/static/js/main.67bc9e59.js.map",
+    "main.42457ebf.js.map": "https://pipibapi1.github.io/htqldtkh-frontend/static/js/main.42457ebf.js.map",
     "760.b1dde1c7.chunk.js.map": "https://pipibapi1.github.io/htqldtkh-frontend/static/js/760.b1dde1c7.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.62088dc3.css",
-    "static/js/main.67bc9e59.js"
+    "static/js/main.42457ebf.js"
   ]
 }
