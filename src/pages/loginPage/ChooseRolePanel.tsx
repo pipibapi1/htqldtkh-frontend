@@ -45,8 +45,8 @@ const ChooseRolePanel: React.FC = () => {
                         to={"/" + appRouters.LINK_TO_LOGIN_INDEX_PAGE}
                         state={{ role: RoleType.Student }}
                     >
-                        <div className='bg-[#D9D9D9] rounded-lg text-base flex justify-center items-center py-4 mb-3 hover:bg-[#B5B5B5]'>
-                            Chủ nhiệm đề tài
+                        <div className='bg-[#D9D9D9] rounded-lg text-base font-semibold flex justify-center items-center py-4 mb-3 hover:bg-[#B5B5B5]'>
+                            Sinh viên
                         </div>
                     </Link>
 
@@ -54,7 +54,7 @@ const ChooseRolePanel: React.FC = () => {
                         to={"/" + appRouters.LINK_TO_LOGIN_INDEX_PAGE}
                         state={{ role: RoleType.FS }}
                     >
-                        <div className='bg-[#D9D9D9] rounded-lg text-base flex justify-center items-center py-4 mb-3 hover:bg-[#B5B5B5]'>
+                        <div className='bg-[#D9D9D9] rounded-lg text-base font-semibold flex justify-center items-center py-4 mb-3 hover:bg-[#B5B5B5]'>
                             Giáo vụ
                         </div>
                     </Link>
@@ -63,7 +63,7 @@ const ChooseRolePanel: React.FC = () => {
                         to={"/" + appRouters.LINK_TO_LOGIN_INDEX_PAGE}
                         state={{ role: RoleType.FVD }}
                     >
-                        <div className='bg-[#D9D9D9] rounded-lg text-base flex justify-center items-center py-4 mb-3 hover:bg-[#B5B5B5]'>
+                        <div className='bg-[#D9D9D9] rounded-lg text-base font-semibold flex justify-center items-center py-4 mb-3 hover:bg-[#B5B5B5]'>
                             Cán bộ quản lý
                         </div>
                     </Link>
