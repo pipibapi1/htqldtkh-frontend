@@ -17,7 +17,7 @@ interface Props {
 }
 
 const CouncilList: React.FC<Props> = (props: Props) => {
-    const {councilList, setCurrentPage, totalPage, currentPage, onDelete} = props;
+    const { councilList, setCurrentPage, totalPage, currentPage, onDelete } = props;
     let availablePage: number[] = [currentPage];
 
     // set available page can navigate to
@@ -39,11 +39,11 @@ const CouncilList: React.FC<Props> = (props: Props) => {
     }
 
     let councilElementList = [];
-    for (let index = 0; index < councilList.length; index++){
+    for (let index = 0; index < councilList.length; index++) {
         councilElementList.push(
             <RowTable
                 key={index}
-                index={index+1}
+                index={index + 1}
                 council={councilList[index]}
                 onDelete={onDelete}
             />)
@@ -62,72 +62,72 @@ const CouncilList: React.FC<Props> = (props: Props) => {
         }
     }
 
-    return(
+    return (
         <>
             <div className='w-full'>
                 <div className='flex flex-col'>
                     <div className=''>
                         <div className='inline-block w-full pr-5'>
-                        <div className=''>
-                            <table className='w-full table-fixed border-separate border-spacing-y-1 border-2'>
-                                <thead className='bg-[#1577D2] border-b'>
-                                    <tr>
-                                    <th
-                                        scope='col'
-                                        className='text-sm text-center font-bold text-white px-2 py-1 border-l-2'
-                                    >
-                                        STT
-                                    </th>
-                                    <th
-                                        scope='col'
-                                        className='text-sm text-center font-bold text-white px-2 py-3 border-l-2'
-                                    >
-                                        Tên hội đồng
-                                    </th>
-                                    <th
-                                        scope='col'
-                                        className='text-sm text-center font-bold text-white px-2 py-3  border-l-2'
-                                    >
-                                        Số lượng TV
-                                    </th>
-                                    <th
-                                        scope='col'
-                                        className='text-sm text-center font-bold text-white px-2 py-3  border-l-2'
-                                    >
-                                        Thời gian diễn ra
-                                    </th>
-                                    <th
-                                        scope='col'
-                                        className='text-sm text-center font-bold text-white px-2 py-3  border-l-2'
-                                    >
-                                        Số đề tài
-                                    </th>
-                                    <th
-                                        scope='col'
-                                        className='text-sm text-center font-bold text-white px-2 py-3  border-l-2'
-                                    >
-                                        Trạng thái
-                                    </th>
-                                    <th
-                                        scope='col'
-                                        className='text-sm text-center font-bold text-white px-2 py-3  border-l-2'
-                                    >
-                                        
-                                    </th>
-                                    <th
-                                        scope='col'
-                                        className='text-sm text-center font-bold text-white px-2 py-3  border-l-2'
-                                    >
-                                        
-                                    </th>
-                                    
-                                    </tr>
-                                </thead>
-                                <tbody className=''>
-                                    {councilElementList}
-                                </tbody>
-                            </table>
-                        </div>
+                            <div className=''>
+                                <table className='w-full table-fixed border-separate border-spacing-y-1 border-2'>
+                                    <thead className='bg-[#1577D2] border-b'>
+                                        <tr>
+                                            <th
+                                                scope='col'
+                                                className='w-[5%] text-sm text-center font-bold text-white px-2 py-1 border-l-2'
+                                            >
+                                                STT
+                                            </th>
+                                            <th
+                                                scope='col'
+                                                className='w-[25%] text-sm text-center font-bold text-white px-2 py-3 border-l-2'
+                                            >
+                                                Tên hội đồng
+                                            </th>
+                                            <th
+                                                scope='col'
+                                                className='w-[10%] text-sm text-center font-bold text-white px-2 py-3  border-l-2'
+                                            >
+                                                Số lượng TV
+                                            </th>
+                                            <th
+                                                scope='col'
+                                                className='w-[20%] text-sm text-center font-bold text-white px-2 py-3  border-l-2'
+                                            >
+                                                Thời gian diễn ra
+                                            </th>
+                                            <th
+                                                scope='col'
+                                                className='w-[10%] text-sm text-center font-bold text-white px-2 py-3  border-l-2'
+                                            >
+                                                Số đề tài
+                                            </th>
+                                            <th
+                                                scope='col'
+                                                className='w-[10%] text-sm text-center font-bold text-white px-2 py-3  border-l-2'
+                                            >
+                                                Trạng thái
+                                            </th>
+                                            <th
+                                                scope='col'
+                                                className='w-[10%] text-sm text-center font-bold text-white px-2 py-3  border-l-2'
+                                            >
+
+                                            </th>
+                                            <th
+                                                scope='col'
+                                                className='w-[10%] text-sm text-center font-bold text-white px-2 py-3  border-l-2'
+                                            >
+
+                                            </th>
+
+                                        </tr>
+                                    </thead>
+                                    <tbody className=''>
+                                        {councilElementList}
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
                     </div>
                 </div>

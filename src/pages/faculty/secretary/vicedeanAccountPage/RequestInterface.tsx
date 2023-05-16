@@ -335,19 +335,19 @@ const RequestInterface = () => {
                                                 </th>
                                                 <th
                                                     scope='col'
-                                                    className='text-sm text-center font-bold text-white px-2 py-3  border-l-2'
+                                                    className='w-[10%] text-sm text-center font-bold text-white px-2 py-3  border-l-2'
                                                 >
                                                     Ngày tạo
                                                 </th>
                                                 <th
                                                     scope='col'
-                                                    className='text-sm text-center font-bold text-white px-2 py-3  border-l-2'
+                                                    className='w-[8%] text-sm text-center font-bold text-white px-2 py-3  border-l-2'
                                                 >
 
                                                 </th>
                                                 <th
                                                     scope='col'
-                                                    className='text-sm text-center font-bold text-white px-2 py-3  border-l-2'
+                                                    className='w-[5%] text-sm text-center font-bold text-white px-2 py-3  border-l-2'
                                                 >
 
                                                 </th>

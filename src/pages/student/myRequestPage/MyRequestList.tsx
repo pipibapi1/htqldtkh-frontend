@@ -36,37 +36,37 @@ const MyRequestList: React.FC = () => {
         if (currentPage <= 1) return;
         setCurrentPage(currentPage - 1);
         onChangePage(currentPage - 1)
-      };
-      const nextPage = () => {
+    };
+    const nextPage = () => {
         if (currentPage >= totalPage) return;
         setCurrentPage(currentPage + 1);
         onChangePage(currentPage + 1)
-      };
+    };
 
     useEffect(() => {
         let query = {
             page: 1,
             limit: RECORD_PER_PAGE,
-            studentId: currentUser ? currentUser._id: ""
+            studentId: currentUser ? currentUser._id : ""
         }
         dispatch(getRequestListAction(query))
-                .then((data) => {
-                    setRequests(data?.requests)
-                    if(data?.metadata.totalPage > 0){
-                        setTotalPage(data?.metadata.totalPage)
-                    }
-                    }
-                )
-                .catch((error) => {
+            .then((data) => {
+                setRequests(data?.requests)
+                if (data?.metadata.totalPage > 0) {
+                    setTotalPage(data?.metadata.totalPage)
+                }
+            }
+            )
+            .catch((error) => {
 
-                })
+            })
         let queryForMyTopic = {
-            student: currentUser ? currentUser._id: ""
+            student: currentUser ? currentUser._id : ""
         }
         dispatch(getTopicListAction(queryForMyTopic))
             .then((data) => {
                 setMyToics(data?.topics)
-                }
+            }
             )
             .catch((error) => {
 
@@ -78,13 +78,13 @@ const MyRequestList: React.FC = () => {
             page: page,
             limit: RECORD_PER_PAGE,
         }
-        if(currentType !== ""){
+        if (currentType !== "") {
             queryData = {
                 ...queryData,
                 type: currentType
             }
         }
-        if(currentStatus !== ""){
+        if (currentStatus !== "") {
             queryData = {
                 ...queryData,
                 status: currentStatus
@@ -92,70 +92,70 @@ const MyRequestList: React.FC = () => {
         }
 
         dispatch(getRequestListAction(queryData))
-                .then((data) => {
-                    setRequests(data?.requests)
-                    }
-                )
-                .catch((error) => {
+            .then((data) => {
+                setRequests(data?.requests)
+            }
+            )
+            .catch((error) => {
 
-                })
+            })
     }
 
-    const getRequestList = async(type: string, status: string) => {
+    const getRequestList = async (type: string, status: string) => {
         setCurrentPage(1)
         let queryData: any = {
             page: 1,
             limit: RECORD_PER_PAGE,
         }
-        if(type !== ""){
+        if (type !== "") {
             queryData = {
                 ...queryData,
                 type: type
             }
         }
-        if(status !== ""){
+        if (status !== "") {
             queryData = {
                 ...queryData,
                 status: status
             }
         }
         dispatch(getRequestListAction(queryData))
-        .then((data) => {
-             setRequests(data?.requests)
-             if(data?.metadata.totalPage > 0){
-                setTotalPage(data?.metadata.totalPage)
+            .then((data) => {
+                setRequests(data?.requests)
+                if (data?.metadata.totalPage > 0) {
+                    setTotalPage(data?.metadata.totalPage)
+                }
             }
-            }
-        )
-        .catch((error) => {
+            )
+            .catch((error) => {
 
-        })
+            })
     }
 
-    return(
-    <div>
-        <div className='p-4 overflow-y-auto'>
-            <div className='grid justify-items-end px-5'>
-                <div className="w-40 bg-[#0079CC] flex justify-center items-center transition text-white font-semibold py-4 border border-white-500 rounded-[15px] hover:bg-[#025A97] hover:cursor-pointer"
-                    onClick={(e:any) => {
-                        e.preventDefault();
-                        setShowModal(true);
-                    }}
-                >
-                    Tạo yêu cầu
-                </div>
-  
-            </div>
+    return (
+        <div>
+            <div className='p-4 overflow-y-auto'>
+                <div className='grid justify-items-end px-5'>
+                    <div className="w-40 bg-[#0079CC] flex justify-center items-center transition text-white font-semibold py-4 border border-white-500 rounded-[15px] hover:bg-[#025A97] hover:cursor-pointer"
+                        onClick={(e: any) => {
+                            e.preventDefault();
+                            setShowModal(true);
+                        }}
+                    >
+                        Tạo yêu cầu
+                    </div>
 
-            <div className='grid justify-items-end px-5'>
-                <div className='flex items-center py-4'>
-                    <div className='flex items-center mr-20'>
-                        <div className='mr-5'>
-                            Loại yêu cầu: 
-                        </div>
-                        <div className="">
-                            <select
-                                className="bg-white h-[40px] w-[270px] border border-black border-1 rounded-lg focus:ring-blue-500 px-2"
+                </div>
+
+                <div className='grid justify-items-end px-5'>
+                    <div className='flex items-center py-4'>
+                        <div className='flex items-center mr-20'>
+                            <div className='mr-5'>
+                                Loại yêu cầu:
+                            </div>
+                            <div className="">
+                                <select
+                                    className="bg-white h-[40px] w-[270px] border border-black border-1 rounded-lg focus:ring-blue-500 px-2"
                                     onChange={(e) => {
                                         e.preventDefault()
                                         setCurrentType(e.target.value)
@@ -163,21 +163,21 @@ const MyRequestList: React.FC = () => {
                                     }}
                                     defaultValue={""}
                                 >
-                                <option value={""}>Toàn bộ</option>
-                                {Object.values(RequestType).map((value) => {
-                                    return <option value={value} key={value}>{value}</option>
-                                })}
-                            </select>
+                                    <option value={""}>Toàn bộ</option>
+                                    {Object.values(RequestType).map((value) => {
+                                        return <option value={value} key={value}>{value}</option>
+                                    })}
+                                </select>
+                            </div>
                         </div>
-                    </div>
 
-                    <div className='flex items-center'>
-                        <div className='mr-5'>
-                            Trạng thái: 
-                        </div>
-                        <div className="">
-                            <select
-                                className="bg-white h-[40px] w-[270px] border border-black border-1 rounded-lg focus:ring-blue-500 px-2"
+                        <div className='flex items-center'>
+                            <div className='mr-5'>
+                                Trạng thái:
+                            </div>
+                            <div className="">
+                                <select
+                                    className="bg-white h-[40px] w-[270px] border border-black border-1 rounded-lg focus:ring-blue-500 px-2"
                                     onChange={(e) => {
                                         e.preventDefault()
                                         setCurrentStatus(e.target.value)
@@ -185,119 +185,119 @@ const MyRequestList: React.FC = () => {
                                     }}
                                     defaultValue={""}
                                 >
-                                <option value={""}>Toàn bộ</option>
-                                {Object.values(RequestStatus).map((value) => {
-                                    return <option value={value} key={value}>{value}</option>
-                                })}
-                            </select>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div className='w-full'>
-                <div className='flex flex-col'>
-                    <div className=''>
-                        <div className='inline-block w-full pr-5'>
-                        <div className=''>
-                            <table className='w-full table-fixed border-separate border-spacing-y-1 border-2'>
-                                <thead className='bg-[#1577D2] border-b'>
-                                    <tr>
-                                    <th
-                                        scope='col'
-                                        className='w-[5%] text-sm text-center font-bold text-white px-2 py-3 text-left border-l-2'
-                                    >
-                                        STT
-                                    </th>
-                                    <th
-                                        scope='col'
-                                        className='text-sm text-center font-bold text-white px-2 py-3 text-left border-l-2'
-                                    >
-                                        Loại yêu cầu
-                                    </th>
-                                    <th
-                                        scope='col'
-                                        className='text-sm text-center font-bold text-white px-2 py-3 text-left border-l-2'
-                                    >
-                                        Trạng thái
-                                    </th>
-                                    <th
-                                        scope='col'
-                                        className='w-[25%] text-sm text-center font-bold text-white px-2 py-3 text-left border-l-2'
-                                    >
-                                        Tên đề tài
-                                    </th>
-                                    <th
-                                        scope='col'
-                                        className='w-[8%] text-sm text-center font-bold text-white px-2 py-3 text-left border-l-2'
-                                    >
-                                        Đợt
-                                    </th>
-                                    <th
-                                        scope='col'
-                                        className='text-sm text-center font-bold text-white px-2 py-3 text-left border-l-2'
-                                    >
-                                        Ngày tạo
-                                    </th>
-                                    <th
-                                        scope='col'
-                                        className='w-[18%] text-sm text-center font-bold text-white px-2 py-3 text-left border-l-2'
-                                    >
-                                        Thông tin bổ sung
-                                    </th>
-                                    <th
-                                        scope='col'
-                                        className='text-sm text-center font-bold text-white px-2 py-3 text-left border-l-2'
-                                    >
-                                        
-                                    </th>
-                                    
-                                    </tr>
-                                </thead>
-                                <tbody className=''>
-                                {requests.map((request, index) => {
-                                        return (<RowTable
-                                            index={index + 1}
-                                            requestId={request._id}
-                                            requestType={request.type}
-                                            requestStatus={request.status}
-                                            createdDate={request.createAt}
-                                            additionalInfor={request.type === RequestType.EXTEND_PROJECT ? 
-                                                `Thời gian gia hạn: ${request.extensionTime} tháng`:
-                                                (request.type === RequestType.OTHER ? `Nội dung yêu cầu: ${request.text}` : "")
-                                            }
-                                            topicName={request.topicName}
-                                            periodValue={request.periodValue}
-                                            currentPage={currentPage}
-                                            topicId={request.topicId}
-                                            />)
+                                    <option value={""}>Toàn bộ</option>
+                                    {Object.values(RequestStatus).map((value) => {
+                                        return <option value={value} key={value}>{value}</option>
                                     })}
-                                </tbody>
-                            </table>
-                        </div>
+                                </select>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
 
-            <div className='grid justify-items-end px-5'>
-                        <ul className='inline-flex items-center -space-x-px'>
-                            <LeftTag onClick={prevPage} />
-                            {Array.from(Array(totalPage).keys()).map((index) => (
-                                <PaginationTag
+                <div className='w-full'>
+                    <div className='flex flex-col'>
+                        <div className=''>
+                            <div className='inline-block w-full pr-5'>
+                                <div className=''>
+                                    <table className='w-full table-fixed border-separate border-spacing-y-1 border-2'>
+                                        <thead className='bg-[#1577D2] border-b'>
+                                            <tr>
+                                                <th
+                                                    scope='col'
+                                                    className='w-[5%] text-sm text-center font-bold text-white px-2 py-3 text-left border-l-2'
+                                                >
+                                                    STT
+                                                </th>
+                                                <th
+                                                    scope='col'
+                                                    className='w-[13%] text-sm text-center font-bold text-white px-2 py-3 text-left border-l-2'
+                                                >
+                                                    Loại yêu cầu
+                                                </th>
+                                                <th
+                                                    scope='col'
+                                                    className='w-[13%] text-sm text-center font-bold text-white px-2 py-3 text-left border-l-2'
+                                                >
+                                                    Trạng thái
+                                                </th>
+                                                <th
+                                                    scope='col'
+                                                    className='w-[26%] text-sm text-center font-bold text-white px-2 py-3 text-left border-l-2'
+                                                >
+                                                    Tên đề tài
+                                                </th>
+                                                <th
+                                                    scope='col'
+                                                    className='w-[8%] text-sm text-center font-bold text-white px-2 py-3 text-left border-l-2'
+                                                >
+                                                    Đợt
+                                                </th>
+                                                <th
+                                                    scope='col'
+                                                    className='w-[9%] text-sm text-center font-bold text-white px-2 py-3 text-left border-l-2'
+                                                >
+                                                    Ngày tạo
+                                                </th>
+                                                <th
+                                                    scope='col'
+                                                    className='w-[22%] text-sm text-center font-bold text-white px-2 py-3 text-left border-l-2'
+                                                >
+                                                    Thông tin bổ sung
+                                                </th>
+                                                <th
+                                                    scope='col'
+                                                    className='w-[4%] text-sm text-center font-bold text-white px-2 py-3 border-l-2'
+                                                >
+
+                                                </th>
+
+                                            </tr>
+                                        </thead>
+                                        <tbody className=''>
+                                            {requests.map((request, index) => {
+                                                return (<RowTable
+                                                    index={index + 1}
+                                                    requestId={request._id}
+                                                    requestType={request.type}
+                                                    requestStatus={request.status}
+                                                    createdDate={request.createAt}
+                                                    additionalInfor={request.type === RequestType.EXTEND_PROJECT ?
+                                                        `Thời gian gia hạn: ${request.extensionTime} tháng` :
+                                                        (request.type === RequestType.OTHER ? `Nội dung yêu cầu: ${request.text}` : "")
+                                                    }
+                                                    topicName={request.topicName}
+                                                    periodValue={request.periodValue}
+                                                    currentPage={currentPage}
+                                                    topicId={request.topicId}
+                                                />)
+                                            })}
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div className='grid justify-items-end px-5'>
+                    <ul className='inline-flex items-center -space-x-px'>
+                        <LeftTag onClick={prevPage} />
+                        {Array.from(Array(totalPage).keys()).map((index) => (
+                            <PaginationTag
                                 key={index}
                                 numPage={index + 1}
                                 setCurrentPage={setCurrentPage}
                                 currentPage={currentPage}
                                 onChangePage={onChangePage}
-                                />
-                            ))}
-                            <RightTag onClick={nextPage} />
-                        </ul>
+                            />
+                        ))}
+                        <RightTag onClick={nextPage} />
+                    </ul>
                 </div>
+            </div>
+            <Modal isVisible={showModal} myTopics={myTopics} onClose={() => setShowModal(false)} />
         </div>
-        <Modal isVisible = {showModal} myTopics={myTopics} onClose = {() => setShowModal(false)}/>
-    </div>
     )
 }
 

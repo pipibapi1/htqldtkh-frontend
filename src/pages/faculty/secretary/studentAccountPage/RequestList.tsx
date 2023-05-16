@@ -14,7 +14,7 @@ import RightTag from './RightTag';
 
 const RECORD_PER_PAGE = 10;
 
-interface Student{
+interface Student {
     _id: string;
     name: string;
     gender: string;
@@ -44,20 +44,20 @@ const RequestList: React.FC = () => {
         if (currentPage <= 1) return;
         onChangePage(currentPage - 1)
         setCurrentPage(currentPage - 1);
-      };
+    };
     const nextPage = () => {
         if (currentPage >= totalPage) return;
         onChangePage(currentPage + 1)
         setCurrentPage(currentPage + 1);
     };
-    
-    const onChangeStatus = (e:any) =>{
+
+    const onChangeStatus = (e: any) => {
         setCurrentPage(1)
         let queryData: any = {
             page: currentPage,
             limit: RECORD_PER_PAGE,
         }
-        if(e.target.value !== ""){
+        if (e.target.value !== "") {
             queryData = {
                 ...queryData,
                 status: e.target.value
@@ -65,16 +65,16 @@ const RequestList: React.FC = () => {
         }
 
         dispatch(getStudentListAction(queryData))
-        .then((data) => {
-            setStudents(data?.students)
-            if(data?.metadata.totalPage > 0){
-                setTotalPage(totalPage)
+            .then((data) => {
+                setStudents(data?.students)
+                if (data?.metadata.totalPage > 0) {
+                    setTotalPage(totalPage)
+                }
             }
-            }
-        )
-        .catch((error) => {
+            )
+            .catch((error) => {
 
-        })
+            })
     }
 
     const onChangePage = (page: number) => {
@@ -82,60 +82,60 @@ const RequestList: React.FC = () => {
             page: page,
             limit: RECORD_PER_PAGE,
         }
-        if(currentStatus != ""){
-            queryData= {
-                ... queryData,
+        if (currentStatus != "") {
+            queryData = {
+                ...queryData,
                 status: currentStatus
             }
         }
         dispatch(getStudentListAction(queryData))
-        .then((data) => {
-            setStudents(data?.students)
+            .then((data) => {
+                setStudents(data?.students)
             }
-        )
-        .catch((error) => {
+            )
+            .catch((error) => {
 
-        })
+            })
     }
 
-      useEffect(() => {
+    useEffect(() => {
         let queryData: any = {
             page: currentPage,
             limit: RECORD_PER_PAGE,
         }
 
         dispatch(getStudentListAction(queryData))
-        .then((data) => {
-            setStudents(data?.students)
-            if(data?.metadata.totalPage > 0){
-                setTotalPage(data?.metadata.totalPage)
+            .then((data) => {
+                setStudents(data?.students)
+                if (data?.metadata.totalPage > 0) {
+                    setTotalPage(data?.metadata.totalPage)
+                }
             }
-            }
-        )
-        .catch((error) => {
+            )
+            .catch((error) => {
 
-        })
+            })
     }, []);
 
-    return(
+    return (
         <div className='p-4 overflow-y-auto'>
             <div className='grid justify-items-end px-5'>
                 <div className='flex items-center py-4'>
                     <div className='flex items-center'>
                         <div className='mr-5'>
-                            Trạng thái: 
+                            Trạng thái:
                         </div>
                         <div className="">
                             <select
                                 className="bg-white h-[40px] w-[270px] border border-black border-1 rounded-lg focus:ring-blue-500 px-2"
-                                    onChange={(e) => {
-                                        e.preventDefault()
-                                        setCurrentStatus(e.target.value)
-                                        onChangeStatus(e);
-                                        }
-                                    }
-                                    defaultValue={""}
-                                >
+                                onChange={(e) => {
+                                    e.preventDefault()
+                                    setCurrentStatus(e.target.value)
+                                    onChangeStatus(e);
+                                }
+                                }
+                                defaultValue={""}
+                            >
                                 <option value="">Toàn bộ</option>
                                 {Object.values(StudentAccountStatusEnum).map((value) => {
                                     return <option value={value} key={value}>{value}</option>
@@ -150,91 +150,91 @@ const RequestList: React.FC = () => {
                 <div className='flex flex-col'>
                     <div className=''>
                         <div className='inline-block w-full pr-5'>
-                        <div className=''>
-                            <table className='w-full table-fixed border-separate border-spacing-y-1 border-2'>
-                                <thead className='bg-[#1577D2] border-b'>
-                                    <tr>
-                                    <th
-                                        scope='col'
-                                        className='w-[5%] text-sm text-center font-bold text-white px-2 py-3  border-l-2'
-                                    >
-                                        STT
-                                    </th>
-                                    <th
-                                        scope='col'
-                                        className='text-sm text-center font-bold text-white px-2 py-3  border-l-2'
-                                    >
-                                        Họ và Tên
-                                    </th>
-                                    <th
-                                        scope='col'
-                                        className='text-sm text-center font-bold text-white px-2 py-3  border-l-2'
-                                    >
-                                        Tên đăng nhập
-                                    </th>
-                                    <th
-                                        scope='col'
-                                        className='text-sm text-center font-bold text-white px-2 py-3  border-l-2'
-                                    >
-                                        Trạng thái
-                                    </th>
-                                    <th
-                                        scope='col'
-                                        className='text-sm text-center font-bold text-white px-2 py-3  border-l-2'
-                                    >
-                                        Ngày tạo
-                                    </th>
-                                    <th
-                                        scope='col'
-                                        className='text-sm text-center font-bold text-white px-2 py-3  border-l-2'
-                                    >
-                                        
-                                    </th>
-                                    <th
-                                        scope='col'
-                                        className='text-sm text-center font-bold text-white px-2 py-3  border-l-2'
-                                    >
-                                        
-                                    </th>
-                                    
-                                    </tr>
-                                </thead>
-                                <tbody className=''>
-                                    
-                                    {students.map((student: any, index: number) => {
-                                        return (<RowTable
-                                            index={index+1}
-                                            fullName={student.name}
-                                            accountName={student.username}
-                                            createdDate={student.accountCreationDate}
-                                            accountStatus={student.accountStatus}
-                                            currentPage={currentPage}
-                                            student={student}
-                                    />)
-                                    })}
-                                </tbody>
-                            </table>
-                        </div>
+                            <div className=''>
+                                <table className='w-full table-fixed border-separate border-spacing-y-1 border-2'>
+                                    <thead className='bg-[#1577D2] border-b'>
+                                        <tr>
+                                            <th
+                                                scope='col'
+                                                className='w-[5%] text-sm text-center font-bold text-white px-2 py-3  border-l-2'
+                                            >
+                                                STT
+                                            </th>
+                                            <th
+                                                scope='col'
+                                                className='text-sm text-center font-bold text-white px-2 py-3  border-l-2'
+                                            >
+                                                Họ và Tên
+                                            </th>
+                                            <th
+                                                scope='col'
+                                                className='text-sm text-center font-bold text-white px-2 py-3  border-l-2'
+                                            >
+                                                Tên đăng nhập
+                                            </th>
+                                            <th
+                                                scope='col'
+                                                className='w-[15%] text-sm text-center font-bold text-white px-2 py-3  border-l-2'
+                                            >
+                                                Trạng thái
+                                            </th>
+                                            <th
+                                                scope='col'
+                                                className='w-[15%] text-sm text-center font-bold text-white px-2 py-3  border-l-2'
+                                            >
+                                                Ngày tạo
+                                            </th>
+                                            <th
+                                                scope='col'
+                                                className='w-[7%] text-sm text-center font-bold text-white px-2 py-3  border-l-2'
+                                            >
+
+                                            </th>
+                                            <th
+                                                scope='col'
+                                                className='w-[7%] text-sm text-center font-bold text-white px-2 py-3  border-l-2'
+                                            >
+
+                                            </th>
+
+                                        </tr>
+                                    </thead>
+                                    <tbody className=''>
+
+                                        {students.map((student: any, index: number) => {
+                                            return (<RowTable
+                                                index={index + 1}
+                                                fullName={student.name}
+                                                accountName={student.username}
+                                                createdDate={student.accountCreationDate}
+                                                accountStatus={student.accountStatus}
+                                                currentPage={currentPage}
+                                                student={student}
+                                            />)
+                                        })}
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
 
             <div className='grid justify-items-end px-5'>
-                        <ul className='inline-flex items-center -space-x-px'>
-                            <LeftTag onClick={prevPage} />
-                            {Array.from(Array(totalPage).keys()).map((index) => (
-                                <PaginationTag
-                                key={index}
-                                numPage={index + 1}
-                                setCurrentPage={setCurrentPage}
-                                currentPage={currentPage}
-                                onChangePage={onChangePage}
-                                />
-                            ))}
-                            <RightTag onClick={nextPage} />
-                        </ul>
-                </div>
+                <ul className='inline-flex items-center -space-x-px'>
+                    <LeftTag onClick={prevPage} />
+                    {Array.from(Array(totalPage).keys()).map((index) => (
+                        <PaginationTag
+                            key={index}
+                            numPage={index + 1}
+                            setCurrentPage={setCurrentPage}
+                            currentPage={currentPage}
+                            onChangePage={onChangePage}
+                        />
+                    ))}
+                    <RightTag onClick={nextPage} />
+                </ul>
+            </div>
         </div>
     )
 }

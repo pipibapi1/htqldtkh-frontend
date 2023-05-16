@@ -23,7 +23,7 @@ import Calendar from "../../../../../assets/images/calendar.png";
 
 const RECORD_PER_PAGE = 5;
 
-interface Period{
+interface Period {
     _id: string;
     period: string;
     status: PeriodStatus;
@@ -48,19 +48,19 @@ const TopicListPage = () => {
             limit: RECORD_PER_PAGE,
             period: period
         }
-        if(type !== ""){
+        if (type !== "") {
             queryData = {
                 ...queryData,
                 type: type
             }
         }
-        if(status !== ""){
+        if (status !== "") {
             queryData = {
                 ...queryData,
                 status: status
             }
         }
-        if(extensionStatus !== ""){
+        if (extensionStatus !== "") {
             queryData = {
                 ...queryData,
                 isExtended: extensionStatus
@@ -68,16 +68,16 @@ const TopicListPage = () => {
         }
 
         dispatch(getTopicListAction(queryData))
-                .then((data) => {
-                    setTopicList(data?.topics)
-                    if(data?.metadata.totalPage > 0){
-                        setTotalPage(data?.metadata.totalPage)
-                    }
-                    }
-                )
-                .catch((error) => {
+            .then((data) => {
+                setTopicList(data?.topics)
+                if (data?.metadata.totalPage > 0) {
+                    setTotalPage(data?.metadata.totalPage)
+                }
+            }
+            )
+            .catch((error) => {
 
-                })
+            })
     }
 
     const [topicList, setTopicList] = useState<Topic[]>([]);
@@ -88,33 +88,33 @@ const TopicListPage = () => {
     const dispatch = useAppDispatch()
 
     useEffect(() => {
-        let query= {
+        let query = {
             year: (new Date()).getFullYear()
         }
         dispatch(getAllPeriodsAction(query))
             .then((data) => {
                 setPeriods(data?.periods)
-                if(data?.periods.length > 0){
+                if (data?.periods.length > 0) {
                     setCurrentPeriod(data?.periods[0]._id)
                     let queryData: any = {
                         period: data?.periods[0]._id
                     }
                     dispatch(getTopicListAction(queryData))
-                    .then((data) => {
-                        setTopicList(data?.topics)
-                        if(data?.metadata.totalPage > 0){
-                            setTotalPage(data?.metadata.totalPage)
+                        .then((data) => {
+                            setTopicList(data?.topics)
+                            if (data?.metadata.totalPage > 0) {
+                                setTotalPage(data?.metadata.totalPage)
+                            }
                         }
-                    }
-                    )
-                    .catch((error) => {
-    
-                    })
+                        )
+                        .catch((error) => {
+
+                        })
                 }
-                
+
             })
             .catch((error) => {
-                
+
             })
     }, []);
 
@@ -124,19 +124,19 @@ const TopicListPage = () => {
             limit: RECORD_PER_PAGE,
             period: currentPeriod
         }
-        if(currentType !== ""){
+        if (currentType !== "") {
             queryData = {
                 ...queryData,
                 type: currentType
             }
         }
-        if(currentStatus !== ""){
+        if (currentStatus !== "") {
             queryData = {
                 ...queryData,
                 status: currentStatus
             }
         }
-        if(currentExtensionStatus !== ""){
+        if (currentExtensionStatus !== "") {
             queryData = {
                 ...queryData,
                 isExtended: currentExtensionStatus
@@ -144,13 +144,13 @@ const TopicListPage = () => {
         }
 
         dispatch(getTopicListAction(queryData))
-                .then((data) => {
-                    setTopicList(data?.topics)
-                    }
-                )
-                .catch((error) => {
+            .then((data) => {
+                setTopicList(data?.topics)
+            }
+            )
+            .catch((error) => {
 
-                })
+            })
     }
 
     const onChangeYear = (d: Date) => {
@@ -160,7 +160,7 @@ const TopicListPage = () => {
         dispatch(getAllPeriodsAction(query))
             .then((data) => {
                 setPeriods(data?.periods)
-                if(data?.periods.length > 0){
+                if (data?.periods.length > 0) {
                     setCurrentType("");
                     setCurrentStatus("");
                     setCurrentExtensionStatus("");
@@ -169,7 +169,7 @@ const TopicListPage = () => {
                 }
             })
             .catch((error) => {
-                
+
             })
     }
 
@@ -178,57 +178,57 @@ const TopicListPage = () => {
         if (currentPage <= 1) return;
         setCurrentPage(currentPage - 1);
         onChangePage(currentPage - 1)
-      };
-      const nextPage = () => {
+    };
+    const nextPage = () => {
         if (currentPage >= totalPage) return;
         setCurrentPage(currentPage + 1);
         onChangePage(currentPage + 1)
-      };
+    };
 
-    return(
+    return (
         <div className='p-4 overflow-y-auto'>
             <div className=''>
                 <div className='flex items-center mb-5'>
-                <div className='mr-5'>
-                        Năm: 
+                    <div className='mr-5'>
+                        Năm:
                     </div>
                     <div className='grid justify-items-end items-center mr-10'>
                         <DatePicker
                             onChange={date => {
-                                if(date){
+                                if (date) {
                                     setYear(date);
                                     onChangeYear(date);
                                 }
-                                }}
+                            }}
                             selected={year}
                             dateFormat="yyyy"
                             showYearPicker
                             locale={vi}
                             className="h-[40px] w-[90px] border border-black border-1 rounded-md px-2"
-                                    />
+                        />
                         <div className='absolute mr-2'>
-                            <img src={Calendar} alt="calendarIcon" className='h-5 w-5'/>
+                            <img src={Calendar} alt="calendarIcon" className='h-5 w-5' />
                         </div>
                     </div>
-                        {periods.length > 0 && <div className='mr-5'>
-                                Đợt: 
-                        </div>}
-                        {periods.length > 0 && <div className="">
-                            <select
-                                className="bg-white h-[40px] w-[270px] border border-black border-1 rounded-lg focus:ring-blue-500 px-2"
-                                    onChange={(e) => {
-                                        e.preventDefault();
-                                        setCurrentPeriod(e.target.value);
-                                        onChangeFilter(e.target.value, currentType, currentStatus, currentExtensionStatus)
-                                    }}
-                                    defaultValue={periods.length === 0 ? "" : periods[0]._id}
-                                    value={currentPeriod}
-                                >
-                                {periods.map((period, index) => 
+                    {periods.length > 0 && <div className='mr-5'>
+                        Đợt:
+                    </div>}
+                    {periods.length > 0 && <div className="">
+                        <select
+                            className="bg-white h-[40px] w-[270px] border border-black border-1 rounded-lg focus:ring-blue-500 px-2"
+                            onChange={(e) => {
+                                e.preventDefault();
+                                setCurrentPeriod(e.target.value);
+                                onChangeFilter(e.target.value, currentType, currentStatus, currentExtensionStatus)
+                            }}
+                            defaultValue={periods.length === 0 ? "" : periods[0]._id}
+                            value={currentPeriod}
+                        >
+                            {periods.map((period, index) =>
                                 <option value={period._id} id={period._id}>{displayPeriod(period.period)}</option>
-                                )}
-                            </select>
-                        </div>}
+                            )}
+                        </select>
+                    </div>}
                 </div>
             </div>
 
@@ -236,19 +236,19 @@ const TopicListPage = () => {
                 <div className='flex items-center py-4'>
                     <div className='flex items-center mr-20'>
                         <div className='mr-3'>
-                            Loại đề tài: 
+                            Loại đề tài:
                         </div>
                         <div className="">
                             <select
                                 className="bg-white h-[40px] w-[250px] border border-black border-1 rounded-lg focus:ring-blue-500 px-2"
-                                    onChange={(e) => {
-                                        e.preventDefault();
-                                        setCurrentType(e.target.value)
-                                        onChangeFilter(currentPeriod, e.target.value, currentStatus, currentExtensionStatus)
-                                    }}
-                                    defaultValue={""}
-                                    value={currentType}
-                                >
+                                onChange={(e) => {
+                                    e.preventDefault();
+                                    setCurrentType(e.target.value)
+                                    onChangeFilter(currentPeriod, e.target.value, currentStatus, currentExtensionStatus)
+                                }}
+                                defaultValue={""}
+                                value={currentType}
+                            >
                                 <option value="">Toàn bộ</option>
                                 {Object.values(TopicTypeEnum).map((value) => {
                                     return <option value={value} key={value}>{value}</option>
@@ -259,19 +259,19 @@ const TopicListPage = () => {
 
                     <div className='flex items-center mr-20'>
                         <div className='mr-3'>
-                            Gia hạn: 
+                            Gia hạn:
                         </div>
                         <div className="">
                             <select
                                 className="bg-white h-[40px] w-[250px] border border-black border-1 rounded-lg focus:ring-blue-500 px-2"
-                                    onChange={(e) => {
-                                        e.preventDefault();
-                                        setCurrentExtensionStatus(e.target.value);
-                                        onChangeFilter(currentPeriod, currentType, currentStatus, e.target.value)
-                                    }}
-                                    value={currentExtensionStatus}
-                                    defaultValue={""}
-                                >
+                                onChange={(e) => {
+                                    e.preventDefault();
+                                    setCurrentExtensionStatus(e.target.value);
+                                    onChangeFilter(currentPeriod, currentType, currentStatus, e.target.value)
+                                }}
+                                value={currentExtensionStatus}
+                                defaultValue={""}
+                            >
                                 <option value="">Toàn bộ</option>
                                 <option value="false">Chưa gia hạn</option>
                                 <option value="true">Đã gia hạn</option>
@@ -281,19 +281,19 @@ const TopicListPage = () => {
 
                     <div className='flex items-center'>
                         <div className='mr-3'>
-                            Trạng thái: 
+                            Trạng thái:
                         </div>
                         <div className="">
                             <select
                                 className="bg-white h-[40px] w-[250px] border border-black border-1 rounded-lg focus:ring-blue-500 px-2"
-                                    onChange={(e) => {
-                                        e.preventDefault();
-                                        setCurrentStatus(e.target.value)
-                                        onChangeFilter(currentPeriod, currentType, e.target.value, currentExtensionStatus)
-                                    }}
-                                    defaultValue={""}
-                                    value={currentStatus}
-                                >
+                                onChange={(e) => {
+                                    e.preventDefault();
+                                    setCurrentStatus(e.target.value)
+                                    onChangeFilter(currentPeriod, currentType, e.target.value, currentExtensionStatus)
+                                }}
+                                defaultValue={""}
+                                value={currentStatus}
+                            >
                                 <option value="">Toàn bộ</option>
                                 {Object.values(TopicStatusEnum).map((value) => {
                                     return <option value={value} key={value}>{value}</option>
@@ -308,143 +308,130 @@ const TopicListPage = () => {
 
             {periods.length > 0 && <div className='w-full'>
                 <div className='flex flex-col'>
+                    {/* <div className='mb-2'>
+                        <input type="text" placeholder={"Tìm kiếm bằng văn bản"} className='border-2 px-2 rounded-[5px] h-10'
+                        />
+                    </div> */}
                     <div className=''>
                         <div className='inline-block w-full pr-5'>
-                        <div className=''>
-                            <table className='w-full table-fixed border-separate border-spacing-y-1 border-2'>
-                            <thead className='bg-[#1577D2] border-b'>
-                                    <tr>
-                                    <th
-                                        scope='col'
-                                        className='w-[5%] text-sm text-center font-bold text-white px-2 py-3 text-left border-l-2'
-                                    >
-                                        STT
-                                    </th>
-                                    <th
-                                        scope='col'
-                                        className='text-sm text-center font-bold text-white px-2 py-3 text-left border-l-2'
-                                    >
-                                        Mã đề tài
-                                    </th>
-                                    <th
-                                        scope='col'
-                                        className='w-[13%] text-sm text-center font-bold text-white px-2 py-3 text-left border-l-2'
-                                    >
-                                        Tên đề tài
-                                    </th>
-                                    <th
-                                        scope='col'
-                                        className='text-sm text-center font-bold text-white px-2 py-3 text-left border-l-2'
-                                    >
-                                        Loại đề tài
-                                    </th>
-                                    <th
-                                        scope='col'
-                                        className='text-sm text-center font-bold text-white px-2 py-3 text-left border-l-2'
-                                    >
-                                        Trạng thái
-                                    </th>
-                                    <th
-                                        scope='col'
-                                        className='text-sm text-center font-bold text-white px-2 py-3 text-left border-l-2'
-                                    >
-                                        Gia hạn
-                                    </th>
-                                    <th
-                                        scope='col'
-                                        className='text-sm text-center font-bold text-white px-2 py-3 text-left border-l-2'
-                                    >
-                                        Chủ nhiệm
-                                    </th>
-                                    <th
-                                        scope='col'
-                                        className='text-sm text-center font-bold text-white px-2 py-3 text-left border-l-2'
-                                    >
-                                        Ngày tạo
-                                    </th>
-                                    <th
-                                        scope='col'
-                                        className='text-sm text-center font-bold text-white px-2 py-3 text-left border-l-2'
-                                    >
-                                        Thời gian
-                                    </th>
-                                    <th
-                                        scope='col'
-                                        className='text-sm text-center font-bold text-white px-2 py-3 text-left border-l-2'
-                                    >
-                                        Đợt
-                                    </th>
-                                    <th
-                                        scope='col'
-                                        className='text-sm text-center font-bold text-white px-2 py-3 text-left border-l-2'
-                                    >
-                                        
-                                    </th>
-                                    <th
-                                        scope='col'
-                                        className='text-sm text-center font-bold text-white px-2 py-3 text-left border-l-2'
-                                    >
-                                        
-                                    </th>
-                                    <th
-                                        scope='col'
-                                        className='text-sm text-center font-bold text-white px-2 py-3 text-left border-l-2'
-                                    >
-                                        
-                                    </th>
-                                    <th
-                                        scope='col'
-                                        className='text-sm text-center font-bold text-white px-2 py-3 text-left border-l-2'
-                                    >
-                                        
-                                    </th>
-                                    </tr>
-                                </thead>
-                                <tbody className=''>
-                                {topicList.map((topic, index) => {
-                                        return(
-                                            <RowTable
-                                            index={index+1}
-                                            _id={topic._id}
-                                            topicGivenId={topic.topicGivenId}
-                                            topicName={topic.name}
-                                            topicType={topic.type}
-                                            topicStatus={topic.status}
-                                            topicExtensionStatus={topic.isExtended? "Thời gian gia hạn: " + topic.extensionTime + " tháng" : ""}
-                                            createdDate={topic.creationDate}
-                                            time={displayDate(topic.startTime) + " - " + displayDate(topic.endTime)}
-                                            period={topic.periodValue}
-                                            currentPage={currentPage}
-                                            startTime={topic.startTime}
-                                            endTime={topic.endTime}
-                                            productId={topic.productId}
-                                            student={topic.student}
-                                            />
-                                        )
-                                    })}
-                                </tbody>
-                            </table>
-                        </div>
+                            <div className=''>
+                                <table className='w-full table-fixed border-separate border-spacing-y-1 border-2'>
+                                    <thead className='bg-[#1577D2] border-b'>
+                                        <tr>
+                                            <th
+                                                scope='col'
+                                                className='w-[5%] text-sm text-center font-bold text-white px-2 py-3 text-left border-l-2'
+                                            >
+                                                STT
+                                            </th>
+                                            <th
+                                                scope='col'
+                                                className='w-[10%] text-sm text-center font-bold text-white px-2 py-3 text-left border-l-2'
+                                            >
+                                                Mã đề tài
+                                            </th>
+                                            <th
+                                                scope='col'
+                                                className='w-[20%] text-sm text-center font-bold text-white px-2 py-3 text-left border-l-2'
+                                            >
+                                                Tên đề tài
+                                            </th>
+                                            <th
+                                                scope='col'
+                                                className='w-[8%] text-sm text-center font-bold text-white px-2 py-3 text-left border-l-2'
+                                            >
+                                                Loại đề tài
+                                            </th>
+                                            <th
+                                                scope='col'
+                                                className='w-[10%] text-sm text-center font-bold text-white px-2 py-3 text-left border-l-2'
+                                            >
+                                                Trạng thái
+                                            </th>
+                                            <th
+                                                scope='col'
+                                                className='w-[11%] text-sm text-center font-bold text-white px-2 py-3 text-left border-l-2'
+                                            >
+                                                Gia hạn
+                                            </th>
+                                            <th
+                                                scope='col'
+                                                className='w-[8%] text-sm text-center font-bold text-white px-2 py-3 text-left border-l-2'
+                                            >
+                                                Chủ nhiệm
+                                            </th>
+                                            <th
+                                                scope='col'
+                                                className='w-[7%] text-sm text-center font-bold text-white px-2 py-3 text-left border-l-2'
+                                            >
+                                                Ngày tạo
+                                            </th>
+                                            <th
+                                                scope='col'
+                                                className='w-[11%] text-sm text-center font-bold text-white px-2 py-3 text-left border-l-2'
+                                            >
+                                                Thời gian
+                                            </th>
+                                            <th
+                                                scope='col'
+                                                className='w-[6%] text-sm text-center font-bold text-white px-2 py-3 text-left border-l-2'
+                                            >
+                                                Đợt
+                                            </th>
+                                            <th
+                                                scope='col'
+                                                className='w-[4%] text-sm text-center font-bold text-white px-2 py-3 text-left border-l-2'
+                                            >
+
+                                            </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody className=''>
+                                        {topicList.map((topic, index) => {
+                                            return (
+                                                <RowTable
+                                                    index={index + 1}
+                                                    _id={topic._id}
+                                                    topicGivenId={topic.topicGivenId}
+                                                    topicName={topic.name}
+                                                    topicType={topic.type}
+                                                    topicStatus={topic.status}
+                                                    topicExtensionStatus={topic.isExtended ? "Thời gian gia hạn: " + topic.extensionTime + " tháng" : ""}
+                                                    createdDate={topic.creationDate}
+                                                    time={displayDate(topic.startTime) + " - " + displayDate(topic.endTime)}
+                                                    period={topic.periodValue}
+                                                    currentPage={currentPage}
+                                                    startTime={topic.startTime}
+                                                    endTime={topic.endTime}
+                                                    productId={topic.productId}
+                                                    student={topic.student}
+                                                />
+                                            )
+                                        })}
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>}
 
-            {periods.length > 0 && <div className='grid justify-items-end px-5'>
-                        <ul className='inline-flex items-center -space-x-px'>
-                            <LeftTag onClick={prevPage} />
-                            {Array.from(Array(totalPage).keys()).map((index) => (
-                                <PaginationTag
+            {periods.length > 0 &&
+                <div className='grid justify-items-end px-5'>
+                    <ul className='inline-flex items-center -space-x-px'>
+                        <LeftTag onClick={prevPage} />
+                        {Array.from(Array(totalPage).keys()).map((index) => (
+                            <PaginationTag
                                 key={index}
                                 numPage={index + 1}
                                 setCurrentPage={setCurrentPage}
                                 currentPage={currentPage}
                                 onChangePage={onChangePage}
-                                />
-                            ))}
-                            <RightTag onClick={nextPage} />
-                        </ul>
-            </div>}
+                            />
+                        ))}
+                        <RightTag onClick={nextPage} />
+                    </ul>
+                </div>}
         </div>
     )
 }

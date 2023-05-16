@@ -268,55 +268,55 @@ const CouncilDetailScreen: React.FC = () => {
                                         <tr>
                                             <th
                                                 scope='col'
-                                                className='text-sm text-center font-bold text-white px-2 py-3 w-8 border-l-2'
+                                                className='w-[3%] text-sm text-center font-bold text-white px-2 py-3 w-8 border-l-2'
                                             >
 
                                             </th>
                                             <th
                                                 scope='col'
-                                                className='text-sm text-center font-bold text-white px-2 py-3 w-28 border-l-2'
+                                                className='w-[20%] text-sm text-center font-bold text-white px-2 py-3 w-28 border-l-2'
                                             >
                                                 Tên thành viên
                                             </th>
                                             <th
                                                 scope='col'
-                                                className='text-sm text-center font-bold text-white px-2 py-3 w-20 border-l-2'
+                                                className='w-[7%] text-sm text-center font-bold text-white px-2 py-3 w-20 border-l-2'
                                             >
                                                 Giới tính
                                             </th>
                                             <th
                                                 scope='col'
-                                                className='text-sm text-center font-bold text-white px-2 py-3 w-20 border-l-2'
+                                                className='w-[12%] text-sm text-center font-bold text-white px-2 py-3 w-20 border-l-2'
                                             >
                                                 Học hàm / Học vị
                                             </th>
                                             <th
                                                 scope='col'
-                                                className='text-sm text-center font-bold text-white px-2 py-3  border-l-2'
+                                                className='w-[15%] text-sm text-center font-bold text-white px-2 py-3  border-l-2'
                                             >
                                                 Email
                                             </th>
                                             <th
                                                 scope='col'
-                                                className='text-sm text-center font-bold text-white px-2 py-3 w-32 border-l-2'
+                                                className='w-[10%] text-sm text-center font-bold text-white px-2 py-3 w-32 border-l-2'
                                             >
                                                 Số điện thoại
                                             </th>
                                             <th
                                                 scope='col'
-                                                className='text-sm text-center font-bold text-white px-2 py-3 w-20 border-l-2'
+                                                className='w-[8%] text-sm text-center font-bold text-white px-2 py-3 w-20 border-l-2'
                                             >
                                                 Vai trò
                                             </th>
                                             <th
                                                 scope='col'
-                                                className='text-sm text-center font-bold text-white px-2 py-3 w-48 border-l-2'
+                                                className='w-[20%] text-sm text-center font-bold text-white px-2 py-3 w-48 border-l-2'
                                             >
                                                 Đơn vị công tác
                                             </th>
                                             <th
                                                 scope='col'
-                                                className='text-sm text-center font-bold text-white px-2 py-3 w-12 border-l-2'
+                                                className='w-[5%] text-sm text-center font-bold text-white px-2 py-3 w-12 border-l-2'
                                             >
 
                                             </th>

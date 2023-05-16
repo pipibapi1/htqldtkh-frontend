@@ -19,13 +19,13 @@ import BackIcon from '../../../../../assets/images/🦆 icon _arrow circle left_
 
 const RECORD_PER_PAGE = 5;
 
-interface Period{
+interface Period {
     _id: string;
     period: string;
     status: PeriodStatus;
     createAt: Date;
 }
-interface Props{
+interface Props {
     moveBack: () => void,
     currentPeriod: string,
     periods: Period[],
@@ -33,7 +33,7 @@ interface Props{
     getTopicList: (period: string) => Promise<void>,
 }
 
-interface Topic{
+interface Topic {
     _id: string;
     name: string;
     type: TopicTypeEnum;
@@ -55,8 +55,8 @@ interface Topic{
 
 const TopicListPage: React.FC<Props> = (props: Props) => {
 
-    const{moveBack, currentPeriod, periods, setCurrentPeriod, getTopicList} = props;
-    
+    const { moveBack, currentPeriod, periods, setCurrentPeriod, getTopicList } = props;
+
 
     const [currentPage, setCurrentPage] = useState<number>(1);
     const [currentType, setCurrentType] = useState<string>("");
@@ -64,7 +64,7 @@ const TopicListPage: React.FC<Props> = (props: Props) => {
     const [currentExtensionStatus, setCurrentExtensionStatus] = useState<string>("");
 
     const extensionStatus = (topic: Topic) => {
-        if(topic.isExtended){
+        if (topic.isExtended) {
             return "Thời gian gia hạn: " + topic.extensionTime + " tháng"
         }
         return ""
@@ -77,19 +77,19 @@ const TopicListPage: React.FC<Props> = (props: Props) => {
             limit: RECORD_PER_PAGE,
             period: period
         }
-        if(type !== ""){
+        if (type !== "") {
             queryData = {
                 ...queryData,
                 type: type
             }
         }
-        if(status !== ""){
+        if (status !== "") {
             queryData = {
                 ...queryData,
                 status: status
             }
         }
-        if(extensionStatus !== ""){
+        if (extensionStatus !== "") {
             queryData = {
                 ...queryData,
                 isExtended: extensionStatus
@@ -97,16 +97,16 @@ const TopicListPage: React.FC<Props> = (props: Props) => {
         }
 
         dispatch(getTopicListAction(queryData))
-                .then((data) => {
-                    setTopicList(data?.topics)
-                    if(data?.metadata.totalPage > 0){
-                        setTotalPage(data?.metadata.totalPage)
-                    }
-                    }
-                )
-                .catch((error) => {
+            .then((data) => {
+                setTopicList(data?.topics)
+                if (data?.metadata.totalPage > 0) {
+                    setTotalPage(data?.metadata.totalPage)
+                }
+            }
+            )
+            .catch((error) => {
 
-                })
+            })
     }
 
     const [topicList, setTopicList] = useState<Topic[]>([]);
@@ -123,17 +123,17 @@ const TopicListPage: React.FC<Props> = (props: Props) => {
             period: currentPeriod
         }
         dispatch(getTopicListAction(queryData))
-                .then((data) => {
-                    setTopicList(data?.topics)
-                    if(data?.metadata.totalPage > 0){
-                        setTotalPage(data?.metadata.totalPage)
-                    }
-                    }
-                )
-                .catch((error) => {
+            .then((data) => {
+                setTopicList(data?.topics)
+                if (data?.metadata.totalPage > 0) {
+                    setTotalPage(data?.metadata.totalPage)
+                }
+            }
+            )
+            .catch((error) => {
 
-                })
-                
+            })
+
     }, []);
 
     const onChangePage = (page: number) => {
@@ -142,19 +142,19 @@ const TopicListPage: React.FC<Props> = (props: Props) => {
             limit: RECORD_PER_PAGE,
             period: currentPeriod
         }
-        if(currentType !== ""){
+        if (currentType !== "") {
             queryData = {
                 ...queryData,
                 type: currentType
             }
         }
-        if(currentStatus !== ""){
+        if (currentStatus !== "") {
             queryData = {
                 ...queryData,
                 status: currentStatus
             }
         }
-        if(currentExtensionStatus !== ""){
+        if (currentExtensionStatus !== "") {
             queryData = {
                 ...queryData,
                 isExtended: currentExtensionStatus
@@ -162,13 +162,13 @@ const TopicListPage: React.FC<Props> = (props: Props) => {
         }
 
         dispatch(getTopicListAction(queryData))
-                .then((data) => {
-                    setTopicList(data?.topics)
-                    }
-                )
-                .catch((error) => {
+            .then((data) => {
+                setTopicList(data?.topics)
+            }
+            )
+            .catch((error) => {
 
-                })
+            })
     }
 
 
@@ -176,40 +176,40 @@ const TopicListPage: React.FC<Props> = (props: Props) => {
         if (currentPage <= 1) return;
         setCurrentPage(currentPage - 1);
         onChangePage(currentPage - 1)
-      };
-      const nextPage = () => {
+    };
+    const nextPage = () => {
         if (currentPage >= totalPage) return;
         setCurrentPage(currentPage + 1);
         onChangePage(currentPage + 1)
-      };
+    };
 
-    return(
+    return (
         <div className='p-4 overflow-y-auto'>
             <div className=''>
                 <div className='hover:cursor-pointer w-fit' onClick={moveBack}>
                     <img src={BackIcon} className='h-5' alt="" />
                 </div>
                 <div className='flex items-center mb-5'>
-                <div className='mr-5'>
-                                Đợt: 
-                        </div>
-                        <div className="">
-                            <select
-                                className="bg-white h-[40px] w-[270px] border border-black border-1 rounded-lg focus:ring-blue-500 px-2"
-                                    onChange={(e) => {
-                                        e.preventDefault();
-                                        setCurrentPeriod(e.target.value);
-                                        getTopicList(e.target.value);
-                                        onChangeFilter(e.target.value, currentType, currentStatus, currentExtensionStatus)
-                                    }}
-                                    defaultValue={periods.length === 0 ? "" : periods[0]._id}
-                                    value={currentPeriod}
-                                >
-                                {periods.map((period, index) => 
+                    <div className='mr-5'>
+                        Đợt:
+                    </div>
+                    <div className="">
+                        <select
+                            className="bg-white h-[40px] w-[270px] border border-black border-1 rounded-lg focus:ring-blue-500 px-2"
+                            onChange={(e) => {
+                                e.preventDefault();
+                                setCurrentPeriod(e.target.value);
+                                getTopicList(e.target.value);
+                                onChangeFilter(e.target.value, currentType, currentStatus, currentExtensionStatus)
+                            }}
+                            defaultValue={periods.length === 0 ? "" : periods[0]._id}
+                            value={currentPeriod}
+                        >
+                            {periods.map((period, index) =>
                                 <option value={period._id} id={period._id}>{displayPeriod(period.period)}</option>
-                                )}
-                            </select>
-                        </div>
+                            )}
+                        </select>
+                    </div>
                 </div>
             </div>
 
@@ -217,18 +217,18 @@ const TopicListPage: React.FC<Props> = (props: Props) => {
                 <div className='flex items-center py-4'>
                     <div className='flex items-center mr-20'>
                         <div className='mr-3'>
-                            Loại đề tài: 
+                            Loại đề tài:
                         </div>
                         <div className="">
                             <select
                                 className="bg-white h-[40px] w-[250px] border border-black border-1 rounded-lg focus:ring-blue-500 px-2"
-                                    onChange={(e) => {
-                                        e.preventDefault();
-                                        setCurrentType(e.target.value)
-                                        onChangeFilter(currentPeriod, e.target.value, currentStatus, currentExtensionStatus)
-                                    }}
-                                    defaultValue={""}
-                                >
+                                onChange={(e) => {
+                                    e.preventDefault();
+                                    setCurrentType(e.target.value)
+                                    onChangeFilter(currentPeriod, e.target.value, currentStatus, currentExtensionStatus)
+                                }}
+                                defaultValue={""}
+                            >
                                 <option value="">Toàn bộ</option>
                                 {Object.values(TopicTypeEnum).map((value) => {
                                     return <option value={value} key={value}>{value}</option>
@@ -239,18 +239,18 @@ const TopicListPage: React.FC<Props> = (props: Props) => {
 
                     <div className='flex items-center mr-20'>
                         <div className='mr-3'>
-                            Gia hạn: 
+                            Gia hạn:
                         </div>
                         <div className="">
                             <select
                                 className="bg-white h-[40px] w-[250px] border border-black border-1 rounded-lg focus:ring-blue-500 px-2"
-                                    onChange={(e) => {
-                                        e.preventDefault();
-                                        setCurrentExtensionStatus(e.target.value);
-                                        onChangeFilter(currentPeriod, currentType, currentStatus, e.target.value)
-                                    }}
-                                    defaultValue={""}
-                                >
+                                onChange={(e) => {
+                                    e.preventDefault();
+                                    setCurrentExtensionStatus(e.target.value);
+                                    onChangeFilter(currentPeriod, currentType, currentStatus, e.target.value)
+                                }}
+                                defaultValue={""}
+                            >
                                 <option value="">Toàn bộ</option>
                                 <option value="false">Chưa gia hạn</option>
                                 <option value="true">Đã gia hạn</option>
@@ -260,18 +260,18 @@ const TopicListPage: React.FC<Props> = (props: Props) => {
 
                     <div className='flex items-center'>
                         <div className='mr-3'>
-                            Trạng thái: 
+                            Trạng thái:
                         </div>
                         <div className="">
                             <select
                                 className="bg-white h-[40px] w-[250px] border border-black border-1 rounded-lg focus:ring-blue-500 px-2"
-                                    onChange={(e) => {
-                                        e.preventDefault();
-                                        setCurrentStatus(e.target.value)
-                                        onChangeFilter(currentPeriod, currentType, e.target.value, currentExtensionStatus)
-                                    }}
-                                    defaultValue={""}
-                                >
+                                onChange={(e) => {
+                                    e.preventDefault();
+                                    setCurrentStatus(e.target.value)
+                                    onChangeFilter(currentPeriod, currentType, e.target.value, currentExtensionStatus)
+                                }}
+                                defaultValue={""}
+                            >
                                 <option value="">Toàn bộ</option>
                                 {Object.values(TopicStatusEnum).map((value) => {
                                     return <option value={value} key={value}>{value}</option>
@@ -286,97 +286,97 @@ const TopicListPage: React.FC<Props> = (props: Props) => {
                 <div className='flex flex-col'>
                     <div className=''>
                         <div className='inline-block w-full pr-5'>
-                        <div className=''>
-                            <table className='w-full table-fixed border-separate border-spacing-y-1 border-2'>
-                                <thead className='bg-[#1577D2] border-b'>
-                                    <tr>
-                                    <th
-                                        scope='col'
-                                        className='w-[5%] text-sm text-center font-bold text-white px-2 py-3 text-left border-l-2'
-                                    >
-                                        STT
-                                    </th>
-                                    <th
-                                        scope='col'
-                                        className='text-sm text-center font-bold text-white px-2 py-3 text-left border-l-2'
-                                    >
-                                        Mã đề tài
-                                    </th>
-                                    <th
-                                        scope='col'
-                                        className='w-[20%] text-sm text-center font-bold text-white px-2 py-3 text-left border-l-2'
-                                    >
-                                        Tên đề tài
-                                    </th>
-                                    <th
-                                        scope='col'
-                                        className='w-[10%] text-sm text-center font-bold text-white px-2 py-3 text-left border-l-2'
-                                    >
-                                        Loại đề tài
-                                    </th>
-                                    <th
-                                        scope='col'
-                                        className='w-[10%] text-sm text-center font-bold text-white px-2 py-3 text-left border-l-2'
-                                    >
-                                        Trạng thái
-                                    </th>
-                                    <th
-                                        scope='col'
-                                        className='text-sm text-center font-bold text-white px-2 py-3 text-left border-l-2'
-                                    >
-                                        Gia hạn
-                                    </th>
-                                    <th
-                                        scope='col'
-                                        className='w-[10%] text-sm text-center font-bold text-white px-2 py-3 text-left border-l-2'
-                                    >
-                                        Chủ nhiệm
-                                    </th>
-                                    <th
-                                        scope='col'
-                                        className='w-[10%] text-sm text-center font-bold text-white px-2 py-3 text-left border-l-2'
-                                    >
-                                        Ngày tạo
-                                    </th>
-                                    
-                                    </tr>
-                                </thead>
-                                <tbody className=''>
-                                    {topicList.map((topic, index) => {
-                                        return (<RowTable
-                                        index={index+1}
-                                        topicId={topic.topicGivenId}
-                                        topicName={topic.name}
-                                        topicType={topic.type}
-                                        topicStatus={topic.status}
-                                        extensionStatus={extensionStatus(topic)}
-                                        topicRegister={topic.student.name}
-                                        date={topic.creationDate}
-                                        currentPage={currentPage}
-                                    />)
-                                    })}
-                                </tbody>
-                            </table>
-                        </div>
+                            <div className=''>
+                                <table className='w-full table-fixed border-separate border-spacing-y-1 border-2'>
+                                    <thead className='bg-[#1577D2] border-b'>
+                                        <tr>
+                                            <th
+                                                scope='col'
+                                                className='w-[5%] text-sm text-center font-bold text-white px-2 py-3 text-left border-l-2'
+                                            >
+                                                STT
+                                            </th>
+                                            <th
+                                                scope='col'
+                                                className='w-[12%] text-sm text-center font-bold text-white px-2 py-3 text-left border-l-2'
+                                            >
+                                                Mã đề tài
+                                            </th>
+                                            <th
+                                                scope='col'
+                                                className='w-[25%] text-sm text-center font-bold text-white px-2 py-3 text-left border-l-2'
+                                            >
+                                                Tên đề tài
+                                            </th>
+                                            <th
+                                                scope='col'
+                                                className='w-[10%] text-sm text-center font-bold text-white px-2 py-3 text-left border-l-2'
+                                            >
+                                                Loại đề tài
+                                            </th>
+                                            <th
+                                                scope='col'
+                                                className='w-[13%] text-sm text-center font-bold text-white px-2 py-3 text-left border-l-2'
+                                            >
+                                                Trạng thái
+                                            </th>
+                                            <th
+                                                scope='col'
+                                                className='w-[17%] text-sm text-center font-bold text-white px-2 py-3 text-left border-l-2'
+                                            >
+                                                Gia hạn
+                                            </th>
+                                            <th
+                                                scope='col'
+                                                className='w-[10%] text-sm text-center font-bold text-white px-2 py-3 text-left border-l-2'
+                                            >
+                                                Chủ nhiệm
+                                            </th>
+                                            <th
+                                                scope='col'
+                                                className='w-[8%] text-sm text-center font-bold text-white px-2 py-3 text-left border-l-2'
+                                            >
+                                                Ngày tạo
+                                            </th>
+
+                                        </tr>
+                                    </thead>
+                                    <tbody className=''>
+                                        {topicList.map((topic, index) => {
+                                            return (<RowTable
+                                                index={index + 1}
+                                                topicId={topic.topicGivenId}
+                                                topicName={topic.name}
+                                                topicType={topic.type}
+                                                topicStatus={topic.status}
+                                                extensionStatus={extensionStatus(topic)}
+                                                topicRegister={topic.student.name}
+                                                date={topic.creationDate}
+                                                currentPage={currentPage}
+                                            />)
+                                        })}
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
 
             <div className='grid justify-items-end px-5'>
-                        <ul className='inline-flex items-center -space-x-px'>
-                            <LeftTag onClick={prevPage} />
-                            {Array.from(Array(totalPage).keys()).map((index) => (
-                                <PaginationTag
-                                key={index}
-                                numPage={index + 1}
-                                setCurrentPage={setCurrentPage}
-                                currentPage={currentPage}
-                                onChangePage={onChangePage}
-                                />
-                            ))}
-                            <RightTag onClick={nextPage} />
-                        </ul>
+                <ul className='inline-flex items-center -space-x-px'>
+                    <LeftTag onClick={prevPage} />
+                    {Array.from(Array(totalPage).keys()).map((index) => (
+                        <PaginationTag
+                            key={index}
+                            numPage={index + 1}
+                            setCurrentPage={setCurrentPage}
+                            currentPage={currentPage}
+                            onChangePage={onChangePage}
+                        />
+                    ))}
+                    <RightTag onClick={nextPage} />
+                </ul>
             </div>
         </div>
     )
