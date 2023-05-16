@@ -1,7 +1,7 @@
 {
   "files": {
-    "main.css": "https://pipibapi1.github.io/htqldtkh-frontend/static/css/main.f22efaf0.css",
-    "main.js": "https://pipibapi1.github.io/htqldtkh-frontend/static/js/main.dca011f2.js",
+    "main.css": "https://pipibapi1.github.io/htqldtkh-frontend/static/css/main.f331946d.css",
+    "main.js": "https://pipibapi1.github.io/htqldtkh-frontend/static/js/main.143d5c1d.js",
     "static/js/760.b1dde1c7.chunk.js": "https://pipibapi1.github.io/htqldtkh-frontend/static/js/760.b1dde1c7.chunk.js",
     "static/media/BK_2.jpg": "https://pipibapi1.github.io/htqldtkh-frontend/static/media/BK_2.851754eef426150f54a2.jpg",
     "static/media/pdf.worker.js": "https://pipibapi1.github.io/htqldtkh-frontend/static/media/pdf.worker.fe0d9f65ea1db90c63ef.js",
@@ -15,15 +15,16 @@
     "static/media/BK_1.jpg": "https://pipibapi1.github.io/htqldtkh-frontend/static/media/BK_1.61e912a92ffb00bb6dcf.jpg",
     "static/media/primeicons.woff2": "https://pipibapi1.github.io/htqldtkh-frontend/static/media/primeicons.78172950b335ccdb94e2.woff2",
     "static/media/empty_user.png": "https://pipibapi1.github.io/htqldtkh-frontend/static/media/empty_user.8d49e377c7c342895ec2.png",
+    "static/media/edit.png": "https://pipibapi1.github.io/htqldtkh-frontend/static/media/edit.4f80abc86bebbed45893.png",
     "static/media/information.png": "https://pipibapi1.github.io/htqldtkh-frontend/static/media/information.0252fcf96527002b1d26.png",
     "static/media/bell.png": "https://pipibapi1.github.io/htqldtkh-frontend/static/media/bell.4e269b70665cd464d93d.png",
     "index.html": "https://pipibapi1.github.io/htqldtkh-frontend/index.html",
-    "main.f22efaf0.css.map": "https://pipibapi1.github.io/htqldtkh-frontend/static/css/main.f22efaf0.css.map",
-    "main.dca011f2.js.map": "https://pipibapi1.github.io/htqldtkh-frontend/static/js/main.dca011f2.js.map",
+    "main.f331946d.css.map": "https://pipibapi1.github.io/htqldtkh-frontend/static/css/main.f331946d.css.map",
+    "main.143d5c1d.js.map": "https://pipibapi1.github.io/htqldtkh-frontend/static/js/main.143d5c1d.js.map",
     "760.b1dde1c7.chunk.js.map": "https://pipibapi1.github.io/htqldtkh-frontend/static/js/760.b1dde1c7.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.f22efaf0.css",
-    "static/js/main.dca011f2.js"
+    "static/css/main.f331946d.css",
+    "static/js/main.143d5c1d.js"
   ]
 }
