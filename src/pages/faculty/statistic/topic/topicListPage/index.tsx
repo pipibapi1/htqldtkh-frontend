@@ -16,6 +16,7 @@ import { displayPeriod } from '../../../../../shared/functions';
 import { getTopicListAction } from '../../../../../actions/topicAction';
 
 import BackIcon from '../../../../../assets/images/🦆 icon _arrow circle left_.png';
+import SearchIcon from "../../../../../assets/images/searchIcon.png";
 
 const RECORD_PER_PAGE = 5;
 
@@ -62,6 +63,7 @@ const TopicListPage: React.FC<Props> = (props: Props) => {
     const [currentType, setCurrentType] = useState<string>("");
     const [currentStatus, setCurrentStatus] = useState<string>("");
     const [currentExtensionStatus, setCurrentExtensionStatus] = useState<string>("");
+    const [currentTextSearch, setCurrentTextSearch] = useState<string>("");
 
     const extensionStatus = (topic: Topic) => {
         if (topic.isExtended) {
@@ -70,12 +72,18 @@ const TopicListPage: React.FC<Props> = (props: Props) => {
         return ""
     }
 
-    const onChangeFilter = (period: string, type: string, status: string, extensionStatus: string) => {
+    const onChangeFilter = (period: string, type: string, status: string, extensionStatus: string, textSearch: string) => {
         setCurrentPage(1)
         let queryData: any = {
             page: 1,
             limit: RECORD_PER_PAGE,
             period: period
+        }
+        if (textSearch !== "") {
+            queryData = {
+                ...queryData,
+                textSearch: textSearch
+            }
         }
         if (type !== "") {
             queryData = {
@@ -101,6 +109,9 @@ const TopicListPage: React.FC<Props> = (props: Props) => {
                 setTopicList(data?.topics)
                 if (data?.metadata.totalPage > 0) {
                     setTotalPage(data?.metadata.totalPage)
+                }
+                else if (data?.metadata.totalPage === 0) {
+                    setTotalPage(1)
                 }
             }
             )
@@ -128,6 +139,9 @@ const TopicListPage: React.FC<Props> = (props: Props) => {
                 if (data?.metadata.totalPage > 0) {
                     setTotalPage(data?.metadata.totalPage)
                 }
+                else if (data?.metadata.totalPage === 0) {
+                    setTotalPage(1)
+                }
             }
             )
             .catch((error) => {
@@ -141,6 +155,12 @@ const TopicListPage: React.FC<Props> = (props: Props) => {
             page: page,
             limit: RECORD_PER_PAGE,
             period: currentPeriod
+        }
+        if (currentTextSearch !== "") {
+            queryData = {
+                ...queryData,
+                textSearch: currentTextSearch
+            }
         }
         if (currentType !== "") {
             queryData = {
@@ -200,7 +220,7 @@ const TopicListPage: React.FC<Props> = (props: Props) => {
                                 e.preventDefault();
                                 setCurrentPeriod(e.target.value);
                                 getTopicList(e.target.value);
-                                onChangeFilter(e.target.value, currentType, currentStatus, currentExtensionStatus)
+                                onChangeFilter(e.target.value, currentType, currentStatus, currentExtensionStatus, currentTextSearch)
                             }}
                             defaultValue={periods.length === 0 ? "" : periods[0]._id}
                             value={currentPeriod}
@@ -225,7 +245,7 @@ const TopicListPage: React.FC<Props> = (props: Props) => {
                                 onChange={(e) => {
                                     e.preventDefault();
                                     setCurrentType(e.target.value)
-                                    onChangeFilter(currentPeriod, e.target.value, currentStatus, currentExtensionStatus)
+                                    onChangeFilter(currentPeriod, e.target.value, currentStatus, currentExtensionStatus, currentTextSearch)
                                 }}
                                 defaultValue={""}
                             >
@@ -247,7 +267,7 @@ const TopicListPage: React.FC<Props> = (props: Props) => {
                                 onChange={(e) => {
                                     e.preventDefault();
                                     setCurrentExtensionStatus(e.target.value);
-                                    onChangeFilter(currentPeriod, currentType, currentStatus, e.target.value)
+                                    onChangeFilter(currentPeriod, currentType, currentStatus, e.target.value, currentTextSearch)
                                 }}
                                 defaultValue={""}
                             >
@@ -268,7 +288,7 @@ const TopicListPage: React.FC<Props> = (props: Props) => {
                                 onChange={(e) => {
                                     e.preventDefault();
                                     setCurrentStatus(e.target.value)
-                                    onChangeFilter(currentPeriod, currentType, e.target.value, currentExtensionStatus)
+                                    onChangeFilter(currentPeriod, currentType, e.target.value, currentExtensionStatus, currentTextSearch)
                                 }}
                                 defaultValue={""}
                             >
@@ -286,6 +306,24 @@ const TopicListPage: React.FC<Props> = (props: Props) => {
                 <div className='flex flex-col'>
                     <div className=''>
                         <div className='inline-block w-full pr-5'>
+                            <div className='mb-2 w-[100%] flex justify-start'>
+                                <input type="text" placeholder={"Tìm kiếm bằng tên hoặc mã đề tài"}
+                                    value={currentTextSearch}
+                                    onChange={(e: any) => {
+                                        e.preventDefault();
+                                        setCurrentTextSearch(e.target.value);
+                                    }}
+                                    className='border border-1 border-black px-2 rounded-[8px] h-[35px] w-[97%]'
+                                />
+                                <div className='w-[3%] flex items-center justify-center p-1 hover:cursor-pointer'
+                                    onClick={(e: any) => {
+                                        e.preventDefault();
+                                        onChangeFilter(currentPeriod, currentType, currentStatus, currentExtensionStatus, currentTextSearch)
+                                    }}
+                                >
+                                    <img src={SearchIcon} alt="searchIcon" className='h-5 w-5' />
+                                </div>
+                            </div>
                             <div className=''>
                                 <table className='w-full table-fixed border-separate border-spacing-y-1 border-2'>
                                     <thead className='bg-[#1577D2] border-b'>

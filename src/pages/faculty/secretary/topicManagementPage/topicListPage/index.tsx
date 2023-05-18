@@ -20,6 +20,7 @@ import LeftTag from './LeftTag';
 import RightTag from './RightTag';
 
 import Calendar from "../../../../../assets/images/calendar.png";
+import SearchIcon from "../../../../../assets/images/searchIcon.png";
 
 const RECORD_PER_PAGE = 5;
 
@@ -35,18 +36,24 @@ const TopicListPage = () => {
     const [year, setYear] = useState(new Date())
     const [periods, setPeriods] = useState<Period[]>([]);
     const [currentPeriod, setCurrentPeriod] = useState<string>("");
-
     const [currentPage, setCurrentPage] = useState<number>(1);
     const [currentType, setCurrentType] = useState<string>("");
     const [currentStatus, setCurrentStatus] = useState<string>("");
     const [currentExtensionStatus, setCurrentExtensionStatus] = useState<string>("");
+    const [currentTextSearch, setCurrentTextSearch] = useState<string>("");
 
-    const onChangeFilter = (period: string, type: string, status: string, extensionStatus: string) => {
+    const onChangeFilter = (period: string, type: string, status: string, extensionStatus: string, textSearch: string) => {
         setCurrentPage(1)
         let queryData: any = {
             page: 1,
             limit: RECORD_PER_PAGE,
             period: period
+        }
+        if (textSearch !== "") {
+            queryData = {
+                ...queryData,
+                textSearch: textSearch
+            }
         }
         if (type !== "") {
             queryData = {
@@ -73,13 +80,15 @@ const TopicListPage = () => {
                 if (data?.metadata.totalPage > 0) {
                     setTotalPage(data?.metadata.totalPage)
                 }
+                else if (data?.metadata.totalPage === 0) {
+                    setTotalPage(1)
+                }
             }
             )
             .catch((error) => {
 
             })
     }
-
     const [topicList, setTopicList] = useState<Topic[]>([]);
 
     const [totalPage, setTotalPage] = useState<number>(1);
@@ -105,6 +114,9 @@ const TopicListPage = () => {
                             if (data?.metadata.totalPage > 0) {
                                 setTotalPage(data?.metadata.totalPage)
                             }
+                            else if (data?.metadata.totalPage === 0) {
+                                setTotalPage(1)
+                            }
                         }
                         )
                         .catch((error) => {
@@ -123,6 +135,12 @@ const TopicListPage = () => {
             page: page,
             limit: RECORD_PER_PAGE,
             period: currentPeriod
+        }
+        if (currentTextSearch !== "") {
+            queryData = {
+                ...queryData,
+                textSearch: currentTextSearch
+            }
         }
         if (currentType !== "") {
             queryData = {
@@ -161,11 +179,8 @@ const TopicListPage = () => {
             .then((data) => {
                 setPeriods(data?.periods)
                 if (data?.periods.length > 0) {
-                    setCurrentType("");
-                    setCurrentStatus("");
-                    setCurrentExtensionStatus("");
                     setCurrentPeriod(data?.periods[0]._id)
-                    onChangeFilter(data?.periods[0]._id, "", "", "")
+                    onChangeFilter(data?.periods[0]._id, currentType, currentStatus, currentExtensionStatus, currentTextSearch)
                 }
             })
             .catch((error) => {
@@ -219,7 +234,7 @@ const TopicListPage = () => {
                             onChange={(e) => {
                                 e.preventDefault();
                                 setCurrentPeriod(e.target.value);
-                                onChangeFilter(e.target.value, currentType, currentStatus, currentExtensionStatus)
+                                onChangeFilter(e.target.value, currentType, currentStatus, currentExtensionStatus, currentTextSearch)
                             }}
                             defaultValue={periods.length === 0 ? "" : periods[0]._id}
                             value={currentPeriod}
@@ -232,88 +247,103 @@ const TopicListPage = () => {
                 </div>
             </div>
 
-            {periods.length > 0 ? <div className='grid justify-items-end px-5'>
-                <div className='flex items-center py-4'>
-                    <div className='flex items-center mr-20'>
-                        <div className='mr-3'>
-                            Loại đề tài:
+            {periods.length > 0 ?
+                <div className='grid justify-items-end px-5'>
+                    <div className='flex items-center py-4'>
+                        <div className='flex items-center mr-20'>
+                            <div className='mr-3'>
+                                Loại đề tài:
+                            </div>
+                            <div className="">
+                                <select
+                                    className="bg-white h-[40px] w-[250px] border border-black border-1 rounded-lg focus:ring-blue-500 px-2"
+                                    onChange={(e) => {
+                                        e.preventDefault();
+                                        setCurrentType(e.target.value)
+                                        onChangeFilter(currentPeriod, e.target.value, currentStatus, currentExtensionStatus, currentTextSearch)
+                                    }}
+                                    defaultValue={""}
+                                    value={currentType}
+                                >
+                                    <option value="">Toàn bộ</option>
+                                    {Object.values(TopicTypeEnum).map((value) => {
+                                        return <option value={value} key={value}>{value}</option>
+                                    })}
+                                </select>
+                            </div>
                         </div>
-                        <div className="">
-                            <select
-                                className="bg-white h-[40px] w-[250px] border border-black border-1 rounded-lg focus:ring-blue-500 px-2"
-                                onChange={(e) => {
-                                    e.preventDefault();
-                                    setCurrentType(e.target.value)
-                                    onChangeFilter(currentPeriod, e.target.value, currentStatus, currentExtensionStatus)
-                                }}
-                                defaultValue={""}
-                                value={currentType}
-                            >
-                                <option value="">Toàn bộ</option>
-                                {Object.values(TopicTypeEnum).map((value) => {
-                                    return <option value={value} key={value}>{value}</option>
-                                })}
-                            </select>
-                        </div>
-                    </div>
 
-                    <div className='flex items-center mr-20'>
-                        <div className='mr-3'>
-                            Gia hạn:
+                        <div className='flex items-center mr-20'>
+                            <div className='mr-3'>
+                                Gia hạn:
+                            </div>
+                            <div className="">
+                                <select
+                                    className="bg-white h-[40px] w-[250px] border border-black border-1 rounded-lg focus:ring-blue-500 px-2"
+                                    onChange={(e) => {
+                                        e.preventDefault();
+                                        setCurrentExtensionStatus(e.target.value);
+                                        onChangeFilter(currentPeriod, currentType, currentStatus, e.target.value, currentTextSearch)
+                                    }}
+                                    value={currentExtensionStatus}
+                                    defaultValue={""}
+                                >
+                                    <option value="">Toàn bộ</option>
+                                    <option value="false">Chưa gia hạn</option>
+                                    <option value="true">Đã gia hạn</option>
+                                </select>
+                            </div>
                         </div>
-                        <div className="">
-                            <select
-                                className="bg-white h-[40px] w-[250px] border border-black border-1 rounded-lg focus:ring-blue-500 px-2"
-                                onChange={(e) => {
-                                    e.preventDefault();
-                                    setCurrentExtensionStatus(e.target.value);
-                                    onChangeFilter(currentPeriod, currentType, currentStatus, e.target.value)
-                                }}
-                                value={currentExtensionStatus}
-                                defaultValue={""}
-                            >
-                                <option value="">Toàn bộ</option>
-                                <option value="false">Chưa gia hạn</option>
-                                <option value="true">Đã gia hạn</option>
-                            </select>
-                        </div>
-                    </div>
 
-                    <div className='flex items-center'>
-                        <div className='mr-3'>
-                            Trạng thái:
-                        </div>
-                        <div className="">
-                            <select
-                                className="bg-white h-[40px] w-[250px] border border-black border-1 rounded-lg focus:ring-blue-500 px-2"
-                                onChange={(e) => {
-                                    e.preventDefault();
-                                    setCurrentStatus(e.target.value)
-                                    onChangeFilter(currentPeriod, currentType, e.target.value, currentExtensionStatus)
-                                }}
-                                defaultValue={""}
-                                value={currentStatus}
-                            >
-                                <option value="">Toàn bộ</option>
-                                {Object.values(TopicStatusEnum).map((value) => {
-                                    return <option value={value} key={value}>{value}</option>
-                                })}
-                            </select>
+                        <div className='flex items-center'>
+                            <div className='mr-3'>
+                                Trạng thái:
+                            </div>
+                            <div className="">
+                                <select
+                                    className="bg-white h-[40px] w-[250px] border border-black border-1 rounded-lg focus:ring-blue-500 px-2"
+                                    onChange={(e) => {
+                                        e.preventDefault();
+                                        setCurrentStatus(e.target.value)
+                                        onChangeFilter(currentPeriod, currentType, e.target.value, currentExtensionStatus, currentTextSearch)
+                                    }}
+                                    defaultValue={""}
+                                    value={currentStatus}
+                                >
+                                    <option value="">Toàn bộ</option>
+                                    {Object.values(TopicStatusEnum).map((value) => {
+                                        return <option value={value} key={value}>{value}</option>
+                                    })}
+                                </select>
+                            </div>
                         </div>
                     </div>
-                </div>
-            </div> : <div>
-                Không có đợt đăng ký
-            </div>}
+                </div> : <div>
+                    Không có đợt đăng ký
+                </div>}
 
             {periods.length > 0 && <div className='w-full'>
                 <div className='flex flex-col'>
-                    {/* <div className='mb-2'>
-                        <input type="text" placeholder={"Tìm kiếm bằng văn bản"} className='border-2 px-2 rounded-[5px] h-10'
-                        />
-                    </div> */}
                     <div className=''>
                         <div className='inline-block w-full pr-5'>
+                            <div className='mb-2 w-[100%] flex justify-start'>
+                                <input type="text" placeholder={"Tìm kiếm bằng tên hoặc mã đề tài"}
+                                    value={currentTextSearch}
+                                    onChange={(e: any) => {
+                                        e.preventDefault();
+                                        setCurrentTextSearch(e.target.value);
+                                    }}
+                                    className='border border-1 border-black px-2 rounded-[8px] h-[35px] w-[97%]'
+                                />
+                                <div className='w-[3%] flex items-center justify-center p-1 hover:cursor-pointer'
+                                    onClick={(e: any) => {
+                                        e.preventDefault();
+                                        onChangeFilter(currentPeriod, currentType, currentStatus, currentExtensionStatus, currentTextSearch)
+                                    }}
+                                >
+                                    <img src={SearchIcon} alt="searchIcon" className='h-5 w-5' />
+                                </div>
+                            </div>
                             <div className=''>
                                 <table className='w-full table-fixed border-separate border-spacing-y-1 border-2'>
                                     <thead className='bg-[#1577D2] border-b'>

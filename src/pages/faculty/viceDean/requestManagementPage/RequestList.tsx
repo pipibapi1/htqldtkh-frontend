@@ -63,6 +63,9 @@ const RequestList = () => {
                 if (data?.metadata.totalPage > 0) {
                     setTotalPage(data?.metadata.totalPage)
                 }
+                else if (data?.metadata.totalPage === 0) {
+                    setTotalPage(1)
+                }
             }
             )
             .catch((error) => {
@@ -88,6 +91,9 @@ const RequestList = () => {
                             setRequests(data?.requests)
                             if (data?.metadata.totalPage > 0) {
                                 setTotalPage(data?.metadata.totalPage)
+                            }
+                            else if (data?.metadata.totalPage === 0) {
+                                setTotalPage(1)
                             }
                         }
                         )

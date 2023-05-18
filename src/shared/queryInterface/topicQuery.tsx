@@ -1,4 +1,4 @@
-export interface TopicQuery{
+export interface TopicQuery {
     period?: string,
     page?: number,
     limit?: number,
@@ -7,5 +7,6 @@ export interface TopicQuery{
     student?: string,
     isExtended?: boolean,
     reviewCouncil?: string,
-    acceptanceCouncil?: string
+    acceptanceCouncil?: string,
+    textSearch?: string
 }

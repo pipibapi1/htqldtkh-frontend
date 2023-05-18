@@ -1,12 +1,12 @@
 import topicService from "../services/topicService";
 import { TopicQuery } from "../shared/queryInterface/topicQuery";
- 
-const getTopicListAction = (queryData: TopicQuery) => (dispatch: any) =>{
+
+const getTopicListAction = (queryData: TopicQuery) => (dispatch: any) => {
     return topicService.getTopicListService(queryData).then(
         (data) => {
             return Promise.resolve(data);
         },
-        (error) =>{
+        (error) => {
             return Promise.reject(error);
         }
     )
@@ -17,7 +17,7 @@ const getTopicDetailAction = (_id: string) => (dispatch: any) => {
         (data) => {
             return Promise.resolve(data);
         },
-        (error) =>{
+        (error) => {
             return Promise.reject(error);
         }
     )
@@ -28,7 +28,7 @@ const putUpdateATopicAction = (updateInfo: any) => (dispatch: any) => {
         (data) => {
             return Promise.resolve(data);
         },
-        (error) =>{
+        (error) => {
             return Promise.reject(error);
         }
     )
@@ -39,7 +39,7 @@ const deleteRemoveATopicAction = (_id: string) => (dispatch: any) => {
         (data) => {
             return Promise.resolve(data);
         },
-        (error) =>{
+        (error) => {
             return Promise.reject(error);
         }
     )

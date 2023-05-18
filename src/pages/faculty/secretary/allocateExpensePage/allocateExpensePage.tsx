@@ -124,6 +124,7 @@ const AllocateExpensePage: FC = () => {
     const [currentType, setCurrentType] = useState<string>("");
     const [currentPage, setCurrentPage] = useState<number>(1);
     const [totalPage, setTotalPage] = useState<number>(1);
+    const [currentTextSearch, setCurrentTextSearch] = useState<string>("");
 
     const [isOpenAllocatedForm, setIsOpenAllocatedForm] = useState<boolean>(false);
     const [topicExpenseFormData, setTopicExpenseFormData] = useState<TopicExpenseFormData>({
@@ -220,37 +221,46 @@ const AllocateExpensePage: FC = () => {
 
         fetchExpenseByPeriod(currentPeriod);
         setCurrentPage(1);
-        setCurrentType("");
     }, [currentPeriod, dispatch]);
 
-    useEffect(() => {
-        const fetchTopics = async () => {
-            try {
-                if (currentPeriod !== "") {
-                    let query: any = {
-                        period: currentPeriod,
-                        page: currentPage,
-                        limit: RECORD_PER_PAGE,
-                    }
-                    if (currentType !== "") {
-                        query = {
-                            ...query,
-                            type: currentType
-                        }
-                    }
-                    const data = await dispatch(getTopicListAction(query));
-                    setTopics(data?.topics)
-                    if (data?.metadata.totalPage > 0) {
-                        setTotalPage(data?.metadata.totalPage);
+    const fetchTopics = async () => {
+        try {
+            if (currentPeriod !== "") {
+                let query: any = {
+                    period: currentPeriod,
+                    page: currentPage,
+                    limit: RECORD_PER_PAGE,
+                }
+                if (currentType !== "") {
+                    query = {
+                        ...query,
+                        type: currentType
                     }
                 }
-            } catch (error) {
-                Toast.fire({
-                    icon: 'error',
-                    title: error ? error : "Something is wrong!"
-                });
+                if (currentTextSearch !== "") {
+                    query = {
+                        ...query,
+                        textSearch: currentTextSearch
+                    }
+                }
+                const data = await dispatch(getTopicListAction(query));
+                setTopics(data?.topics)
+                if (data?.metadata.totalPage > 0) {
+                    setTotalPage(data?.metadata.totalPage);
+                }
+                else if (data?.metadata.totalPage === 0) {
+                    setTotalPage(1)
+                }
             }
+        } catch (error) {
+            Toast.fire({
+                icon: 'error',
+                title: error ? error : "Something is wrong!"
+            });
         }
+    }
+
+    useEffect(() => {
         fetchTopics();
     }, [currentPage, currentPeriod, currentType, dispatch]);
 
@@ -424,7 +434,7 @@ const AllocateExpensePage: FC = () => {
                     <div className="">
                         <select
                             className="bg-white h-[40px] w-[250px] border border-black border-1 rounded-lg focus:ring-blue-500 px-2"
-                            defaultValue={""}
+                            value={currentType}
                             onChange={onChangeTopicType}
                         >
                             <option value="">Toàn bộ</option>
@@ -443,6 +453,9 @@ const AllocateExpensePage: FC = () => {
                 currentPage={currentPage}
                 setCurrentPage={setCurrentPage}
                 onOpenTopicExpenseForm={onOpenTopicExpenseForm}
+                currentTextSearch={currentTextSearch}
+                setCurrentTextSearch={setCurrentTextSearch}
+                fetchTopics={fetchTopics}
             />}
 
             <AllocatedGeneralExpenseForm

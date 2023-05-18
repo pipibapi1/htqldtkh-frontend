@@ -67,6 +67,9 @@ const MyTopicList: React.FC = () => {
                 if (data?.metadata.totalPage > 0) {
                     setTotalPage(data?.metadata.totalPage)
                 }
+                else if (data?.metadata.totalPage === 0) {
+                    setTotalPage(1)
+                }
             }
             )
             .catch((error) => {
@@ -113,6 +116,9 @@ const MyTopicList: React.FC = () => {
                 setMyTopics(data?.topics)
                 if (data?.metadata.totalPage > 0) {
                     setTotalPage(data?.metadata.totalPage)
+                }
+                else if (data?.metadata.totalPage === 0) {
+                    setTotalPage(1)
                 }
             }
             )

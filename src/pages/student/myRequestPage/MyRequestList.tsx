@@ -55,6 +55,9 @@ const MyRequestList: React.FC = () => {
                 if (data?.metadata.totalPage > 0) {
                     setTotalPage(data?.metadata.totalPage)
                 }
+                else if (data?.metadata.totalPage === 0) {
+                    setTotalPage(1)
+                }
             }
             )
             .catch((error) => {
@@ -124,6 +127,9 @@ const MyRequestList: React.FC = () => {
                 setRequests(data?.requests)
                 if (data?.metadata.totalPage > 0) {
                     setTotalPage(data?.metadata.totalPage)
+                }
+                else if (data?.metadata.totalPage === 0) {
+                    setTotalPage(1)
                 }
             }
             )

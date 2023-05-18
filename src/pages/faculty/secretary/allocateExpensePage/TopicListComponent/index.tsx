@@ -5,9 +5,11 @@ import PaginationTag from './PaginationTag';
 import LeftTag from './LeftTag';
 import RightTag from './RightTag';
 
+import SearchIcon from "../../../../../assets/images/searchIcon.png";
+
 const TopicListComponent = (props: any) => {
 
-    const { topics, totalPage, onChangePage, currentPage, setCurrentPage, onOpenTopicExpenseForm } = props;
+    const { topics, totalPage, onChangePage, currentPage, setCurrentPage, onOpenTopicExpenseForm, currentTextSearch, setCurrentTextSearch, fetchTopics } = props;
 
     const prevPage = () => {
         if (currentPage <= 1) return;
@@ -27,6 +29,24 @@ const TopicListComponent = (props: any) => {
                 <div className='flex flex-col'>
                     <div className=''>
                         <div className='inline-block w-full pr-5'>
+                            <div className='mb-2 w-[100%] flex justify-start'>
+                                <input type="text" placeholder={"Tìm kiếm bằng tên hoặc mã đề tài"}
+                                    value={currentTextSearch}
+                                    onChange={(e: any) => {
+                                        e.preventDefault();
+                                        setCurrentTextSearch(e.target.value);
+                                    }}
+                                    className='border border-1 border-black px-2 rounded-[8px] h-[35px] w-[97%]'
+                                />
+                                <div className='w-[3%] flex items-center justify-center p-1 hover:cursor-pointer'
+                                    onClick={(e: any) => {
+                                        e.preventDefault();
+                                        fetchTopics();
+                                    }}
+                                >
+                                    <img src={SearchIcon} alt="searchIcon" className='h-5 w-5' />
+                                </div>
+                            </div>
                             <div className=''>
                                 <table className='w-full table-fixed border-separate border-spacing-y-1 border-2'>
                                     <thead className='bg-[#1577D2] border-b'>

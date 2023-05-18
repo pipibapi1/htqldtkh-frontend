@@ -213,6 +213,9 @@ const RequestInterface = () => {
                 if (data?.metadata.totalPage > 0) {
                     setTotalPage(totalPage)
                 }
+                else if (data?.metadata.totalPage === 0) {
+                    setTotalPage(1)
+                }
             })
             .catch((error) => {
             })
