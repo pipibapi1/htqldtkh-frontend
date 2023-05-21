@@ -26,6 +26,7 @@ import InstructorInput from './instructorInfo';
 import { InstructorConditionApproveWayEnum } from '../../../../shared/types/instructorConditionApproveWay';
 import { Instructor } from '../../../../shared/interfaces/instructorInterface';
 import { ConditionRequireLevelEnum } from '../../../../shared/types/conditionRequireDegree';
+import { TopicStatusEnum } from '../../../../shared/types/topicStatus';
 
 interface Props {
     backToChoosePeriod: any,
@@ -103,7 +104,13 @@ const RegisterStep2:React.FC<Props> = (props: Props) => {
                     }
                     dispatch(setTopicConditionAction(newCondition.expression, newCondition.instructorCondition, newCondition.leaderCondition, newCondition.requireLevel))
                 })
-                .catch((err)=> {console.log(err)})
+                .catch((err)=> {console.log(err)});
+            setIsValid({
+                topicName: true,
+                topicCondition: true,
+                leader: true,
+                othersMember: true,
+            })
         }
         else {
             dispatch(setTopicConditionAction({}, {}, []))
@@ -124,47 +131,49 @@ const RegisterStep2:React.FC<Props> = (props: Props) => {
             otherMembers: {},
             leader: {}
         };
-        Object.values(expression).forEach((ele) => {
-            const subExpr = ele as (logicExprIntf | relationExprIntf);
-            // only find in logical expression
-            if ((subExpr.operator !== OperationTypeEnum.AND) && (subExpr.operator !== OperationTypeEnum.OR)) {
-                const logicExpr = subExpr as logicExprIntf;
-                const variableArr: variableInfo[] = logicExpr.leftExpr;
-                if (logicExpr.object.name === TopicMemberTypeEnum.Leader) {
-                    variableArr.forEach((variable) => {
-                        if (variable.variable === VariableTypeEnum.SUBJECT_MARK) {
-                            memberInfoField.leader[variable.subjectId as string] = variable;
-                        }
-                        else {
-                            memberInfoField.leader[variable.variable] = variable;
-                        }
-                    })
+        if (requireLevel !== ConditionRequireLevelEnum.NONE) {
+            Object.values(expression).forEach((ele) => {
+                const subExpr = ele as (logicExprIntf | relationExprIntf);
+                // only find in logical expression
+                if ((subExpr.operator !== OperationTypeEnum.AND) && (subExpr.operator !== OperationTypeEnum.OR)) {
+                    const logicExpr = subExpr as logicExprIntf;
+                    const variableArr: variableInfo[] = logicExpr.leftExpr;
+                    if (logicExpr.object.name === TopicMemberTypeEnum.Leader) {
+                        variableArr.forEach((variable) => {
+                            if (variable.variable === VariableTypeEnum.SUBJECT_MARK) {
+                                memberInfoField.leader[variable.subjectId as string] = variable;
+                            }
+                            else {
+                                memberInfoField.leader[variable.variable] = variable;
+                            }
+                        })
+                    }
+                    else if (logicExpr.object.name === TopicMemberTypeEnum.OthersMember) {
+                        variableArr.forEach((variable) => {
+                            if (variable.variable === VariableTypeEnum.SUBJECT_MARK) {
+                                memberInfoField.otherMembers[variable.subjectId as string] = variable;
+                            }
+                            else {
+                                memberInfoField.otherMembers[variable.variable] = variable;
+                            }
+                        })
+                    }
+                    else if (logicExpr.object.name === TopicMemberTypeEnum.AllMember 
+                        || logicExpr.object.name === TopicMemberTypeEnum.NumMember) {
+                        variableArr.forEach((variable) => {
+                            if (variable.variable === VariableTypeEnum.SUBJECT_MARK) {
+                                memberInfoField.leader[variable.subjectId as string] = variable;
+                                memberInfoField.otherMembers[variable.subjectId as string] = variable;
+                            }
+                            else {
+                                memberInfoField.otherMembers[variable.variable] = variable;
+                                memberInfoField.leader[variable.variable] = variable;
+                            }
+                        })
+                    }
                 }
-                else if (logicExpr.object.name === TopicMemberTypeEnum.OthersMember) {
-                    variableArr.forEach((variable) => {
-                        if (variable.variable === VariableTypeEnum.SUBJECT_MARK) {
-                            memberInfoField.otherMembers[variable.subjectId as string] = variable;
-                        }
-                        else {
-                            memberInfoField.otherMembers[variable.variable] = variable;
-                        }
-                    })
-                }
-                else if (logicExpr.object.name === TopicMemberTypeEnum.AllMember 
-                    || logicExpr.object.name === TopicMemberTypeEnum.NumMember) {
-                    variableArr.forEach((variable) => {
-                        if (variable.variable === VariableTypeEnum.SUBJECT_MARK) {
-                            memberInfoField.leader[variable.subjectId as string] = variable;
-                            memberInfoField.otherMembers[variable.subjectId as string] = variable;
-                        }
-                        else {
-                            memberInfoField.otherMembers[variable.variable] = variable;
-                            memberInfoField.leader[variable.variable] = variable;
-                        }
-                    })
-                }
-            }
-        })
+            })
+        }
         setConditionVar(memberInfoField);
     }, [expression])
 
@@ -220,7 +229,7 @@ const RegisterStep2:React.FC<Props> = (props: Props) => {
                             {
                                 `Ghi chú: Các trường hợp không thỏa mãn điều kiện dưới đây `
                                 + `vẫn có thể đăng ký đề tài. Tuy nhiên các đề tài này cần `
-                                + `được thư ký khoa chấp thuận`
+                                + `được thư ký khoa chấp thuận.`
                             }
                         </div>
                         <div className={`m-2 ${isValid.topicCondition? "" : "border border-1 border-red-500 rounded"}`}>
@@ -382,7 +391,10 @@ const RegisterStep2:React.FC<Props> = (props: Props) => {
                 cancelButtonText: 'Hủy'
             }).then((result) => {
                 if (result.isConfirmed) {
-                    topicService.postNewTopic(topic)
+                    topicService.postNewTopic({
+                            ...topic,
+                            status: TopicStatusEnum.WAIT_APPROVED
+                        })
                         .then((data) => {
                             Swal.fire({
                                 icon: 'success',

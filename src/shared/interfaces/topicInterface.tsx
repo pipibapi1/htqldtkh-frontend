@@ -1,3 +1,4 @@
+import { TopicStatusEnum } from "../types/topicStatus";
 import { Instructor } from "./instructorInterface";
 
 export interface Topic{
@@ -65,6 +66,7 @@ export interface topicInput {
     period: string,
     studentId: string,
     numInstructor: number,
+    status?: TopicStatusEnum,
     numMember: number,
     instructors: Instructor[],
     otherMembers: OtherMember[],
