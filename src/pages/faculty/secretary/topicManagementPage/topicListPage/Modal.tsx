@@ -104,7 +104,8 @@ const Modal = ({ isVisible, onClose, topic }: { isVisible: boolean, onClose: any
                 title: 'Bạn có chắc chuyển đề tài sang sẵn sàng xét duyệt?',
                 showDenyButton: true,
                 showCancelButton: false,
-                confirmButtonText: 'Yes',
+                confirmButtonText: 'Có',
+                denyButtonText: 'Không'
             }).then((result) => {
 
                 if (result.isConfirmed) {
@@ -146,6 +147,56 @@ const Modal = ({ isVisible, onClose, topic }: { isVisible: boolean, onClose: any
             })
         }
     }
+    
+    const changeATopicToNewStatus = (e: any) => {
+        e.preventDefault();
+        const updateInfo = {
+            _id: topic._id,
+            topic: {
+                status: TopicStatusEnum.NEW
+            }
+        }
+        Swal.fire({
+            icon: 'question',
+            title: 'Bạn có chắc chắn cho phép đề tài này được đăng ký hay không?',
+            showDenyButton: true,
+            showCancelButton: false,
+            confirmButtonText: 'Có',
+            denyButtonText: 'Không'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                dispatch(putUpdateATopicAction(updateInfo))
+                    .then((data) => {
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Chuyển trạng thái thành công',
+                            showDenyButton: false,
+                            showCancelButton: false,
+                            confirmButtonText: 'OK',
+                        }).then((result) => {
+                            /* Read more about isConfirmed, isDenied below */
+                            if (result.isConfirmed) {
+                                window.location.reload();
+                            }
+                        })
+                    }
+                    )
+                    .catch((error) => {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Có lỗi gì đó đã xảy ra, thử lại sau!',
+                            showDenyButton: false,
+                            showCancelButton: false,
+                            confirmButtonText: 'OK',
+                        })
+                    })
+            }
+
+            if (result.isDenied) {
+            }
+        })
+    }
+
 
     return (
         <div className="fixed inset-0 bg-black bg-opacity-50 backdrop-blur-0 flex justify-center items-center z-50" id="wrapper" onClick={handleClose}>
@@ -217,11 +268,20 @@ const Modal = ({ isVisible, onClose, topic }: { isVisible: boolean, onClose: any
                         >
                             Bắt đầu đề tài
                         </div> */}
-                        <div className='bg-[#0079CC] text-white text-lg font-semibold w-2/3 flex items-center justify-center py-2 hover:bg-[#06609E] hover:cursor-pointer'
-                            onClick={changeATopicToReady}
-                        >
-                            Chuyển sang sẵn sàng xét duyệt
-                        </div>
+                        {(topic.status === TopicStatusEnum.NEW) && (
+                            <div className='bg-[#0079CC] text-white text-lg font-semibold w-2/3 flex items-center justify-center py-2 hover:bg-[#06609E] hover:cursor-pointer'
+                                onClick={changeATopicToReady}
+                            >
+                                Chuyển sang sẵn sàng xét duyệt
+                            </div>
+                        )}
+                        {(topic.status === TopicStatusEnum.WAIT_APPROVED) && (
+                            <div className='bg-[#0079CC] text-white text-lg font-semibold w-2/3 flex items-center justify-center py-2 hover:bg-[#06609E] hover:cursor-pointer'
+                                onClick={changeATopicToNewStatus}
+                            >
+                                Cho phép đăng ký đề tài
+                            </div>
+                        )}
                         <div className='bg-[#E1000E] text-white text-lg font-semibold w-2/3 flex items-center justify-center py-2 hover:bg-[#980B14] hover:cursor-pointer'
                             onClick={onClose}
                         >

@@ -17,6 +17,7 @@ import { getTopicListAction } from '../../../../actions/topicAction';
 import TopicListPage from './topicListPage';
 
 import Calendar from "../../../../assets/images/calendar.png";
+import HourGlassIcon from "../../../../assets/images/hourglass-icon.png";
 import NewIcon from '../../../../assets/images/new.png';
 import ReadyIcon from "../../../../assets/images/ready.png";
 import CarryOutIcon from '../../../../assets/images/carryOut.png';
@@ -64,55 +65,61 @@ export const TopicStatusCard: React.FC<CardProps> = (props: CardProps) => {
     let icon: any = "";
     let type: string = "";
 
-    if(status === TopicStatusEnum.NEW){
+    if(status === TopicStatusEnum.WAIT_APPROVED){
+        color = "800101";
+        icon = HourGlassIcon;
+        type = "chờ được cho phép";
+    }
+
+    else if(status === TopicStatusEnum.NEW){
         color = "4169E1";
         icon = NewIcon;
         type = "tạo mới";
     }
 
-    if(status === TopicStatusEnum.READY){
+    else if(status === TopicStatusEnum.READY){
         color = "32CD32";
         icon = ReadyIcon;
         type = "sẵn sàng xét duyệt";
     }
 
-    if(status === TopicStatusEnum.CARRY_OUT){
+    else if(status === TopicStatusEnum.CARRY_OUT){
         color = "FF8C00";
         icon = CarryOutIcon;
         type = "đang thực hiện";
     }
 
-    if(status === TopicStatusEnum.FAIL_REVIEW){
+    else if(status === TopicStatusEnum.FAIL_REVIEW){
         color = "FF6347";
         icon = FailReviewIcon;
         type = "rớt xét duyệt";
     }
 
-    if(status === TopicStatusEnum.DUE_TO_ACCEPT){
+    else if(status === TopicStatusEnum.DUE_TO_ACCEPT){
         color = "008080";
         icon = DueToAcceptIcon;
         type = "đến hạn nghiệm thu";
     }
 
-    if(status === TopicStatusEnum.FINISHED){
+    else if(status === TopicStatusEnum.FINISHED){
         color = "1E90FF";
         icon = FinishedIcon;
         type = "đã hoàn thành";
     }
 
-    if(status === TopicStatusEnum.FAIL_ACCEPT){
+    else if(status === TopicStatusEnum.FAIL_ACCEPT){
         color = "FF4500";
         icon = FailAcceptIcon;
         type = "rớt nghiệm thu";
     }
 
-    if(status === TopicStatusEnum.OUT_OF_DATE){
+    else if(status === TopicStatusEnum.OUT_OF_DATE){
         color = "B22222";
         icon = OutOfDateIcon;
         type = "trễ hạn"
     }
 
-    if(status === TopicStatusEnum.CANCELED){
+    else if(status === TopicStatusEnum.CANCELED){
         color = "A9A9A9";
         icon = CanceledIcon;
         type = "bị hủy"
@@ -144,6 +151,7 @@ const TopicStatistic: React.FC = () => {
 
     const [numOfTotal, setNumOfTotal] = useState(0);
 
+    const [numOfWaitAproved, setNumOfWaitAprove] = useState(0);
     const [numOfNew, setNumOfNew] = useState(0);
     const [numOfReady, setNumOfReady] = useState(0);
     const [numOfCarryOut, setNumOfCarryOut] = useState(0);
@@ -168,6 +176,7 @@ const TopicStatistic: React.FC = () => {
                 .then((data) => {
                     setTopics(data?.topics)
                     setNumOfTotal(data?.topics.length)
+                    setNumOfWaitAprove(data?.topics.filter((topic:any) => topic.status === TopicStatusEnum.WAIT_APPROVED).length)
                     setNumOfNew(data?.topics.filter((topic:any) => topic.status === TopicStatusEnum.NEW).length)
                     setNumOfReady(data?.topics.filter((topic:any) => topic.status === TopicStatusEnum.READY).length)
                     setNumOfCarryOut(data?.topics.filter((topic:any) => topic.status === TopicStatusEnum.CARRY_OUT).length)
@@ -201,6 +210,7 @@ const TopicStatistic: React.FC = () => {
                     .then((data) => {
                         setTopics(data?.topics)
                         setNumOfTotal(data?.topics.length)
+                        setNumOfWaitAprove(data?.topics.filter((topic:any) => topic.status === TopicStatusEnum.WAIT_APPROVED).length)
                         setNumOfNew(data?.topics.filter((topic:any) => topic.status === TopicStatusEnum.NEW).length)
                         setNumOfReady(data?.topics.filter((topic:any) => topic.status === TopicStatusEnum.READY).length)
                         setNumOfCarryOut(data?.topics.filter((topic:any) => topic.status === TopicStatusEnum.CARRY_OUT).length)
@@ -256,6 +266,7 @@ const TopicStatistic: React.FC = () => {
                     .then((data) => {
                         setTopics(data?.topics)
                         setNumOfTotal(data?.topics.length)
+                        setNumOfWaitAprove(data?.topics.filter((topic:any) => topic.status === TopicStatusEnum.WAIT_APPROVED).length)
                         setNumOfNew(data?.topics.filter((topic:any) => topic.status === TopicStatusEnum.NEW).length)
                         setNumOfReady(data?.topics.filter((topic:any) => topic.status === TopicStatusEnum.READY).length)
                         setNumOfCarryOut(data?.topics.filter((topic:any) => topic.status === TopicStatusEnum.CARRY_OUT).length)
@@ -328,6 +339,12 @@ const TopicStatistic: React.FC = () => {
     
                     {(periods.length > 0 ? <div className='w-full flex mt-10 px-10'>
                         <div className='w-1/3'>
+                            <div className='mb-5'>
+                                <TopicStatusCard
+                                    status={TopicStatusEnum.WAIT_APPROVED}
+                                    quantity={numOfWaitAproved}
+                                />
+                            </div>
                             <div className='mb-5'>
                                 <TopicStatusCard
                                     status={TopicStatusEnum.NEW}
