@@ -17,18 +17,38 @@ export const FormField = (props: any) => {
   const {indx, form, setForm} = props;
 
   let field = form.fields[indx];
-
+  
+  const getInitFieldName = (str: string | undefined) => {
+    if (!str) {
+      return "";
+    }
+    else if (str.includes('>')) {
+      const pattern = /[>]([a-zA-Z_0-9])+[<]/;
+      const satisfiedStrs = str.match(pattern);
+      if (!satisfiedStrs?.length){
+        return "";
+      }
+      else {
+        return (satisfiedStrs as RegExpMatchArray)[0].slice(1, -1);
+      }
+    }
+    else {
+      return str.slice(1, -1);
+    }
+  }
   const [name, setName] = useState<string>(field?.name);
   const [dataType, setDataType] = useState<string>(field?.dataType);
   const [note, setNote] = useState<string>(field?.note);
 
   return (<div className='px-10 mt-3 w-full'>
-  <div className='text-md'><span className='font-semibold'>Trường dữ liệu {indx + 1}:</span> {field?.initialName}</div>
+  <div className='text-md'><span className='font-semibold'>Trường dữ liệu {indx + 1}:</span> {getInitFieldName(field?.initialName)}</div>
   <div className='w-2/3'>
     <div className='flex w-full space-x-3'>
       <div className='w-2/3'>
         <div>Tên</div>
-        <input data-testid='name-input' type="text" value={name} className='border border-black border-1 rounded-md w-full h-10 p-2'
+        <input data-testid='name-input' type="text" 
+          defaultValue={name} 
+          className='border border-black border-1 rounded-md w-full h-10 p-2'
           onChange={(e:any) => {
             e.preventDefault();
             if(e.target.value !== ""){

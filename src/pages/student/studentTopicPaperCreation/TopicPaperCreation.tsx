@@ -181,21 +181,38 @@ const TopicPaperCreation: React.FC = () => {
     const onError = (e: any) => {
         console.log(e, "error in file-viewer");
       };
-
+    
+    const preProcessingJSONDataBeforeSetDoc = (jsonData: {[k:string] : any}) => {
+        const result: {[k:string] : any} = {};
+        for (let key in jsonData) {
+            if (key.includes('>')) {
+                const pattern = /[>]([a-zA-Z_0-9])+[<]/;
+                const satisfiedStrs = key.match(pattern) as RegExpMatchArray;
+                const resultKey = satisfiedStrs[0].slice(1, -1);
+                result[resultKey] = jsonData[key];
+            }
+            else {
+                result[key] = jsonData[key];
+            }
+        }
+        return result;
+    }
+    
     const createPaper = (e:any) => {
         e.preventDefault();
         if(form.markedTemplateFileName?.endsWith('.docx') || form.markedTemplateFileName?.endsWith('.doc')){
             
             loadFile(fileUrl, function (
-            error: any,
-            content: any
+                error: any,
+                content: any
             ) {
                 if (error) {
                 throw error;
                 }
                 const zip = new PizZip(content);
                 const doc = new Docxtemplater().loadZip(zip);
-                doc.setData(jsonData);
+                const processedData = preProcessingJSONDataBeforeSetDoc(jsonData);
+                doc.setData(processedData);
                 try {
                     // render the document (replace all occurences of {first_name} by John, {last_name} by Doe, ...)
                     doc.render();
