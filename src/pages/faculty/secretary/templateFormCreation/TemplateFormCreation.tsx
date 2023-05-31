@@ -26,9 +26,28 @@ const FormField = (props: any) => {
     dataType: DataTypeEnum
   } = form.fields[indx]
 
-  const [name, setName] = useState<string>(field.name);
+  const [name, setName] = useState<string>("");
   const [dataType, setDataType] = useState<string>(field.dataType);
-  const [note, setNote] = useState<string>(field.note);
+  const [note, setNote] = useState<string>(field.note);  
+
+  const getInitFieldName = (str: string | undefined) => {
+    if (!str) {
+      return "";
+    }
+    else if (str.includes('>')) {
+      const pattern = /[>]([a-zA-Z_0-9])+[<]/;
+      const satisfiedStrs = str.match(pattern);
+      if (!satisfiedStrs?.length){
+        return "";
+      }
+      else {
+        return (satisfiedStrs as RegExpMatchArray)[0].slice(1, -1);
+      }
+    }
+    else {
+      return str.slice(1, -1);
+    }
+  }
 
   useEffect(() => {
     setName(field.name);
@@ -38,12 +57,14 @@ const FormField = (props: any) => {
 
   return (
   <div className='px-10 mt-3 w-full'>
-  <div className='text-md'><span className='font-semibold'>Trường dữ liệu {indx + 1}:</span> {placeholder}</div>
+  <div className='text-md'><span className='font-semibold'>Trường dữ liệu {indx + 1}:</span> {getInitFieldName(placeholder)}</div>
   <div className='w-2/3'>
     <div className='flex w-full space-x-3'>
       <div className='w-2/3'>
         <div>Tên</div>
-        <input type="text" value={name} className='border border-black border-1 rounded-md w-full h-10 p-2'
+        <input type="text" 
+          value={name} 
+          className='border border-black border-1 rounded-md w-full h-10 p-2'
           onChange={(e:any) => {
             e.preventDefault();
             if(e.target.value !== ""){
@@ -125,6 +146,25 @@ const TemplateFormCreation: React.FC = () => {
     }
   );
 
+  const getInitFieldName = (str: string | undefined) => {
+    if (!str) {
+      return "";
+    }
+    else if (str.includes('>')) {
+      const pattern = /[>]([a-zA-Z_0-9])+[<]/;
+      const satisfiedStrs = str.match(pattern);
+      if (!satisfiedStrs?.length){
+        return "";
+      }
+      else {
+        return (satisfiedStrs as RegExpMatchArray)[0].slice(1, -1);
+      }
+    }
+    else {
+      return str.slice(1, -1);
+    }
+  }
+
   const extractPlaceholders = (file: File) => {
       const reader = new FileReader();
       reader.onload = (event: any) => {
@@ -144,7 +184,7 @@ const TemplateFormCreation: React.FC = () => {
             placeholders.map((placeholder: string) => {
               fields = fields.concat([{
                 initialName: placeholder,
-                name: placeholder,
+                name: getInitFieldName(placeholder),
                 note: "",
                 dataType: DataTypeEnum.Text
               }])
